@@ -11,7 +11,6 @@ FLOAT           [0-9]+\.[0-9]+
 INT             [0-9]+
 OPERADORES      [+\-\*/()]
 
-
 %%
 
 {FLOAT}         { yylval._FLOAT = atof(yytext); return FLOAT; }
