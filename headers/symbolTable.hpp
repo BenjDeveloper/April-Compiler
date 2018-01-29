@@ -22,3 +22,4 @@ namespace symbolTable
 }
 
 #endif //SYMBOLTABLE_HPP
+
