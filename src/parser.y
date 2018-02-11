@@ -40,7 +40,7 @@
 }
 
 %token<string> TDIGIT TDOUBLE TIDENTIFIER 
-%token<token> TPLUS TMIN TMUL TDIV TLET
+%token<token> TPLUS TMIN TMUL TDIV TVAR
 %token<token> TCOLON TEQUAL TSC TJUMP TCOMMA
 %token<token> TRBRACE TLBRACE
 %token<token> TLPAREN TRPAREN TSTR
@@ -70,8 +70,8 @@ stmt: var_decl          {  }
     | expr              { $$ = new april::ExpressionStatement(*$1); }
     ;
 
-var_decl: TLET ident TCOLON ident TSC               { $$ = new april::VariableDeclaration(*$4, *$2);}
-    | TLET ident TCOLON ident TEQUAL expr TSC       { $$ = new april::VariableDeclaration(*$4, *$2, $6); }
+var_decl: TVAR ident TCOLON ident TSC               { $$ = new april::VariableDeclaration(*$4, *$2);}
+    | TVAR ident TCOLON ident TEQUAL expr TSC       { $$ = new april::VariableDeclaration(*$4, *$2, $6); }
     ;
 
 expr: binary_ope_expr                       { }
@@ -89,6 +89,7 @@ binary_ope_expr: expr TPLUS expr        { $$ = new april::BinaryOperator(*$1, $2
     | expr TMIN expr                    { $$ = new april::BinaryOperator(*$1, $2, *$3); }
     | expr TMUL expr                    { $$ = new april::BinaryOperator(*$1, $2, *$3); }
     | expr TDIV expr                    { $$ = new april::BinaryOperator(*$1, $2, *$3); }
+    | TLPAREN expr TRPAREN              { $$ = $2; }
     ;
 
 basics: TDIGIT                          { $$ = new april::Integer(std::atol($1->c_str())); delete $1; }

@@ -35,7 +35,7 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 "/*"[^"*/"]*"*/"    { line++; col=0; }
 {DIGIT}             { SAVE_TOKEN; return TDIGIT; }
 {DOUBLE}            { SAVE_TOKEN; return TDOUBLE; } 
-"let"               { return TOKEN(TLET); }
+"var"               { return TOKEN(TVAR); }
 {IDENTIFIER}        { SAVE_TOKEN; return TIDENTIFIER; }
 "("                 { return TOKEN(TLPAREN); }
 ")"                 { return TOKEN(TRPAREN); }
