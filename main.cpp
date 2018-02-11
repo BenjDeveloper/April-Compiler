@@ -1,6 +1,5 @@
 #include <iostream>
-#include "node.h"
-#include "codegen.h"
+#include "include/codegencontext.hpp"
 
 extern int yyparse();
 extern int yylex_destroy();
@@ -24,9 +23,9 @@ int main(int argc, char* argv[])
     }
     else
     {
-        std::cout << "*******************Inicio frontend*******************" << std::endl;
+        std::cout << "Inicio del analisis del frontend listo :) " << std::endl;
         yyparse();
-        std::cout << "**********************FIN frontend*******************" << std::endl;
+        std::cout << "Fin del analisis del frontend listo :) " << std::endl;
         april::CodeGenContext context;
         context.generateCode(*programBlock);
         context.runCode();
