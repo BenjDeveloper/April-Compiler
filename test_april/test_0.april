@@ -1,0 +1,6 @@
+var x:int = 5;
+var y:int = 6;
+
+var z:int = -5;
+
+println("z: %d", z);
