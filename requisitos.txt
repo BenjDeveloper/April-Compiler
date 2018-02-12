@@ -1,0 +1,2 @@
+/usr/bin/ld: cannot find -lz --> sudo apt-get libz-dev
+/usr/bin/ld: cannot find -lncurses --> sudo apt-get install lib32ncurses5-dev
