@@ -14,6 +14,7 @@
     #include "include/methodcall.hpp"
     #include "include/string.hpp"
     #include "include/vardeclaration.hpp"
+    #include "include/vardeclarationdeduce.hpp"
 
     using namespace april;
     
@@ -41,7 +42,7 @@
 
 %token<string> TDIGIT TDOUBLE TIDENTIFIER 
 %token<token> TPLUS TMIN TMUL TDIV TVAR
-%token<token> TCOLON TEQUAL TSC TJUMP TCOMMA
+%token<token> TCOLON TEQUAL TSC TJUMP TCOMMA TCOEQU
 %token<token> TRBRACE TLBRACE
 %token<token> TLPAREN TRPAREN TSTR
 
@@ -72,6 +73,7 @@ stmt: var_decl          {  }
 
 var_decl: TVAR ident TCOLON ident TSC               { $$ = new april::VariableDeclaration(*$4, *$2);}
     | TVAR ident TCOLON ident TEQUAL expr TSC       { $$ = new april::VariableDeclaration(*$4, *$2, $6); }
+    | ident TCOEQU expr TSC                         { $$ = new april::VariableDeclarationDeduce(*$1, $3); }
     ;
 
 expr: binary_ope_expr                       { }

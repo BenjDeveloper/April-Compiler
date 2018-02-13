@@ -18,6 +18,7 @@ namespace april
             VariableDeclaration(const Identifier& type, Identifier& id): type(type), id(id) { assignmentExpr = nullptr; } 
             VariableDeclaration(const Identifier& type, Identifier& id, Expression* assignmentExpr): type(type), id(id), assignmentExpr(assignmentExpr) {}
             virtual llvm::Value* codeGen(CodeGenContext& context);
+            Type getType() { return Type::variable; }
     };
 }
 

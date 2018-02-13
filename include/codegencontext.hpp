@@ -38,15 +38,8 @@ namespace april
             llvm::Function* currentFunction;
             llvm::LLVMContext llvmContext;
 
-    
         public:
-            CodeGenContext() 
-            { 
-                llvm::InitializeNativeTarget();
-                llvm::InitializeNativeTargetAsmParser();
-                llvm::InitializeNativeTargetAsmPrinter();
-                module = new llvm::Module("main", llvmContext); 
-            }
+            CodeGenContext();
             void optimize();
             llvm::LLVMContext& getGlobalContext() { return llvmContext; }
             void generateCode(Block& root);
@@ -54,25 +47,12 @@ namespace april
             llvm::GenericValue runCode();
             std::map<std::string, llvm::Value*>& locals()  { return blocks.top()->locals; }
             llvm::BasicBlock* currentBlock() { return blocks.top()->block; }
-
-            void pushBlock(llvm::BasicBlock* block)
-            {
-                blocks.push(new CodeGenBlock()); 
-                blocks.top()->returnValue = NULL;
-                blocks.top()->block = block; 
-            }
-
-            void popBlock()
-            {
-                CodeGenBlock* top = blocks.top();
-                blocks.pop();
-                delete top;
-            } 
-
+            void pushBlock(llvm::BasicBlock* block);
+            void popBlock();
             void setCurrentReturnValue(llvm::Value* value) { blocks.top()->returnValue = value; }
             llvm::Value* getCurrentReturnValue() { return blocks.top()->returnValue; }
-
             void setupBuildFn();
+            llvm::Value* findVariable(std::string);
     };
 }
 

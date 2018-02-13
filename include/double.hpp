@@ -13,6 +13,7 @@ namespace april
         public:
             Double(double value): value(value) {}
             virtual llvm::Value* codeGen(CodeGenContext& context);
+            Type getType() { return Type::decimal; }
     };
 }
 

@@ -10,6 +10,28 @@ extern "C" void println(char* str, ...);
 
 namespace april
 {
+    CodeGenContext::CodeGenContext()
+    {
+        llvm::InitializeNativeTarget();
+        llvm::InitializeNativeTargetAsmParser();
+        llvm::InitializeNativeTargetAsmPrinter();
+        module = new llvm::Module("main", llvmContext);
+    }
+
+    void CodeGenContext::pushBlock(llvm::BasicBlock* block)
+    {
+        blocks.push(new CodeGenBlock()); 
+        blocks.top()->returnValue = NULL;
+        blocks.top()->block = block; 
+    }
+
+    void CodeGenContext::popBlock()
+    {
+        CodeGenBlock* top = blocks.top();
+        blocks.pop();
+        delete top;
+    }
+
     void CodeGenContext::generateCode(Block& root)
     {
         std::cout << "*******************Generando codigo*******************" << std::endl;
@@ -24,8 +46,8 @@ namespace april
         llvm::ReturnInst::Create(llvm::getGlobalContext(), bblock);
         popBlock();
 
-        std::cout << "*******************Codigo generado*******************" << std::endl;
-        module->dump();
+        // std::cout << "*******************Codigo generado*******************" << std::endl;
+        // module->dump();
         
         
         // optimize();
@@ -82,5 +104,10 @@ namespace april
         delete ee;
         std::cout << "*******************Codigo corrido*******************" << std::endl;
         return v;
+    }
+
+    llvm::Value* CodeGenContext::findVariable(std::string name)
+    {
+        
     }
 }

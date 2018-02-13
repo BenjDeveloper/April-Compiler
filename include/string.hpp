@@ -13,6 +13,7 @@ namespace april
         public:
             String(std::string value): value(value) {}
             virtual llvm::Value* codeGen(CodeGenContext& context);
+            Type getType() { return Type::string; }
     };
 }
 

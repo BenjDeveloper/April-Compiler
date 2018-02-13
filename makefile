@@ -2,21 +2,22 @@ CC = g++
 
 all: april
 
-OBJS =	parser.o			\
-		lexer.o				\
-		integer.o			\
-		double.o			\
-		codegencontext.o	\
-		block.o				\
-		identifier.o		\
-		string.o			\
-		assignment.o		\
-		vardeclaration.o	\
-		methodcall.o		\
-		exprstatement.o		\
-		bioperator.o		\
-		nativefn.o			\
-		main.o				\
+OBJS =	parser.o				\
+		lexer.o					\
+		integer.o				\
+		double.o				\
+		codegencontext.o		\
+		block.o					\
+		identifier.o			\
+		string.o				\
+		assignment.o			\
+		vardeclaration.o		\
+		methodcall.o			\
+		exprstatement.o			\
+		bioperator.o			\
+		nativefn.o				\
+		vardeclarationdeduce.o	\
+		main.o					\
 
 LLVMCONFIG = llvm-config
 CPPFLAGS = `$(LLVMCONFIG) --cppflags` -std=c++11
@@ -75,6 +76,9 @@ lexer.o: lexer.cpp parser.h
 nativefn.o: src/nativefn.cpp
 	$(CC) -c $< --std=c++11
 
+vardeclarationdeduce.o: src/vardeclarationdeduce.cpp
+	$(CC) -c $(CPPFLAGS) -o $@ $<
+	
 main.o: main.cpp
 	$(CC) -c $(CPPFLAGS) -o $@ $<
 

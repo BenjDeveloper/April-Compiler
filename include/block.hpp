@@ -17,6 +17,7 @@ namespace april
         public:
             Block() {}
             virtual llvm::Value* codeGen(april::CodeGenContext&);
+            Type getType() { return Type::expression; }
     };
 }
 

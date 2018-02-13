@@ -1,6 +1,6 @@
 var x:int = 5;
-var y:int = 6;
+var y:float = 8.2;
 
-var z:int = -5;
+var z:int = x+y;
 
-println("z: %d", z);
+println("z: %f", z);

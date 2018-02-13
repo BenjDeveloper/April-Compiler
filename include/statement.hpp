@@ -1,12 +1,13 @@
 #ifndef STATEMENT_HPP
 #define STATEMENT_HPP
 
-#include "node.hpp"
+#include "expression.hpp"
 
 namespace april
 {
-    class Statement: public Node
+    class Statement: public Expression
     {
+        Type getType() { return Type::expression; }
     };
 }
 

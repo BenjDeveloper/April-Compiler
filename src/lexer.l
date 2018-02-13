@@ -39,6 +39,7 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 {IDENTIFIER}        { SAVE_TOKEN; return TIDENTIFIER; }
 "("                 { return TOKEN(TLPAREN); }
 ")"                 { return TOKEN(TRPAREN); }
+":="                { return TOKEN(TCOEQU); }
 ":"                 { return TOKEN(TCOLON); }
 "="                 { return TOKEN(TEQUAL); }
 ";"                 { return TOKEN(TSC); }
