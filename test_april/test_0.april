@@ -1,6 +1,8 @@
-var x:int = 5;
-var y:float = 8.2;
+var z:float = 1;
+y := 5.1;
 
-var z:int = x+y;
+x := z+y;
 
-println("z: %f", z);
+
+
+println("x: %f", x);

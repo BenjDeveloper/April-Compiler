@@ -32,7 +32,8 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 [\n]                {line++; col = 0; }
 [\t]                { col++; }
 \"(.*)\"            { return TOKEN(TSTR); }
-"/*"[^"*/"]*"*/"    { line++; col=0; }
+\/\*(.*\n*)*\*\/    { line++; col=0; }
+\/\/.*?\n?          { /*empty*/ }
 {DIGIT}             { SAVE_TOKEN; return TDIGIT; }
 {DOUBLE}            { SAVE_TOKEN; return TDOUBLE; } 
 "var"               { return TOKEN(TVAR); }

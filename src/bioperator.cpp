@@ -19,6 +19,8 @@ namespace april
         
         if (lhs_value->getType() != rhs_value->getType())
         {
+            std::cout << "-->entro operacion binaria diferente" << std::endl;
+            
             auto double_type = llvm::Type::getDoubleTy(context.getGlobalContext());
             auto cast_instr = llvm::CastInst::getCastOpcode(rhs_value, true, double_type, true);
             rhs_value = llvm::CastInst::Create(cast_instr, rhs_value, double_type, "cast", context.currentBlock());
