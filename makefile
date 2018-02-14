@@ -5,6 +5,7 @@ all: april
 OBJS =	parser.o				\
 		lexer.o					\
 		integer.o				\
+		boolean.o				\
 		double.o				\
 		codegencontext.o		\
 		block.o					\
@@ -78,7 +79,10 @@ nativefn.o: src/nativefn.cpp
 
 vardeclarationdeduce.o: src/vardeclarationdeduce.cpp
 	$(CC) -c $(CPPFLAGS) -o $@ $<
-	
+
+boolean.o: src/boolean.cpp
+	$(CC) -c $(CPPFLAGS) -o $@ $<
+
 main.o: main.cpp
 	$(CC) -c $(CPPFLAGS) -o $@ $<
 

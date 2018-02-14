@@ -17,8 +17,16 @@ namespace april
         char* name;
         if (expr_value->getType()->isIntegerTy())
         {
-            type = llvm::Type::getInt64Ty(context.getGlobalContext());      
-            name = "integer";
+            if (expr->getType() == Type::boolean)
+            {
+                type = llvm::Type::getInt1Ty(context.getGlobalContext());      
+                name = "bool";
+            }
+            else
+            {
+                type = llvm::Type::getInt64Ty(context.getGlobalContext());      
+                name = "integer";
+            }
         }
         else if (expr_value->getType()->isDoubleTy())
         {

@@ -7,6 +7,7 @@
     #include "include/bioperator.hpp"
     #include "include/block.hpp"
     #include "include/double.hpp"
+    #include "include/boolean.hpp"
     #include "include/exprstatement.hpp"
     #include "include/identifier.hpp"
     #include "include/integer.hpp"
@@ -40,7 +41,7 @@
     int token;
 }
 
-%token<string> TDIGIT TDOUBLE TIDENTIFIER 
+%token<string> TDIGIT TDOUBLE TIDENTIFIER TBOOLEAN 
 %token<token> TPLUS TMIN TMUL TDIV TVAR
 %token<token> TCOLON TEQUAL TSC TJUMP TCOMMA TCOEQU
 %token<token> TRBRACE TLBRACE
@@ -77,6 +78,7 @@ var_decl: TVAR ident TCOLON ident TSC               { $$ = new april::VariableDe
     ;
 
 expr: binary_ope_expr                       { }
+    | ident TEQUAL expr TSC                 { $$ = new april::Assignment(*$<ident>1, *$3); }
     | basics                                { $$ = $1; }
     | ident TLPAREN call_args TRPAREN TSC   { $$ = new april::MethodCall(*$1, *$3); }
     | ident                                 { $<ident>$ = $1; }                            
@@ -97,6 +99,7 @@ binary_ope_expr: expr TPLUS expr        { $$ = new april::BinaryOperator(*$1, $2
 basics: TDIGIT                          { $$ = new april::Integer(std::atol($1->c_str())); delete $1; }
     |   TDOUBLE                         { $$ = new april::Double(std::atof($1->c_str())); delete $1; }
     |   TSTR                            { $$ = new april::String(yytext); }
+    |   TBOOLEAN                        { $$ = new april::Boolean(*$1); delete $1; }
     ;
 
 ident: TIDENTIFIER                      { $$ = new april::Identifier(*$1); delete $1; }

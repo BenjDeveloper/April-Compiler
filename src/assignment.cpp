@@ -29,13 +29,7 @@ namespace april
             std::cerr << "la variable no ha sido declarada: " << lhs.name << std::endl;
             return NULL;
         }
-        if (rhs_value != nullptr)
-        {
-            return new llvm::StoreInst(rhs_value, context.locals()[lhs.name], false, context.currentBlock());
-        }
-        else
-        {
-            return new llvm::StoreInst(rhs.codeGen(context), context.locals()[lhs.name], false, context.currentBlock());
-        }
+        if (rhs_value != nullptr) { return new llvm::StoreInst(rhs_value, context.locals()[lhs.name], false, context.currentBlock());}
+        else { return new llvm::StoreInst(rhs.codeGen(context), context.locals()[lhs.name], false, context.currentBlock()); }
     }
 }

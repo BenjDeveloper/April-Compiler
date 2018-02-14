@@ -6,6 +6,7 @@
     #include "include/bioperator.hpp"
     #include "include/block.hpp"
     #include "include/double.hpp"
+    #include "include/boolean.hpp"
     #include "include/exprstatement.hpp"
     #include "include/identifier.hpp"
     #include "include/integer.hpp"
@@ -36,6 +37,8 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 \/\/.*?\n?          { /*empty*/ }
 {DIGIT}             { SAVE_TOKEN; return TDIGIT; }
 {DOUBLE}            { SAVE_TOKEN; return TDOUBLE; } 
+"true"              { SAVE_TOKEN; return TBOOLEAN; }
+"false"             { SAVE_TOKEN; return TBOOLEAN; }
 "var"               { return TOKEN(TVAR); }
 {IDENTIFIER}        { SAVE_TOKEN; return TIDENTIFIER; }
 "("                 { return TOKEN(TLPAREN); }

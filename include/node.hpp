@@ -12,6 +12,7 @@ namespace april
     enum class Type
     {
         integer,
+        boolean,
         string,
         decimal,
         identifier,

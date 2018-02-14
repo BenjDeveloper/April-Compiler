@@ -17,7 +17,7 @@ namespace april
         std::cout << "creando operacion binaria: " << op << std::endl;
         llvm::Instruction::BinaryOps instr;
         
-        if (lhs_value->getType() != rhs_value->getType())
+        if ((lhs_value->getType()->isDoubleTy() && rhs_value->getType()->isIntegerTy()) || (lhs_value->getType()->isIntegerTy() && rhs_value->getType()->isDoubleTy()))
         {
             std::cout << "-->entro operacion binaria diferente" << std::endl;
             
