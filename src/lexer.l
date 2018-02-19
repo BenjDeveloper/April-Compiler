@@ -4,7 +4,10 @@
     #include <algorithm>
     #include "include/assignment.hpp"
     #include "include/bioperator.hpp"
-    #include "include/block.hpp"
+	#include "include/conditional.hpp"
+	#include "include/comparasionope.hpp"
+    #include "include/unaryope.hpp"
+	#include "include/block.hpp"
     #include "include/double.hpp"
     #include "include/boolean.hpp"
     #include "include/exprstatement.hpp"
@@ -14,12 +17,14 @@
     #include "include/methodcall.hpp"
     #include "include/string.hpp"
     #include "include/vardeclaration.hpp"
-    #include "parser.h"
+	#include "include/scope.hpp"
+	#include "parser.h"
     
 
     #define SAVE_TOKEN yylval.string = new std::string(yytext, yyleng)
     #define TOKEN(t) (yylval.token = t)
-    int line = 1;
+  
+  	int line = 1;
     int col = 0;
 
 %}
@@ -40,7 +45,18 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 "true"              { SAVE_TOKEN; return TBOOLEAN; }
 "false"             { SAVE_TOKEN; return TBOOLEAN; }
 "var"               { return TOKEN(TVAR); }
+"and"				{ return TOKEN(TAND); }
+"or"				{ return TOKEN(TOR); }
+"not"				{ return TOKEN(TNOT); }
+"if"				{ return TOKEN(TIF); }
+"else"				{ return TOKEN(TELSE); }
 {IDENTIFIER}        { SAVE_TOKEN; return TIDENTIFIER; }
+"!="				{ return TOKEN(TCOMNE); }
+"=="				{ return TOKEN(TCOMEQ); }
+"<="				{ return TOKEN(TCOMLE); }
+">="				{ return TOKEN(TCOMGE); }
+"<"					{ return TOKEN(TCOMLT); }
+">"					{ return TOKEN(TCOMGT); }
 "("                 { return TOKEN(TLPAREN); }
 ")"                 { return TOKEN(TRPAREN); }
 ":="                { return TOKEN(TCOEQU); }

@@ -1,4 +1,4 @@
-CC = g++
+CC = clang++
 
 all: april
 
@@ -9,6 +9,7 @@ OBJS =	parser.o				\
 		double.o				\
 		codegencontext.o		\
 		block.o					\
+		conditional.o			\
 		identifier.o			\
 		string.o				\
 		assignment.o			\
@@ -16,8 +17,11 @@ OBJS =	parser.o				\
 		methodcall.o			\
 		exprstatement.o			\
 		bioperator.o			\
+		unaryope.o				\
 		nativefn.o				\
 		vardeclarationdeduce.o	\
+		comparasionope.o		\
+		scope.o					\
 		main.o					\
 
 LLVMCONFIG = llvm-config
@@ -28,6 +32,12 @@ LIBS = `$(LLVMCONFIG) --libs`
 .PHONY: clean
 clean:
 	clear && rm -f $(OBJS) parser.cpp parser.h lexer.cpp
+
+scope.o: src/scope.cpp
+	$(CC) -c $(CPPFLAGS) $<
+
+conditional.o: src/conditional.cpp
+	$(CC) -c $(CPPFLAGS) $<
 
 integer.o: src/integer.cpp
 	$(CC) -c $(CPPFLAGS) $<
@@ -81,6 +91,12 @@ vardeclarationdeduce.o: src/vardeclarationdeduce.cpp
 	$(CC) -c $(CPPFLAGS) -o $@ $<
 
 boolean.o: src/boolean.cpp
+	$(CC) -c $(CPPFLAGS) -o $@ $<
+
+comparasionope.o: src/comparasionope.cpp
+	$(CC) -c $(CPPFLAGS) -o $@ $<
+
+unaryope.o: src/unaryope.cpp
 	$(CC) -c $(CPPFLAGS) -o $@ $<
 
 main.o: main.cpp

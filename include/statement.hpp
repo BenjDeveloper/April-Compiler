@@ -8,7 +8,7 @@ namespace april
     class Statement: public Expression
     {
         Type getType() { return Type::expression; }
-    };
+	};
 }
 
 #endif //STATEMENT_HPP

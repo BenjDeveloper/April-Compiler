@@ -1,10 +1,7 @@
-var x:int = 5;
+{
+	println("hola mundo!");
 
-println("x: %d", x);
-
-x = 6;
-z := x+5.1;
-
-println("x: %d", x);
-
-println("z: %f", z);
+	{
+		f := 5;
+	}
+}

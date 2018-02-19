@@ -7,6 +7,7 @@
 #include <set>
 
 //--------------------------
+
 #include "llvm/IR/Module.h"
 #include "llvm/IR/Function.h"
 #include "llvm/IR/Type.h"
@@ -52,8 +53,8 @@ namespace april
             void setCurrentReturnValue(llvm::Value* value) { blocks.top()->returnValue = value; }
             llvm::Value* getCurrentReturnValue() { return blocks.top()->returnValue; }
             void setupBuildFn();
-            llvm::Value* findVariable(std::string);
-    };
+	
+	};
 }
 
 #endif //CODEGENCONTEXT_HPP 

@@ -1,23 +1,25 @@
 #include <iostream>
 #include "../include/block.hpp"
-
+#include "../include/codegencontext.hpp"
 //----------------------------
 
 namespace april
 {
     llvm::Value* Block::codeGen(CodeGenContext& context)
     {
-        StatementList::const_iterator it;
 
-        llvm::Value* last = NULL;
+        std::cout << "**********************inicio del bloque**********************" << std::endl;
+		llvm::Value* last = nullptr;
+		
+		for (auto s: statements)
+		{	
+			//std::cout << "-->generando instruccion<--" << std::endl;
+			last = s->codeGen(context);
 
-        for (it = statements.begin(); it != statements.end(); it++)
-        {
-            std::cout << "creando instruccion..." << std::endl;
-            last = (**it).codeGen(context);
-        }
+		}
 
-        std::cout << "instruccion creada..." << std::endl;
+		context.popBlock();
+        std::cout << "**********************fin del bloque**********************\n" << std::endl;
         return last; 
     }
 }

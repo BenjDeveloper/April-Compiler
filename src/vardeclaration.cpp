@@ -43,7 +43,21 @@ namespace april
         llvm::Type* type_value = typeOf(type, context);
         llvm::AllocaInst* alloc = new llvm::AllocaInst(type_value, id.name.c_str(), context.currentBlock());
         context.locals()[id.name] = alloc;
+		
 
+        //llvm::Value* v = context.locals()[id.name];
+		//std::cout << "****************************************" << std::endl;
+		//
+		//if (v->getType()->isIntegerTy())
+		//{
+		//	std::cout << "es un f**king integer" << std::endl;
+		//}
+
+		//if (v->getType()->isDoubleTy())
+		//{
+		//	std::cout << "es un f**king double" << std::endl;
+		//}
+		//std::cout << "****************************************" << std::endl;
         
         if (assignmentExpr != nullptr)
         { 
@@ -65,7 +79,6 @@ namespace april
                 std::cout << "Error al asignar una variable tipo int con un float" << std::endl;
                 exit(1);
             }
-            std::cout << "azul" << std::endl;
             Assignment assn(id, *assignmentExpr, expr_value);
             assn.codeGen(context);
         }
