@@ -16,9 +16,8 @@ namespace april
 		
 		bool need_merge = false;
 		
-		context.pushBlock(true_block);
+		context.setCurrentBlock(true_block);
 		llvm::Value* true_value = then_block.codeGen(context);		
-		llvm::ReturnInst::Create(context.getGlobalContext(), 0, context.currentBlock());
 
 		if (true_value == nullptr)
 		{
@@ -32,31 +31,27 @@ namespace april
 			llvm::BranchInst::Create(merge_block, context.currentBlock());
 			need_merge = true;
 		}
-		context.popBlock();
+		
 		
 		function->getBasicBlockList().push_back(false_block);
-		context.pushBlock(false_block);
+		context.setCurrentBlock(false_block);
 		llvm::Value* false_value = nullptr;
 		if (has_else)
 		{
 			false_value = else_block.codeGen(context);
 		}
-		llvm::ReturnInst::Create(context.getGlobalContext(), 0, context.currentBlock());	
+		
 		if (context.currentBlock()->getTerminator() == nullptr)
 		{
-			
 			std::cout << "Femme" << std::endl;
 			llvm::BranchInst::Create(merge_block, context.currentBlock());
 			need_merge = true;
 		}
 		
-		context.popBlock();		
 		if (need_merge)
 		{
 			function->getBasicBlockList().push_back(merge_block);
-			context.pushBlock(merge_block);
-			llvm::ReturnInst::Create(context.getGlobalContext(), 0, context.currentBlock());
-			context.popBlock();		
+			context.setCurrentBlock(merge_block);
 		}
 
 		return merge_block;

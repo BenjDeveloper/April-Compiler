@@ -32,7 +32,7 @@ namespace april
     class CodeGenContext
     {
         private:
-            std::stack<CodeGenBlock*> blocks;
+            std::list<CodeGenBlock*> blocks;
             llvm::Function* mainFunction;
             llvm::Module* module;
             llvm::Function* printfFunction;
@@ -46,11 +46,13 @@ namespace april
             void generateCode(Block& root);
             llvm::Module* getModule() { return this->module; }
             llvm::GenericValue runCode();
-            std::map<std::string, llvm::Value*>& locals()  { return blocks.top()->locals; }
-            llvm::BasicBlock* currentBlock() { return blocks.top()->block; }
+            std::map<std::string, llvm::AllocaInst*>& locals()  { return blocks.front()->locals; }
+            llvm::BasicBlock* currentBlock() { return blocks.front()->block; }
             void pushBlock(llvm::BasicBlock* block);
             void popBlock();
             void setupBuildFn();
+            llvm::AllocaInst* searchVariable(std::string);
+            void setCurrentBlock(llvm::BasicBlock* block) { blocks.front()->setCodeBlock(block); }
 	
 	};
 }

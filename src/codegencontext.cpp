@@ -20,21 +20,33 @@ namespace april
 
     void CodeGenContext::pushBlock(llvm::BasicBlock* block)
     {
-		std::cout << ">>> pushBlock" << std::endl;
-        blocks.push(new CodeGenBlock(block)); 
+		std::cout << ">>> pushBlock <<<" << std::endl;
+        blocks.push_front(new CodeGenBlock(block)); 
     }
 
     void CodeGenContext::popBlock()
     {
 		if (blocks.size() > 0)
 		{
-			std::cout << "<<< popBlock" << std::endl;
-			CodeGenBlock* top = blocks.top();
-        	blocks.pop();
+			std::cout << "<<< popBlock >>>" << std::endl;
+			CodeGenBlock* top = blocks.front();
+        	blocks.pop_front();
         	delete top;
 		}
     }
     
+    llvm::AllocaInst* CodeGenContext::searchVariable(std::string name)
+    {
+        std::map<std::string, llvm::AllocaInst*>& variables = locals();
+
+        if (variables.find(name) != variables.end())
+        {
+            return variables[name];
+        } 
+
+        return nullptr;
+    }
+
 	void CodeGenContext::generateCode(Block& root)
     {
         std::cout << "*******************Generando codigo*******************" << std::endl;

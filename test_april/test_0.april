@@ -1,4 +1,15 @@
-var x:int = 16;
+x := false;
 
-if x == 16 { println("es igual a 16"); }
-else { println("es diferente a 16"); }
+if x {
+    println("es true");
+
+    if not x {
+        println("x es false");
+    }
+    else {
+        println("x es true");
+    }
+} 
+else {
+    println("x es false bitch XD!");
+}
