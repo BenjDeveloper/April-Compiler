@@ -9,13 +9,25 @@
 
 namespace april
 {
+    enum class Type
+    {
+        integer,
+        boolean,
+        string,
+        decimal,
+        identifier,
+        expression,
+        variable
+    };
+    
     class CodeGenContext;
     
     class Node
     {
         public:
             virtual ~Node() {}
-            virtual llvm::Value* codeGen(CodeGenContext& context) { return NULL; }
+            virtual llvm::Value* codeGen(CodeGenContext&) = 0;
+            virtual Type getType() = 0;
     };
 }
 

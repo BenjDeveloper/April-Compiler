@@ -1,6 +1,15 @@
-var x:int = 5;
-var y:int = 6;
+x := false;
 
-var z:int = -5;
+if x {
+    println("es true");
 
-println("z: %d", z);
+    if not x {
+        println("x es false");
+    }
+    else {
+        println("x es true");
+    }
+} 
+else {
+    println("x es false bitch XD!");
+}

@@ -11,10 +11,11 @@ namespace april
             int op;
             Expression& lhs;
             Expression& rhs;
-            
+
         public:
             BinaryOperator(Expression& lhs, int op, Expression& rhs): lhs(lhs), rhs(rhs), op(op) {}
             virtual llvm::Value* codeGen(CodeGenContext& context);
+            Type getType() { return Type::expression; }
     };
 }
 

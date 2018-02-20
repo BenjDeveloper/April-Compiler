@@ -31,7 +31,8 @@ int main(int argc, char* argv[])
         context.runCode();
         if(yyin != nullptr) { fclose(yyin); }
         yylex_destroy();
-    }
+    	delete programBlock;
+	}
 
     return 0;
 }

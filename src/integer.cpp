@@ -10,7 +10,7 @@ namespace april
 {
     llvm::Value* Integer::codeGen(CodeGenContext& context)
     {
-        std::cout << "Integer creado: " << value << std::endl;
+        //std::cout << "Integer creado: " << value << std::endl;
         return llvm::ConstantInt::get(llvm::Type::getInt64Ty(llvm::getGlobalContext()), value, true);
     }
 }

@@ -18,6 +18,7 @@ namespace april
             MethodCall(const Identifier& id, ExpressionList& arguments): id(id), arguments(arguments) {}
             MethodCall(const Identifier& id): id(id) {}
             virtual llvm::Value* codeGen(CodeGenContext& context);
+            Type getType() { return Type::expression; }
     };
 }
 

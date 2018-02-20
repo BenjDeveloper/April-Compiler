@@ -10,18 +10,63 @@ extern "C" void println(char* str, ...);
 
 namespace april
 {
-    void CodeGenContext::generateCode(Block& root)
+    CodeGenContext::CodeGenContext()
+    {
+        llvm::InitializeNativeTarget();
+        llvm::InitializeNativeTargetAsmParser();
+        llvm::InitializeNativeTargetAsmPrinter();
+        module = new llvm::Module("main", llvmContext);
+    }
+
+    void CodeGenContext::pushBlock(llvm::BasicBlock* block)
+    {
+		std::cout << ">>> pushBlock <<<" << std::endl;
+        blocks.push_front(new CodeGenBlock(block)); 
+    }
+
+    void CodeGenContext::popBlock()
+    {
+		if (blocks.size() > 0)
+		{
+			std::cout << "<<< popBlock >>>" << std::endl;
+			CodeGenBlock* top = blocks.front();
+        	blocks.pop_front();
+        	delete top;
+		}
+    }
+    
+    llvm::AllocaInst* CodeGenContext::searchVariable(std::string name)
+    {
+        std::map<std::string, llvm::AllocaInst*>& variables = locals();
+
+        if (variables.find(name) != variables.end())
+        {
+            return variables[name];
+        } 
+
+        return nullptr;
+    }
+
+	void CodeGenContext::generateCode(Block& root)
     {
         std::cout << "*******************Generando codigo*******************" << std::endl;
+        //----
+		
+		std::cout << "programBlock.size(): " << root.statements.size() << std::endl;
 
-        std::vector<llvm::Type*> argTypes;
+		//----
+		std::vector<llvm::Type*> argTypes;
         llvm::FunctionType* ftype = llvm::FunctionType::get(llvm::Type::getVoidTy(llvm::getGlobalContext()), llvm::makeArrayRef(argTypes), false);
         mainFunction = llvm::Function::Create(ftype, llvm::GlobalValue::InternalLinkage, "main", module);
-        llvm::BasicBlock* bblock = llvm::BasicBlock::Create(llvm::getGlobalContext(), "entry", mainFunction, 0);
+        llvm::BasicBlock* bblock = llvm::BasicBlock::Create(llvm::getGlobalContext(), "main", mainFunction, 0);
         setupBuildFn();
         pushBlock(bblock);
         root.codeGen(*this);
-        llvm::ReturnInst::Create(llvm::getGlobalContext(), bblock);
+        if (currentBlock()->getTerminator() == nullptr)
+        {
+            llvm::ReturnInst::Create(getGlobalContext(), 0, currentBlock()); 
+        }
+        
         popBlock();
 
         std::cout << "*******************Codigo generado*******************" << std::endl;
@@ -65,8 +110,7 @@ namespace april
         ft = llvm::FunctionType::get(llvm::Type::getVoidTy(llvm::getGlobalContext()),argTypesInt8Ptr, true);
         f = llvm::Function::Create( ft, llvm::Function::ExternalLinkage, "println",getModule());
         i = f->arg_begin();
-        if( i != f->arg_end() )
-            i->setName("format_str");
+        if( i != f->arg_end() ) { i->setName("format_str");}
             
     }
 
@@ -74,12 +118,22 @@ namespace april
     {
         std::cout << "\n*******************Corriendo codigo*******************" << std::endl;
         std::string err;
-        llvm::ExecutionEngine* ee = llvm::EngineBuilder(std::unique_ptr<llvm::Module>(module)).create();
-        assert(ee);
-        ee->finalizeObject();
-        std::vector<llvm::GenericValue> noargs;
+		//llvm::ExecutionEngine* ee = llvm::EngineBuilder(std::unique_ptr<llvm::Module>(module)).create();
+		llvm::ExecutionEngine* ee = llvm::EngineBuilder(std::unique_ptr<llvm::Module>(module)).setErrorStr(&err).setEngineKind(llvm::EngineKind::JIT).create();
+		
+		assert(ee);
+		assert(mainFunction);
+		std::cout << "size: " << module->size() << std::endl;
+		//----
+		
+		//----
+		//std::cout << "le female!!" << std::endl;
+		ee->finalizeObject();
+		std::cout << "Anna Karina!!" << std::endl;
+		
+		std::vector<llvm::GenericValue> noargs;
         llvm::GenericValue v = ee->runFunction(mainFunction, noargs);
-        delete ee;
+		delete ee;
         std::cout << "*******************Codigo corrido*******************" << std::endl;
         return v;
     }

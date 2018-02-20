@@ -1,22 +1,28 @@
-CC = g++
+CC = clang++
 
 all: april
 
-OBJS =	parser.o			\
-		lexer.o				\
-		integer.o			\
-		double.o			\
-		codegencontext.o	\
-		block.o				\
-		identifier.o		\
-		string.o			\
-		assignment.o		\
-		vardeclaration.o	\
-		methodcall.o		\
-		exprstatement.o		\
-		bioperator.o		\
-		nativefn.o			\
-		main.o				\
+OBJS =	parser.o				\
+		lexer.o					\
+		integer.o				\
+		boolean.o				\
+		double.o				\
+		codegencontext.o		\
+		block.o					\
+		conditional.o			\
+		identifier.o			\
+		string.o				\
+		assignment.o			\
+		vardeclaration.o		\
+		methodcall.o			\
+		exprstatement.o			\
+		bioperator.o			\
+		unaryope.o				\
+		nativefn.o				\
+		vardeclarationdeduce.o	\
+		comparasionope.o		\
+		scope.o					\
+		main.o					\
 
 LLVMCONFIG = llvm-config
 CPPFLAGS = `$(LLVMCONFIG) --cppflags` -std=c++11
@@ -26,6 +32,12 @@ LIBS = `$(LLVMCONFIG) --libs`
 .PHONY: clean
 clean:
 	clear && rm -f $(OBJS) parser.cpp parser.h lexer.cpp
+
+scope.o: src/scope.cpp
+	$(CC) -c $(CPPFLAGS) $<
+
+conditional.o: src/conditional.cpp
+	$(CC) -c $(CPPFLAGS) $<
 
 integer.o: src/integer.cpp
 	$(CC) -c $(CPPFLAGS) $<
@@ -74,6 +86,18 @@ lexer.o: lexer.cpp parser.h
 
 nativefn.o: src/nativefn.cpp
 	$(CC) -c $< --std=c++11
+
+vardeclarationdeduce.o: src/vardeclarationdeduce.cpp
+	$(CC) -c $(CPPFLAGS) -o $@ $<
+
+boolean.o: src/boolean.cpp
+	$(CC) -c $(CPPFLAGS) -o $@ $<
+
+comparasionope.o: src/comparasionope.cpp
+	$(CC) -c $(CPPFLAGS) -o $@ $<
+
+unaryope.o: src/unaryope.cpp
+	$(CC) -c $(CPPFLAGS) -o $@ $<
 
 main.o: main.cpp
 	$(CC) -c $(CPPFLAGS) -o $@ $<
