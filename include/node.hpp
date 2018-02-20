@@ -4,11 +4,13 @@
 #include <llvm/IR/Value.h>
 #include <llvm/IR/Type.h>
 #include <llvm/IR/DerivedTypes.h>
-
-//#include "codegencontext.hpp"
+#include <vector>
 
 namespace april
 {
+    using VarList = std::vector<class VariableDeclaration*>;
+    class CodeGenContext;
+    
     enum class Type
     {
         integer,
@@ -17,11 +19,10 @@ namespace april
         decimal,
         identifier,
         expression,
-        variable
+        variable,
+        function
     };
-    
-    class CodeGenContext;
-    
+
     class Node
     {
         public:

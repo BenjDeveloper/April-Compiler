@@ -52,6 +52,7 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 "if"				{ return TOKEN(TIF); }
 "else"				{ return TOKEN(TELSE); }
 "for"               { return TOKEN(TFOR); }
+"fn"                { return TOKEN(TFN); }
 {IDENTIFIER}        { SAVE_TOKEN; return TIDENTIFIER; }
 "!="				{ return TOKEN(TCOMNE); }
 "=="				{ return TOKEN(TCOMEQ); }

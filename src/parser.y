@@ -43,6 +43,7 @@
     april::VariableDeclaration* var_decl;
     std::string* string; 
     std::vector<april::Expression*> *exprvec;
+    std::vector<april::VariableDeclaration*> *vardecl;
     int token;
 }
 
@@ -53,14 +54,15 @@
 %token<token> TLPAREN TRPAREN TSTR
 %token<token> TCOMNE TCOMEQ TCOMLE TCOMGE TCOMLT TCOMGT
 %token<token> TAND TOR TNOT
-%token<token> TIF TELSE TFOR
+%token<token> TIF TELSE TFOR TFN
 
 %type<ident> ident
 %type<exprvec> call_args
 %type<expr> expr binary_ope_expr basics boolean_expr unary_ope
-%type<stmt> stmt var_decl conditional scope for
+%type<stmt> stmt var_decl conditional scope for fn_decl var_decl_arg
 %type<block> program stmts block
 %type<token> comparasion
+%type<vardecl> fn_args;
 
 %left TPLUS TMIN
 %left TMUL TDIV
@@ -82,9 +84,23 @@ stmt: var_decl          {  }
     | conditional
 	| scope
 	| for
+    | fn_decl
+    ;
+
+fn_decl: TFN ident TLPAREN fn_args TRPAREN TCOLON ident block       { std::cout << "declaracion de funcion con retorno" << std::endl; }
+    |   TFN ident TLPAREN fn_args TRPAREN block                     { std::cout << "declaracion de funcion sin retorno" << std::endl; }
+    ;
+
+fn_args: %empty                         { $$ = new april::VarList(); }
+    |   var_decl_arg                    { $$ = new april::VarList(); $$->push_back($<var_decl>1); }
+    |   fn_args TCOMMA var_decl_arg     { $1->push_back($<var_decl>3); }
+    ;
+
+var_decl_arg: ident TCOLON ident    { $$ = new april::VariableDeclaration(*$3, *$1);}
     ;
 
 for: TFOR expr block    { $$ = new april::ForLoop($2, $3); }
+    ;
 
 scope: block			{ $$ = new april::Scope($1); }
 	;
@@ -112,6 +128,7 @@ expr: binary_ope_expr                       { }
 	;
 
 unary_ope: TNOT expr 			{ $$ = new april::UnaryOpe($1, *$2); }
+    ;
 
 call_args: %empty               { $$ = new april::ExpressionList(); }
     | expr                      { $$ = new april::ExpressionList(); $$->push_back($1); }
