@@ -20,20 +20,22 @@ namespace april
 
     void CodeGenContext::pushBlock(llvm::BasicBlock* block)
     {
-		std::cout << "--> pushBlock " << std::endl;
-        blocks.push(new CodeGenBlock()); 
-        blocks.top()->returnValue = NULL;
-        blocks.top()->block = block; 
+		std::cout << ">>> pushBlock" << std::endl;
+        blocks.push(new CodeGenBlock(block)); 
     }
 
     void CodeGenContext::popBlock()
     {
-        CodeGenBlock* top = blocks.top();
-        blocks.pop();
-        delete top;
+		if (blocks.size() > 0)
+		{
+			std::cout << "<<< popBlock" << std::endl;
+			CodeGenBlock* top = blocks.top();
+        	blocks.pop();
+        	delete top;
+		}
     }
-
-    void CodeGenContext::generateCode(Block& root)
+    
+	void CodeGenContext::generateCode(Block& root)
     {
         std::cout << "*******************Generando codigo*******************" << std::endl;
         //----
@@ -44,12 +46,16 @@ namespace april
 		std::vector<llvm::Type*> argTypes;
         llvm::FunctionType* ftype = llvm::FunctionType::get(llvm::Type::getVoidTy(llvm::getGlobalContext()), llvm::makeArrayRef(argTypes), false);
         mainFunction = llvm::Function::Create(ftype, llvm::GlobalValue::InternalLinkage, "main", module);
-        llvm::BasicBlock* bblock = llvm::BasicBlock::Create(llvm::getGlobalContext(), "entry", mainFunction, 0);
+        llvm::BasicBlock* bblock = llvm::BasicBlock::Create(llvm::getGlobalContext(), "main", mainFunction, 0);
         setupBuildFn();
         pushBlock(bblock);
-        root.codeGen(*this); //for de la calse block
-        llvm::ReturnInst::Create(llvm::getGlobalContext(), bblock);
-        //popBlock();
+        root.codeGen(*this);
+        if (currentBlock()->getTerminator() == nullptr)
+        {
+            llvm::ReturnInst::Create(getGlobalContext(), 0, currentBlock()); 
+        }
+        
+        popBlock();
 
         std::cout << "*******************Codigo generado*******************" << std::endl;
         module->dump();
@@ -100,17 +106,22 @@ namespace april
     {
         std::cout << "\n*******************Corriendo codigo*******************" << std::endl;
         std::string err;
-		llvm::ExecutionEngine* ee = llvm::EngineBuilder(std::unique_ptr<llvm::Module>(module)).create();
-
-		assert(ee);
+		//llvm::ExecutionEngine* ee = llvm::EngineBuilder(std::unique_ptr<llvm::Module>(module)).create();
+		llvm::ExecutionEngine* ee = llvm::EngineBuilder(std::unique_ptr<llvm::Module>(module)).setErrorStr(&err).setEngineKind(llvm::EngineKind::JIT).create();
 		
-		std::cout << "le female!!" << std::endl;
+		assert(ee);
+		assert(mainFunction);
+		std::cout << "size: " << module->size() << std::endl;
+		//----
+		
+		//----
+		//std::cout << "le female!!" << std::endl;
 		ee->finalizeObject();
-		std::cout << "le france!!" << std::endl;
+		std::cout << "Anna Karina!!" << std::endl;
 		
 		std::vector<llvm::GenericValue> noargs;
         llvm::GenericValue v = ee->runFunction(mainFunction, noargs);
-        delete ee;
+		delete ee;
         std::cout << "*******************Codigo corrido*******************" << std::endl;
         return v;
     }

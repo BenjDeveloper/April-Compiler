@@ -77,7 +77,7 @@ stmts: stmt             { $$ = new april::Block(); $$->statements.push_back($<st
 	;
 
 stmt: var_decl          {  }
-    | expr              { $$ = new april::ExpressionStatement(*$1); }
+    | expr              { $$ = new april::ExpressionStatement($1); }
     | conditional
 	| scope
 	;

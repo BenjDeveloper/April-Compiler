@@ -6,11 +6,17 @@ namespace april
 	{
 		llvm::Function* funcion = context.currentBlock()->getParent();
 		llvm::BasicBlock* bblock = llvm::BasicBlock::Create(context.getGlobalContext(), "scope", funcion);
+		llvm::BranchInst::Create(bblock, context.currentBlock());
 		context.pushBlock(bblock);
 		llvm::Value* block_value = block->codeGen(context);
 		
-		return block_value;
-		//context.pushBlock(block);			
+		if (context.currentBlock()->getTerminator() == nullptr)
+		{
+			llvm::ReturnInst::Create(context.getGlobalContext(), 0, context.currentBlock());
+		}
+
+		context.popBlock();
+		return nullptr;
 	}
 
 }

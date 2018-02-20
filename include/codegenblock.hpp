@@ -11,8 +11,11 @@ namespace april
     {
         public:
             llvm::BasicBlock* block;
-            llvm::Value* returnValue;
+            // llvm::Value* returnValue;AllocaInst
             std::map<std::string, llvm::Value*> locals;
+
+        public:
+            CodeGenBlock(llvm::BasicBlock* block): block(block) { }
     };
 }
 

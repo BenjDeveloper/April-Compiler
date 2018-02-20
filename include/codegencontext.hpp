@@ -50,8 +50,6 @@ namespace april
             llvm::BasicBlock* currentBlock() { return blocks.top()->block; }
             void pushBlock(llvm::BasicBlock* block);
             void popBlock();
-            void setCurrentReturnValue(llvm::Value* value) { blocks.top()->returnValue = value; }
-            llvm::Value* getCurrentReturnValue() { return blocks.top()->returnValue; }
             void setupBuildFn();
 	
 	};

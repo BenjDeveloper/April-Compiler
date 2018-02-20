@@ -1,7 +1,4 @@
-{
-	println("hola mundo!");
+var x:int = 16;
 
-	{
-		f := 5;
-	}
-}
+if x == 16 { println("es igual a 16"); }
+else { println("es diferente a 16"); }

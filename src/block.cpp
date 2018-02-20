@@ -13,13 +13,10 @@ namespace april
 		
 		for (auto s: statements)
 		{	
-			//std::cout << "-->generando instruccion<--" << std::endl;
 			last = s->codeGen(context);
-
 		}
-
-		context.popBlock();
-        std::cout << "**********************fin del bloque**********************\n" << std::endl;
-        return last; 
+		//context.popBlock();
+        std::cout << "**********************fin del bloque**********************" << std::endl;
+		return last; 
     }
 }

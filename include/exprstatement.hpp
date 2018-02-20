@@ -9,11 +9,12 @@ namespace april
     class ExpressionStatement: public Statement
     {
         private:
-            Expression& expression;
+            Expression* expression;
         
         public:
-            ExpressionStatement(Expression& expression): expression(expression) {}
-            llvm::Value* codeGen(CodeGenContext& context);
+            ExpressionStatement(Expression* expression): expression(expression) {}
+            ~ExpressionStatement() { delete expression; }
+			virtual llvm::Value* codeGen(CodeGenContext& context);
             Type getType() { return Type::expression; }
     };
 }

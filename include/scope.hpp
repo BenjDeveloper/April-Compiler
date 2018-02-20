@@ -14,6 +14,8 @@ namespace april
 
 		public:
 			Scope(Block* block): block(block) {}
+			~Scope() { delete block; }
+
 			virtual llvm::Value* codeGen(CodeGenContext&);			
 	};
 }
