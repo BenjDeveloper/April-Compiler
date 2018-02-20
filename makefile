@@ -22,6 +22,7 @@ OBJS =	parser.o				\
 		vardeclarationdeduce.o	\
 		comparasionope.o		\
 		scope.o					\
+		forloop.o				\
 		main.o					\
 
 LLVMCONFIG = llvm-config
@@ -32,6 +33,9 @@ LIBS = `$(LLVMCONFIG) --libs`
 .PHONY: clean
 clean:
 	clear && rm -f $(OBJS) parser.cpp parser.h lexer.cpp
+
+forloop.o: src/forloop.cpp
+	$(CC) -c $(CPPFLAGS) $<
 
 scope.o: src/scope.cpp
 	$(CC) -c $(CPPFLAGS) $<

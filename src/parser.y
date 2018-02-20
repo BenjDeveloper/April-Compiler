@@ -20,6 +20,7 @@
     #include "include/vardeclaration.hpp"
     #include "include/vardeclarationdeduce.hpp"
 	#include "include/scope.hpp"
+    #include "include/forloop.hpp"
 
     using namespace april;
     
@@ -52,12 +53,12 @@
 %token<token> TLPAREN TRPAREN TSTR
 %token<token> TCOMNE TCOMEQ TCOMLE TCOMGE TCOMLT TCOMGT
 %token<token> TAND TOR TNOT
-%token<token> TIF TELSE
+%token<token> TIF TELSE TFOR
 
 %type<ident> ident
 %type<exprvec> call_args
 %type<expr> expr binary_ope_expr basics boolean_expr unary_ope
-%type<stmt> stmt var_decl conditional scope
+%type<stmt> stmt var_decl conditional scope for
 %type<block> program stmts block
 %type<token> comparasion
 
@@ -80,7 +81,10 @@ stmt: var_decl          {  }
     | expr              { $$ = new april::ExpressionStatement($1); }
     | conditional
 	| scope
-	;
+	| for
+    ;
+
+for: TFOR expr block    { $$ = new april::ForLoop($2, $3); }
 
 scope: block			{ $$ = new april::Scope($1); }
 	;

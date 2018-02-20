@@ -118,19 +118,13 @@ namespace april
     {
         std::cout << "\n*******************Corriendo codigo*******************" << std::endl;
         std::string err;
-		//llvm::ExecutionEngine* ee = llvm::EngineBuilder(std::unique_ptr<llvm::Module>(module)).create();
 		llvm::ExecutionEngine* ee = llvm::EngineBuilder(std::unique_ptr<llvm::Module>(module)).setErrorStr(&err).setEngineKind(llvm::EngineKind::JIT).create();
 		
 		assert(ee);
 		assert(mainFunction);
 		std::cout << "size: " << module->size() << std::endl;
-		//----
 		
-		//----
-		//std::cout << "le female!!" << std::endl;
-		ee->finalizeObject();
-		std::cout << "Anna Karina!!" << std::endl;
-		
+        ee->finalizeObject();
 		std::vector<llvm::GenericValue> noargs;
         llvm::GenericValue v = ee->runFunction(mainFunction, noargs);
 		delete ee;

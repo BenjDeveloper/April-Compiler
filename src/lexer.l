@@ -18,6 +18,7 @@
     #include "include/string.hpp"
     #include "include/vardeclaration.hpp"
 	#include "include/scope.hpp"
+    #include "include/forloop.hpp"    
 	#include "parser.h"
     
 
@@ -50,6 +51,7 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 "not"				{ return TOKEN(TNOT); }
 "if"				{ return TOKEN(TIF); }
 "else"				{ return TOKEN(TELSE); }
+"for"               { return TOKEN(TFOR); }
 {IDENTIFIER}        { SAVE_TOKEN; return TIDENTIFIER; }
 "!="				{ return TOKEN(TCOMNE); }
 "=="				{ return TOKEN(TCOMEQ); }

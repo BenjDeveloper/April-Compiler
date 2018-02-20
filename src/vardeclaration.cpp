@@ -33,13 +33,11 @@ namespace april
 
     llvm::Value* VariableDeclaration::codeGen(CodeGenContext& context)
     {
-        std::cout << "aaa" << std::endl;
         if (context.locals().find(id.name) != context.locals().end())
         {
             std::cout << "la variable ya existe, no se puede declarar de nuevo" << std::endl;
             exit(1);
         }
-        std::cout << "bbb" << std::endl;
         
         std::cout << "Creating variable declaration " << type.name << ", " << id.name << std::endl;
         llvm::Type* type_value = typeOf(type, context);

@@ -1,16 +1,11 @@
-{
-    {
-        println("scope 1!");
-    }
-    println("scope 0!");
-    {
-        println("scope 1-1");
-    }
+var x:int = 0;
 
-    x := false;
+for x < 5
+{  
+    x = x + 1;
 
-    if x { println("x es true!"); }
-    else { println("x es false"); }
+    if x == 3 { println("es tres!!"); }
+    println("x: %d", x);
 }
 
-if true { println("yesss bitchess!!"); }
+if x == 5 { println("es cinco!!"); }

@@ -31,11 +31,9 @@ namespace april
 			return nullptr;
 		}
 		
-		std::cout << "aqqqqqqqqqqqqqq" << std::endl;
 
 		llvm::Value* lhs_value = llvm::ConstantInt::get(llvm::IntegerType::get(context.getGlobalContext(),llvm::Type::getInt1Ty(context.getGlobalContext())->getIntegerBitWidth()), llvm::StringRef("-1"), 10);
 
-		std::cout << "aaaaasssssss" << std::endl;
 		return llvm::BinaryOperator::Create(instr, lhs_value, rhs_value, "unarytmp", context.currentBlock());
 	}
 }
