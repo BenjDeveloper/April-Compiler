@@ -1,11 +1,22 @@
-var x:int = 0;
-
-for x < 5
-{  
-    x = x + 1;
-
-    if x == 3 { println("es tres!!"); }
-    println("x: %d", x);
+fn suma(a:int, b:int):int
+{
+    z := (a+b);
+    if (z == 5)
+    {
+        println("Anna Karina!");
+    }
+    return z;
 }
 
-if x == 5 { println("es cinco!!"); }
+fn operacion():void
+{
+    var x:int = 1;
+    z := 10;
+
+    for x < z
+    {
+        println("x: %d", x);
+        x = suma(x, 1);
+    }
+}
+operacion();

@@ -11,12 +11,12 @@ namespace april
     class MethodCall: public Expression
     {
         private:
-            const Identifier& id;
-            ExpressionList arguments;
-        
+            Identifier* id;
+            ExpressionList* arguments;
         public:
-            MethodCall(const Identifier& id, ExpressionList& arguments): id(id), arguments(arguments) {}
-            MethodCall(const Identifier& id): id(id) {}
+            MethodCall(Identifier* id, ExpressionList* arguments): id(id), arguments(arguments) {}
+            MethodCall(Identifier* id): id(id) {}
+            ~MethodCall();
             virtual llvm::Value* codeGen(CodeGenContext& context);
             Type getType() { return Type::expression; }
     };

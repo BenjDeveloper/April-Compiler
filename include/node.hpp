@@ -8,7 +8,6 @@
 
 namespace april
 {
-    using VarList = std::vector<class VariableDeclaration*>;
     class CodeGenContext;
     
     enum class Type

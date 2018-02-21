@@ -1,26 +1,38 @@
 #include <iostream>
-#include <list>
+
+class A;
+
+class B
+{
+	public:
+	public:
+		B(){}
+		void ver_Dato(A* a);
+};
+
+class A
+{
+	private:
+		int dato;
+	
+	public:
+		A(int dato): dato(dato) {}
+		~A() {}
+		int get_Dato() const { return dato; }
+		friend void B::ver_Dato(A*);
+};
+
+void B::ver_Dato(A* a)
+{ 
+	std::cout << "a: " << a->dato << std::endl; 
+}
 
 int main()
 {
-	std::list<int> l;
-
-	l.push_front(1);
-	l.push_front(2);
-	l.push_front(3);
-
-	std::list<int>::iterator it = l.begin();
-
-	while (it != l.end())
-	{
-		std::cout << *it++ << std::endl;
-	}
-	l.pop_front();
-	std::cout << "---------------" << std::endl;
-	it = l.begin();	
-	while (it != l.end())
-	{
-		std::cout << *it++ << std::endl;
-	}
-	
+	A* a = new A{5};
+	std::cout << "a: " << a->get_Dato() << std::endl;
+	B* b = new B{};
+	b->ver_Dato(a);
+	delete a;
+	delete b;
 }

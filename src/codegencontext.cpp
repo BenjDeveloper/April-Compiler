@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "../include/codegencontext.hpp"
+#include "../include/identifier.hpp"
 #include "llvm/Transforms/IPO/PassManagerBuilder.h"
 
 extern "C" void print(char* str, ...);
@@ -43,8 +44,39 @@ namespace april
         {
             return variables[name];
         } 
-
         return nullptr;
+    }
+
+    llvm::Type* CodeGenContext::typeOf(const Identifier& id)
+    {
+        return this->typeOf(id.getName());
+    }
+
+    llvm::Type* CodeGenContext::typeOf(const std::string name)
+    {
+        if (name.compare("int") == 0)
+        {
+            return llvm::Type::getInt64Ty(getGlobalContext());
+        }
+        else if (name.compare("float") == 0)
+        {
+            return llvm::Type::getDoubleTy(getGlobalContext());            
+        }
+        else if (name.compare("string") == 0)
+        {
+            return llvm::Type::getInt8PtrTy(getGlobalContext());
+        }
+        else if (name.compare("bool") == 0)
+        {
+            return llvm::Type::getInt1Ty(getGlobalContext());
+        }
+        else if (name.compare("void") == 0)
+        {
+            return llvm::Type::getVoidTy(getGlobalContext());
+        }
+        std::cout << "tipo void XD" << std::endl;
+        // return llvm::Type::getVoidTy(getGlobalContext());
+        return llvm::Type::getInt64Ty(getGlobalContext());
     }
 
 	void CodeGenContext::generateCode(Block& root)

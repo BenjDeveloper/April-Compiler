@@ -6,9 +6,23 @@
 
 namespace april
 {
-      llvm::Value* MethodCall::codeGen(CodeGenContext& context)
+    MethodCall::~MethodCall()
     {
-        llvm::Function* fn = context.getModule()->getFunction(id.name.c_str());
+        for (auto i : *arguments)
+        {
+            delete i;
+        }
+        arguments->clear();
+        delete arguments;
+        delete id;
+    }
+
+    llvm::Value* MethodCall::codeGen(CodeGenContext& context)
+    {
+
+        std::string fn_name = id->getName();
+
+        llvm::Function* fn = context.getModule()->getFunction(fn_name.c_str());
         if (fn == nullptr)
         {
             std::cout << "Error: la funcion no existe" << std::endl;
@@ -16,12 +30,21 @@ namespace april
         }
 
         std::vector<llvm::Value*> args;
-        ExpressionList::const_iterator it;
 
-        for (it = arguments.begin(); it != arguments.end(); it++) { args.push_back((**it).codeGen(context)); }
+        for (auto expr : *arguments)
+        {
+            args.push_back(expr->codeGen(context));
+        }
 
-        llvm::CallInst *call = llvm::CallInst::Create(fn, llvm::makeArrayRef(args), "", context.currentBlock());
-        std::cout << "la llamada al metodo: " << id.name << " fue generada!" << std::endl;
+        // ExpressionList::const_iterator it;
+        // for (it = arguments->begin(); it != arguments->end(); it++) 
+        // { 
+        //     args.push_back((**it).codeGen(context)); 
+        // }
+
+        // llvm::CallInst *call = llvm::CallInst::Create(fn, llvm::makeArrayRef(args), "", context.currentBlock());
+        llvm::CallInst* call = llvm::CallInst::Create(fn, args, "", context.currentBlock());
+        std::cout << "la llamada al metodo: " << id->name << " fue generada!" << std::endl;
         return call;
     }
 }

@@ -26,9 +26,15 @@
 
 #include "codegenblock.hpp"
 #include "block.hpp"
+#include "identifier.hpp"
 
 namespace april
 {
+    enum class ScopeType
+    {
+        FunctionDeclaration
+    };
+
     class CodeGenContext
     {
         private:
@@ -53,7 +59,8 @@ namespace april
             void setupBuildFn();
             llvm::AllocaInst* searchVariable(std::string);
             void setCurrentBlock(llvm::BasicBlock* block) { blocks.front()->setCodeBlock(block); }
-	
+            llvm::Type* typeOf(const Identifier&);
+            llvm::Type* typeOf(const std::string);
 	};
 }
 

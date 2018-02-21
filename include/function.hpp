@@ -4,9 +4,12 @@
 #include "statement.hpp"
 #include "identifier.hpp"
 #include "block.hpp"
+#include "vardeclaration.hpp"
 
 namespace april
 {
+    using VarList = std::vector<class VariableDeclaration*>;
+    
     class Function: public Statement
     {
         private:
@@ -17,7 +20,7 @@ namespace april
 
         public:
             Function(Identifier* type, Identifier* id, VarList* args, Block* block): type(type), id(id), args(args), block(block) {} 
-            Function(Identifier* id, VarList* args, Block* block): type(new Idetifier("var")), id(id), args(args), block(block) {} 
+            Function(Identifier* id, VarList* args, Block* block): type(new Identifier("var")), id(id), args(args), block(block) {} 
             ~Function();
             llvm::Value* codeGen(CodeGenContext&);
             Type getType() { return Type::function; }
