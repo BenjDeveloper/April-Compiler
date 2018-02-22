@@ -27,8 +27,10 @@ int main(int argc, char* argv[])
         yyparse();
         std::cout << "Fin del analisis del frontend listo :) " << std::endl;
         april::CodeGenContext context;
-        context.generateCode(*programBlock);
-        context.runCode();
+        if (context.generateCode(*programBlock))
+        {
+            context.runCode();
+        }
         if(yyin != nullptr) { fclose(yyin); }
         yylex_destroy();
     	delete programBlock;

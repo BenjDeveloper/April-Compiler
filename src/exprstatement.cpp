@@ -8,7 +8,7 @@ namespace april
 {
     llvm::Value* ExpressionStatement::codeGen(CodeGenContext& context)
     {
-        std::cout << "codigo generado para la expresion" << std::endl;
+        // std::cout << "codigo generado para la expresion" << std::endl;
         return expression->codeGen(context);
     }
 }

@@ -14,8 +14,7 @@ namespace april
 		
 		if (context.currentBlock()->getTerminator() == nullptr)
 		{
-			llvm::ReturnInst::Create(context.getGlobalContext(), 0, context.currentBlock());
-
+			llvm::BranchInst::Create(merge_block, context.currentBlock());
 			function->getBasicBlockList().push_back(merge_block);
 			context.setCurrentBlock(merge_block);
 

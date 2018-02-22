@@ -1,4 +1,3 @@
-%option noyywrap
 %{
     #include <iostream>
     #include <algorithm>
@@ -18,19 +17,30 @@
     #include "include/string.hpp"
     #include "include/vardeclaration.hpp"
 	#include "include/scope.hpp"
+    #include "include/forloop.hpp"    
+    #include "include/function.hpp"    
+    #include "include/return.hpp"    
 	#include "parser.h"
     
 
     #define SAVE_TOKEN yylval.string = new std::string(yytext, yyleng)
     #define TOKEN(t) (yylval.token = t)
-  
+    
+    extern "C" int yywrap() { return 1; }
   	int line = 1;
     int col = 0;
 
+    int yyerror(const char* msg)
+    {
+        std::cout << "Error: " << msg << "\nLinea: " << line << "\nno esperaba " << yytext << std::endl;
+        return 1;
+    }
+
+
 %}
 
-DIGIT       [0-9]+
-DOUBLE       [0-9]*\.[0-9]+
+DIGIT        -?[0-9]+
+DOUBLE       -?[0-9]*\.[0-9]+
 IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 
 %%
@@ -50,6 +60,9 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 "not"				{ return TOKEN(TNOT); }
 "if"				{ return TOKEN(TIF); }
 "else"				{ return TOKEN(TELSE); }
+"for"               { return TOKEN(TFOR); }
+"fn"                { return TOKEN(TFN); }
+"return"            { return TOKEN(TRETURN); }
 {IDENTIFIER}        { SAVE_TOKEN; return TIDENTIFIER; }
 "!="				{ return TOKEN(TCOMNE); }
 "=="				{ return TOKEN(TCOMEQ); }

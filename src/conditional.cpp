@@ -27,7 +27,6 @@ namespace april
 
 		if (context.currentBlock()->getTerminator() == nullptr)
 		{
-			std::cout << "le couleur" << std::endl;
 			llvm::BranchInst::Create(merge_block, context.currentBlock());
 			need_merge = true;
 		}
@@ -43,7 +42,6 @@ namespace april
 		
 		if (context.currentBlock()->getTerminator() == nullptr)
 		{
-			std::cout << "Femme" << std::endl;
 			llvm::BranchInst::Create(merge_block, context.currentBlock());
 			need_merge = true;
 		}

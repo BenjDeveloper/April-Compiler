@@ -10,13 +10,17 @@ namespace april
     class VariableDeclaration: public Statement
     {
         private:
-            const Identifier& type;
+            Identifier& type;
             Identifier& id;
             Expression* assignmentExpr;
         
         public:
-            VariableDeclaration(const Identifier& type, Identifier& id): type(type), id(id) { assignmentExpr = nullptr; } 
-            VariableDeclaration(const Identifier& type, Identifier& id, Expression* assignmentExpr): type(type), id(id), assignmentExpr(assignmentExpr) {}
+            VariableDeclaration(Identifier& type, Identifier& id): type(type), id(id) { assignmentExpr = nullptr; } 
+            VariableDeclaration(Identifier& type, Identifier& id, Expression* assignmentExpr): type(type), id(id), assignmentExpr(assignmentExpr) {}
+            const Identifier& getIdentOfVar() { return id; } 
+            const Identifier& getIdentOfVarType() { return type; } 
+            std::string getVarName() { return id.getName(); }
+            std::string getVarTypeName() { return type.getName(); }
             virtual llvm::Value* codeGen(CodeGenContext& context);
             Type getType() { return Type::variable; }
     };

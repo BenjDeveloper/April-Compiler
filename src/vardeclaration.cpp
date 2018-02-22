@@ -7,67 +7,28 @@
 
 namespace april
 {
-    static llvm::Type* typeOf(const Identifier& type, CodeGenContext& context)
-    {
-        if (type.name.compare("int") == 0)
-        {
-            return llvm::Type::getInt64Ty(context.getGlobalContext());
-        }
-        else if (type.name.compare("float") == 0)
-        {
-            return llvm::Type::getDoubleTy(context.getGlobalContext());            
-        }
-        else if (type.name.compare("string") == 0)
-        {
-            return llvm::Type::getInt8PtrTy(context.getGlobalContext());
-        }
-        else if (type.name.compare("bool") == 0)
-        {
-            return llvm::Type::getInt1Ty(context.getGlobalContext());
-        }
-        
-        std::cout << ">>> Error no existe tipo: "<< type.name << " <<<" << std::endl;
-        exit(1);
-        return llvm::Type::getVoidTy(llvm::getGlobalContext());
-    }
-
     llvm::Value* VariableDeclaration::codeGen(CodeGenContext& context)
     {
-        std::cout << "aaa" << std::endl;
-        if (context.locals().find(id.name) != context.locals().end())
+        if (context.searchVariable(id.name))
         {
-            std::cout << "la variable ya existe, no se puede declarar de nuevo" << std::endl;
-            exit(1);
+            printError("la variable '"+id.name+"' ya existe\n");
+            context.addError();
+            return nullptr;
         }
-        std::cout << "bbb" << std::endl;
         
-        std::cout << "Creating variable declaration " << type.name << ", " << id.name << std::endl;
-        llvm::Type* type_value = typeOf(type, context);
+        // std::cout << "Creating variable declaration " << type.name << ", " << id.name << std::endl;
+        llvm::Type* type_value = context.typeOf(type);
         llvm::AllocaInst* alloc = new llvm::AllocaInst(type_value, id.name.c_str(), context.currentBlock());
         context.locals()[id.name] = alloc;
 		
-
-        //llvm::Value* v = context.locals()[id.name];
-		//std::cout << "****************************************" << std::endl;
-		//
-		//if (v->getType()->isIntegerTy())
-		//{
-		//	std::cout << "es un f**king integer" << std::endl;
-		//}
-
-		//if (v->getType()->isDoubleTy())
-		//{
-		//	std::cout << "es un f**king double" << std::endl;
-		//}
-		//std::cout << "****************************************" << std::endl;
-        
         if (assignmentExpr != nullptr)
         { 
             llvm::Value* expr_value = assignmentExpr->codeGen(context);
             if (expr_value == nullptr)
             {
-                std::cout << "Error con el token de tipo "<< type.name << std::endl;
-                exit(1);
+                printError("Error con el token de tipo "+type.name+"\n");
+                context.addError();
+                return nullptr;
             }
             // condicional para hacer una asignacion de un int a un float se hace un cast al int 
             if (type_value->isDoubleTy() && expr_value->getType()->isIntegerTy())
@@ -78,8 +39,9 @@ namespace april
             }
             if (type_value->isIntegerTy() && expr_value->getType()->isDoubleTy())
             {
-                std::cout << "Error al asignar una variable tipo int con un float" << std::endl;
-                exit(1);
+                printError("Error al asignar una variable tipo int con un float");
+                context.addError();
+                return nullptr;
             }
             Assignment assn(id, *assignmentExpr, expr_value);
             assn.codeGen(context);
