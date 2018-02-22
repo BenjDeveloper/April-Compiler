@@ -14,7 +14,14 @@ namespace april
         llvm::Value* lhs_value = lhs.codeGen(context);
         llvm::Value* rhs_value = rhs.codeGen(context);
 
-        std::cout << "creando operacion binaria: " << op << std::endl;
+        if (lhs_value == nullptr || rhs_value == nullptr)
+		{
+			printError("Error al evaluar la expresion\n");
+            context.addError();
+            return nullptr;
+		}
+
+        // std::cout << "creando operacion binaria: " << op << std::endl;
         llvm::Instruction::BinaryOps instr;
         
         if ((lhs_value->getType()->isDoubleTy() && rhs_value->getType()->isIntegerTy()) || (lhs_value->getType()->isIntegerTy() && rhs_value->getType()->isDoubleTy()))
@@ -55,6 +62,6 @@ namespace april
                 return llvm::BinaryOperator::Create(llvm::Instruction::Or, lhs_value, rhs_value, "", context.currentBlock());
 		}
 
-        return NULL;
+        return nullptr;
     }
 }

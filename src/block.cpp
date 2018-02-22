@@ -8,15 +8,14 @@ namespace april
     llvm::Value* Block::codeGen(CodeGenContext& context)
     {
 
-        std::cout << "**********************inicio del bloque**********************" << std::endl;
+        // std::cout << "**********************inicio del bloque**********************" << std::endl;
 		llvm::Value* last = nullptr;
 		
 		for (auto s: statements)
 		{	
 			last = s->codeGen(context);
 		}
-		//context.popBlock();
-        std::cout << "**********************fin del bloque**********************" << std::endl;
+        // std::cout << "**********************fin del bloque**********************" << std::endl;
 		return last; 
     }
 }

@@ -10,6 +10,13 @@ namespace april
 		llvm::Value* lhs_value = lhs.codeGen(context);
 		llvm::Value* rhs_value = rhs.codeGen(context);
 		
+		if (lhs_value == nullptr || rhs_value == nullptr)
+		{
+			printError("Error al evaluar la expresion\n");
+            context.addError();
+            return nullptr;
+		}
+
 		if (lhs_value->getType() != rhs_value->getType())
 		{
 			auto cinst = llvm::CastInst::getCastOpcode(rhs_value, true, llvm::Type::getDoubleTy(context.getGlobalContext()), true);	

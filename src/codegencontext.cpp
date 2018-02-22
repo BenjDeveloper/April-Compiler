@@ -11,7 +11,7 @@ extern "C" void println(char* str, ...);
 
 namespace april
 {
-    static const std::string name_main = "_@_kajac";
+    static const std::string name_main = "_pandicorn&kenshin";
 
     CodeGenContext::CodeGenContext()
     {
@@ -24,7 +24,7 @@ namespace april
 
     void CodeGenContext::pushBlock(llvm::BasicBlock* block)
     {
-		std::cout << ">>> pushBlock <<<" << std::endl;
+		// std::cout << ">>> pushBlock <<<" << std::endl;
         blocks.push_front(new CodeGenBlock(block));
     }
 
@@ -32,7 +32,7 @@ namespace april
     {
 		if (blocks.size() > 0)
 		{
-			std::cout << "<<< popBlock >>>" << std::endl;
+			// std::cout << "<<< popBlock >>>" << std::endl;
 			CodeGenBlock* top = blocks.front();
         	blocks.pop_front();
         	delete top;
@@ -77,17 +77,15 @@ namespace april
         {
             return llvm::Type::getVoidTy(getGlobalContext());
         }
-        std::cout << "tipo void name: " << name << std::endl;
         return llvm::Type::getVoidTy(getGlobalContext());
-        // return llvm::Type::getInt64Ty(getGlobalContext());
     }
 
-	void CodeGenContext::generateCode(Block& root)
+	bool CodeGenContext::generateCode(Block& root)
     {
         std::cout << "*******************Generando codigo*******************" << std::endl;
         //----
 
-		std::cout << "programBlock.size(): " << root.statements.size() << std::endl;
+		// std::cout << "programBlock.size(): " << root.statements.size() << std::endl;
 
 		//----
 		std::vector<llvm::Type*> argTypes;
@@ -97,6 +95,12 @@ namespace april
         setupBuildFn();
         pushBlock(bblock);
         root.codeGen(*this);
+        if (errors) 
+        { 
+            std::cout << "Compilation con errores. Abortando..." << std::endl; 
+            return false;
+        }
+
         if (currentBlock()->getTerminator() == nullptr)
         {
             llvm::ReturnInst::Create(getGlobalContext(), 0, currentBlock());
@@ -111,6 +115,8 @@ namespace april
         // optimize();
         // std::cout << "*******************Codigo Optimizado*******************" << std::endl;
         // module->dump();
+
+        return true;
     }
 
     void CodeGenContext::optimize()
@@ -157,7 +163,6 @@ namespace april
 
 		assert(ee);
 		assert(mainFunction);
-		std::cout << "size: " << module->size() << std::endl;
 
         ee->finalizeObject();
 		std::vector<llvm::GenericValue> noargs;

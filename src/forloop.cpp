@@ -18,8 +18,9 @@ namespace april
         llvm::Value* first_value = condition->codeGen(context);
         if (first_value == nullptr)
         {
-            std::cout << "Falta implementacion del bloque the en el for..." << std::endl;
-            exit(1);
+            printError("Error, falta implementacion del bloque then en el for..\n");
+            context.addError();
+            return nullptr;
         }
         llvm::BranchInst::Create(loop_block, else_block, first_value, context.currentBlock()); // -AQUI
 
@@ -28,8 +29,9 @@ namespace april
         llvm::Value* cond_value = condition->codeGen(context);
         if (cond_value == nullptr) 
         {
-            std::cout << "codeGen para el condicional del for fallo..." << std::endl;
-            exit(1);
+            printError("codeGen para el condicional del for fallo...\n");
+            context.addError();
+            return nullptr;
         }
         llvm::BranchInst::Create(loop_block, merge_block, cond_value, context.currentBlock());
 
@@ -38,8 +40,9 @@ namespace april
         llvm::Value* loop_value = block->codeGen(context);
         if (loop_value == nullptr) 
         {
-            std::cout << "codeGen para el valor del for fallo..." << std::endl;
-            exit(1);
+            printError("codeGen para el valor del for fallo...\n");
+            context.addError();
+            return nullptr;
         }
         llvm::BranchInst::Create(cond_block, context.currentBlock());
 

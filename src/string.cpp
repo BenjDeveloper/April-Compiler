@@ -23,7 +23,7 @@ namespace april
 {
     llvm::Value* String::codeGen(CodeGenContext& context)
     {
-        std::cout << "creando string: " << value << std::endl;
+        // std::cout << "creando string: " << value << std::endl;
         llvm::ArrayType* array_type = llvm::ArrayType::get(llvm::IntegerType::get(context.getGlobalContext(), 8), value.size()+1);
         llvm::GlobalVariable* gvar = new llvm::GlobalVariable(*context.getModule(), array_type, true, llvm::GlobalValue::PrivateLinkage, 0, ".str");
         

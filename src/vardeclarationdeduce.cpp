@@ -6,44 +6,33 @@ namespace april
 {
     llvm::Value* VariableDeclarationDeduce::codeGen(CodeGenContext& context)
     {
-        if (context.locals().find(id.name) != context.locals().end())
+        
+        if (context.searchVariable(id.name))
         {
-            std::cout << "la variable ya existe, no se puede declarar de nuevo" << std::endl;
-            exit(1);
+            printError("la variable '"+id.name+"' ya existe\n");
+            context.addError();
+            return nullptr;
         }
         
         llvm::Value* expr_value = expr->codeGen(context);
-        llvm::Type* type = nullptr;
-        char* name;
-        if (expr_value->getType()->isIntegerTy())
+        if (expr_value == nullptr)
         {
-            if (expr->getType() == Type::boolean)
-            {
-                type = llvm::Type::getInt1Ty(context.getGlobalContext());      
-                name = "bool";
-            }
-            else
-            {
-                type = llvm::Type::getInt64Ty(context.getGlobalContext());      
-                name = "integer";
-            }
+            printError("la variable '"+id.name+"' no se pudo inicializar ya que la expresion es incorrecta\n");
+            context.addError();
+            return nullptr;
         }
-        else if (expr_value->getType()->isDoubleTy())
-        {
-            type = llvm::Type::getDoubleTy(context.getGlobalContext());      
-            name = "float";    
-        }
-        else
-        {
-            std::cout << "-->shit!!" << std::endl;
-        }
-        
 
-        llvm::AllocaInst* alloc = new llvm::AllocaInst(type, id.name.c_str(), context.currentBlock());
-        std::cout << "---> Creating variable declaration " << name  << ", " << id.name << std::endl;
+        llvm::AllocaInst* alloc = new llvm::AllocaInst(expr_value->getType(), id.name.c_str(), context.currentBlock());
         context.locals()[id.name] = alloc;
         Assignment assn(id, *expr, expr_value);
-        assn.codeGen(context);
-        return alloc;
+        
+        auto val = assn.codeGen(context);
+        if (val == nullptr)
+        {
+            printError("la asignacion a '"+id.name+"' es vacia\n");
+            context.addError();
+            return nullptr;
+        }
+        return val;
     }
 }

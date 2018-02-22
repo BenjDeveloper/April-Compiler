@@ -11,38 +11,24 @@ namespace april
     {
         if (context.searchVariable(id.name))
         {
-            std::cout << "la variable ya existe, no se puede declarar de nuevo" << std::endl;
+            printError("la variable '"+id.name+"' ya existe\n");
             context.addError();
             return nullptr;
         }
         
-        std::cout << "Creating variable declaration " << type.name << ", " << id.name << std::endl;
+        // std::cout << "Creating variable declaration " << type.name << ", " << id.name << std::endl;
         llvm::Type* type_value = context.typeOf(type);
         llvm::AllocaInst* alloc = new llvm::AllocaInst(type_value, id.name.c_str(), context.currentBlock());
         context.locals()[id.name] = alloc;
 		
-
-        //llvm::Value* v = context.locals()[id.name];
-		//std::cout << "****************************************" << std::endl;
-		//
-		//if (v->getType()->isIntegerTy())
-		//{
-		//	std::cout << "es un f**king integer" << std::endl;
-		//}
-
-		//if (v->getType()->isDoubleTy())
-		//{
-		//	std::cout << "es un f**king double" << std::endl;
-		//}
-		//std::cout << "****************************************" << std::endl;
-        
         if (assignmentExpr != nullptr)
         { 
             llvm::Value* expr_value = assignmentExpr->codeGen(context);
             if (expr_value == nullptr)
             {
-                std::cout << "Error con el token de tipo "<< type.name << std::endl;
-                exit(1);
+                printError("Error con el token de tipo "+type.name+"\n");
+                context.addError();
+                return nullptr;
             }
             // condicional para hacer una asignacion de un int a un float se hace un cast al int 
             if (type_value->isDoubleTy() && expr_value->getType()->isIntegerTy())
@@ -53,8 +39,9 @@ namespace april
             }
             if (type_value->isIntegerTy() && expr_value->getType()->isDoubleTy())
             {
-                std::cout << "Error al asignar una variable tipo int con un float" << std::endl;
-                exit(1);
+                printError("Error al asignar una variable tipo int con un float");
+                context.addError();
+                return nullptr;
             }
             Assignment assn(id, *assignmentExpr, expr_value);
             assn.codeGen(context);

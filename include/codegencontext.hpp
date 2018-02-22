@@ -50,7 +50,7 @@ namespace april
             CodeGenContext();
             void optimize();
             llvm::LLVMContext& getGlobalContext() { return llvmContext; }
-            void generateCode(Block& root);
+            bool generateCode(Block& root);
             llvm::Module* getModule() { return this->module; }
             llvm::GenericValue runCode();
             std::map<std::string, llvm::AllocaInst*>& locals()  { return blocks.front()->locals; }

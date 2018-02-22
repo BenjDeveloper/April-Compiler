@@ -44,7 +44,7 @@ namespace april
 
         // llvm::CallInst *call = llvm::CallInst::Create(fn, llvm::makeArrayRef(args), "", context.currentBlock());
         llvm::CallInst* call = llvm::CallInst::Create(fn, args, "", context.currentBlock());
-        std::cout << "la llamada al metodo: " << id->name << " fue generada!" << std::endl;
+        // std::cout << "la llamada al metodo: " << id->name << " fue generada!" << std::endl;
         return call;
     }
 }

@@ -1,3 +1,23 @@
+
+fn suma(valor:int, limite:int):int
+{
+    if valor >= limite 
+    {
+        return valor;
+    }
+    else 
+    {
+        println("valor: %d", valor);
+        valor = valor + 1;
+        suma(valor, limite);
+    }
+}
+
+x := suma(1, 10);
+
+println("x: %d", x);
+println("----------------------");
+
 fn resta(a:int, b:int):int
 {
     if (a == 6)
