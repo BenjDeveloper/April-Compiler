@@ -97,7 +97,6 @@ return: TRETURN  TSC        { $$ = new april::Return(); }
     ;
 
 fn_decl: TFN ident TLPAREN fn_args TRPAREN TCOLON ident block       { $$ = new april::Function($7, $2, $4, $8); }
-    |   TFN ident TLPAREN fn_args TRPAREN block                     { $$ = new april::Function($2, $4, $6); }
     ;
 
 fn_args: %empty                         { $$ = new april::VarList(); }
@@ -173,9 +172,3 @@ basics: TDIGIT                          { $$ = new april::Integer(std::atol($1->
 
 ident: TIDENTIFIER                      { $$ = new april::Identifier(*$1); delete $1; }
 %%
-
-void yyerror(const char* msg)
-{
-    std::cout << "Error: " << msg << "\nLinea: " << line << "\nno esperaba " << yytext << std::endl;
-    exit(1);
-}

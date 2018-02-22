@@ -9,14 +9,15 @@ namespace april
 {
     llvm::Value* VariableDeclaration::codeGen(CodeGenContext& context)
     {
-        if (context.locals().find(id.name) != context.locals().end())
+        if (context.searchVariable(id.name))
         {
             std::cout << "la variable ya existe, no se puede declarar de nuevo" << std::endl;
-            exit(1);
+            context.addError();
+            return nullptr;
         }
         
         std::cout << "Creating variable declaration " << type.name << ", " << id.name << std::endl;
-        llvm::Type* type_value = context.typeOf(type.name);
+        llvm::Type* type_value = context.typeOf(type);
         llvm::AllocaInst* alloc = new llvm::AllocaInst(type_value, id.name.c_str(), context.currentBlock());
         context.locals()[id.name] = alloc;
 		

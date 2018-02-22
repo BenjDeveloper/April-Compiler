@@ -1,4 +1,3 @@
-%option noyywrap
 %{
     #include <iostream>
     #include <algorithm>
@@ -26,14 +25,22 @@
 
     #define SAVE_TOKEN yylval.string = new std::string(yytext, yyleng)
     #define TOKEN(t) (yylval.token = t)
-  
+    
+    extern "C" int yywrap() { return 1; }
   	int line = 1;
     int col = 0;
 
+    int yyerror(const char* msg)
+    {
+        std::cout << "Error: " << msg << "\nLinea: " << line << "\nno esperaba " << yytext << std::endl;
+        return 1;
+    }
+
+
 %}
 
-DIGIT       [0-9]+
-DOUBLE       [0-9]*\.[0-9]+
+DIGIT        -?[0-9]+
+DOUBLE       -?[0-9]*\.[0-9]+
 IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 
 %%

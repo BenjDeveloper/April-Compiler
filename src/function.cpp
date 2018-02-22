@@ -22,7 +22,7 @@ namespace april
 
         for (auto var : *args)
         {
-            llvm::Type* ty = context.typeOf(var->getIdentOfVar());
+            llvm::Type* ty = context.typeOf(var->getIdentOfVarType());
             if (ty->isIntegerTy())
             {
                 std::cout << "la variable es de tipo integer" << std::endl;

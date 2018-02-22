@@ -44,6 +44,7 @@ namespace april
             llvm::Function* printfFunction;
             llvm::Function* currentFunction;
             llvm::LLVMContext llvmContext;
+            int errors;
 
         public:
             CodeGenContext();
@@ -61,6 +62,7 @@ namespace april
             void setCurrentBlock(llvm::BasicBlock* block) { blocks.front()->setCodeBlock(block); }
             llvm::Type* typeOf(const Identifier&);
             llvm::Type* typeOf(const std::string);
+            void addError() { ++errors; }
 	};
 }
 
