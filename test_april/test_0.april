@@ -1,8 +1,24 @@
-fn suma(a:int, b:int):int
+fn resta(a:int, b:int):int
 {
-    return a*b;
+    if (a == 6)
+    {
+        println("es 6 nena!!");
+    }
+    
+    return a-b;
 }
 
-x := suma(2, -3);
+fn main():void
+{
+    ini := 10;
+    var fin:int = -10;
 
-println("x: %d", x);
+    for ini > fin 
+    {
+        ini = resta(ini, 1);
+        println("ini: %d", ini);
+    }
+    println("adios!!");
+}
+
+main();
