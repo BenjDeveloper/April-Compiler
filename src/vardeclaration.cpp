@@ -4,6 +4,7 @@
 #include "../include/assignment.hpp"
 
 //----------------------------
+extern april::STRUCINFO* april_errors;
 
 namespace april
 {
@@ -11,7 +12,7 @@ namespace april
     {
         if (context.searchVariable(id.name))
         {
-            printError("la variable '"+id.name+"' ya existe\n");
+            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la variable '"+id.name+"' ya existe\n");
             context.addError();
             return nullptr;
         }
@@ -26,7 +27,7 @@ namespace april
             llvm::Value* expr_value = assignmentExpr->codeGen(context);
             if (expr_value == nullptr)
             {
-                printError("Error con el token de tipo "+type.name+"\n");
+                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: con el token de tipo "+type.name+"\n");
                 context.addError();
                 return nullptr;
             }
@@ -39,7 +40,7 @@ namespace april
             }
             if (type_value->isIntegerTy() && expr_value->getType()->isDoubleTy())
             {
-                printError("Error al asignar una variable tipo int con un float");
+                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: al asignar una variable 'tipo' int con un 'float'");
                 context.addError();
                 return nullptr;
             }

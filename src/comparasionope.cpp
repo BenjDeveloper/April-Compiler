@@ -3,6 +3,8 @@
 #include "../include/vardeclaration.hpp"
 #include "../parser.h"
 
+extern april::STRUCINFO* april_errors;
+
 namespace april
 {
 	llvm::Value* ComparasionOpe::codeGen(CodeGenContext& context)
@@ -12,7 +14,7 @@ namespace april
 		
 		if (lhs_value == nullptr || rhs_value == nullptr)
 		{
-			printError("Error al evaluar la expresion\n");
+			printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: al evaluar la expresion en la comparacion\n");
             context.addError();
             return nullptr;
 		}
@@ -56,8 +58,9 @@ namespace april
 				break;
 
 			default:
-				std::cout << "Operador no reconocido" << std::endl;
-				return nullptr;
+				printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: operador no conocido comparacion\n");
+            	context.addError();
+            	return nullptr;
 		}
 
 		return llvm::CmpInst::Create(oinst, predicate, lhs_value, rhs_value, "cmotmo", context.currentBlock());

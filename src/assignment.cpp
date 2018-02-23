@@ -19,13 +19,15 @@
 #include "llvm/Support/raw_ostream.h"
 #include <llvm/Support/ManagedStatic.h>
 
+extern april::STRUCINFO* april_errors;
+
 namespace april
 {
     llvm::Value* Assignment::codeGen(CodeGenContext& context)
     {
         if (context.searchVariable(lhs.name) == nullptr)
         {
-            printError(">>la variable '"+lhs.name+"' no ha sido declarada\n");
+            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la variable '"+lhs.name+"' no ha sido declarada en la asignacion\n");
             context.addError();
             return nullptr;
         }
@@ -39,7 +41,7 @@ namespace april
             llvm::Value* expr_value = rhs.codeGen(context);
             if (expr_value == nullptr)
             {
-                printError("la expresion es incorrecta\n");
+                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la expresion es incorrecta en la asignacion\n");
                 context.addError();
                 return nullptr;
             }

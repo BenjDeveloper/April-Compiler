@@ -5,6 +5,8 @@ extern int yyparse();
 extern int yylex_destroy();
 extern april::Block* programBlock;
 extern FILE* yyin;
+extern april::STRUCINFO* april_errors;
+
 
 int main(int argc, char* argv[])
 {
@@ -12,20 +14,22 @@ int main(int argc, char* argv[])
 
     if (argc > 1)
     {
-        filename = "test_april/test_0.april";
+        april_errors->file_name = "test_april/test_0.april";
+        //filename = "test_april/test_1.april";
     }
 
-    yyin = fopen(filename.c_str(), "r+");
+    yyin = fopen(april_errors->file_name.c_str(), "r+");
     if (yyin == nullptr)
     {
-        std::cout << "Error al abrir el archivo: " << filename << std::endl;
+        std::cout << "Error al abrir el archivo: " << april_errors->file_name << std::endl;
         return EXIT_FAILURE;
     }
     else
     {
-        std::cout << "Inicio del analisis del frontend listo :) " << std::endl;
-        yyparse();
-        std::cout << "Fin del analisis del frontend listo :) " << std::endl;
+        if (yyparse())
+        {
+            return 1;
+        }
         april::CodeGenContext context;
         if (context.generateCode(*programBlock))
         {

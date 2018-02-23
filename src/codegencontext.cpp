@@ -9,6 +9,8 @@
 extern "C" void print(char* str, ...);
 extern "C" void println(char* str, ...);
 
+extern bool existMainFunction;
+
 namespace april
 {
     static const std::string name_main = "_pandicorn&kenshin";
@@ -82,30 +84,44 @@ namespace april
 
 	bool CodeGenContext::generateCode(Block& root)
     {
+        std::cout << "existMainFunction--> " << existMainFunction << std::endl;
+        if (!existMainFunction)
+        {
+            std::cout << "Falta la funcion 'main'" << std::endl; 
+            return false;
+        }
         std::cout << "*******************Generando codigo*******************" << std::endl;
-        //----
-
-		// std::cout << "programBlock.size(): " << root.statements.size() << std::endl;
-
-		//----
+        
 		std::vector<llvm::Type*> argTypes;
         llvm::FunctionType* ftype = llvm::FunctionType::get(llvm::Type::getVoidTy(llvm::getGlobalContext()), llvm::makeArrayRef(argTypes), false);
         mainFunction = llvm::Function::Create(ftype, llvm::GlobalValue::InternalLinkage, name_main, module);
         llvm::BasicBlock* bblock = llvm::BasicBlock::Create(llvm::getGlobalContext(), name_main, mainFunction, 0);
         setupBuildFn();
         pushBlock(bblock);
+        
+        
+
         root.codeGen(*this);
         if (errors) 
         { 
-            std::cout << "Compilation con errores. Abortando..." << std::endl; 
+            std::cout << "Compilacion con errores..." << std::endl; 
             return false;
         }
 
+        
+
+        //-----------------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------------
+        std::string fn_main = "main";
+        std::vector<llvm::Value*> args_prueba;
+        llvm::Function* fn = getModule()->getFunction(fn_main.c_str());
+        llvm::CallInst* call = llvm::CallInst::Create(fn, args_prueba, "", currentBlock());
+        //-----------------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------------
         if (currentBlock()->getTerminator() == nullptr)
         {
             llvm::ReturnInst::Create(getGlobalContext(), 0, currentBlock());
         }
-
         popBlock();
 
         std::cout << "*******************Codigo generado*******************" << std::endl;

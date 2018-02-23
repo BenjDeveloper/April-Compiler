@@ -13,9 +13,8 @@ namespace april
     
     typedef struct STRUCINFO
     {
-        int first_line;
-        int last_line;
-        std::string name_file;
+        int line;
+        std::string file_name;
     } STRUCINFO;
 
     enum class Type

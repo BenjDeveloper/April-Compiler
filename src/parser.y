@@ -33,6 +33,7 @@
     extern char* yytext;
 
     april::Block* programBlock;
+    bool existMainFunction = false;
 %}
 
 %union
