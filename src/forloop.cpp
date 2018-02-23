@@ -2,6 +2,8 @@
 #include "../include/forloop.hpp"
 #include "../include/codegencontext.hpp"
 
+extern april::STRUCINFO* april_errors;
+
 namespace april
 {
     llvm::Value* ForLoop::codeGen(CodeGenContext& context)
@@ -18,7 +20,7 @@ namespace april
         llvm::Value* first_value = condition->codeGen(context);
         if (first_value == nullptr)
         {
-            printError("Error, falta implementacion del bloque then en el for..\n");
+            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: falta implementacion del bloque 'then' en el for\n");
             context.addError();
             return nullptr;
         }
@@ -29,7 +31,7 @@ namespace april
         llvm::Value* cond_value = condition->codeGen(context);
         if (cond_value == nullptr) 
         {
-            printError("codeGen para el condicional del for fallo...\n");
+            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: fallo la evaluacion de la expresion del condicional del for\n");
             context.addError();
             return nullptr;
         }
@@ -40,7 +42,7 @@ namespace april
         llvm::Value* loop_value = block->codeGen(context);
         if (loop_value == nullptr) 
         {
-            printError("codeGen para el valor del for fallo...\n");
+            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: fallo la evaluacion del bloque del for\n");
             context.addError();
             return nullptr;
         }

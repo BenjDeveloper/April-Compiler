@@ -1,6 +1,7 @@
 #include <iostream>
 #include "../include/conditional.hpp"
 
+extern april::STRUCINFO* april_errors;
 
 namespace april
 {
@@ -21,8 +22,9 @@ namespace april
 
 		if (true_value == nullptr)
 		{
-			std::cout << "fallo en el bloque then..." << std::endl;
-			exit(1);
+			printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el bloque 'then' esta vacio\n");
+            context.addError();
+            return nullptr;
 		}
 
 		if (context.currentBlock()->getTerminator() == nullptr)

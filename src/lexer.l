@@ -27,28 +27,30 @@
     #define TOKEN(t) (yylval.token = t)
     
     extern "C" int yywrap() { return 1; }
-  	int line = 1;
+  	
+    april::STRUCINFO* april_errors = new april::STRUCINFO{1, "empty"};
+      
+    int line = 1;
     int col = 0;
 
     int yyerror(const char* msg)
     {
-        std::cout << "Error: " << msg << "\nLinea: " << line << "\nno esperaba " << yytext << std::endl;
+        std::cout << april_errors->file_name <<":" << april_errors->line  <<" error: " << msg << std::endl;
         return 1;
     }
 
 
 %}
-
 DIGIT        -?[0-9]+
 DOUBLE       -?[0-9]*\.[0-9]+
 IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 
 %%
 
-[\n]                {line++; col = 0; }
+[\n]                { april_errors->line++; col = 0; }
 [\t]                { col++; }
 \"(.*)\"            { return TOKEN(TSTR); }
-\/\*(.*\n*)*\*\/    { line++; col=0; }
+\/\*(.*\n*)*\*\/    { april_errors->line++; col=0; }
 \/\/.*?\n?          { /*empty*/ }
 {DIGIT}             { SAVE_TOKEN; return TDIGIT; }
 {DOUBLE}            { SAVE_TOKEN; return TDOUBLE; } 
@@ -83,5 +85,5 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 "/"                 { return TOKEN(TDIV); }
 "*"                 { return TOKEN(TMUL); }
 ","                 { return TOKEN(TCOMMA); }
-.                   { /* std::cout << "error en la linea: " << line << ": " << col << std::endl; yyterminate(); */ }
+.                   { /*empty*/ }
 %%

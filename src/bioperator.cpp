@@ -6,6 +6,7 @@
 
 //----------------------------
 
+extern april::STRUCINFO* april_errors;
 
 namespace april
 {
@@ -16,7 +17,7 @@ namespace april
 
         if (lhs_value == nullptr || rhs_value == nullptr)
 		{
-			printError("Error al evaluar la expresion\n");
+			printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: al evaluar la expresion en la operacion binaria\n");
             context.addError();
             return nullptr;
 		}
@@ -26,8 +27,7 @@ namespace april
         
         if ((lhs_value->getType()->isDoubleTy() && rhs_value->getType()->isIntegerTy()) || (lhs_value->getType()->isIntegerTy() && rhs_value->getType()->isDoubleTy()))
         {
-            std::cout << "-->entro operacion binaria diferente" << std::endl;
-            
+            // std::cout << "-->entro operacion binaria diferente" << std::endl;
             auto double_type = llvm::Type::getDoubleTy(context.getGlobalContext());
             auto cast_instr = llvm::CastInst::getCastOpcode(rhs_value, true, double_type, true);
             rhs_value = llvm::CastInst::Create(cast_instr, rhs_value, double_type, "cast", context.currentBlock());

@@ -4,6 +4,8 @@
 #include "../include/function.hpp"
 #include "../include/codegencontext.hpp"
 
+extern april::STRUCINFO* april_errors;
+
 namespace april
 {
     Function::~Function()
@@ -18,8 +20,14 @@ namespace april
 
     llvm::Value* Function::codeGen(CodeGenContext& context)
     {
-        std::vector<llvm::Type*> args_type;
+        if (exist_main == true)
+        {
+            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la funcion 'main' ya fue definida\n");
+            context.addError();
+            return nullptr;
+        }
 
+        std::vector<llvm::Type*> args_type;
         for (auto var : *args)
         {
             llvm::Type* ty = context.typeOf(var->getIdentOfVarType());
@@ -27,6 +35,7 @@ namespace april
         } 
 
         llvm::FunctionType* fn_type = llvm::FunctionType::get(context.typeOf(*type), args_type, false);
+        
         std::string fn_name = id->getName();
         if (type->getName() == "var")
         {
@@ -61,8 +70,9 @@ namespace april
         auto block_value = block->codeGen(context);
         if (block_value == nullptr)
         {
-            std::cout << "Error, el cuerpo de la funcion esta vacio!!" << std::endl;
-            exit(1);
+            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el cuerpo de la funcion esta vacio\n");
+            context.addError();
+            return nullptr;
         }
 
         auto re_ty = block_value->getType();
@@ -92,8 +102,9 @@ namespace april
             if (re_ty->isLabelTy() || re_ty->isMetadataTy())
             {
                 context.popBlock();
-                std::cout << "Error, la funcion retorna un tipo de dato no soportado!!!" << std::endl;
-                exit(1);
+                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la funcion retorna un tipo de dato no soportado\n");
+                context.addError();
+                return nullptr;
             }
 
             llvm::FunctionType* fn_type_new = llvm::FunctionType::get(block_value->getType(), args_type, false);
@@ -117,7 +128,6 @@ namespace april
 
             function = fn_new;
         }
-
         context.popBlock();
         return function;
     }
