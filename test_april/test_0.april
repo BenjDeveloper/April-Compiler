@@ -1,44 +1,24 @@
 
-fn suma(valor:int, limite:int):int
-{
-    if valor >= limite 
-    {
-        return valor;
-    }
-    else 
-    {
-        println("valor: %d", valor);
-        valor = valor + 1;
-        suma(valor, limite);
-    }
-}
-
-x := suma(1, 10);
-
-println("x: %d", x);
-println("----------------------");
-
-fn resta(a:int, b:int):int
-{
-    if (a == 6)
-    {
-        println("es 6 nena!!");
-    }
-    
-    return a-b;
-}
-
 fn main():void
 {
-    ini := 10;
-    var fin:int = -10;
+    //var x1:int1 = 1;
+    //var x8:int8 = 8;
+    //var x16:int16 = 16;
+    //var x32:int32 = 32;
+    //var x64:int64 = 64;
 
-    for ini > fin 
-    {
-        ini = resta(ini, 1);
-        println("ini: %d", ini);
-    }
-    println("adios!!");
+    //var y16:float16 = 16.06;
+    //var y32:float32 = 32.02;
+    //var y64:float64 = 64.04;
+
+    //var y:float = 10;
+    var _x:int8 = 16;
+    var _y:int16 = _x;
+    var _f:double = _x;
+         
+    println("x: %d", _x);
+    println("y: %d", _y);
+    println("_f: %f", _f);
 }
 
 main();

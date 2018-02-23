@@ -1,0 +1,42 @@
+sudo apt install vim git llvm make clang flex bison libncurses5-dev zlib1g-dev
+
+
+
+add reppository
+
+deb http://us.archive.ubuntu.com/ubuntu/ saucy universe
+deb http://us.archive.ubuntu.com/ubuntu/ saucy universe
+deb http://us.archive.ubuntu.com/ubuntu/ saucy-updates universe
+deb http://us.archive.ubuntu.com/ubuntu/ saucy-updates universe
+deb http://archive.canonical.com/ubuntu saucy partner
+deb http://archive.canonical.com/ubuntu saucy partner
+deb http://mirror3.ubuntulinux.nl/ hardy-seveas freenx
+deb http://us.archive.ubuntu.com/ubuntu/ saucy universe multiverse
+deb http://us.archive.ubuntu.com/ubuntu/ saucy-updates universe multiverse
+
+
+VIM - Vi IMproved 7.4 (2013 Aug 10, compiled Nov 24 2016 16:44:48)
+Unknown option argument: "--v"
+More info with: "vim -h"
+
+git version 2.7.4
+
+GNU Make 4.1
+Built for x86_64-pc-linux-gnu
+Copyright (C) 1988-2014 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+clang version 3.8.0-2ubuntu4 (tags/RELEASE_380/final)
+Target: x86_64-pc-linux-gnu
+Thread model: posix
+InstalledDir: /usr/bin
+
+flex 2.6.0
+
+bison (GNU Bison) 3.0.4
+Written by Robert Corbett and Richard Stallman.
+Copyright (C) 2015 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.

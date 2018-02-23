@@ -57,21 +57,41 @@ namespace april
 
     llvm::Type* CodeGenContext::typeOf(const std::string name)
     {
-        if (name.compare("int") == 0)
+        if ((name.compare("int1") == 0) || (name.compare("bool") == 0))
+        {
+            return llvm::Type::getInt1Ty(getGlobalContext());
+        }
+        else if (name.compare("int8") == 0)
+        {
+            return llvm::Type::getInt8Ty(getGlobalContext());
+        }
+        else if (name.compare("int16") == 0)
+        {
+            return llvm::Type::getInt16Ty(getGlobalContext());
+        }
+        else if ((name.compare("int32") == 0) || (name.compare("int") == 0))
+        {
+            return llvm::Type::getInt32Ty(getGlobalContext());
+        }
+        else if (name.compare("int64") == 0)
         {
             return llvm::Type::getInt64Ty(getGlobalContext());
         }
-        else if (name.compare("float") == 0)
+        else if (name.compare("float16") == 0)
+        {
+            return llvm::Type::getHalfTy(getGlobalContext());
+        }
+        else if ((name.compare("float32") == 0) || (name.compare("float") == 0))
+        {
+            return llvm::Type::getFloatTy(getGlobalContext());
+        }
+        else if ((name.compare("float64") == 0) || (name.compare("double") == 0))
         {
             return llvm::Type::getDoubleTy(getGlobalContext());
         }
         else if (name.compare("string") == 0)
         {
             return llvm::Type::getInt8PtrTy(getGlobalContext());
-        }
-        else if (name.compare("bool") == 0)
-        {
-            return llvm::Type::getInt1Ty(getGlobalContext());
         }
         else if (name.compare("void") == 0)
         {

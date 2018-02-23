@@ -2,6 +2,7 @@
 #define INTEGER_HPP
 
 #include "expression.hpp"
+#include "identifier.hpp"
 
 namespace april
 {
@@ -12,7 +13,7 @@ namespace april
         
         public:
             Integer(long long value): value(value) {}
-			virtual llvm::Value* codeGen(CodeGenContext&);
+			virtual llvm::Value* codeGen(CodeGenContext& context);
             Type getType() { return Type::integer; }
     };
 }
