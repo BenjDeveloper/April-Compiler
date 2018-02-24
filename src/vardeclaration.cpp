@@ -18,7 +18,15 @@ namespace april
         }
         
         // std::cout << "Creating variable declaration " << type.name << ", " << id.name << std::endl;
-        llvm::Type* type_value = context.typeOf(type);
+        llvm::Type* type_value = context.typeOf(type.getName());
+
+        if ( type_value==nullptr )
+        {
+            //printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: ");
+            context.addError();
+            return nullptr;
+        }
+
         llvm::AllocaInst* alloc = new llvm::AllocaInst(type_value, id.name.c_str(), context.currentBlock());
         context.locals()[id.name] = alloc;
 		
@@ -61,13 +69,7 @@ namespace april
             }
             else if (type_value->isFloatingPointTy() && (expr_value->getType()->isDoubleTy() || expr_value->getType()->isIntegerTy()))
             {
-                if (type_value->isHalfTy())
-                {
-                    auto new_type = llvm::Type::getHalfTy(context.getGlobalContext());
-                    auto cast_instr = llvm::CastInst::getCastOpcode(expr_value, true, new_type, true);
-                    expr_value = llvm::CastInst::Create(cast_instr, expr_value, new_type, "cast", context.currentBlock());
-                }
-                else if (type_value->isFloatTy())
+                if (type_value->isFloatTy())
                 {
                     auto new_type = llvm::Type::getFloatTy(context.getGlobalContext());
                     auto cast_instr = llvm::CastInst::getCastOpcode(expr_value, true, new_type, true);
@@ -80,9 +82,17 @@ namespace april
                     expr_value = llvm::CastInst::Create(cast_instr, expr_value, new_type, "cast", context.currentBlock());
                 }
             }
-            else if (type_value->isIntegerTy() && expr_value->getType()->isFloatingPointTy())
+            
+            if (type_value->isIntegerTy() && expr_value->getType()->isFloatingPointTy())
             {
-                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: al asignar una variable 'tipo' int con un 'float'");
+                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: al asignar una variable tipo 'int' con un 'float'");
+                context.addError();
+                return nullptr;
+            }
+            
+            if (type_value->getPrimitiveSizeInBits() < expr_value->getType()->getPrimitiveSizeInBits())
+            {
+                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: asignacion de tipos no compatibles ");
                 context.addError();
                 return nullptr;
             }

@@ -4,7 +4,9 @@
 #include "../include/vardeclaration.hpp"
 #include "../parser.h"
 
-//----------------------------
+ //===----------------------------------------------------------------------===//
+ //                         Type Class Binary Operator
+ //===----------------------------------------------------------------------===//
 
 extern april::STRUCINFO* april_errors;
 
@@ -25,17 +27,73 @@ namespace april
         // std::cout << "creando operacion binaria: " << op << std::endl;
         llvm::Instruction::BinaryOps instr;
         
-        if ((lhs_value->getType()->isDoubleTy() && rhs_value->getType()->isIntegerTy()) || (lhs_value->getType()->isIntegerTy() && rhs_value->getType()->isDoubleTy()))
+        llvm::Type* new_type = nullptr;
+
+        if (lhs_value->getType()->isIntegerTy() && rhs_value->getType()->isFloatingPointTy())
         {
-            // std::cout << "-->entro operacion binaria diferente" << std::endl;
-            auto double_type = llvm::Type::getDoubleTy(context.getGlobalContext());
-            auto cast_instr = llvm::CastInst::getCastOpcode(rhs_value, true, double_type, true);
-            rhs_value = llvm::CastInst::Create(cast_instr, rhs_value, double_type, "cast", context.currentBlock());
-            cast_instr = llvm::CastInst::getCastOpcode(lhs_value, true, double_type, true);
-            lhs_value = llvm::CastInst::Create(cast_instr, lhs_value, double_type, "cast", context.currentBlock());
+            if (rhs_value->getType()->isHalfTy())
+            {
+                new_type = llvm::Type::getHalfTy(context.getGlobalContext());
+            }
+            else if (rhs_value->getType()->isFloatTy())
+            {
+                new_type = llvm::Type::getFloatTy(context.getGlobalContext());
+            }
+            else if (rhs_value->getType()->isDoubleTy())
+            {
+                new_type = llvm::Type::getDoubleTy(context.getGlobalContext());    
+            }
+            auto cast_instr = llvm::CastInst::getCastOpcode(lhs_value, true, new_type, true);
+            lhs_value = llvm::CastInst::Create(cast_instr, lhs_value, new_type, "cast", context.currentBlock());
+        }
+        else if (lhs_value->getType()->isFloatingPointTy() && rhs_value->getType()->isIntegerTy())
+        {
+            if (lhs_value->getType()->isHalfTy())
+            {
+                new_type = llvm::Type::getHalfTy(context.getGlobalContext());
+            }
+            else if (lhs_value->getType()->isFloatTy())
+            {
+                new_type = llvm::Type::getFloatTy(context.getGlobalContext());
+            }
+            else if (lhs_value->getType()->isDoubleTy())
+            {
+                new_type = llvm::Type::getDoubleTy(context.getGlobalContext());    
+            }
+            auto cast_instr = llvm::CastInst::getCastOpcode(rhs_value, true, new_type, true);
+            rhs_value = llvm::CastInst::Create(cast_instr, rhs_value, new_type, "cast", context.currentBlock());
+        }
+        else if (lhs_value->getType()->isIntegerTy() && rhs_value->getType()->isIntegerTy())
+        {
+            if ( lhs_value->getType()->getIntegerBitWidth() < rhs_value->getType()->getIntegerBitWidth())
+            {
+                new_type = llvm::Type::getIntNTy(context.getGlobalContext(), rhs_value->getType()->getIntegerBitWidth());
+                auto cast_instr = llvm::CastInst::getCastOpcode(lhs_value, true, new_type, true);
+                lhs_value = llvm::CastInst::Create(cast_instr, lhs_value, new_type, "cast", context.currentBlock());   
+            }
+            else if  ( lhs_value->getType()->getIntegerBitWidth() > rhs_value->getType()->getIntegerBitWidth())
+            {
+                new_type = llvm::Type::getIntNTy(context.getGlobalContext(), lhs_value->getType()->getIntegerBitWidth());
+                auto cast_instr = llvm::CastInst::getCastOpcode(rhs_value, true, new_type, true);
+                rhs_value = llvm::CastInst::Create(cast_instr, rhs_value, new_type, "cast", context.currentBlock());
+            }
+           
+        }
+        else if (lhs_value->getType()->isFloatingPointTy() && rhs_value->getType()->isFloatingPointTy())
+        {
+            if ( lhs_value->getType()->getPrimitiveSizeInBits() < rhs_value->getType()->getPrimitiveSizeInBits())
+            {
+                auto cast_instr = llvm::CastInst::getCastOpcode(lhs_value, true, rhs_value->getType(), true);
+                lhs_value = llvm::CastInst::Create(cast_instr, lhs_value, rhs_value->getType(), "cast", context.currentBlock()); 
+            }
+            else if  ( lhs_value->getType()->getPrimitiveSizeInBits() > rhs_value->getType()->getPrimitiveSizeInBits())
+            {
+                auto cast_instr = llvm::CastInst::getCastOpcode(rhs_value, true, lhs_value->getType(), true);
+                rhs_value = llvm::CastInst::Create(cast_instr, rhs_value, lhs_value->getType(), "cast", context.currentBlock());
+            }
         }
 
-        bool op_decimal = (lhs_value->getType()->isDoubleTy() || rhs_value->getType()->isDoubleTy())?(true):(false);
+        bool op_decimal = (lhs_value->getType()->isFloatingPointTy() || rhs_value->getType()->isFloatingPointTy())?(true):(false);
 
         switch(op)
         {
