@@ -8,12 +8,13 @@
 
 extern "C" void print(char* str, ...);
 extern "C" void println(char* str, ...);
+extern april::STRUCINFO* april_errors;
 
 extern bool existMainFunction;
 
 namespace april
 {
-    static const std::string name_main = "_pandicorn&kenshin";
+    static const std::string name_main = "_Pandicorn&KenshinUrashima";
 
     CodeGenContext::CodeGenContext()
     {
@@ -59,11 +60,31 @@ namespace april
 
     llvm::Type* CodeGenContext::typeOf(const std::string name)
     {
-        if (name.compare("int") == 0)
+        if ((name.compare("int1") == 0) || (name.compare("bool") == 0))
+        {
+            return llvm::Type::getInt1Ty(getGlobalContext());
+        }
+        else if (name.compare("int8") == 0)
+        {
+            return llvm::Type::getInt8Ty(getGlobalContext());
+        }
+        else if (name.compare("int16") == 0)
+        {
+            return llvm::Type::getInt16Ty(getGlobalContext());
+        }
+        else if ((name.compare("int32") == 0) || (name.compare("int") == 0))
+        {
+            return llvm::Type::getInt32Ty(getGlobalContext());
+        }
+        else if (name.compare("int64") == 0)
         {
             return llvm::Type::getInt64Ty(getGlobalContext());
         }
         else if (name.compare("float") == 0)
+        {
+            return llvm::Type::getFloatTy(getGlobalContext());
+        }
+        else if (name.compare("double") == 0)
         {
             return llvm::Type::getDoubleTy(getGlobalContext());
         }
@@ -71,20 +92,19 @@ namespace april
         {
             return llvm::Type::getInt8PtrTy(getGlobalContext());
         }
-        else if (name.compare("bool") == 0)
-        {
-            return llvm::Type::getInt1Ty(getGlobalContext());
-        }
         else if (name.compare("void") == 0)
         {
             return llvm::Type::getVoidTy(getGlobalContext());
         }
-        return llvm::Type::getVoidTy(getGlobalContext());
+        Block::printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: tipo de dato '"+ name +"' no existe");
+        addError();
+        return nullptr;
+        // return llvm::Tyspe::getVoidTy(getGlobalContext());
     }
 
 	bool CodeGenContext::generateCode(Block& root)
     {
-        std::cout << "existMainFunction--> " << existMainFunction << std::endl;
+        // std::cout << "existMainFunction--> " << existMainFunction << std::endl;
         if (!existMainFunction)
         {
             std::cout << "Falta la funcion 'main'" << std::endl; 

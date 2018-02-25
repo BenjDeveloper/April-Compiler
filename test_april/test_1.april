@@ -33,4 +33,4 @@ fn main():void
         println("ini: %d", ini);
     }
     println("adios!!");
-}
+} 

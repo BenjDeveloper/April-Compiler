@@ -1,44 +1,13 @@
-
-fn suma(valor:int, limite:int):int
+fn fibonacci(valor:int):int
 {
-    if valor >= limite 
-    {
-        return valor;
-    }
-    else 
-    {
-        println("valor: %d", valor);
-        valor = valor + 1;
-        suma(valor, limite);
-    }
-}
-
-x := suma(1, 10);
-
-println("x: %d", x);
-println("----------------------");
-
-fn resta(a:int, b:int):int
-{
-    if (a == 6)
-    {
-        println("es 6 nena!!");
-    }
-    
-    return a-b;
+    if valor < 3 { if valor == 0 {return 0;} else {return 1;} }
+    else { return fibonacci(valor-1)+fibonacci(valor-2); }
 }
 
 fn main():void
 {
-    ini := 10;
-    var fin:int = -10;
-
-    for ini > fin 
-    {
-        ini = resta(ini, 1);
-        println("ini: %d", ini);
-    }
-    println("adios!!");
+    x := 10;
+    result := fibonacci(x);
+    println("result: %d", result);
 }
 
-main();

@@ -25,5 +25,6 @@ extern "C"
         strcat(aux_str, "\n");
         vprintf(aux_str, args);
         va_end(args);
-    } 
+    }
+
 }

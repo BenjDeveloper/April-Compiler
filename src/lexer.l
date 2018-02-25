@@ -41,8 +41,8 @@
 
 
 %}
-DIGIT        -?[0-9]+
-DOUBLE       -?[0-9]*\.[0-9]+
+DIGIT        [0-9]+
+DOUBLE       [0-9]*\.[0-9]+
 IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 
 %%
@@ -52,9 +52,9 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 \"(.*)\"            { return TOKEN(TSTR); }
 \/\*(.*\n*)*\*\/    { april_errors->line++; col=0; }
 \/\/.*?\n?          { /*empty*/ }
+"true"              { SAVE_TOKEN; return TBOOLEAN; }
 {DIGIT}             { SAVE_TOKEN; return TDIGIT; }
 {DOUBLE}            { SAVE_TOKEN; return TDOUBLE; } 
-"true"              { SAVE_TOKEN; return TBOOLEAN; }
 "false"             { SAVE_TOKEN; return TBOOLEAN; }
 "var"               { return TOKEN(TVAR); }
 "and"				{ return TOKEN(TAND); }
@@ -65,7 +65,6 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 "for"               { return TOKEN(TFOR); }
 "fn"                { return TOKEN(TFN); }
 "return"            { return TOKEN(TRETURN); }
-{IDENTIFIER}        { SAVE_TOKEN; return TIDENTIFIER; }
 "!="				{ return TOKEN(TCOMNE); }
 "=="				{ return TOKEN(TCOMEQ); }
 "<="				{ return TOKEN(TCOMLE); }
@@ -85,5 +84,6 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 "/"                 { return TOKEN(TDIV); }
 "*"                 { return TOKEN(TMUL); }
 ","                 { return TOKEN(TCOMMA); }
+{IDENTIFIER}        { SAVE_TOKEN; return TIDENTIFIER; }
 .                   { /*empty*/ }
 %%

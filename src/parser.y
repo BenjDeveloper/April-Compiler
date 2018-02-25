@@ -61,7 +61,7 @@
 
 %type<ident> ident
 %type<exprvec> call_args
-%type<expr> expr binary_ope_expr basics boolean_expr unary_ope method_call
+%type<expr> expr binary_ope_expr basics boolean_expr unary_ope method_call 
 %type<stmt> stmt var_decl conditional scope for fn_decl var_decl_arg return
 %type<block> program stmts block
 %type<token> comparasion
@@ -82,9 +82,9 @@ stmts: stmt             { $$ = new april::Block(); $$->statements.push_back($<st
     |  stmts stmt       { $1->statements.push_back($<stmt>2); }
 	;
 
-stmt: var_decl          {  }
-    | expr              { $$ = new april::ExpressionStatement($1); }
-    | method_call       {  }
+stmt: var_decl              {  }
+    | expr                  { $$ = new april::ExpressionStatement($1); }
+    | method_call  TSC      {  }
     | conditional
 	| scope
 	| for
@@ -93,8 +93,8 @@ stmt: var_decl          {  }
     | return
     ;
 
-return: TRETURN  TSC        { $$ = new april::Return(); }
-    |   TRETURN expr TSC    { $$ = new april::Return($2); }    
+return: TRETURN  TSC                 { $$ = new april::Return(); }
+    |   TRETURN expr TSC             { $$ = new april::Return($2); }    
     ;
 
 fn_decl: TFN ident TLPAREN fn_args TRPAREN TCOLON ident block       { $$ = new april::Function($7, $2, $4, $8); }
@@ -122,11 +122,11 @@ block: TLBRACE stmts TRBRACE				{ $$ = $2; }
 	 | TLBRACE TRBRACE						{ $$ = new april::Block();  }
 	 ;
 
-var_decl: TVAR ident TCOLON ident TSC               { $$ = new april::VariableDeclaration(*$4, *$2);}
-    | TVAR ident TCOLON ident TEQUAL expr TSC       { $$ = new april::VariableDeclaration(*$4, *$2, $6); }
-    | TVAR ident TCOLON ident TEQUAL method_call    { $$ = new april::VariableDeclaration(*$4, *$2, $6); }
-    | ident TCOEQU expr TSC                         { $$ = new april::VariableDeclarationDeduce(*$1, $3); }
-    | ident TCOEQU method_call                      { $$ = new april::VariableDeclarationDeduce(*$1, $3); }
+var_decl: TVAR ident TCOLON ident TSC                       { $$ = new april::VariableDeclaration(*$4, *$2);}
+    | TVAR ident TCOLON ident TEQUAL expr TSC               { $$ = new april::VariableDeclaration(*$4, *$2, $6); }
+    | TVAR ident TCOLON ident TEQUAL method_call TSC        { $$ = new april::VariableDeclaration(*$4, *$2, $6); }
+    | ident TCOEQU expr TSC                                 { $$ = new april::VariableDeclarationDeduce(*$1, $3); }
+    | ident TCOEQU method_call  TSC                         { $$ = new april::VariableDeclarationDeduce(*$1, $3); }
     ;
 
 expr: binary_ope_expr                       { }
@@ -136,9 +136,10 @@ expr: binary_ope_expr                       { }
     | ident                                 { $<ident>$ = $1; }                            
     | boolean_expr
 	| unary_ope
+    | method_call                           { }
 	;
 
-method_call: ident TLPAREN call_args TRPAREN TSC      { $$ = new april::MethodCall($1, $3); }
+method_call: ident TLPAREN call_args TRPAREN       { $$ = new april::MethodCall($1, $3); }
     ;
 
 unary_ope: TNOT expr 			{ $$ = new april::UnaryOpe($1, *$2); }
