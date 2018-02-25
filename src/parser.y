@@ -131,7 +131,7 @@ var_decl: TVAR ident TCOLON ident TSC                       { $$ = new april::Va
 
 expr: binary_ope_expr                       { }
     | ident TEQUAL expr TSC                 { $$ = new april::Assignment(*$<ident>1, *$3); }
-    | ident TEQUAL method_call              { $$ = new april::Assignment(*$<ident>1, *$3); }
+    | ident TEQUAL method_call TSC          { $$ = new april::Assignment(*$<ident>1, *$3); }
     | basics                                { $$ = $1; }
     | ident                                 { $<ident>$ = $1; }                            
     | boolean_expr

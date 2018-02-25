@@ -1,8 +1,24 @@
+// **********************************************************
+// **                                                     ***
+// **    Programado por Pandicorn & Kenshin Urashima      ***
+// **    Test: test_0 en April                            ***
+// **                                                     ***
+// **********************************************************
+
+fn resta(a:int64, b:int64):int64
+{
+    return a-b;
+}
+
 fn main():void
 {
-    //hola
-    x := -10.2;
-    y := 15;
-    z := (x-y);
-    println("z: %f", z);
-}
+    ini := 10;
+    var fin:int = -10;
+
+    for ini > fin 
+    {
+        ini = resta(ini, 1);
+        println("ini: %d", ini);
+    }
+    println("adios!!");
+} 

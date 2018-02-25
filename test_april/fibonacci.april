@@ -1,0 +1,19 @@
+// **********************************************************
+// **                                                     ***
+// **    Programado por Pandicorn & Kenshin Urashima      ***
+// **    Test: Fibonacci en April                         ***
+// **                                                     ***
+// **********************************************************
+
+fn fibonacci(valor:int64):int64
+{
+    if valor < 3 { if valor == 0 {return 0;} else {return 1;} }
+    else { return fibonacci(valor-1)+fibonacci(valor-2); }
+}
+
+fn main():void
+{
+    x := 12;
+    result := fibonacci(x);
+    println("result: %d", result);
+}

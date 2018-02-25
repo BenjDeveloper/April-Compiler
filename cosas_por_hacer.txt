@@ -1,0 +1,34 @@
+// mayor prioridad
+0- arreglar manejador de errores.
+
+1- validar variables y constantes dentro de su ambito.
+
+2- validar operaciones aritmeticas y logicas entre tipos de datos primitivos int, float y bool.
+
+3- validar el paso de parametros a las funciones entre los tipos int, float y bool.
+
+4- validar el tipo de retorno entre los tipos int, float y bool en las funciones.
+
+5- validar estructuras de control vacias.
+
+
+// objetivos para tener la primera version de April :) 
+6- programar el manejo de string.
+
+7- programar el manejo de char.
+
+8- programar el manejo de arreglos.
+
+9- implementar sistema de lectura de multiples archivos (.april).
+
+10- generar ejecutable (compilador) para window de x64 y de x32 de ser posible.
+
+
+// objetivos para mejorar a April XD
+11- April debe generar archivo binario para la computadora objetivo.
+
+12- generar archivo de codigo intermedio.
+
+13- generar archivo de codigo ensamblador.
+
+14- programar struct (estructuras).
