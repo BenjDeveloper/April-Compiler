@@ -2,7 +2,7 @@
 
 %{
     #include <iostream>
-    
+    #include <cstring>
     #include "include/assignment.hpp"
     #include "include/bioperator.hpp"
 	#include "include/conditional.hpp"
@@ -166,10 +166,26 @@ boolean_expr: expr comparasion expr		{ $$ = new april::ComparasionOpe(*$1, $2, *
 comparasion: TCOMNE | TCOMEQ | TCOMLE | TCOMGE | TCOMLT | TCOMGT
 	;
 
-basics: TDIGIT                          { $$ = new april::Integer(std::atol($1->c_str())); delete $1; }
-    |   TDOUBLE                         { $$ = new april::Double(std::atof($1->c_str())); delete $1; }
-    |   TSTR                            { $$ = new april::String(yytext); }
-    |   TBOOLEAN                        { $$ = new april::Boolean(*$1); delete $1; }
+basics: TDIGIT                              { $$ = new april::Integer(std::atol($1->c_str())); delete $1; }
+    |   TMIN TDIGIT  %prec TDIV             { 
+                                                char* value = new char(std::strlen($2->c_str())+2);
+                                                std::strcpy(value, "-");
+                                                std::strcat(value, $2->c_str());
+                                                $$ = new april::Integer(std::atol(value)); 
+                                                delete $2; 
+                                                delete value;
+                                            }
+    |   TDOUBLE                             { $$ = new april::Double(std::atof($1->c_str())); delete $1; }
+    |   TMIN TDOUBLE %prec TDIV             { 
+                                                char* value = new char(std::strlen($2->c_str())+2);
+                                                std::strcpy(value, "-");
+                                                std::strcat(value, $2->c_str());
+                                                $$ = new april::Double(std::atof(value)); 
+                                                delete $2; 
+                                                delete value; 
+                                            }
+    |   TSTR                                { $$ = new april::String(yytext); }
+    |   TBOOLEAN                            { $$ = new april::Boolean(*$1); delete $1; }
     ;
 
 ident: TIDENTIFIER                      { $$ = new april::Identifier(*$1); delete $1; }

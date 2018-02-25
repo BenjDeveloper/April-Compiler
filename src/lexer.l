@@ -51,7 +51,8 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 [\t]                { col++; }
 \"(.*)\"            { return TOKEN(TSTR); }
 \/\*(.*\n*)*\*\/    { april_errors->line++; col=0; }
-\/\/.*?\n?          { /*empty*/ }
+\/\/.*?             { /*empty*/ }
+\/\/.*?\n           { april_errors->line++; }
 "true"              { SAVE_TOKEN; return TBOOLEAN; }
 {DIGIT}             { SAVE_TOKEN; return TDIGIT; }
 {DOUBLE}            { SAVE_TOKEN; return TDOUBLE; } 

@@ -1,13 +1,8 @@
-fn fibonacci(valor:int):int
-{
-    if valor < 3 { if valor == 0 {return 0;} else {return 1;} }
-    else { return fibonacci(valor-1)+fibonacci(valor-2); }
-}
-
 fn main():void
 {
-    x := 10;
-    result := fibonacci(x);
-    println("result: %d", result);
+    //hola
+    x := -10.2;
+    y := 15;
+    z := (x-y);
+    println("z: %f", z);
 }
-
