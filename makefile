@@ -25,6 +25,7 @@ OBJS =	parser.o				\
 		forloop.o				\
 		function.o				\
 		return.o				\
+		assigbiope.o			\
 		main.o					\
 
 LLVMCONFIG = llvm-config

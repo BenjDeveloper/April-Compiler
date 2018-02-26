@@ -23,6 +23,7 @@
     #include "include/forloop.hpp"
     #include "include/function.hpp"
     #include "include/return.hpp"
+    #include "include/assigbiope.hpp"
 
     using namespace april;
     
@@ -50,22 +51,23 @@
     int token;
 }
 
-%token<string> TDIGIT TDOUBLE TIDENTIFIER TBOOLEAN 
-%token<token> TPLUS TMIN TMUL TDIV TVAR
-%token<token> TCOLON TEQUAL TSC TJUMP TCOMMA TCOEQU
-%token<token> TRBRACE TLBRACE
-%token<token> TLPAREN TRPAREN TSTR
-%token<token> TCOMNE TCOMEQ TCOMLE TCOMGE TCOMLT TCOMGT
-%token<token> TAND TOR TNOT
-%token<token> TIF TELSE TFOR TFN TRETURN
+%token <string> TDIGIT TDOUBLE TIDENTIFIER TBOOLEAN 
+%token <token> TPLUS TMIN TMUL TDIV TVAR
+%token <token> TCOLON TEQUAL TSC TJUMP TCOMMA TCOEQU
+%token <token> TRBRACE TLBRACE
+%token <token> TLPAREN TRPAREN TSTR
+%token <token> TCOMNE TCOMEQ TCOMLE TCOMGE TCOMLT TCOMGT
+%token <token> TAND TOR TNOT
+%token <token> TIF TELSE TFOR TFN TRETURN
+%token <token> TASIGPLUS TASIGMINUS TASIGMULT TASIGDIV
 
-%type<ident> ident
-%type<exprvec> call_args
-%type<expr> expr binary_ope_expr basics boolean_expr unary_ope method_call 
-%type<stmt> stmt var_decl conditional scope for fn_decl var_decl_arg return
-%type<block> program stmts block
-%type<token> comparasion
-%type<vardecl> fn_args;
+%type <ident> ident
+%type <exprvec> call_args
+%type <expr> expr binary_ope_expr basics boolean_expr unary_ope method_call 
+%type <stmt> stmt var_decl conditional scope for fn_decl var_decl_arg return
+%type <block> program stmts block
+%type <token> comparasion
+%type <vardecl> fn_args;
 
 %left TPLUS TMIN
 %left TMUL TDIV
@@ -132,6 +134,10 @@ var_decl: TVAR ident TCOLON ident TSC                       { $$ = new april::Va
 expr: binary_ope_expr                       { }
     | ident TEQUAL expr TSC                 { $$ = new april::Assignment(*$<ident>1, *$3); }
     | ident TEQUAL method_call TSC          { $$ = new april::Assignment(*$<ident>1, *$3); }
+    | ident TASIGPLUS expr TSC              { $$ = new april::AssigBioperator($1, $2, $3); }
+    | ident TASIGMINUS expr TSC             { $$ = new april::AssigBioperator($1, $2, $3); }
+    | ident TASIGMULT expr TSC              { $$ = new april::AssigBioperator($1, $2, $3); }
+    | ident TASIGDIV expr TSC               { $$ = new april::AssigBioperator($1, $2, $3); }
     | basics                                { $$ = $1; }
     | ident                                 { $<ident>$ = $1; }                            
     | boolean_expr
