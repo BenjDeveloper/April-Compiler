@@ -1,13 +1,17 @@
-fn fibonacci(valor:int):int
-{
-    if valor < 3 { if valor == 0 {return 0;} else {return 1;} }
-    else { return fibonacci(valor-1)+fibonacci(valor-2); }
-}
+// **********************************************************
+// **                                                     ***
+// **    Programado por Pandicorn & Kenshin Urashima      ***
+// **    Test: test_0 en April                            ***
+// **                                                     ***
+// **********************************************************
 
 fn main():void
 {
-    x := 10;
-    result := fibonacci(x);
-    println("result: %d", result);
-}
+    var x:int64 = 5;
 
+    for x > -16 
+    {
+        x -= 1;
+        println("x: %d", x);
+    }
+}

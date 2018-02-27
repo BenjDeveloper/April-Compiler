@@ -40,6 +40,9 @@ namespace april
                 return nullptr;
             }
 
+            //---------------------------------------------
+            // FALTA LA VALIDACION O UNIFICACION DE VALORES INT O FLOAT EN OPERACIONES BINARIAS
+        
             if (type_value->isIntegerTy() && expr_value->getType()->isIntegerTy(64))
             {
                 if (type_value->isIntegerTy(1))

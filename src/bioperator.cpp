@@ -23,6 +23,9 @@ namespace april
             context.addError();
             return nullptr;
 		}
+        //---------------------------------------------
+        // FALTA LA VALIDACION O UNIFICACION DE VALORES INT O FLOAT EN OPERACIONES BINARIAS
+        
 
         // std::cout << "creando operacion binaria: " << op << std::endl;
         llvm::Instruction::BinaryOps instr;
@@ -94,7 +97,7 @@ namespace april
         }
 
         bool op_decimal = (lhs_value->getType()->isFloatingPointTy() || rhs_value->getType()->isFloatingPointTy())?(true):(false);
-
+        //---------------------------------------------
         switch(op)
         {
             case TPLUS: 
@@ -118,7 +121,7 @@ namespace april
 			
 			case TOR: 
                 return llvm::BinaryOperator::Create(llvm::Instruction::Or, lhs_value, rhs_value, "", context.currentBlock());
-		}
+        }
 
         return nullptr;
     }

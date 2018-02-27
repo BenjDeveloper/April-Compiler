@@ -19,7 +19,8 @@
 	#include "include/scope.hpp"
     #include "include/forloop.hpp"    
     #include "include/function.hpp"    
-    #include "include/return.hpp"    
+    #include "include/return.hpp"   
+    #include "include/assigbiope.hpp"
 	#include "parser.h"
     
 
@@ -41,6 +42,7 @@
 
 
 %}
+
 DIGIT        [0-9]+
 DOUBLE       [0-9]*\.[0-9]+
 IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
@@ -51,7 +53,8 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 [\t]                { col++; }
 \"(.*)\"            { return TOKEN(TSTR); }
 \/\*(.*\n*)*\*\/    { april_errors->line++; col=0; }
-\/\/.*?\n?          { /*empty*/ }
+\/\/.*?             { /*empty*/ }
+\/\/.*?\n           { april_errors->line++; }
 "true"              { SAVE_TOKEN; return TBOOLEAN; }
 {DIGIT}             { SAVE_TOKEN; return TDIGIT; }
 {DOUBLE}            { SAVE_TOKEN; return TDOUBLE; } 
@@ -74,6 +77,10 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 "("                 { return TOKEN(TLPAREN); }
 ")"                 { return TOKEN(TRPAREN); }
 ":="                { return TOKEN(TCOEQU); }
+"+="                { return TOKEN(TASIGPLUS); }
+"-="                { return TOKEN(TASIGMINUS); }
+"*="                { return TOKEN(TASIGMULT); }
+"/="                { return TOKEN(TASIGDIV); }
 ":"                 { return TOKEN(TCOLON); }
 "="                 { return TOKEN(TEQUAL); }
 ";"                 { return TOKEN(TSC); }

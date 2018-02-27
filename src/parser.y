@@ -2,7 +2,7 @@
 
 %{
     #include <iostream>
-    
+    #include <cstring>
     #include "include/assignment.hpp"
     #include "include/bioperator.hpp"
 	#include "include/conditional.hpp"
@@ -23,6 +23,7 @@
     #include "include/forloop.hpp"
     #include "include/function.hpp"
     #include "include/return.hpp"
+    #include "include/assigbiope.hpp"
 
     using namespace april;
     
@@ -50,22 +51,23 @@
     int token;
 }
 
-%token<string> TDIGIT TDOUBLE TIDENTIFIER TBOOLEAN 
-%token<token> TPLUS TMIN TMUL TDIV TVAR
-%token<token> TCOLON TEQUAL TSC TJUMP TCOMMA TCOEQU
-%token<token> TRBRACE TLBRACE
-%token<token> TLPAREN TRPAREN TSTR
-%token<token> TCOMNE TCOMEQ TCOMLE TCOMGE TCOMLT TCOMGT
-%token<token> TAND TOR TNOT
-%token<token> TIF TELSE TFOR TFN TRETURN
+%token <string> TDIGIT TDOUBLE TIDENTIFIER TBOOLEAN 
+%token <token> TPLUS TMIN TMUL TDIV TVAR
+%token <token> TCOLON TEQUAL TSC TJUMP TCOMMA TCOEQU
+%token <token> TRBRACE TLBRACE
+%token <token> TLPAREN TRPAREN TSTR
+%token <token> TCOMNE TCOMEQ TCOMLE TCOMGE TCOMLT TCOMGT
+%token <token> TAND TOR TNOT
+%token <token> TIF TELSE TFOR TFN TRETURN
+%token <token> TASIGPLUS TASIGMINUS TASIGMULT TASIGDIV
 
-%type<ident> ident
-%type<exprvec> call_args
-%type<expr> expr binary_ope_expr basics boolean_expr unary_ope method_call 
-%type<stmt> stmt var_decl conditional scope for fn_decl var_decl_arg return
-%type<block> program stmts block
-%type<token> comparasion
-%type<vardecl> fn_args;
+%type <ident> ident
+%type <exprvec> call_args
+%type <expr> expr binary_ope_expr basics boolean_expr unary_ope method_call 
+%type <stmt> stmt var_decl conditional scope for fn_decl var_decl_arg return
+%type <block> program stmts block
+%type <token> comparasion
+%type <vardecl> fn_args;
 
 %left TPLUS TMIN
 %left TMUL TDIV
@@ -131,7 +133,11 @@ var_decl: TVAR ident TCOLON ident TSC                       { $$ = new april::Va
 
 expr: binary_ope_expr                       { }
     | ident TEQUAL expr TSC                 { $$ = new april::Assignment(*$<ident>1, *$3); }
-    | ident TEQUAL method_call              { $$ = new april::Assignment(*$<ident>1, *$3); }
+    | ident TEQUAL method_call TSC          { $$ = new april::Assignment(*$<ident>1, *$3); }
+    | ident TASIGPLUS expr TSC              { $$ = new april::AssigBioperator($1, $2, $3); }
+    | ident TASIGMINUS expr TSC             { $$ = new april::AssigBioperator($1, $2, $3); }
+    | ident TASIGMULT expr TSC              { $$ = new april::AssigBioperator($1, $2, $3); }
+    | ident TASIGDIV expr TSC               { $$ = new april::AssigBioperator($1, $2, $3); }
     | basics                                { $$ = $1; }
     | ident                                 { $<ident>$ = $1; }                            
     | boolean_expr
@@ -166,10 +172,26 @@ boolean_expr: expr comparasion expr		{ $$ = new april::ComparasionOpe(*$1, $2, *
 comparasion: TCOMNE | TCOMEQ | TCOMLE | TCOMGE | TCOMLT | TCOMGT
 	;
 
-basics: TDIGIT                          { $$ = new april::Integer(std::atol($1->c_str())); delete $1; }
-    |   TDOUBLE                         { $$ = new april::Double(std::atof($1->c_str())); delete $1; }
-    |   TSTR                            { $$ = new april::String(yytext); }
-    |   TBOOLEAN                        { $$ = new april::Boolean(*$1); delete $1; }
+basics: TDIGIT                              { $$ = new april::Integer(std::atol($1->c_str())); delete $1; }
+    |   TMIN TDIGIT  %prec TDIV             { 
+                                                char* value = new char(std::strlen($2->c_str())+2);
+                                                std::strcpy(value, "-");
+                                                std::strcat(value, $2->c_str());
+                                                $$ = new april::Integer(std::atol(value)); 
+                                                delete $2; 
+                                                delete value;
+                                            }
+    |   TDOUBLE                             { $$ = new april::Double(std::atof($1->c_str())); delete $1; }
+    |   TMIN TDOUBLE %prec TDIV             { 
+                                                char* value = new char(std::strlen($2->c_str())+2);
+                                                std::strcpy(value, "-");
+                                                std::strcat(value, $2->c_str());
+                                                $$ = new april::Double(std::atof(value)); 
+                                                delete $2; 
+                                                delete value; 
+                                            }
+    |   TSTR                                { $$ = new april::String(yytext); }
+    |   TBOOLEAN                            { $$ = new april::Boolean(*$1); delete $1; }
     ;
 
 ident: TIDENTIFIER                      { $$ = new april::Identifier(*$1); delete $1; }
