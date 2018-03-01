@@ -5,13 +5,12 @@
 // **                                                     ***
 // **********************************************************
 
+fn suma(a:int, b:float):void {}
+
 fn main():void
 {
-    var x:int64 = 5;
-
-    for x > -16 
-    {
-        x -= 1;
-        println("x: %d", x);
-    }
+    var y:int8 = 5;
+    suma(y, 0.2);
+    var x:int8 = 1;
+    println("x: %d", x);
 }

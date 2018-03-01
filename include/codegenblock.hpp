@@ -19,5 +19,4 @@ namespace april
             void setCodeBlock(llvm::BasicBlock* bblock) { block = bblock; }
     };
 }
-
 #endif //CODEGENBLOCK_HPP 

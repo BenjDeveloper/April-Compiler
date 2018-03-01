@@ -25,21 +25,21 @@ namespace april
         module = new llvm::Module(name_main, llvmContext);
     }
 
-    void CodeGenContext::pushBlock(llvm::BasicBlock* block)
+    void CodeGenContext::pushBlock(llvm::BasicBlock* block, llvm::FunctionType* fn)
     {
-		// std::cout << ">>> pushBlock <<<" << std::endl;
         blocks.push_front(new CodeGenBlock(block));
+        stackFunctionType.push(fn);    
     }
 
     void CodeGenContext::popBlock()
     {
 		if (blocks.size() > 0)
 		{
-			// std::cout << "<<< popBlock >>>" << std::endl;
 			CodeGenBlock* top = blocks.front();
         	blocks.pop_front();
         	delete top;
 		}
+        if (stackFunctionType.size() > 0) { stackFunctionType.pop(); } 
     }
 
     llvm::AllocaInst* CodeGenContext::searchVariable(std::string name)
@@ -104,7 +104,6 @@ namespace april
 
 	bool CodeGenContext::generateCode(Block& root)
     {
-        // std::cout << "existMainFunction--> " << existMainFunction << std::endl;
         if (!existMainFunction)
         {
             std::cout << "Falta la funcion 'main'" << std::endl; 
@@ -117,19 +116,14 @@ namespace april
         mainFunction = llvm::Function::Create(ftype, llvm::GlobalValue::InternalLinkage, name_main, module);
         llvm::BasicBlock* bblock = llvm::BasicBlock::Create(llvm::getGlobalContext(), name_main, mainFunction, 0);
         setupBuildFn();
-        pushBlock(bblock);
+        pushBlock(bblock, nullptr);
         
-        
-
-        root.codeGen(*this);
+        llvm::Value* result = root.codeGen(*this);
         if (errors) 
         { 
-            std::cout << "Compilacion con errores..." << std::endl; 
+            // std::cout << "Compilacion con errores..." << std::endl; 
             return false;
         }
-
-        
-
         //-----------------------------------------------------------------------------------
         //-----------------------------------------------------------------------------------
         std::string fn_main = "main";

@@ -19,10 +19,8 @@ namespace april
             Block() {}
             ~Block() 
 			{
-				// std::cout << "Borrando declaraciones..." << std::endl;
 				for (auto i: statements) { delete i; }
 				statements.clear();
-				// std::cout << "declaraciones borradas..." << std::endl;
 			}
 			virtual llvm::Value* codeGen(CodeGenContext&);
             Type getType() { return Type::expression; }

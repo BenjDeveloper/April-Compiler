@@ -24,17 +24,7 @@ namespace april
 
         public:
             Function(Identifier* type, Identifier* id, VarList* args, Block* block): type(type), id(id), args(args), block(block) 
-            {
-                std::regex re ("main\\.?[0-9]*");
-                if (!existMainFunction && regex_match(id->getName(), re))
-                {
-                    existMainFunction = true;
-                }
-                else if (existMainFunction && regex_match(id->getName(), re))
-                {
-                    exist_main = true;
-                }
-            } 
+            { if (id->getName() == "main") {existMainFunction = true;} } 
             ~Function();
             llvm::Value* codeGen(CodeGenContext&);
             Type getType() { return Type::function; }
