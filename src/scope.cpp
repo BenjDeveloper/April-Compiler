@@ -1,25 +1,39 @@
+#include <map>
 #include "../include/scope.hpp"
 
 namespace april
 {
 	llvm::Value* Scope::codeGen(CodeGenContext& context)
 	{
+		std::map<std::string, llvm::AllocaInst*> scope_locals;
+		std::map<std::string, llvm::AllocaInst*>::iterator it = context.locals().begin();
+		for (it = context.locals().begin(); it != context.locals().end(); it++)
+		{
+			scope_locals[it->first] = it->second;
+		}
+
 		llvm::Function* function = context.currentBlock()->getParent();
 		llvm::BasicBlock* bblock = llvm::BasicBlock::Create(context.getGlobalContext(), "scope", function);
 		llvm::BranchInst::Create(bblock, context.currentBlock());
 		llvm::BasicBlock* merge_block = llvm::BasicBlock::Create(context.getGlobalContext(), "merge");
-
+		context.pushBlock(bblock, nullptr);
 		context.setCurrentBlock(bblock);
+		for (it = scope_locals.begin(); it != scope_locals.end(); it++)
+		{
+			context.locals()[it->first] = it->second;
+		}
+
 		llvm::Value* block_value = block->codeGen(context);
-		
+
 		if (context.currentBlock()->getTerminator() == nullptr)
 		{
 			llvm::BranchInst::Create(merge_block, context.currentBlock());
+			context.popBlock();
 			function->getBasicBlockList().push_back(merge_block);
 			context.setCurrentBlock(merge_block);
-
 			return merge_block;
 		}
+		context.popBlock();
 		return nullptr;
 	}
 }

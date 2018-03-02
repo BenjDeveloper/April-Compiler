@@ -1,11 +1,7 @@
 // mayor prioridad
 - arreglar manejador de errores.
 
-- (F) validar variables y constantes dentro de su ambito.
-
 - (B) validar operaciones aritmeticas y logicas entre tipos de datos primitivos int, float y bool.
-
-- (F) validar estructuras de control vacias.
 
 - programar simbolos unarios "a++" y "a--"
 
@@ -48,3 +44,7 @@
 - (F) validar el paso de parametros a las funciones entre los tipos int, float y bool.
 
 - (F) validar el tipo de retorno entre los tipos int, float y bool en las funciones.
+
+- (F) validar estructuras de control vacias. // NO LO VOY HACER ES Q SE VE FEO SI NO TIENEN UN BLOQUE DEFINIDO
+
+- (F) validar variables y constantes dentro de su ambito.

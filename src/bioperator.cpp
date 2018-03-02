@@ -115,8 +115,8 @@ namespace april
             case TDIV: 
                 if (op_decimal) { return llvm::BinaryOperator::Create(llvm::Instruction::FDiv, lhs_value, rhs_value, "", context.currentBlock()); }
                 else { return llvm::BinaryOperator::Create(llvm::Instruction::SDiv, lhs_value, rhs_value, "", context.currentBlock()); }
-       		
-			case TAND: 
+			
+            case TAND: 
                 return llvm::BinaryOperator::Create(llvm::Instruction::And, lhs_value, rhs_value, "", context.currentBlock()); 
 			
 			case TOR: 
