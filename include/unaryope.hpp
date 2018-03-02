@@ -21,3 +21,7 @@ namespace april
 }
 
 #endif //UNARYOPE_HPP
+// "++"                { return TOKEN(TUNARIPLUS); }
+// "--"                { return TOKEN(TUNARIMIN); }
+			// case TUNARIPLUS:
+			// case TUNARIMIN:

@@ -33,5 +33,6 @@
         "stdexcept": "cpp",
         "streambuf": "cpp",
         "system_error": "cpp"
-    }
+    },
+    "C_Cpp.intelliSenseEngineFallback": "Disabled"
 }

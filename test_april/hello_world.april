@@ -1,0 +1,11 @@
+// **********************************************************
+// **                                                     ***
+// **    Programado por Pandicorn & Kenshin Urashima      ***
+// **    Test: "Hello World" en April                     ***
+// **                                                     ***
+// **********************************************************
+
+fn main():void
+{
+    println("Hi April");
+} 

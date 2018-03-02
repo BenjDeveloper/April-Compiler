@@ -35,12 +35,58 @@ namespace april
         llvm::Type* new_type = nullptr;
         
         //---------------------------------------------
-        // FALTA LA VALIDACION O UNIFICACION DE VALORES INT O FLOAT EN OPERACIONES BINARIAS
-        
-        bool op_decimal = (context.locals()[ident->name]->getType()->isFloatingPointTy() || expr_value->getType()->isFloatingPointTy())?(true):(false);
+        //                  VALIDACION
+        //---------------------------------------------
+
+        if (ident_value->getType()->isIntegerTy() && expr_value->getType()->isIntegerTy(64))
+        {
+            if (!ident_value->getType()->isIntegerTy(64))
+            { 
+                expr_value = llvm::CastInst::Create( llvm::CastInst::getCastOpcode(expr_value, true, ident_value->getType(), true) , expr_value, ident_value->getType(), "cast", context.currentBlock());
+            }
+        }
+        else if (ident_value->getType()->isFloatingPointTy() && (expr_value->getType()->isDoubleTy() || expr_value->getType()->isIntegerTy()))
+        {
+            if (!ident_value->getType()->isDoubleTy())
+            {
+                expr_value = llvm::CastInst::Create( llvm::CastInst::getCastOpcode(expr_value, true, ident_value->getType(), true), expr_value, ident_value->getType(), "cast", context.currentBlock());
+            }
+        }
+
+        // if (left_value->getType()->isIntegerTy() && right_value->getType()->isFloatingPointTy())
+        // {
+        //     left_value = llvm::CastInst::Create( llvm::CastInst::getCastOpcode(left_value, true, right_value->getType(), true) , left_value, right_value->getType(), "cast", context.currentBlock() );
+        // }
+        // else if (left_value->getType()->isFloatingPointTy() && right_value->getType()->isIntegerTy())
+        // {
+        //     left_value = llvm::CastInst::Create( llvm::CastInst::getCastOpcode(right_value, true, left_value->getType(), true) , right_value, left_value->getType(), "cast", context.currentBlock() );
+        // }
+        // else if (left_value->getType()->isIntegerTy() && right_value->getType()->isIntegerTy())
+        // {
+        //     if ( left_value->getType()->getIntegerBitWidth() < right_value->getType()->getIntegerBitWidth())
+        //     {
+        //         left_value = llvm::CastInst::Create( llvm::CastInst::getCastOpcode( left_value, true, right_value->getType(), true ), left_value, right_value->getType(), "cast", context.currentBlock() );   
+        //     }
+        //     else if  ( left_value->getType()->getIntegerBitWidth() > right_value->getType()->getIntegerBitWidth())
+        //     {
+        //         right_value = llvm::CastInst::Create( llvm::CastInst::getCastOpcode( right_value, true, left_value->getType(), true ), right_value, left_value->getType(), "cast", context.currentBlock() );
+        //     }
+        // }
+        // else if (left_value->getType()->isFloatingPointTy() && right_value->getType()->isFloatingPointTy())
+        // {
+        //     if (right_value->getType()->isDoubleTy())
+        //     {
+        //         left_value = llvm::CastInst::Create( llvm::CastInst::getCastOpcode( left_value, true, right_value->getType(), true ), left_value, right_value->getType(), "cast", context.currentBlock() ); 
+        //     }
+        //     else if  (left_value->getType()->isDoubleTy())
+        //     {
+        //         right_value = llvm::CastInst::Create( llvm::CastInst::getCastOpcode( right_value, true, left_value->getType(), true ), right_value, left_value->getType(), "cast", context.currentBlock() );
+        //     }
+        // }
         //---------------------------------------------
         
-        
+        bool op_decimal = (context.locals()[ident->name]->getType()->isFloatingPointTy() || expr_value->getType()->isFloatingPointTy())?(true):(false);
+
         if (ident_value == nullptr)
         {
             printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: bitchesss\n");

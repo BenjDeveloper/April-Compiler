@@ -91,6 +91,8 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 "/"                 { return TOKEN(TDIV); }
 "*"                 { return TOKEN(TMUL); }
 ","                 { return TOKEN(TCOMMA); }
+"++"                { return TOKEN(TUNARIPLUS); }
+"--"                { return TOKEN(TUNARIMIN); }
 {IDENTIFIER}        { SAVE_TOKEN; return TIDENTIFIER; }
 .                   { /*empty*/ }
 %%

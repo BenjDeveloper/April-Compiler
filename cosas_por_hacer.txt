@@ -1,19 +1,19 @@
 // mayor prioridad
 - arreglar manejador de errores.
 
-- validar variables y constantes dentro de su ambito.
+- (F) validar variables y constantes dentro de su ambito.
 
-- (B) validar operaciones aritmeticas y logicas entre tipos de datos primitivos int, float y bool.
+- [LISTO](B) validar operaciones aritmeticas y logicas entre tipos de datos primitivos int[L], float[L] y bool.
 
-- validar el paso de parametros a las funciones entre los tipos int, float y bool.
+- (F) validar el paso de parametros a las funciones entre los tipos int, float y bool.
 
 - validar el tipo de retorno entre los tipos int, float y bool en las funciones.
 
-- validar estructuras de control vacias.
+- (F) validar estructuras de control vacias.
 
-- programar simbolos unarios "a++" y "a--"
+- (B) programar simbolos unarios "a++" y "a--"
 
-- (B) validar operaciones para [ int1 - int8 - int16 - int32 - float32 - float64 ]> codegen.cpp
+- [LISTO](B) validar operaciones para [ int1 - int8 - int16 - int32 - float32 - float64 ]> codegen.cpp
 
 - generar ejecutable (compilador) para window de x64 y de x32 de ser posible.
 

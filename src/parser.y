@@ -60,10 +60,11 @@
 %token <token> TAND TOR TNOT
 %token <token> TIF TELSE TFOR TFN TRETURN
 %token <token> TASIGPLUS TASIGMINUS TASIGMULT TASIGDIV
+%token <token> TUNARIPLUS TUNARIMIN
 
 %type <ident> ident
 %type <exprvec> call_args
-%type <expr> expr binary_ope_expr basics boolean_expr unary_ope method_call 
+%type <expr> expr binary_ope_expr basics boolean_expr unary_ope method_call
 %type <stmt> stmt var_decl conditional scope for fn_decl var_decl_arg return
 %type <block> program stmts block
 %type <token> comparasion
@@ -121,8 +122,8 @@ conditional: TIF expr block					{ $$ = new april::Conditional($2, *$3); }
 	;
 
 block: TLBRACE stmts TRBRACE				{ $$ = $2; }
-	 | TLBRACE TRBRACE						{ $$ = new april::Block();  }
-	 ;
+	| TLBRACE TRBRACE						{ $$ = new april::Block();  }
+	;
 
 var_decl: TVAR ident TCOLON ident TSC                       { $$ = new april::VariableDeclaration(*$4, *$2);}
     | TVAR ident TCOLON ident TEQUAL expr TSC               { $$ = new april::VariableDeclaration(*$4, *$2, $6); }
@@ -140,8 +141,8 @@ expr: binary_ope_expr                       { }
     | ident TASIGDIV expr TSC               { $$ = new april::AssigBioperator($1, $2, $3); }
     | basics                                { $$ = $1; }
     | ident                                 { $<ident>$ = $1; }                            
-    | boolean_expr
-	| unary_ope
+    | boolean_expr                          { }
+	| unary_ope                             { }
     | method_call                           { }
 	;
 
@@ -149,6 +150,8 @@ method_call: ident TLPAREN call_args TRPAREN       { $$ = new april::MethodCall(
     ;
 
 unary_ope: TNOT expr 			{ $$ = new april::UnaryOpe($1, *$2); }
+    |ident TUNARIPLUS    		{ $$ = new april::UnaryOpe($2, *$1); }
+    |ident TUNARIMIN 	        { $$ = new april::UnaryOpe($2, *$1); }
     ;
 
 call_args: %empty               { $$ = new april::ExpressionList(); }
@@ -164,7 +167,6 @@ binary_ope_expr: expr TPLUS expr        { $$ = new april::BinaryOperator(*$1, $2
 	| expr TOR expr						{ $$ = new april::BinaryOperator(*$1, $2, *$3); }
     | TLPAREN expr TRPAREN              { $$ = $2; }
     ;
-
 
 boolean_expr: expr comparasion expr		{ $$ = new april::ComparasionOpe(*$1, $2, *$3);} 
 	;
