@@ -1,15 +1,24 @@
 #include <iostream>
-#include <cstring>
+#include <vector>
 
 int main() 
 {
-    std::string* p = new std::string("hola");
-    char* f = new char(std::strlen(p->c_str())+2);
-    std::strcpy(f, (const char*)"-");
-    std::strcat(f, p->c_str());
-    std::cout << f << std::endl;
-    
-    delete p;
-    delete f;
+    std::vector<std::string> v;
+
+    v.push_back("uno");
+    v.push_back("dos");
+    v.push_back("tres");
+    std::vector<std::string>::iterator it;
+
+    for (it = v.begin(); it != v.end(); it++)
+    {
+        std::cout << "it: "<< *it << std::endl;
+    }
+
+    // for (std::string& str : v)
+    // {
+    //     std::cout << str << std::endl;
+    // }
+
     return 0;
 }

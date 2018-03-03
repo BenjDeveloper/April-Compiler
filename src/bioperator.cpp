@@ -86,11 +86,11 @@ namespace april
                 else { return llvm::BinaryOperator::Create(llvm::Instruction::Mul, left_value, right_value, "", context.currentBlock()); }
             
             case TDIV: 
-                if (op_decimal) { return llvm::BinaryOperator::Create(llvm::Instruction::FDiv, left_value, right_value, "", context.currentBlock()); }
-                else { return llvm::BinaryOperator::Create(llvm::Instruction::SDiv, left_value, right_value, "", context.currentBlock()); }
-       		
-			case TAND: 
-                return llvm::BinaryOperator::Create(llvm::Instruction::And, left_value, right_value, "", context.currentBlock()); 
+                if (op_decimal) { return llvm::BinaryOperator::Create(llvm::Instruction::FDiv, lhs_value, rhs_value, "", context.currentBlock()); }
+                else { return llvm::BinaryOperator::Create(llvm::Instruction::SDiv, lhs_value, rhs_value, "", context.currentBlock()); }
+			
+            case TAND: 
+                return llvm::BinaryOperator::Create(llvm::Instruction::And, lhs_value, rhs_value, "", context.currentBlock()); 
 			
 			case TOR: 
                 return llvm::BinaryOperator::Create(llvm::Instruction::Or, left_value, right_value, "", context.currentBlock());

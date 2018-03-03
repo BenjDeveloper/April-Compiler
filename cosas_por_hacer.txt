@@ -48,3 +48,11 @@
 |---------------------------------------------------------------------------------------------------|
 
 - programar simbolos binarios "+=", "-=" "*=" "/="  OJO SOLO int 64 
+
+- (F) validar el paso de parametros a las funciones entre los tipos int, float y bool.
+
+- (F) validar el tipo de retorno entre los tipos int, float y bool en las funciones.
+
+- (F) validar estructuras de control vacias. // NO LO VOY HACER ES Q SE VE FEO SI NO TIENEN UN BLOQUE DEFINIDO
+
+- (F) validar variables y constantes dentro de su ambito.

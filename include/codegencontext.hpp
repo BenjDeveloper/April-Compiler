@@ -5,9 +5,9 @@
 #include <map>
 #include <list>
 #include <set>
-
+#include <vector>
 //--------------------------
-
+#include <iostream>
 #include "llvm/IR/Module.h"
 #include "llvm/IR/Function.h"
 #include "llvm/IR/Type.h"
@@ -37,12 +37,15 @@ namespace april
 
     class CodeGenContext
     {
+        public:
+            std::vector<std::string> namesFunctions;
+
         private:
+            std::stack<llvm::FunctionType*> stackFunctionType;
             std::list<CodeGenBlock*> blocks;
             llvm::Function* mainFunction;
             llvm::Module* module;
             llvm::Function* printfFunction;
-            llvm::Function* currentFunction;
             llvm::LLVMContext llvmContext;
             int errors;
 
@@ -55,7 +58,7 @@ namespace april
             llvm::GenericValue runCode();
             std::map<std::string, llvm::AllocaInst*>& locals()  { return blocks.front()->locals; }
             llvm::BasicBlock* currentBlock() { return blocks.front()->block; }
-            void pushBlock(llvm::BasicBlock* block);
+            void pushBlock(llvm::BasicBlock* block, llvm::FunctionType* fn);
             void popBlock();
             void setupBuildFn();
             llvm::AllocaInst* searchVariable(std::string);
@@ -64,6 +67,7 @@ namespace april
             llvm::Type* typeOf(const std::string);
             void valOperator(llvm::Value* left_value , llvm::Value* right_value);
             void addError() { ++errors; }
+            llvm::FunctionType* getCurrentFunctionType() { return stackFunctionType.top(); }
 	};
 }
 

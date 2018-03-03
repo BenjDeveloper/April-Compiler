@@ -26,8 +26,15 @@ namespace april
         }
         llvm::BranchInst::Create(loop_block, else_block, first_value, context.currentBlock()); // -AQUI
 
+        
+        std::map<std::string, llvm::AllocaInst*> scope_locals;
+		std::map<std::string, llvm::AllocaInst*>::iterator it = context.locals().begin();
+		for (it = context.locals().begin(); it != context.locals().end(); it++) { scope_locals[it->first] = it->second; }
+        context.pushBlock(cond_block, nullptr);
+
         function->getBasicBlockList().push_back(cond_block);
         context.setCurrentBlock(cond_block);
+        for (it = scope_locals.begin(); it != scope_locals.end(); it++) { context.locals()[it->first] = it->second; }
         llvm::Value* cond_value = condition->codeGen(context);
         if (cond_value == nullptr) 
         {
@@ -36,9 +43,12 @@ namespace april
             return nullptr;
         }
         llvm::BranchInst::Create(loop_block, merge_block, cond_value, context.currentBlock());
-
+        context.popBlock();
         function->getBasicBlockList().push_back(loop_block);
+        context.pushBlock(loop_block, nullptr);
         context.setCurrentBlock(loop_block);
+        for (it = scope_locals.begin(); it != scope_locals.end(); it++) { context.locals()[it->first] = it->second; }
+        
         llvm::Value* loop_value = block->codeGen(context);
         if (loop_value == nullptr) 
         {
@@ -48,6 +58,7 @@ namespace april
         }
         llvm::BranchInst::Create(cond_block, context.currentBlock());
 
+        context.popBlock();
         function->getBasicBlockList().push_back(else_block);
         context.setCurrentBlock(else_block); // el for puede aceptar else, aqui se implementaria dicho bloque
 
