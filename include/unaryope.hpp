@@ -16,11 +16,7 @@ namespace april
 
 		public:
 			UnaryOpe(int operation, Expression* hs, Identifier* ident): operation(operation), hs(hs), ident(ident) {}
-			~UnaryOpe() 
-			{ 
-				// if (hs != nullptr) { delete hs; } 
-				// if (ident != nullptr) { delete ident; } 
-			}
+			~UnaryOpe() { }
 			virtual llvm::Value* codeGen(CodeGenContext&);
 			Type getType() { return Type::expression; }
 	};

@@ -27,7 +27,7 @@ fn main():void
             if false 
             {
                 h := 6;
-                println("then else then j: %d", j)
+                println("then else then j: %d", j);
             }
             else 
             {

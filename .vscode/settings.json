@@ -32,7 +32,8 @@
         "new": "cpp",
         "stdexcept": "cpp",
         "streambuf": "cpp",
-        "system_error": "cpp"
+        "system_error": "cpp",
+        "vector": "cpp"
     },
     "C_Cpp.intelliSenseEngineFallback": "Enabled"
 }

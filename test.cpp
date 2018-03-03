@@ -1,24 +1,31 @@
+// **********************************************************
+// **                                                     ***
+// **    Programado por Pandicorn & Kenshin Urashima      ***
+// **    Test: raiz cuadrada de Newton                    ***
+// **    command: >$ g++ test.cpp -o prueba && ./prueba   ***
+// **    result: 1.41421                                  *** 
+// **********************************************************
+
 #include <iostream>
 #include <vector>
 
-int main() 
+double sqrt(double x)
 {
-    std::vector<std::string> v;
+    double z = 1.0;
+    int cont = 0;
 
-    v.push_back("uno");
-    v.push_back("dos");
-    v.push_back("tres");
-    std::vector<std::string>::iterator it;
-
-    for (it = v.begin(); it != v.end(); it++)
+    while (cont < 10)
     {
-        std::cout << "it: "<< *it << std::endl;
+        z = z-(((z*z)-x)/(2*z));
+        cont++;
     }
 
-    // for (std::string& str : v)
-    // {
-    //     std::cout << str << std::endl;
-    // }
+    return z;
+}
+
+int main() 
+{
+    std::cout << "result: " << sqrt(2) << std::endl;
 
     return 0;
 }

@@ -17,11 +17,11 @@ namespace april
 		if (operation  == TUNARIPLUS)
 		{
 			instr = llvm::Instruction::Add;
+			
 			Integer* num = new Integer(1);
 			rhs_value = num->codeGen(context);
-			// rhs_value = context.locals()[ident->getName()];
-			lhs_value = hs->codeGen(context);
 
+			lhs_value = hs->codeGen(context);
 			llvm::Value* result =  llvm::BinaryOperator::Create(instr, rhs_value , lhs_value, "unarAdd", context.currentBlock());
 
 			return new llvm::StoreInst(result, context.locals()[ident->getName()], false, context.currentBlock());
