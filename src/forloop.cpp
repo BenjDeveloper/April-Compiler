@@ -26,28 +26,25 @@ namespace april
         }
         llvm::BranchInst::Create(loop_block, else_block, first_value, context.currentBlock()); // -AQUI
 
-        
         std::map<std::string, llvm::AllocaInst*> scope_locals;
-		std::map<std::string, llvm::AllocaInst*>::iterator it = context.locals().begin();
+		std::map<std::string, llvm::AllocaInst*>::iterator it;
 		for (it = context.locals().begin(); it != context.locals().end(); it++) { scope_locals[it->first] = it->second; }
-        context.pushBlock(cond_block, nullptr);
 
         function->getBasicBlockList().push_back(cond_block);
         context.setCurrentBlock(cond_block);
-        for (it = scope_locals.begin(); it != scope_locals.end(); it++) { context.locals()[it->first] = it->second; }
-        llvm::Value* cond_value = condition->codeGen(context);
-        if (cond_value == nullptr) 
+        
+		llvm::Value* cond_value = condition->codeGen(context);
+        
+		if (cond_value == nullptr) 
         {
             printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: fallo la evaluacion de la expresion del condicional del for\n");
             context.addError();
             return nullptr;
         }
         llvm::BranchInst::Create(loop_block, merge_block, cond_value, context.currentBlock());
-        context.popBlock();
+       	context.locals() = scope_locals;
         function->getBasicBlockList().push_back(loop_block);
-        context.pushBlock(loop_block, nullptr);
         context.setCurrentBlock(loop_block);
-        for (it = scope_locals.begin(); it != scope_locals.end(); it++) { context.locals()[it->first] = it->second; }
         
         llvm::Value* loop_value = block->codeGen(context);
         if (loop_value == nullptr) 
@@ -58,14 +55,15 @@ namespace april
         }
         llvm::BranchInst::Create(cond_block, context.currentBlock());
 
-        context.popBlock();
         function->getBasicBlockList().push_back(else_block);
         context.setCurrentBlock(else_block); // el for puede aceptar else, aqui se implementaria dicho bloque
 
         llvm::BranchInst::Create(merge_block, context.currentBlock());
         function->getBasicBlockList().push_back(merge_block);
         context.setCurrentBlock(merge_block);
-
-        return merge_block;
+        
+       	context.locals() = scope_locals;
+		
+		return merge_block;
     }
 }
