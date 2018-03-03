@@ -34,5 +34,5 @@
         "streambuf": "cpp",
         "system_error": "cpp"
     },
-    "C_Cpp.intelliSenseEngineFallback": "Disabled"
+    "C_Cpp.intelliSenseEngineFallback": "Enabled"
 }

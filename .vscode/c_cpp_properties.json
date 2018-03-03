@@ -34,10 +34,10 @@
                 "/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed",
                 "/usr/include/x86_64-linux-gnu",
                 "/usr/include",
-                "/home/pandicornio/Tesis/April-Compiler/include",
-                "/home/pandicornio/Tesis/April-Compiler/src",
                 "/usr/include/llvm-3.8",
                 "/usr/include/llvm-c-3.8",
+                "/home/brian/Tesis/April/src",
+                "/home/brian/Tesis/April/include/",
                 "${workspaceRoot}"
             ],
             "defines": [],

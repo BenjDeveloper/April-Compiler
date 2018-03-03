@@ -1,4 +1,4 @@
-%defines "parser.h"
+    %defines "parser.h"
 
 %{
     #include <iostream>
@@ -24,6 +24,7 @@
     #include "include/function.hpp"
     #include "include/return.hpp"
     #include "include/assigbiope.hpp"
+    #include "include/logicope.hpp"
 
     using namespace april;
     
@@ -64,8 +65,8 @@
 
 %type <ident> ident
 %type <exprvec> call_args
-%type <expr> expr binary_ope_expr basics boolean_expr unary_ope method_call
-%type <stmt> stmt var_decl conditional scope for fn_decl var_decl_arg return
+%type <expr> expr binary_ope_expr basics boolean_expr unary_ope method_call logic_ope
+%type <stmt> stmt var_decl conditional scope for fn_decl var_decl_arg return 
 %type <block> program stmts block
 %type <token> comparasion
 %type <vardecl> fn_args;
@@ -77,17 +78,16 @@
 
 %%
 
-program: %empty         { programBlock = new april::Block();}
-    | stmts             { programBlock = $1; }
+program: %empty                             { programBlock = new april::Block();}
+    | stmts                                 { programBlock = $1; }
 	;
 
-stmts: stmt             { $$ = new april::Block(); $$->statements.push_back($<stmt>1); }
-    |  stmts stmt       { $1->statements.push_back($<stmt>2); }
+stmts: stmt                                 { $$ = new april::Block(); $$->statements.push_back($<stmt>1); }
+    |  stmts stmt                           { $1->statements.push_back($<stmt>2); }
 	;
 
-stmt: var_decl              {  }
-    | expr                  { $$ = new april::ExpressionStatement($1); }
-    | method_call  TSC      {  }
+stmt: var_decl                              { }
+    | expr TSC                              { $$ = new april::ExpressionStatement($1); }
     | conditional
 	| scope
 	| for
@@ -96,25 +96,25 @@ stmt: var_decl              {  }
     | return
     ;
 
-return: TRETURN  TSC                 { $$ = new april::Return(); }
-    |   TRETURN expr TSC             { $$ = new april::Return($2); }    
+return: TRETURN  TSC                        { $$ = new april::Return(); }
+    |   TRETURN expr TSC                    { $$ = new april::Return($2); }    
     ;
 
 fn_decl: TFN ident TLPAREN fn_args TRPAREN TCOLON ident block       { $$ = new april::Function($7, $2, $4, $8); }
     ;
 
-fn_args: %empty                         { $$ = new april::VarList(); }
-    |   var_decl_arg                    { $$ = new april::VarList(); $$->push_back($<var_decl>1); }
-    |   fn_args TCOMMA var_decl_arg     { $1->push_back($<var_decl>3); }
+fn_args: %empty                             { $$ = new april::VarList(); }
+    |   var_decl_arg                        { $$ = new april::VarList(); $$->push_back($<var_decl>1); }
+    |   fn_args TCOMMA var_decl_arg         { $1->push_back($<var_decl>3); }
     ;
 
-var_decl_arg: ident TCOLON ident    { $$ = new april::VariableDeclaration(*$3, *$1);}
+var_decl_arg: ident TCOLON ident            { $$ = new april::VariableDeclaration(*$3, *$1);}
     ;
 
-for: TFOR expr block    { $$ = new april::ForLoop($2, $3); }
+for: TFOR expr block                        { $$ = new april::ForLoop($2, $3); }
     ;
 
-scope: block			{ $$ = new april::Scope($1); }
+scope: block			                    { $$ = new april::Scope($1); }
 	;
 
 conditional: TIF expr block					{ $$ = new april::Conditional($2, *$3); }
@@ -133,42 +133,45 @@ var_decl: TVAR ident TCOLON ident TSC                       { $$ = new april::Va
     ;
 
 expr: binary_ope_expr                       { }
-    | ident TEQUAL expr TSC                 { $$ = new april::Assignment(*$<ident>1, *$3); }
-    | ident TEQUAL method_call TSC          { $$ = new april::Assignment(*$<ident>1, *$3); }
-    | ident TASIGPLUS expr TSC              { $$ = new april::AssigBioperator($1, $2, $3); }
-    | ident TASIGMINUS expr TSC             { $$ = new april::AssigBioperator($1, $2, $3); }
-    | ident TASIGMULT expr TSC              { $$ = new april::AssigBioperator($1, $2, $3); }
-    | ident TASIGDIV expr TSC               { $$ = new april::AssigBioperator($1, $2, $3); }
+    | ident TEQUAL expr                     { $$ = new april::Assignment(*$<ident>1, *$3); }
+    | ident TEQUAL method_call              { $$ = new april::Assignment(*$<ident>1, *$3); }
+    | ident TASIGPLUS expr                  { $$ = new april::AssigBioperator($1, $2, $3); }
+    | ident TASIGMINUS expr                 { $$ = new april::AssigBioperator($1, $2, $3); }
+    | ident TASIGMULT expr                  { $$ = new april::AssigBioperator($1, $2, $3); }
+    | ident TASIGDIV expr                   { $$ = new april::AssigBioperator($1, $2, $3); }
     | basics                                { $$ = $1; }
     | ident                                 { $<ident>$ = $1; }                            
     | boolean_expr                          { }
 	| unary_ope                             { }
+    | logic_ope                             { }
     | method_call                           { }
 	;
 
 method_call: ident TLPAREN call_args TRPAREN       { $$ = new april::MethodCall($1, $3); }
     ;
 
-unary_ope: TNOT expr 			{ $$ = new april::UnaryOpe($1, *$2); }
-    |ident TUNARIPLUS    		{ $$ = new april::UnaryOpe($2, *$1); }
-    |ident TUNARIMIN 	        { $$ = new april::UnaryOpe($2, *$1); }
+logic_ope: TNOT expr 			            { $$ = new april::LogicOpe($1, $2); }
     ;
 
-call_args: %empty               { $$ = new april::ExpressionList(); }
-    | expr                      { $$ = new april::ExpressionList(); $$->push_back($1); }
-    | call_args TCOMMA expr     { $$->push_back($3); }
+unary_ope: ident TUNARIPLUS    		        { $$ = new april::UnaryOpe($2, $1, $1); }
+    | ident TUNARIMIN    	                { $$ = new april::UnaryOpe($2, $1, $1); }
     ;
 
-binary_ope_expr: expr TPLUS expr        { $$ = new april::BinaryOperator(*$1, $2, *$3); } 
-    | expr TMIN expr                    { $$ = new april::BinaryOperator(*$1, $2, *$3); }
-    | expr TMUL expr                    { $$ = new april::BinaryOperator(*$1, $2, *$3); }
-    | expr TDIV expr                    { $$ = new april::BinaryOperator(*$1, $2, *$3); }
-	| expr TAND expr					{ $$ = new april::BinaryOperator(*$1, $2, *$3); }
-	| expr TOR expr						{ $$ = new april::BinaryOperator(*$1, $2, *$3); }
-    | TLPAREN expr TRPAREN              { $$ = $2; }
+call_args: %empty                           { $$ = new april::ExpressionList(); }
+    | expr                                  { $$ = new april::ExpressionList(); $$->push_back($1); }
+    | call_args TCOMMA expr                 { $$->push_back($3); }
     ;
 
-boolean_expr: expr comparasion expr		{ $$ = new april::ComparasionOpe(*$1, $2, *$3);} 
+binary_ope_expr: expr TPLUS expr            { $$ = new april::BinaryOperator(*$1, $2, *$3); } 
+    | expr TMIN expr                        { $$ = new april::BinaryOperator(*$1, $2, *$3); }
+    | expr TMUL expr                        { $$ = new april::BinaryOperator(*$1, $2, *$3); }
+    | expr TDIV expr                        { $$ = new april::BinaryOperator(*$1, $2, *$3); }
+	| expr TAND expr					    { $$ = new april::BinaryOperator(*$1, $2, *$3); }
+	| expr TOR expr						    { $$ = new april::BinaryOperator(*$1, $2, *$3); }
+    | TLPAREN expr TRPAREN                  { $$ = $2; }
+    ;
+
+boolean_expr: expr comparasion expr		    { $$ = new april::ComparasionOpe(*$1, $2, *$3);} 
 	;
 
 comparasion: TCOMNE | TCOMEQ | TCOMLE | TCOMGE | TCOMLT | TCOMGT
@@ -196,5 +199,5 @@ basics: TDIGIT                              { $$ = new april::Integer(std::atol(
     |   TBOOLEAN                            { $$ = new april::Boolean(*$1); delete $1; }
     ;
 
-ident: TIDENTIFIER                      { $$ = new april::Identifier(*$1); delete $1; }
+ident: TIDENTIFIER                          { $$ = new april::Identifier(*$1); delete $1; }
 %%

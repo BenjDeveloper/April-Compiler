@@ -2,6 +2,7 @@
 #include "../include/unaryope.hpp"
 #include "../include/vardeclaration.hpp"
 #include "../parser.h"
+#include "../include/integer.hpp"
 
 extern april::STRUCINFO* april_errors;
 
@@ -12,30 +13,25 @@ namespace april
 		llvm::Instruction::BinaryOps instr;
 		llvm::Value* rhs_value = nullptr;
 		llvm::Value* lhs_value = nullptr;
-		switch(operation)
+
+		if (operation  == TUNARIPLUS)
 		{
-			case TNOT:
-				instr = llvm::Instruction::Xor;
-				rhs_value = rhs.codeGen(context);
-				break;
+			instr = llvm::Instruction::Add;
+			Integer* num = new Integer(1);
+			rhs_value = num->codeGen(context);
+			// rhs_value = context.locals()[ident->getName()];
+			lhs_value = hs->codeGen(context);
 
-			default:
-				printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el operador unario no esta definido\n");
-            	context.addError();
-            	return nullptr;
+			llvm::Value* result =  llvm::BinaryOperator::Create(instr, rhs_value , lhs_value, "unarAdd", context.currentBlock());
+
+			return new llvm::StoreInst(result, context.locals()[ident->getName()], false, context.currentBlock());
 		}
-
-		if (operation  == TNOT){
-
-			if (rhs_value->getType() != llvm::Type::getInt1Ty(context.getGlobalContext()))
-			{
-				printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el operando tiene que ser de tipo 'integer'\n");
-				context.addError();
-				return nullptr;
-			}
-
-			lhs_value = llvm::ConstantInt::get(llvm::IntegerType::get(context.getGlobalContext(),llvm::Type::getInt1Ty(context.getGlobalContext())->getIntegerBitWidth()), llvm::StringRef("-1"), 10);
+		else if (operation  == TUNARIMIN)
+		{
+			instr = llvm::Instruction::Sub;
 		}
-		return llvm::BinaryOperator::Create(instr, lhs_value, rhs_value, "unarytmp", context.currentBlock());
+		printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el operador unario no esta definido\n");
+		context.addError();
+		return nullptr;
 	}
 }

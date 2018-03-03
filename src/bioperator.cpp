@@ -65,7 +65,7 @@ namespace april
             }
         }
 
-        // context.valOperator(left_value , right_value);
+        context.valOperator(left_value , right_value);
 
         //---------------------------------------------
 

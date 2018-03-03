@@ -5,10 +5,17 @@
 // **                                                     ***
 // **********************************************************
 
-fn main():void
+fn funt(x:int64):int64
 {
-    var x:int=0;
-    println("%d", x);
     x++;
     println("%d", x);
+    return x;
+}
+
+fn main():void
+{
+    var z:int64=1;
+    z++;
+    z = funt(z++);
+    println("z: %d", z);
 }
