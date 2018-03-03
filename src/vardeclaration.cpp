@@ -42,49 +42,22 @@ namespace april
 
             //---------------------------------------------
             // FALTA LA VALIDACION O UNIFICACION DE VALORES INT O FLOAT EN OPERACIONES BINARIAS
-        
+
             if (type_value->isIntegerTy() && expr_value->getType()->isIntegerTy(64))
             {
-                if (type_value->isIntegerTy(1))
+                if (!type_value->isIntegerTy(64))
                 { 
-                    auto new_type = llvm::Type::getInt1Ty(context.getGlobalContext());
-                    auto cast_instr = llvm::CastInst::getCastOpcode(expr_value, true, new_type, true);
-                    expr_value = llvm::CastInst::Create(cast_instr, expr_value, new_type, "cast", context.currentBlock());
-                }
-                else if (type_value->isIntegerTy(8))
-                { 
-                    auto new_type = llvm::Type::getInt8Ty(context.getGlobalContext());
-                    auto cast_instr = llvm::CastInst::getCastOpcode(expr_value, true, new_type, true);
-                    expr_value = llvm::CastInst::Create(cast_instr, expr_value, new_type, "cast", context.currentBlock());
-                }
-                else if (type_value->isIntegerTy(16))
-                { 
-                    auto new_type = llvm::Type::getInt16Ty(context.getGlobalContext());
-                    auto cast_instr = llvm::CastInst::getCastOpcode(expr_value, true, new_type, true);
-                    expr_value = llvm::CastInst::Create(cast_instr, expr_value, new_type, "cast", context.currentBlock());
-                }
-                else if (type_value->isIntegerTy(32))
-                { 
-                    auto new_type = llvm::Type::getInt32Ty(context.getGlobalContext());
-                    auto cast_instr = llvm::CastInst::getCastOpcode(expr_value, true, new_type, true);
-                    expr_value = llvm::CastInst::Create(cast_instr, expr_value, new_type, "cast", context.currentBlock());
+                    expr_value = llvm::CastInst::Create( llvm::CastInst::getCastOpcode(expr_value, true, type_value, true) , expr_value, type_value, "cast", context.currentBlock());
                 }
             }
             else if (type_value->isFloatingPointTy() && (expr_value->getType()->isDoubleTy() || expr_value->getType()->isIntegerTy()))
             {
-                if (type_value->isFloatTy())
+                if (!type_value->isDoubleTy())
                 {
-                    auto new_type = llvm::Type::getFloatTy(context.getGlobalContext());
-                    auto cast_instr = llvm::CastInst::getCastOpcode(expr_value, true, new_type, true);
-                    expr_value = llvm::CastInst::Create(cast_instr, expr_value, new_type, "cast", context.currentBlock());
-                }
-                else if (type_value->isDoubleTy() && expr_value->getType()->isIntegerTy())
-                {
-                    auto new_type = llvm::Type::getDoubleTy(context.getGlobalContext());
-                    auto cast_instr = llvm::CastInst::getCastOpcode(expr_value, true, new_type, true);
-                    expr_value = llvm::CastInst::Create(cast_instr, expr_value, new_type, "cast", context.currentBlock());
+                    expr_value = llvm::CastInst::Create( llvm::CastInst::getCastOpcode(expr_value, true, type_value, true), expr_value, type_value, "cast", context.currentBlock());
                 }
             }
+
             
             if (type_value->isIntegerTy() && expr_value->getType()->isFloatingPointTy())
             {

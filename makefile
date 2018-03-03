@@ -26,6 +26,7 @@ OBJS =	parser.o				\
 		function.o				\
 		return.o				\
 		assigbiope.o			\
+		logicope.o				\
 		main.o					\
 
 LLVMCONFIG = llvm-config

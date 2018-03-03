@@ -21,6 +21,7 @@
     #include "include/function.hpp"    
     #include "include/return.hpp"   
     #include "include/assigbiope.hpp"
+    #include "include/logicope.hpp"
 	#include "parser.h"
     
 
@@ -85,6 +86,8 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 ";"                 { return TOKEN(TSC); }
 "{"                 { return TOKEN(TLBRACE); }
 "}"                 { return TOKEN(TRBRACE); }
+"++"                { return TOKEN(TUNARIPLUS); }
+"--"                { return TOKEN(TUNARIMIN); }
 "+"                 { return TOKEN(TPLUS); }
 "-"                 { return TOKEN(TMIN); }
 "/"                 { return TOKEN(TDIV); }

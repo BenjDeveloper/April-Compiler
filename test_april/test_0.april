@@ -1,12 +1,24 @@
 // **********************************************************
 // **                                                     ***
 // **    Programado por Pandicorn & Kenshin Urashima      ***
-// **    Test: test_0 en April                            ***
-// **                                                     ***
+// **    Test: raiz cuadrada de Newton en April           ***
+// **    result: 1.41421                                  *** 
 // **********************************************************
+
+fn sqr(x:int64):void
+{
+    println("x: %d",x);
+}
 
 fn main():void
 {
-	
-
+    var w:int64=0;
+    println("w: %d", w);
+    w++;
+    println("w: %d", w);
+    w++;
+    println("w: %d", w);
+    w++;
+    println("w: %d", w);
+    sqr(w++);
 }

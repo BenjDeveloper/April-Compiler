@@ -65,6 +65,7 @@ namespace april
             void setCurrentBlock(llvm::BasicBlock* block) { blocks.front()->setCodeBlock(block); }
             llvm::Type* typeOf(const Identifier&);
             llvm::Type* typeOf(const std::string);
+            void valOperator(llvm::Value* left_value , llvm::Value* right_value);
             void addError() { ++errors; }
             llvm::FunctionType* getCurrentFunctionType() { return stackFunctionType.top(); }
 	};

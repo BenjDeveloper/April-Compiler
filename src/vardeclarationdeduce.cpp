@@ -16,13 +16,14 @@ namespace april
         }
         
         llvm::Value* expr_value = expr->codeGen(context);
+
         if (expr_value == nullptr)
         {
             printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la variable '"+id.name+"' no se pudo inicializar ya que la expresion es incorrecta\n");
             context.addError();
             return nullptr;
         }
-
+        
         llvm::AllocaInst* alloc = new llvm::AllocaInst(expr_value->getType(), id.name.c_str(), context.currentBlock());
         context.locals()[id.name] = alloc;
         Assignment assn(id, *expr, expr_value);
@@ -34,6 +35,7 @@ namespace april
             context.addError();
             return nullptr;
         }
+
         return val;
     }
 }
