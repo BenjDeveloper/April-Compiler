@@ -21,4 +21,6 @@ fn main():void
     w++;
     println("w: %d", w);
     sqr(w++);
+    sqr(w++);
+    sqr(w++);
 }
