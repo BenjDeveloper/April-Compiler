@@ -1,0 +1,24 @@
+// **********************************************************
+// **                                                     ***
+// **    Programado por Pandicorn & Kenshin Urashima      ***
+// **    Test: "Bucle for" en April                       ***
+// **                                                     ***
+// **********************************************************
+
+fn resta(a:int, b:int):int
+{
+    return a-b;
+}
+
+fn main():void
+{
+    ini := 10;
+    var fin:int = -10;
+
+    for ini > fin 
+    {
+        ini = resta(ini, 1);
+        println("ini: %d", ini);
+    }
+    println("adios!!");
+} 

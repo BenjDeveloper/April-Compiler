@@ -1,0 +1,11 @@
+// **********************************************************
+// **                                                     ***
+// **    Programado por Pandicorn & Kenshin Urashima      ***
+// **    Test: raiz cuadrada de Newton en April           ***
+// **    result: 1.41421                                  ***
+// ********************************************************** 
+
+fn main():void
+{
+	println("Hola, mundo!");
+}

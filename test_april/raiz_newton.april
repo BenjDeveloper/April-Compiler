@@ -1,0 +1,26 @@
+// **********************************************************
+// **                                                     ***
+// **    Programado por Pandicorn & Kenshin Urashima      ***
+// **    Test: raiz cuadrada de Newton en April           ***
+// **    result: 1.41421                                  *** 
+// **********************************************************
+
+fn sqr(x:int):double
+{
+    println("x: %d",x);
+    z := 1.0;
+    cont := 0;
+
+    for cont < 10
+    {
+        z = z-(((z*z)-x)/(2*z));
+        println("cont: %d", cont);
+        cont++;
+    }
+    return z;
+}
+
+fn main():void
+{
+    println("result: %f", sqr(2));
+}
