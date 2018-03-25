@@ -4,17 +4,17 @@
 
 #include "../include/codegencontext.hpp"
 #include "../include/identifier.hpp"
+#include "../include/nativefn.hpp"
+
 #include "llvm/Transforms/IPO/PassManagerBuilder.h"
 
-extern "C" void print(char* str, ...);
-extern "C" void println(char* str, ...);
 extern april::STRUCINFO* april_errors;
-
 extern bool existMainFunction;
 
 namespace april
 {
     static const std::string name_main = "_Pandicorn&KenshinUrashima";
+	
 
     CodeGenContext::CodeGenContext()
     {
@@ -22,7 +22,7 @@ namespace april
         llvm::InitializeNativeTarget();
         llvm::InitializeNativeTargetAsmParser();
         llvm::InitializeNativeTargetAsmPrinter();
-        module = new llvm::Module(name_main, llvmContext);
+        module = new llvm::Module("april", llvmContext);
     }
 
     void CodeGenContext::pushBlock(llvm::BasicBlock* block, llvm::FunctionType* fn)
@@ -60,29 +60,13 @@ namespace april
 
     llvm::Type* CodeGenContext::typeOf(const std::string name)
     {
-        if ((name.compare("int1") == 0) || (name.compare("bool") == 0))
+        if (name.compare("bool") == 0)
         {
             return llvm::Type::getInt1Ty(getGlobalContext());
         }
-        else if (name.compare("int8") == 0)
-        {
-            return llvm::Type::getInt8Ty(getGlobalContext());
-        }
-        else if (name.compare("int16") == 0)
-        {
-            return llvm::Type::getInt16Ty(getGlobalContext());
-        }
-        else if ((name.compare("int32") == 0) || (name.compare("int") == 0))
+        else if (name.compare("int") == 0)
         {
             return llvm::Type::getInt32Ty(getGlobalContext());
-        }
-        else if (name.compare("int64") == 0)
-        {
-            return llvm::Type::getInt64Ty(getGlobalContext());
-        }
-        else if (name.compare("float") == 0)
-        {
-            return llvm::Type::getFloatTy(getGlobalContext());
         }
         else if (name.compare("double") == 0)
         {
@@ -109,17 +93,20 @@ namespace april
             std::cout << "Falta la funcion 'main'" << std::endl; 
             return false;
         }
+        
         std::cout << "*******************Generando codigo*******************" << std::endl;
-        
 		std::vector<llvm::Type*> argTypes;
-        llvm::FunctionType* ftype = llvm::FunctionType::get(llvm::Type::getVoidTy(llvm::getGlobalContext()), llvm::makeArrayRef(argTypes), false);
-        mainFunction = llvm::Function::Create(ftype, llvm::GlobalValue::InternalLinkage, name_main, module);
-        llvm::BasicBlock* bblock = llvm::BasicBlock::Create(llvm::getGlobalContext(), name_main, mainFunction, 0);
-        setupBuildFn();
-        pushBlock(bblock, nullptr);
-        
-        llvm::Value* result = root.codeGen(*this);
-        if (errors) 
+		//llvm::FunctionType* ftype = llvm::FunctionType::get(llvm::Type::getVoidTy(llvm::getGlobalContext()), llvm::makeArrayRef(argTypes), false);
+		llvm::FunctionType* ftype = llvm::FunctionType::get(llvm::Type::getVoidTy(llvmContext), argTypes, false);
+		mainFunction = llvm::Function::Create(ftype, llvm::GlobalValue::InternalLinkage, name_main, module);
+		//mainFunction = llvm::Function::Create(ftype, llvm::GlobalValue::InternalLinkage, name_main, getModule());
+		//llvm::BasicBlock* bblock = llvm::BasicBlock::Create(llvm::getGlobalContext(), name_main, mainFunction, 0);
+		llvm::BasicBlock* bblock = llvm::BasicBlock::Create(llvmContext, "entry", mainFunction, 0);
+		setupBuildFn();
+		pushBlock(bblock, nullptr);
+		llvm::Value* result = root.codeGen(*this);
+
+		if (errors) 
         { 
             // std::cout << "Compilacion con errores..." << std::endl; 
             return false;
@@ -138,6 +125,17 @@ namespace april
         }
         popBlock();
 
+		std::cout << "verificando construccion... " << std::endl;
+
+		if (llvm::verifyModule(*getModule()))
+		{
+			std::cout << "Error al construir la funcion! " << std::endl;
+			module->dump();
+			return false;
+		}
+
+		std::cout << "hecho... :)" << std::endl;
+
         std::cout << "*******************Codigo generado*******************" << std::endl;
         module->dump();
 
@@ -145,7 +143,6 @@ namespace april
         // optimize();
         // std::cout << "*******************Codigo Optimizado*******************" << std::endl;
         // module->dump();
-
         return true;
     }
 
@@ -166,23 +163,38 @@ namespace april
     }
 
     //arreglar esta funcion
+	//#define MAKE_LLVM_EXTERNAL_NAME(a) #a
     void CodeGenContext::setupBuildFn()
     {
-        auto intType = llvm::Type::getInt64Ty(llvm::getGlobalContext());
-        std::vector<llvm::Type *>argTypesInt8Ptr(1, llvm::Type::getInt8PtrTy(llvm::getGlobalContext()));
+        auto intType = llvm::Type::getInt32Ty(llvmContext);
+        std::vector<llvm::Type *>argTypesInt8Ptr(1, llvm::Type::getInt8PtrTy(llvmContext));
+
         llvm::FunctionType * ft = nullptr;
         llvm::Function * f = nullptr;
         llvm::Function::arg_iterator i;
 
-        ft = llvm::FunctionType::get(llvm::Type::getVoidTy(llvm::getGlobalContext()),argTypesInt8Ptr, true);
-        f = llvm::Function::Create( ft, llvm::Function::ExternalLinkage, "print", getModule() );
+		//-----------------------------------------------------------------------------------
+		//std::vector<llvm::Type*> args;
+		llvm::ArrayRef<llvm::Type*> args;
+		
+		ft = llvm::FunctionType::get(llvm::Type::getVoidTy(llvmContext), args, false);
+		//f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, MAKE_LLVM_EXTERNAL_NAME(saludos), getModule());
+		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "saludos", getModule());
+		i = f->arg_begin();
+		if (i != f->arg_end()) { i->setName("prueba"); }
+		//-----------------------------------------------------------------------------------
+
+		ft = llvm::FunctionType::get(llvm::Type::getVoidTy(llvmContext), argTypesInt8Ptr, true);
+		//f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, MAKE_LLVM_EXTERNAL_NAME(print), getModule());
+		f = llvm::Function::Create( ft, llvm::Function::ExternalLinkage, "print", getModule());
         i = f->arg_begin();
         if( i != f->arg_end() ) { i->setName("format_str"); }
-        ft = llvm::FunctionType::get(llvm::Type::getVoidTy(llvm::getGlobalContext()),argTypesInt8Ptr, true);
-        f = llvm::Function::Create( ft, llvm::Function::ExternalLinkage, "println",getModule());
-        i = f->arg_begin();
-        if( i != f->arg_end() ) { i->setName("format_str");}
 
+		ft = llvm::FunctionType::get(llvm::Type::getVoidTy(llvmContext), argTypesInt8Ptr, true);
+		//f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, MAKE_LLVM_EXTERNAL_NAME(println), getModule());
+		f = llvm::Function::Create( ft, llvm::Function::ExternalLinkage, "println", getModule());
+        i = f->arg_begin();
+        if( i != f->arg_end() ) { i->setName("format_str"); }
     }
 
     llvm::GenericValue CodeGenContext::runCode()
@@ -190,11 +202,11 @@ namespace april
         std::cout << "\n*******************Corriendo codigo*******************" << std::endl;
         std::string err;
 		llvm::ExecutionEngine* ee = llvm::EngineBuilder(std::unique_ptr<llvm::Module>(module)).setErrorStr(&err).setEngineKind(llvm::EngineKind::JIT).create();
-
 		assert(ee);
 		assert(mainFunction);
 
         ee->finalizeObject();
+
 		std::vector<llvm::GenericValue> noargs;
         llvm::GenericValue v = ee->runFunction(mainFunction, noargs);
 		delete ee;
@@ -202,39 +214,16 @@ namespace april
         return v;
     }
 
-
-    void CodeGenContext::valOperator(llvm::Value* left_value , llvm::Value* right_value)
+    void CodeGenContext::valOperator(llvm::Value*& left_value , llvm::Value*& right_value)
     {
-        if (left_value->getType()->isIntegerTy() && right_value->getType()->isFloatingPointTy())
-        {
-            left_value = llvm::CastInst::Create( llvm::CastInst::getCastOpcode(left_value, true, right_value->getType(), true) , left_value, right_value->getType(), "cast", currentBlock() );
-        }
-        else if (left_value->getType()->isFloatingPointTy() && right_value->getType()->isIntegerTy())
-        {
-            left_value = llvm::CastInst::Create( llvm::CastInst::getCastOpcode(right_value, true, left_value->getType(), true) , right_value, left_value->getType(), "cast", currentBlock() );
-        }
-        else if (left_value->getType()->isIntegerTy() && right_value->getType()->isIntegerTy())
-        {
-            if ( left_value->getType()->getIntegerBitWidth() < right_value->getType()->getIntegerBitWidth())
-            {
-                left_value = llvm::CastInst::Create( llvm::CastInst::getCastOpcode( left_value, true, right_value->getType(), true ), left_value, right_value->getType(), "cast", currentBlock() );   
-            }
-            else if  ( left_value->getType()->getIntegerBitWidth() > right_value->getType()->getIntegerBitWidth())
-            {
-                right_value = llvm::CastInst::Create( llvm::CastInst::getCastOpcode( right_value, true, left_value->getType(), true ), right_value, left_value->getType(), "cast", currentBlock() );
-            }
-        }
-        else if (left_value->getType()->isFloatingPointTy() && right_value->getType()->isFloatingPointTy())
-        {
-            if (right_value->getType()->isDoubleTy())
-            {
-                left_value = llvm::CastInst::Create( llvm::CastInst::getCastOpcode( left_value, true, right_value->getType(), true ), left_value, right_value->getType(), "cast", currentBlock() ); 
-            }
-            else if  (left_value->getType()->isDoubleTy())
-            {
-                right_value = llvm::CastInst::Create( llvm::CastInst::getCastOpcode( right_value, true, left_value->getType(), true ), right_value, left_value->getType(), "cast", currentBlock() );
-            }
-        }
+		if (left_value->getType()->isIntegerTy() && right_value->getType()->isDoubleTy())
+		{
+			left_value = llvm::CastInst::Create(llvm::CastInst::getCastOpcode(left_value, true, llvm::Type::getDoubleTy(getGlobalContext()), true), left_value, llvm::Type::getDoubleTy(getGlobalContext()), "cast_double", currentBlock());
+		}
+		else if (left_value->getType()->isDoubleTy() && right_value->getType()->isIntegerTy())
+		{
+			right_value = llvm::CastInst::Create(llvm::CastInst::getCastOpcode(right_value, true, llvm::Type::getDoubleTy(getGlobalContext()), true), right_value, llvm::Type::getDoubleTy(getGlobalContext()), "cast_double", currentBlock());
+		}
     }
 
 }

@@ -12,7 +12,7 @@ namespace april
             long long value;
         
         public:
-            Integer(long long value): value(value) {}
+			Integer(long long value) : value(value) {  }
 			virtual llvm::Value* codeGen(CodeGenContext& context);
             Type getType() { return Type::integer; }
     };

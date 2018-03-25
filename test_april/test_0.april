@@ -2,23 +2,10 @@
 // **                                                     ***
 // **    Programado por Pandicorn & Kenshin Urashima      ***
 // **    Test: raiz cuadrada de Newton en April           ***
-// **    result: 1.41421                                  *** 
-// **********************************************************
-
-fn sqr(x:int64):void
-{
-    println("x: %d",x);
-}
+// **    result: 1.41421                                  ***
+// ********************************************************** 
 
 fn main():void
 {
-    var w:int64=0;
-    println("w: %d", w);
-    w++;
-    println("w: %d", w);
-    w++;
-    println("w: %d", w);
-    w++;
-    println("w: %d", w);
-    sqr(w++);
+	println("Hola, mundo!");
 }

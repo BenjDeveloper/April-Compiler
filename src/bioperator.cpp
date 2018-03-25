@@ -31,45 +31,19 @@ namespace april
         //---------------------------------------------
         //                  VALIDACION
         //---------------------------------------------
+        //context.valOperator(left_value , right_value);
 
-        if (left_value->getType()->isIntegerTy() && right_value->getType()->isFloatingPointTy())
-        {
-            left_value = llvm::CastInst::Create( llvm::CastInst::getCastOpcode(left_value, true, right_value->getType(), true) , left_value, right_value->getType(), "cast", context.currentBlock() );
-        }
-        else if (left_value->getType()->isFloatingPointTy() && right_value->getType()->isIntegerTy())
-        {
-            std::cout << "creando operacion binaria" << std::endl;
-            left_value = llvm::CastInst::Create( llvm::CastInst::getCastOpcode(right_value, true, left_value->getType(), true) , right_value, left_value->getType(), "cast", context.currentBlock() );
-
-        }
-        else if (left_value->getType()->isIntegerTy() && right_value->getType()->isIntegerTy())
-        {
-            if ( left_value->getType()->getIntegerBitWidth() < right_value->getType()->getIntegerBitWidth())
-            {
-                left_value = llvm::CastInst::Create( llvm::CastInst::getCastOpcode( left_value, true, right_value->getType(), true ), left_value, right_value->getType(), "cast", context.currentBlock() );   
-            }
-            else if  ( left_value->getType()->getIntegerBitWidth() > right_value->getType()->getIntegerBitWidth())
-            {
-                right_value = llvm::CastInst::Create( llvm::CastInst::getCastOpcode( right_value, true, left_value->getType(), true ), right_value, left_value->getType(), "cast", context.currentBlock() );
-            }
-        }
-        else if (left_value->getType()->isFloatingPointTy() && right_value->getType()->isFloatingPointTy())
-        {
-            if (right_value->getType()->isDoubleTy())
-            {
-                left_value = llvm::CastInst::Create( llvm::CastInst::getCastOpcode( left_value, true, right_value->getType(), true ), left_value, right_value->getType(), "cast", context.currentBlock() ); 
-            }
-            else if  (left_value->getType()->isDoubleTy())
-            {
-                right_value = llvm::CastInst::Create( llvm::CastInst::getCastOpcode( right_value, true, left_value->getType(), true ), right_value, left_value->getType(), "cast", context.currentBlock() );
-            }
-        }
-
-        context.valOperator(left_value , right_value);
-
+		if (left_value->getType()->isIntegerTy() && right_value->getType()->isDoubleTy())
+		{
+			left_value = llvm::CastInst::Create(llvm::CastInst::getCastOpcode(left_value, true, llvm::Type::getDoubleTy(context.getGlobalContext()), true), left_value, llvm::Type::getDoubleTy(context.getGlobalContext()), "cast_double", context.currentBlock());
+		}
+		else if (left_value->getType()->isDoubleTy() && right_value->getType()->isIntegerTy())
+		{
+			right_value = llvm::CastInst::Create(llvm::CastInst::getCastOpcode(right_value, true, llvm::Type::getDoubleTy(context.getGlobalContext()), true), right_value, llvm::Type::getDoubleTy(context.getGlobalContext()), "cast_double", context.currentBlock());
+		}
         //---------------------------------------------
 
-        bool op_decimal = (left_value->getType()->isFloatingPointTy() || right_value->getType()->isFloatingPointTy())?(true):(false);
+        bool op_decimal = (left_value->getType()->isDoubleTy() || right_value->getType()->isDoubleTy())?(true):(false);
 
         switch(op)
         {

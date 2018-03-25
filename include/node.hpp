@@ -2,10 +2,11 @@
 #define NODE_HPP
 
 #include <iostream>
+#include <vector>
+
 #include <llvm/IR/Value.h>
 #include <llvm/IR/Type.h>
 #include <llvm/IR/DerivedTypes.h>
-#include <vector>
 
 namespace april
 {

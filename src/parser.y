@@ -29,7 +29,7 @@
     using namespace april;
     
     extern int yylex();
-    extern void yyerror(const char*);
+    extern int yyerror(const char*);
     extern int line;
     extern int col;
     extern char* yytext;
@@ -78,7 +78,7 @@
 
 %%
 
-program: %empty                             { programBlock = new april::Block();}
+program: /* blank */                        { programBlock = new april::Block();}
     | stmts                                 { programBlock = $1; }
 	;
 
@@ -103,7 +103,7 @@ return: TRETURN  TSC                        { $$ = new april::Return(); }
 fn_decl: TFN ident TLPAREN fn_args TRPAREN TCOLON ident block       { $$ = new april::Function($7, $2, $4, $8); }
     ;
 
-fn_args: %empty                             { $$ = new april::VarList(); }
+fn_args: /* blank */                        { $$ = new april::VarList(); }
     |   var_decl_arg                        { $$ = new april::VarList(); $$->push_back($<var_decl>1); }
     |   fn_args TCOMMA var_decl_arg         { $1->push_back($<var_decl>3); }
     ;
@@ -157,7 +157,7 @@ unary_ope: ident TUNARIPLUS    		        { $$ = new april::UnaryOpe($2, $1, $1);
     | ident TUNARIMIN    	                { $$ = new april::UnaryOpe($2, $1, $1); }
     ;
 
-call_args: %empty                           { $$ = new april::ExpressionList(); }
+call_args: /* blank */                      { $$ = new april::ExpressionList(); }
     | expr                                  { $$ = new april::ExpressionList(); $$->push_back($1); }
     | call_args TCOMMA expr                 { $$->push_back($3); }
     ;
@@ -179,13 +179,14 @@ comparasion: TCOMNE | TCOMEQ | TCOMLE | TCOMGE | TCOMLT | TCOMGT
 
 basics: TDIGIT                              { $$ = new april::Integer(std::atol($1->c_str())); delete $1; }
     |   TMIN TDIGIT  %prec TDIV             { 
-                                                char* value = new char(std::strlen($2->c_str())+2);
+												char* value = new char(std::strlen($2->c_str())+2);
                                                 std::strcpy(value, "-");
                                                 std::strcat(value, $2->c_str());
                                                 $$ = new april::Integer(std::atol(value)); 
-                                                delete $2; 
-                                                delete value;
-                                            }
+                                                
+												//delete $2; 
+                                                //delete value;
+											}
     |   TDOUBLE                             { $$ = new april::Double(std::atof($1->c_str())); delete $1; }
     |   TMIN TDOUBLE %prec TDIV             { 
                                                 char* value = new char(std::strlen($2->c_str())+2);

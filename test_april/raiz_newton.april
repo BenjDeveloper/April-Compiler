@@ -5,7 +5,7 @@
 // **    result: 1.41421                                  *** 
 // **********************************************************
 
-fn sqr(x:int64):double
+fn sqr(x:int):double
 {
     println("x: %d",x);
     z := 1.0;
@@ -17,7 +17,6 @@ fn sqr(x:int64):double
         println("cont: %d", cont);
         cont++;
     }
-
     return z;
 }
 

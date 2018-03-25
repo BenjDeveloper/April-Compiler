@@ -23,7 +23,6 @@ namespace april
 {
     llvm::Value* String::codeGen(CodeGenContext& context)
     {
-        // std::cout << "creando string: " << value << std::endl;
         llvm::ArrayType* array_type = llvm::ArrayType::get(llvm::IntegerType::get(context.getGlobalContext(), 8), value.size()+1);
         llvm::GlobalVariable* gvar = new llvm::GlobalVariable(*context.getModule(), array_type, true, llvm::GlobalValue::PrivateLinkage, 0, ".str");
         
@@ -36,6 +35,5 @@ namespace april
         const_ptr_8_indices.push_back(const_int);
         llvm::Constant* const_ptr_8 = llvm::ConstantExpr::getGetElementPtr(array_type, gvar, const_ptr_8_indices);
         return const_ptr_8;
-        // return llvm::ConstantFP::get(llvm::Type::getLabelTy(llvm::getGlobalContext()), value);
     }
 }

@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
     yyin = fopen(april_errors->file_name.c_str(), "r+");
     if (yyin == nullptr)
     {
-        std::cout << "Error al abrir el archivo: " << april_errors->file_name << std::endl;
+        std::cout << "Error al abrir el fichero: " << april_errors->file_name << std::endl;
         return EXIT_FAILURE;
     }
     else

@@ -24,7 +24,8 @@ namespace april
 			lhs_value = hs->codeGen(context);
 			llvm::Value* result =  llvm::BinaryOperator::Create(instr, rhs_value , lhs_value, "unarAdd", context.currentBlock());
 
-			return new llvm::StoreInst(result, context.locals()[ident->getName()], false, context.currentBlock());
+			new llvm::StoreInst(result, context.locals()[ident->getName()], false, context.currentBlock());
+			return new llvm::LoadInst(context.locals()[ident->getName()], "", false, context.currentBlock());
 		}
 		else if (operation  == TUNARIMIN)
 		{

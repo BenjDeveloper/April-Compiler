@@ -32,7 +32,6 @@ namespace april
 
 		if (context.currentBlock()->getTerminator() == nullptr)
 		{
-
 			llvm::BranchInst::Create(merge_block, context.currentBlock());
 			need_merge = true;
 		}

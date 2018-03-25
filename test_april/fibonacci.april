@@ -5,7 +5,7 @@
 // **                                                     ***
 // **********************************************************
 
-fn fibonacci(valor:int64):int64
+fn fibonacci(valor:int):int
 {
     if valor < 3 { if valor == 0 {return 0;} else {return 1;} }
     else { return fibonacci(valor-1)+fibonacci(valor-2); }
