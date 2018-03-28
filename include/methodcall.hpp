@@ -6,7 +6,6 @@
 
 namespace april
 {
-    using ExpressionList = std::vector<Expression*>;
 
     class MethodCall: public Expression
     {

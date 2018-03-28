@@ -65,26 +65,28 @@ extern int yydebug;
     TLPAREN = 275,
     TRPAREN = 276,
     TSTR = 277,
-    TCOMNE = 278,
-    TCOMEQ = 279,
-    TCOMLE = 280,
-    TCOMGE = 281,
-    TCOMLT = 282,
-    TCOMGT = 283,
-    TAND = 284,
-    TOR = 285,
-    TNOT = 286,
-    TIF = 287,
-    TELSE = 288,
-    TFOR = 289,
-    TFN = 290,
-    TRETURN = 291,
-    TASIGPLUS = 292,
-    TASIGMINUS = 293,
-    TASIGMULT = 294,
-    TASIGDIV = 295,
-    TUNARIPLUS = 296,
-    TUNARIMIN = 297
+    TLBRACKET = 278,
+    TRBRACKET = 279,
+    TCOMNE = 280,
+    TCOMEQ = 281,
+    TCOMLE = 282,
+    TCOMGE = 283,
+    TCOMLT = 284,
+    TCOMGT = 285,
+    TAND = 286,
+    TOR = 287,
+    TNOT = 288,
+    TIF = 289,
+    TELSE = 290,
+    TFOR = 291,
+    TFN = 292,
+    TRETURN = 293,
+    TASIGPLUS = 294,
+    TASIGMINUS = 295,
+    TASIGMULT = 296,
+    TASIGDIV = 297,
+    TUNARIPLUS = 298,
+    TUNARIMIN = 299
   };
 #endif
 
@@ -93,7 +95,7 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 42 "src/parser.y" /* yacc.c:1909  */
+#line 46 "src/parser.y" /* yacc.c:1909  */
 
     april::Node* node;
     april::Block* block;
@@ -106,7 +108,7 @@ union YYSTYPE
     std::vector<april::VariableDeclaration*> *vardecl;
     int token;
 
-#line 110 "parser.h" /* yacc.c:1909  */
+#line 112 "parser.h" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

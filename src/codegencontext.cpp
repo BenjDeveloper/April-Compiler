@@ -76,6 +76,10 @@ namespace april
         {
             return llvm::Type::getInt8PtrTy(getGlobalContext());
         }
+		else if (name.compare("array") == 0)
+		{
+			return llvm::Type::getVoidTy(getGlobalContext());
+		}
         else if (name.compare("void") == 0)
         {
             return llvm::Type::getVoidTy(getGlobalContext());

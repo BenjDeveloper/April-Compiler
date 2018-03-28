@@ -11,11 +11,10 @@ extern april::STRUCINFO* april_errors;
 int main(int argc, char* argv[])
 {
     std::string filename;
-
+	
     if (argc > 1)
     {
-        april_errors->file_name = "test_april/test_0.april";
-        //filename = "test_april/test_1.april";
+        april_errors->file_name = "../../test_april/test_0.april";
     }
 
     yyin = fopen(april_errors->file_name.c_str(), "r+");

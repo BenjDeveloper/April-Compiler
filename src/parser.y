@@ -25,6 +25,10 @@
     #include "include/return.hpp"
     #include "include/assigbiope.hpp"
     #include "include/logicope.hpp"
+    #include "include/array.hpp"
+    #include "include/arrayaccess.hpp"
+    #include "include/assignmentarray.hpp"
+
 
     using namespace april;
     
@@ -56,7 +60,7 @@
 %token <token> TPLUS TMIN TMUL TDIV TVAR
 %token <token> TCOLON TEQUAL TSC TJUMP TCOMMA TCOEQU
 %token <token> TRBRACE TLBRACE
-%token <token> TLPAREN TRPAREN TSTR
+%token <token> TLPAREN TRPAREN TSTR TLBRACKET TRBRACKET
 %token <token> TCOMNE TCOMEQ TCOMLE TCOMGE TCOMLT TCOMGT
 %token <token> TAND TOR TNOT
 %token <token> TIF TELSE TFOR TFN TRETURN
@@ -64,8 +68,8 @@
 %token <token> TUNARIPLUS TUNARIMIN
 
 %type <ident> ident
-%type <exprvec> call_args
-%type <expr> expr binary_ope_expr basics boolean_expr unary_ope method_call logic_ope
+%type <exprvec> call_args array_elements
+%type <expr> expr binary_ope_expr basics boolean_expr unary_ope method_call logic_ope array_expr array_access array_declaration
 %type <stmt> stmt var_decl conditional scope for fn_decl var_decl_arg return 
 %type <block> program stmts block
 %type <token> comparasion
@@ -126,25 +130,45 @@ block: TLBRACE stmts TRBRACE				{ $$ = $2; }
 	;
 
 var_decl: TVAR ident TCOLON ident TSC                       { $$ = new april::VariableDeclaration(*$4, *$2);}
+	| TVAR ident TCOLON array_declaration TSC				{  }
     | TVAR ident TCOLON ident TEQUAL expr TSC               { $$ = new april::VariableDeclaration(*$4, *$2, $6); }
     | TVAR ident TCOLON ident TEQUAL method_call TSC        { $$ = new april::VariableDeclaration(*$4, *$2, $6); }
     | ident TCOEQU expr TSC                                 { $$ = new april::VariableDeclarationDeduce(*$1, $3); }
     | ident TCOEQU method_call  TSC                         { $$ = new april::VariableDeclarationDeduce(*$1, $3); }
     ;
 
-expr: binary_ope_expr                       { }
-    | ident TEQUAL expr                     { $$ = new april::Assignment(*$<ident>1, *$3); }
-    | ident TEQUAL method_call              { $$ = new april::Assignment(*$<ident>1, *$3); }
-    | ident TASIGPLUS expr                  { $$ = new april::AssigBioperator($1, $2, $3); }
-    | ident TASIGMINUS expr                 { $$ = new april::AssigBioperator($1, $2, $3); }
-    | ident TASIGMULT expr                  { $$ = new april::AssigBioperator($1, $2, $3); }
-    | ident TASIGDIV expr                   { $$ = new april::AssigBioperator($1, $2, $3); }
-    | basics                                { $$ = $1; }
-    | ident                                 { $<ident>$ = $1; }                            
-    | boolean_expr                          { }
-	| unary_ope                             { }
-    | logic_ope                             { }
-    | method_call                           { }
+expr: binary_ope_expr									{ }
+    | ident TEQUAL expr									{ $$ = new april::Assignment(*$<ident>1, *$3); }
+    | ident TEQUAL method_call							{ $$ = new april::Assignment(*$<ident>1, *$3); }
+    | array_access TEQUAL expr							{ $$ = new april::AssignmentArray($1, $3);     }
+    | ident TASIGPLUS expr								{ $$ = new april::AssigBioperator($1, $2, $3); }
+    | ident TASIGMINUS expr								{ $$ = new april::AssigBioperator($1, $2, $3); }
+    | ident TASIGMULT expr								{ $$ = new april::AssigBioperator($1, $2, $3); }
+    | ident TASIGDIV expr								{ $$ = new april::AssigBioperator($1, $2, $3); }
+    | basics											{ $$ = $1; }
+    | ident												{ $<ident>$ = $1; }                            
+    | boolean_expr										{ }
+	| unary_ope											{ }
+    | logic_ope											{ }
+    | method_call										{ }
+	| array_expr										{ }
+	| array_access										{ }
+	;
+
+array_declaration: TLBRACKET TDIGIT TRBRACKET			{  }	
+	| array_declaration ident							{  }
+	;
+
+array_access: ident TLBRACKET TDIGIT TRBRACKET			{ $$ = new april::ArrayAccess($1, std::atol($3->c_str())); delete $3; }
+	| array_access TLBRACKET TDIGIT TRBRACKET			{ $$ = new april::ArrayAccess($1, std::atol($3->c_str())); delete $3; }
+	;
+
+array_elements: /* blank */					{ $$ = new april::ExpressionList(); }
+	| expr								    { $$ = new april::ExpressionList(); $$->push_back($1); }
+	| array_elements TCOMMA expr			{ $$->push_back($3); }
+	;
+
+array_expr: TLBRACKET array_elements TRBRACKET		{ $$ = new april::Array($2); }
 	;
 
 method_call: ident TLPAREN call_args TRPAREN       { $$ = new april::MethodCall($1, $3); }

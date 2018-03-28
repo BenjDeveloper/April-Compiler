@@ -10,6 +10,8 @@
 
 namespace april
 {
+	using ExpressionList = std::vector<class Expression*>;
+
     class CodeGenContext;
     
     typedef struct STRUCINFO
@@ -27,7 +29,8 @@ namespace april
         identifier,
         expression,
         variable,
-        function
+        function,
+		array
     };
 
     class Node

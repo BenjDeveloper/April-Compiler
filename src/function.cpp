@@ -35,7 +35,10 @@ namespace april
         std::vector<llvm::Type*> args_type;
         for (auto var : *args)
         {
-            llvm::Type* ty = context.typeOf(var->getIdentOfVarType());
+			llvm::Type* ty = context.typeOf(var->getIdentOfVarType());
+			/*if (ty->isVoidTy()) {
+				ty = llvm::PointerType::get(llvm::Type::getInt32Ty(context.getGlobalContext()), 0);
+			}*/
             args_type.push_back(ty);
         } 
 
@@ -47,7 +50,7 @@ namespace april
         }
 
         llvm::FunctionType* fn_type = llvm::FunctionType::get(context.typeOf(*type), args_type, false);
-        
+
         std::string fn_name = id->getName();
         if (type->getName() == "var")
         {
@@ -62,13 +65,14 @@ namespace april
         llvm::Function::arg_iterator actual_args = function->arg_begin();
         // std::cout << "fn args_size: " << function->arg_size() << std::endl;
         // std::cout << "args_size: " << args_type.size() << std::endl;
-
+		std::cout << "best" << std::endl;
         for (auto var : *args)
         {
             llvm::AllocaInst* alloca = llvm::dyn_cast<llvm::AllocaInst>(var->codeGen(context));
-            std::string val_name = var->getVarName();
+			std::cout << "erika" << std::endl;
 
-            if (alloca)
+			std::string val_name = var->getVarName();
+            if (alloca && var->getIdentOfVarType().getName() != "array")
             {
                 if (alloca->getAllocatedType()->isPointerTy())
                 {
@@ -79,6 +83,7 @@ namespace april
             }
             ++actual_args;
         }
+		std::cout << "llll" << std::endl;
 
         // genera el cuerpo de la funcion
         llvm::Value* block_value = block->codeGen(context);
@@ -108,50 +113,6 @@ namespace april
             }
         }
 
-        // if (context.currentBlock()->getTerminator() == nullptr)
-        // {
-        //     if (type->getName() == "var" && !last_type->isVoidTy())
-        //     {
-        //         llvm::ReturnInst::Create(context.getGlobalContext(), block_value, context.currentBlock());
-        //     }
-        //     else 
-        //     {
-        //         llvm::ReturnInst::Create(context.getGlobalContext(), 0, context.currentBlock());
-        //     }
-        // }
-
-        // if (type->getName() == "var")
-        // {
-        //     std::cout << "entro aqui!" << std::endl;
-        //     if (last_type->isLabelTy() || last_type->isMetadataTy())
-        //     {
-        //         context.popBlock();
-        //         printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la funcion retorna un tipo de dato no soportado\n");
-        //         context.addError();
-        //         return nullptr;
-        //     }
-
-        //     llvm::FunctionType* fn_type_new = llvm::FunctionType::get(block_value->getType(), args_type, false);
-        //     std::string fn_name_new = id->getName();
-
-        //     llvm::Function* fn_new = llvm::Function::Create(fn_type_new, llvm::GlobalValue::InternalLinkage, fn_name_new.c_str(), context.getModule());
-
-        //     llvm::ValueToValueMapTy v_map;
-        //     llvm::Function::arg_iterator dest_i = fn_new->arg_begin();
-
-        //     for (llvm::Function::const_arg_iterator J = function->arg_begin(); J != function->arg_end(); ++J)
-        //     {
-        //         dest_i->setName(J->getName());
-        //         v_map[&*J] = &*dest_i++;
-        //     }
-
-        //     llvm::SmallVector<llvm::ReturnInst*, 8> Returns;
-        //     llvm::CloneFunctionInto(fn_new, function, v_map, false, Returns);
-
-        //     function->eraseFromParent();
-
-        //     function = fn_new;
-        // }
         context.popBlock();
         return function;
     }

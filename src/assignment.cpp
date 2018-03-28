@@ -31,9 +31,15 @@ namespace april
             context.addError();
             return nullptr;
         }
-
+		llvm::Value* lhs_type = lhs.codeGen(context);
         if (rhs_value != nullptr) 
         { 
+			if (lhs_type->getType() != rhs_value->getType())
+			{
+				printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: tipos diferentes en la asignacion de la variable '" + lhs.getName() + "' .\n");
+				context.addError();
+				return nullptr;
+			}
             return new llvm::StoreInst(rhs_value, context.locals()[lhs.name], false, context.currentBlock());
         }
         else 
@@ -45,6 +51,14 @@ namespace april
                 context.addError();
                 return nullptr;
             }
+
+			if (lhs_type->getType() != expr_value->getType())
+			{
+				printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: tipos diferentes en la asignacion de la variable '"+lhs.getName()+"' .\n");
+				context.addError();
+				return nullptr;
+			}
+
             return new llvm::StoreInst(expr_value, context.locals()[lhs.name], false, context.currentBlock()); 
         }
     }

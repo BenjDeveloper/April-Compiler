@@ -49,8 +49,11 @@ message("lib: ${CMAKE_CURRENT_BINARY_DIR}")
 ##########################################
 
 set(SOURCES_COMMON
+			src/arrayaccess.cpp
+			src/array.cpp
             src/assigbiope.cpp			
-            src/assignment.cpp			
+            src/assignment.cpp
+			src/assignmentarray.cpp
             src/bioperator.cpp			
             src/block.cpp					
             src/boolean.cpp				
@@ -80,8 +83,11 @@ set(SOURCES_COMMON
    )
 
 set(HEADER_COMMON
+			include/arrayaccess.hpp
+			include/array.hpp
             include/assigbiope.hpp			
-            include/assignment.hpp			
+            include/assignment.hpp
+			include/assignmentarray.hpp
             include/bioperator.hpp			
             include/block.hpp					
             include/boolean.hpp				
