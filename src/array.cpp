@@ -34,14 +34,16 @@ namespace april
 			typeList.push_back(code->getType());
 			index++;
 		}
-		
+
 		llvm::StructType* _array = llvm::StructType::create(context.getGlobalContext(), llvm::makeArrayRef(typeList), "_array");
 		auto alloc_array = new llvm::AllocaInst(_array, 0, "alloc_array", context.currentBlock());
+		
 		std::vector<llvm::Value*> ptr_indices;
 		llvm::ConstantInt* const_int_32_0 = llvm::ConstantInt::get(context.getModule()->getContext(), llvm::APInt(32, 0));
 		
 		for (int i = 0; i < valueList.size(); ++i)
 		{
+			std::cout << "black goku" << std::endl;
 			ptr_indices.clear();
 			ptr_indices.push_back(const_int_32_0);
 			llvm::ConstantInt* const_int32 = llvm::ConstantInt::get(context.getModule()->getContext(), llvm::APInt(32, i));
@@ -49,7 +51,7 @@ namespace april
 			llvm::Instruction* ptr = llvm::GetElementPtrInst::Create(alloc_array->getType()->getElementType(), alloc_array, ptr_indices, "", context.currentBlock());
 			new llvm::StoreInst(valueList[i], ptr, context.currentBlock());
 		}
-		
+		std::cout << "creacion array tipo - " << alloc_array->getAllocatedType()->isStructTy() << std::endl;
 		return alloc_array;
 	}
 }

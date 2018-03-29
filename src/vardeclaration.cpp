@@ -10,6 +10,7 @@ namespace april
 {
     llvm::Value* VariableDeclaration::codeGen(CodeGenContext& context)
     {
+		std::cout << "variableDeclaration - " << type.getName() << std::endl;
 		llvm::Value* _code = nullptr;
 		llvm::AllocaInst* alloc = nullptr;
 		llvm::Type* type_value = nullptr;
@@ -23,7 +24,7 @@ namespace april
         
         type_value = context.typeOf(type.getName());
 		
-		if (type_value == nullptr)
+		if (type_value == nullptr || (assignmentExpr != nullptr && assignmentExpr->getType() == Type::array && type.getName() != "array"))
         {
 			printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: tipo no definido");
             context.addError();
@@ -37,7 +38,17 @@ namespace april
 		}
 		else
 		{
-			alloc = new llvm::AllocaInst(type_value, id.name.c_str(), context.currentBlock());
+			if (type.getName() == "array")
+			{
+				std::cout << "es un array nena" << std::endl;
+				std::vector<llvm::Type*> typeList;
+				llvm::StructType* _array = llvm::StructType::create(context.getGlobalContext(), llvm::makeArrayRef(typeList), "_array");
+				alloc = new llvm::AllocaInst(_array, 0, "alloc_array", context.currentBlock());
+			}
+			else
+			{
+				alloc = new llvm::AllocaInst(type_value, id.name.c_str(), context.currentBlock());
+			}
 		}
         
 		context.locals()[id.name] = alloc;

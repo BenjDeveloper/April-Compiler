@@ -52,6 +52,8 @@ namespace april
 			llvm::Function::arg_iterator para_fn = fn->arg_begin();
 			for (llvm::Value*& para : args)
 			{   
+				std::cout << "para_fn " << ((para_fn->getType()->isPointerTy()) ? (true) : (false)) << std::endl;
+				std::cout << "para " << ((para->getType()->isPointerTy()) ? (true) : (false)) << std::endl;
 				if (para_fn->getType()->isIntegerTy() && para->getType()->isDoubleTy())
 				{
 					cond = true;
@@ -59,6 +61,19 @@ namespace april
 				else if (para_fn->getType()->isDoubleTy() && para->getType()->isIntegerTy())
 				{
 					para = llvm::CastInst::Create(llvm::CastInst::getCastOpcode(para, true, llvm::Type::getDoubleTy(context.getGlobalContext()), true), para, llvm::Type::getDoubleTy(context.getGlobalContext()), "cast", context.currentBlock());
+				}
+				else if (para->getType()->isPointerTy() && para_fn->getType()->isStructTy())
+				{
+					std::cout << "son punteros" << std::endl;
+					//para = llvm::CastInst::Create(llvm::CastInst::getCastOpcode(para, true, para_fn->getType(), true), para, para_fn->getType(), "cast", context.currentBlock());
+					/////======================
+
+
+
+
+
+
+
 				}
 				if (cond)
 				{
@@ -70,6 +85,7 @@ namespace april
 			}
 		}
         llvm::CallInst* call = llvm::CallInst::Create(fn, args, "", context.currentBlock());
+		std::cout << "finallll" << std::endl;
         return call;
     }
 }
