@@ -39,21 +39,35 @@ namespace april
         }
         
         std::vector<llvm::Value*> args;
-
+		//-------------------
+		if (arguments->size() && arguments->front()->getType() == Type::identifier) {
+			Identifier* ident = (Identifier*) *(arguments->begin());
+			// Check if it is a var of class type...
+			llvm::AllocaInst* alloca = context.searchVariable(ident->getName());
+			if (alloca != nullptr) {
+				if (alloca->getType()->getElementType()->isStructTy()) {
+					std::cout << "method call es una estructura!!!!" << std::endl;
+					args.push_back(alloca);
+					delete ident;
+					arguments->erase(begin(*arguments));
+				}
+			}
+		}
+		//-------------------
         for (auto expr : *arguments)
         {
-            args.push_back(expr->codeGen(context));
-        }
+			/*if (context.func_args_refs[id->getName()][cont]) { args.push_back(context.locals()[id.name]) }
+			else {  }*/
+			args.push_back(expr->codeGen(context));
+		}
         
-        
+		int cont = 0;
 		if (id->getName() != "println")
 		{
 			bool cond = false;
 			llvm::Function::arg_iterator para_fn = fn->arg_begin();
 			for (llvm::Value*& para : args)
 			{   
-				std::cout << "para_fn " << ((para_fn->getType()->isPointerTy()) ? (true) : (false)) << std::endl;
-				std::cout << "para " << ((para->getType()->isPointerTy()) ? (true) : (false)) << std::endl;
 				if (para_fn->getType()->isIntegerTy() && para->getType()->isDoubleTy())
 				{
 					cond = true;
@@ -62,19 +76,7 @@ namespace april
 				{
 					para = llvm::CastInst::Create(llvm::CastInst::getCastOpcode(para, true, llvm::Type::getDoubleTy(context.getGlobalContext()), true), para, llvm::Type::getDoubleTy(context.getGlobalContext()), "cast", context.currentBlock());
 				}
-				else if (para->getType()->isPointerTy() && para_fn->getType()->isStructTy())
-				{
-					std::cout << "son punteros" << std::endl;
-					//para = llvm::CastInst::Create(llvm::CastInst::getCastOpcode(para, true, para_fn->getType(), true), para, para_fn->getType(), "cast", context.currentBlock());
-					/////======================
-
-
-
-
-
-
-
-				}
+				
 				if (cond)
 				{
 					printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: los parametros no coinciden en la llamada a la funcion '"+id->getName()+"' \n");
@@ -82,10 +84,10 @@ namespace april
 					return nullptr;
 				}
 				++para_fn;
+				cont++;
 			}
 		}
         llvm::CallInst* call = llvm::CallInst::Create(fn, args, "", context.currentBlock());
-		std::cout << "finallll" << std::endl;
         return call;
     }
 }

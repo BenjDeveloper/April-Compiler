@@ -1,6 +1,6 @@
-#line 1 "lexer.cpp"
+#line 1 "leer.cpp"
 
-#line 3 "lexer.cpp"
+#line 3 "leer.cpp"
 
 #define  YY_INT_ALIGNED short int
 
@@ -598,7 +598,7 @@ char *yytext;
     #include "include/array.hpp"
     #include "include/arrayaccess.hpp"
     #include "include/assignmentarray.hpp"
-	#include "include/vardeclarationref.hpp"
+	#include "include/vardeclarationpointer.hpp"
 	#include "parser.h"
     
 
@@ -619,8 +619,8 @@ char *yytext;
     }
 
 
-#line 622 "lexer.cpp"
-#line 623 "lexer.cpp"
+#line 622 "leer.cpp"
+#line 623 "leer.cpp"
 
 #define INITIAL 0
 
@@ -837,7 +837,7 @@ YY_DECL
 #line 54 "src/lexer.l"
 
 
-#line 840 "lexer.cpp"
+#line 840 "leer.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -1147,7 +1147,7 @@ YY_RULE_SETUP
 #line 105 "src/lexer.l"
 ECHO;
 	YY_BREAK
-#line 1150 "lexer.cpp"
+#line 1150 "leer.cpp"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 

@@ -28,7 +28,7 @@
     #include "include/array.hpp"
     #include "include/arrayaccess.hpp"
     #include "include/assignmentarray.hpp"
-
+	#include "include/vardeclarationref.hpp"
 
     using namespace april;
     
@@ -57,7 +57,7 @@
 }
 
 %token <string> TDIGIT TDOUBLE TIDENTIFIER TBOOLEAN 
-%token <token> TPLUS TMIN TMUL TDIV TVAR
+%token <token> TPLUS TMIN TMUL TDIV TVAR TAMPER
 %token <token> TCOLON TEQUAL TSC TJUMP TCOMMA TCOEQU
 %token <token> TRBRACE TLBRACE
 %token <token> TLPAREN TRPAREN TSTR TLBRACKET TRBRACKET
@@ -69,7 +69,7 @@
 
 %type <ident> ident
 %type <exprvec> call_args array_elements
-%type <expr> expr binary_ope_expr basics boolean_expr unary_ope method_call logic_ope array_expr array_access array_declaration
+%type <expr> expr binary_ope_expr basics boolean_expr unary_ope method_call logic_ope array_expr array_access //array_declaration
 %type <stmt> stmt var_decl conditional scope for fn_decl var_decl_arg return 
 %type <block> program stmts block
 %type <token> comparasion
@@ -113,6 +113,7 @@ fn_args: /* blank */                        { $$ = new april::VarList(); }
     ;
 
 var_decl_arg: ident TCOLON ident            { $$ = new april::VariableDeclaration(*$3, *$1);}
+	| ident TCOLON ident TAMPER				{ $$ = new april::VariableDeclaration(*$3, *$1, true); /*$$ = new april::VarDeclarationRef($1, $3->getName()); */}
     ;
 
 for: TFOR expr block                        { $$ = new april::ForLoop($2, $3); }
@@ -129,12 +130,14 @@ block: TLBRACE stmts TRBRACE				{ $$ = $2; }
 	| TLBRACE TRBRACE						{ $$ = new april::Block();  }
 	;
 
-var_decl: TVAR ident TCOLON ident TSC                       { $$ = new april::VariableDeclaration(*$4, *$2);}
-	| TVAR ident TCOLON array_declaration TSC				{  }
-    | TVAR ident TCOLON ident TEQUAL expr TSC               { $$ = new april::VariableDeclaration(*$4, *$2, $6); }
-    | TVAR ident TCOLON ident TEQUAL method_call TSC        { $$ = new april::VariableDeclaration(*$4, *$2, $6); }
-    | ident TCOEQU expr TSC                                 { $$ = new april::VariableDeclarationDeduce(*$1, $3); }
-    | ident TCOEQU method_call  TSC                         { $$ = new april::VariableDeclarationDeduce(*$1, $3); }
+var_decl: TVAR ident TCOLON ident TSC								{ $$ = new april::VariableDeclaration(*$4, *$2);}
+	/*| TVAR ident TCOLON array_declaration TSC						{  }*/
+	| TVAR ident TCOLON ident TAMPER TEQUAL ident TSC				{ $$ = new april::VarDeclarationRef($2, $4, $7); }
+	| ident TAMPER TCOEQU ident TSC									{ $$ = new april::VarDeclarationRef($1, $4); }
+    | TVAR ident TCOLON ident TEQUAL expr TSC						{ $$ = new april::VariableDeclaration(*$4, *$2, $6); }
+    | TVAR ident TCOLON ident TEQUAL method_call TSC				{ $$ = new april::VariableDeclaration(*$4, *$2, $6); }
+    | ident TCOEQU expr TSC											{ $$ = new april::VariableDeclarationDeduce(*$1, $3); }
+    | ident TCOEQU method_call  TSC									{ $$ = new april::VariableDeclarationDeduce(*$1, $3); }
     ;
 
 expr: binary_ope_expr									{ }
@@ -155,9 +158,10 @@ expr: binary_ope_expr									{ }
 	| array_access										{ }
 	;
 
-array_declaration: TLBRACKET TDIGIT TRBRACKET			{  }	
+/*array_declaration: TLBRACKET TDIGIT TRBRACKET			{  }	
 	| array_declaration ident							{  }
 	;
+*/
 
 array_access: ident TLBRACKET TDIGIT TRBRACKET			{ $$ = new april::ArrayAccess($1, std::atol($3->c_str())); delete $3; }
 	| array_access TLBRACKET TDIGIT TRBRACKET			{ $$ = new april::ArrayAccess($1, std::atol($3->c_str())); delete $3; }
@@ -177,8 +181,8 @@ method_call: ident TLPAREN call_args TRPAREN       { $$ = new april::MethodCall(
 logic_ope: TNOT expr 			            { $$ = new april::LogicOpe($1, $2); }
     ;
 
-unary_ope: ident TUNARIPLUS    		        { $$ = new april::UnaryOpe($2, $1, $1); }
-    | ident TUNARIMIN    	                { $$ = new april::UnaryOpe($2, $1, $1); }
+unary_ope: ident TUNARIPLUS    		        { $$ = new april::UnaryOpe($1, $2); }
+    | ident TUNARIMIN    	                { $$ = new april::UnaryOpe($1, $2); }
     ;
 
 call_args: /* blank */                      { $$ = new april::ExpressionList(); }

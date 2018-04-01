@@ -26,41 +26,36 @@ namespace april
         llvm::Value* expr_value = expr->codeGen(context);
         if (expr_value == nullptr)
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: al evaluar la expresion aa\n");
+            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: al evaluar la expresion.\n");
             context.addError();
             return nullptr;
         }
 
         llvm::Value* ident_value = ident->codeGen(context);
+		if (ident_value == nullptr)
+		{
+			printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la variable no ha sido declarada.\n");
+			context.addError();
+			return nullptr;
+		}
         llvm::Type* new_type = nullptr;
         
         //---------------------------------------------
         //                  VALIDACION
         //---------------------------------------------
 
-        if (ident_value->getType()->isIntegerTy() && expr_value->getType()->isIntegerTy(64))
+        if (ident_value->getType()->isDoubleTy() && expr_value->getType()->isIntegerTy())
         {
-            if (!ident_value->getType()->isIntegerTy(64))
-            { 
-                expr_value = llvm::CastInst::Create( llvm::CastInst::getCastOpcode(expr_value, true, ident_value->getType(), true) , expr_value, ident_value->getType(), "cast", context.currentBlock());
-            }
+			expr_value = llvm::CastInst::Create(llvm::CastInst::getCastOpcode(expr_value, true, ident_value->getType(), true), expr_value, ident_value->getType(), "cast_double", context.currentBlock());
         }
-        else if (ident_value->getType()->isFloatingPointTy() && (expr_value->getType()->isDoubleTy() || expr_value->getType()->isIntegerTy()))
-        {
-            if (!ident_value->getType()->isDoubleTy())
-            {
-                expr_value = llvm::CastInst::Create( llvm::CastInst::getCastOpcode(expr_value, true, ident_value->getType(), true), expr_value, ident_value->getType(), "cast", context.currentBlock());
-            }
-        }
+		else if (ident_value->getType()->isIntegerTy() && expr_value->getType()->isDoubleTy())
+		{
+			printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el cast no es posible.\n");
+			context.addError();
+			return nullptr;
+		}
 
-        bool op_decimal = (context.locals()[ident->name]->getType()->isFloatingPointTy() || expr_value->getType()->isFloatingPointTy())?(true):(false);
-
-        if (ident_value == nullptr)
-        {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: bitchesss\n");
-            context.addError();
-            return nullptr;
-        }
+        bool op_decimal = (context.locals()[ident->name]->getType()->isDoubleTy() || expr_value->getType()->isDoubleTy())?(true):(false);
 
         llvm::Value* result = nullptr;
         switch(_operator)

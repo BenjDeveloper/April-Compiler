@@ -30,7 +30,8 @@ namespace april
         expression,
         variable,
         function,
-		array
+		array,
+		ref
     };
 
     class Node

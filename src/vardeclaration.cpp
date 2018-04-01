@@ -10,9 +10,6 @@ namespace april
 {
     llvm::Value* VariableDeclaration::codeGen(CodeGenContext& context)
     {
-		std::cout << "variableDeclaration - " << type.getName() << std::endl;
-		llvm::Value* _code = nullptr;
-		llvm::AllocaInst* alloc = nullptr;
 		llvm::Type* type_value = nullptr;
 
         if (context.searchVariable(id.name))
@@ -24,45 +21,20 @@ namespace april
         
         type_value = context.typeOf(type.getName());
 		
-		if (type_value == nullptr || (assignmentExpr != nullptr && assignmentExpr->getType() == Type::array && type.getName() != "array"))
+		if (type_value == nullptr)
         {
 			printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: tipo no definido");
             context.addError();
             return nullptr;
         }
 
-		if (assignmentExpr != nullptr && assignmentExpr->getType() == Type::array)
-		{
-			_code = assignmentExpr->codeGen(context);
-			alloc = new llvm::AllocaInst(_code->getType(), id.name.c_str(), context.currentBlock());
-		}
-		else
-		{
-			if (type.getName() == "array")
-			{
-				std::cout << "es un array nena" << std::endl;
-				std::vector<llvm::Type*> typeList;
-				llvm::StructType* _array = llvm::StructType::create(context.getGlobalContext(), llvm::makeArrayRef(typeList), "_array");
-				alloc = new llvm::AllocaInst(_array, 0, "alloc_array", context.currentBlock());
-			}
-			else
-			{
-				alloc = new llvm::AllocaInst(type_value, id.name.c_str(), context.currentBlock());
-			}
-		}
-        
+		llvm::AllocaInst* alloc = new llvm::AllocaInst(type_value, id.name.c_str(), context.currentBlock());
 		context.locals()[id.name] = alloc;
-		
 
 		if (assignmentExpr != nullptr)
         { 
-			llvm::Value* expr_value = nullptr;
-			if (_code == nullptr)
-			{
-				expr_value = assignmentExpr->codeGen(context);
-			}
-			
-            if (_code == nullptr && expr_value == nullptr)
+			llvm::Value* expr_value = assignmentExpr->codeGen(context);
+			if (expr_value == nullptr)
             {
                 printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: con el token de tipo "+type.name+"\n");
                 context.addError();
@@ -70,19 +42,19 @@ namespace april
             }
 
             //---------------------------------------------
-			if (!(assignmentExpr->getType() == Type::array) && type_value->isDoubleTy() && expr_value->getType()->isIntegerTy())
+			if (type_value->isDoubleTy() && expr_value->getType()->isIntegerTy())
             {
 				expr_value = llvm::CastInst::Create(llvm::CastInst::getCastOpcode(expr_value, true, llvm::Type::getDoubleTy(context.getGlobalContext()), true), expr_value, llvm::Type::getDoubleTy(context.getGlobalContext()), "cast_double", context.currentBlock());
             }
            
-			if (!(assignmentExpr->getType() == Type::array) && type_value->isIntegerTy() && expr_value->getType()->isDoubleTy())
+			if (type_value->isIntegerTy() && expr_value->getType()->isDoubleTy())
             {
                 printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: al asignar una variable tipo 'int' con un 'double'");
                 context.addError();
                 return nullptr;
             }
 			//---------------------------------------------
-			Assignment assn(id, *assignmentExpr, (_code==nullptr)?(expr_value):(_code));
+			Assignment assn(id, *assignmentExpr, expr_value);
             assn.codeGen(context);
         }
 

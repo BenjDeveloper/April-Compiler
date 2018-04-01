@@ -77,6 +77,7 @@ set(SOURCES_COMMON
             src/unaryope.cpp				
             src/vardeclaration.cpp		
             src/vardeclarationdeduce.cpp
+			src/vardeclarationref.cpp
             parser.cpp
             lexer.cpp	
             main.cpp					
@@ -114,6 +115,7 @@ set(HEADER_COMMON
             include/unaryope.hpp				
             include/vardeclaration.hpp		
             include/vardeclarationdeduce.hpp
+			include/vardeclarationref.hpp
             parser.h
    )
 

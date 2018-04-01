@@ -25,6 +25,7 @@
     #include "include/array.hpp"
     #include "include/arrayaccess.hpp"
     #include "include/assignmentarray.hpp"
+	#include "include/vardeclarationref.hpp"
 	#include "parser.h"
     
 
@@ -98,6 +99,7 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 "/"                 { return TOKEN(TDIV); }
 "*"                 { return TOKEN(TMUL); }
 ","                 { return TOKEN(TCOMMA); }
+"&"					{ return TOKEN(TAMPER); }
 {IDENTIFIER}        { SAVE_TOKEN; return TIDENTIFIER; }
 .                   { /*empty*/ }
 %%

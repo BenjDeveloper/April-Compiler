@@ -43,7 +43,6 @@ namespace april
 		
 		for (int i = 0; i < valueList.size(); ++i)
 		{
-			std::cout << "black goku" << std::endl;
 			ptr_indices.clear();
 			ptr_indices.push_back(const_int_32_0);
 			llvm::ConstantInt* const_int32 = llvm::ConstantInt::get(context.getModule()->getContext(), llvm::APInt(32, i));
@@ -51,7 +50,6 @@ namespace april
 			llvm::Instruction* ptr = llvm::GetElementPtrInst::Create(alloc_array->getType()->getElementType(), alloc_array, ptr_indices, "", context.currentBlock());
 			new llvm::StoreInst(valueList[i], ptr, context.currentBlock());
 		}
-		std::cout << "creacion array tipo - " << alloc_array->getAllocatedType()->isStructTy() << std::endl;
 		return alloc_array;
 	}
 }

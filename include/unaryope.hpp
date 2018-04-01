@@ -10,12 +10,11 @@ namespace april
 	class UnaryOpe: public Expression
 	{
 		private:
-			int operation;
-			Expression* hs;
-			Identifier* ident;
+			int ope;
+			Identifier* iden;
 
 		public:
-			UnaryOpe(int operation, Expression* hs, Identifier* ident): operation(operation), hs(hs), ident(ident) {}
+			UnaryOpe(Identifier* iden, int ope): iden(iden), ope(ope) {}
 			~UnaryOpe() { }
 			virtual llvm::Value* codeGen(CodeGenContext&);
 			Type getType() { return Type::expression; }

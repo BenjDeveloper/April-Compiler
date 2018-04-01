@@ -1,0 +1,29 @@
+/*llvm::Type* obj_type = context.typeOf(type->getName());
+llvm::Type* ptr_type = llvm::PointerType::get(obj_type, 0);
+
+std::cout << "uno" << std::endl;
+llvm::AllocaInst* alloc = new llvm::AllocaInst(ptr_type, 0, "ptr", context.currentBlock());
+llvm::Value* value = id_obj->codeGen(context);
+llvm::Value* c = llvm::IntToPtrInst::Create(llvm::Instruction::CastOps::IntToPtr, value, ptr_type, "", context.currentBlock());
+		
+new llvm::StoreInst(c, alloc, context.currentBlock());
+context.locals()[id->getName()] = alloc;
+std::cout << "finalizo de crear el ptr" << std::endl;
+return alloc;*/
+
+//----------------------------------------
+
+		
+/*llvm::Type* obj_type = context.typeOf(type->getName());
+llvm::Constant* constant = llvm::ConstantInt::get(obj_type, llvm::APInt(32, 0));
+llvm::Value* val = llvm::ConstantExpr::getIntToPtr(constant, llvm::PointerType::getUnqual(obj_type));
+
+std::cout << "uno" << std::endl;
+llvm::AllocaInst* alloc = new llvm::AllocaInst(val->getType(), 0, "ptr", context.currentBlock());
+llvm::Value* value = id_obj->codeGen(context);
+std::cout << "dos" << std::endl;
+llvm::Value* c = llvm::IntToPtrInst::Create(llvm::Instruction::CastOps::IntToPtr, value, val->getType(), "", context.currentBlock());
+new llvm::StoreInst(c, alloc, context.currentBlock());
+context.locals()[id->getName()] = alloc;
+std::cout << "finalizo de crear el ptr" << std::endl;
+return alloc;*/
