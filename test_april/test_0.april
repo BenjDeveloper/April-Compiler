@@ -5,8 +5,12 @@
 // **    result: 1.41421                                  ***
 // ********************************************************** 
 
+
 fn main():void
 {
-	x := 5;
-	println("x: %d", x);
+	x:="uno, ";
+	y:="dos";
+	println("x: %s ", x);
+	println("y: %s ", y);
+	println("x + y: %s ", str_concat(x,y));
 }	

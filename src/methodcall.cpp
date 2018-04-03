@@ -31,7 +31,7 @@ namespace april
             return nullptr;
         }
 
-        if ( id->getName() != "println" && (arguments->size() != fn->arg_size()))
+        if ( id->getName() != "println" && id->getName() != "str_compare" && id->getName() != "str_concat"  && (arguments->size() != fn->arg_size()))
         {
             printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: los numeros de parametros no coinciden en la llamada a la funcion '"+id->getName()+"' \n");
             context.addError();
@@ -62,7 +62,7 @@ namespace april
 		}
         
 		int cont = 0;
-		if (id->getName() != "println")
+		if (id->getName() != "println" && id->getName() != "str_compare" && id->getName() != "str_concat")
 		{
 			bool cond = false;
 			llvm::Function::arg_iterator para_fn = fn->arg_begin();

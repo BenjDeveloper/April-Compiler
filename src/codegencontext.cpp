@@ -199,6 +199,25 @@ namespace april
 		f = llvm::Function::Create( ft, llvm::Function::ExternalLinkage, "println", getModule());
         i = f->arg_begin();
         if( i != f->arg_end() ) { i->setName("format_str"); }
+
+		//-----------------------------------------------------------------------------------
+		//std::vector<llvm::Type*> args;
+		std::vector<llvm::Type*> para(1, llvm::Type::getInt8PtrTy(llvmContext));
+
+		ft = llvm::FunctionType::get(llvm::Type::getInt32Ty(llvmContext), para, true);
+		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "str_compare", getModule());
+		i = f->arg_begin();
+		if (i != f->arg_end()) { i->setName("_var_p"); }
+
+		//-----------------------------------------------------------------------------------
+		//std::vector<llvm::Type*> args;
+		std::vector<llvm::Type*> argConcat(1, llvm::Type::getInt8PtrTy(llvmContext));
+
+		ft = llvm::FunctionType::get(llvm::Type::getInt8PtrTy(llvmContext), argConcat, true);
+		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "str_concat", getModule());
+		i = f->arg_begin();
+		if (i != f->arg_end()) { i->setName("_var_concat"); }
+		//-----------------------------------------------------------------------------------
     }
 
     llvm::GenericValue CodeGenContext::runCode()

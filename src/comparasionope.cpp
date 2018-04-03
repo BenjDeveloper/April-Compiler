@@ -19,13 +19,15 @@ namespace april
             return nullptr;
 		}
 
-		if (lhs_value->getType() != rhs_value->getType())
+		if (lhs_value->getType() != rhs_value->getType())// mal casteo se requieren saber tipo
 		{
 			auto cinst = llvm::CastInst::getCastOpcode(rhs_value, true, llvm::Type::getDoubleTy(context.getGlobalContext()), true);	
 			rhs_value = llvm::CastInst::Create(cinst, rhs_value, llvm::Type::getDoubleTy(context.getGlobalContext()), "cast", context.currentBlock());
 			cinst =  llvm::CastInst::getCastOpcode(lhs_value, true, llvm::Type::getDoubleTy(context.getGlobalContext()), true);	
 			lhs_value = llvm::CastInst::Create(cinst, lhs_value, llvm::Type::getDoubleTy(context.getGlobalContext()), "cast", context.currentBlock());
 		}
+
+
 
 		bool isDouble = rhs_value->getType() == llvm::Type::getDoubleTy(context.getGlobalContext());
 		llvm::Instruction::OtherOps oinst = (isDouble)?(llvm::Instruction::FCmp):(llvm::Instruction::ICmp);
@@ -50,6 +52,7 @@ namespace april
 				break;
 
 			case TCOMEQ:
+						
 				predicate = (isDouble)?(llvm::CmpInst::FCMP_OEQ):(llvm::CmpInst::ICMP_EQ);
 				break;
 

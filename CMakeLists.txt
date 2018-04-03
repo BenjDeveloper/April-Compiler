@@ -61,14 +61,16 @@ set(SOURCES_COMMON
             src/comparasionope.cpp		
             src/conditional.cpp			
             src/double.cpp				
-            src/exprstatement.cpp			
+            src/exprstatement.cpp
+			src/errors.cpp
             src/forloop.cpp				
             src/function.cpp				
             src/identifier.cpp			
             src/integer.cpp				
             src/lexer.l					
             src/logicope.cpp				
-            src/methodcall.cpp			
+            src/methodcall.cpp
+			src/msg.cpp
             src/nativefn.cpp				
             src/parser.y				
             src/return.cpp				
@@ -105,7 +107,8 @@ set(HEADER_COMMON
             include/identifier.hpp			
             include/integer.hpp				
             include/logicope.hpp				
-            include/methodcall.hpp			
+            include/methodcall.hpp	
+			include/msg.hpp	
             include/nativefn.hpp			
             include/node.hpp			
             include/return.hpp				
