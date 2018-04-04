@@ -8,9 +8,11 @@
 
 fn main():void
 {
-	x:="uno, ";
+	//p:=1;
+	x:="uno,";
 	y:="dos";
 	println("x: %s ", x);
 	println("y: %s ", y);
-	println("x + y: %s ", str_concat(x,y));
+	str_concat(x,y);
+	//println("x + y: %s ", str_concat(x,y));
 }	

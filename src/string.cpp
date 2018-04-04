@@ -1,6 +1,7 @@
 #include <iostream>
 #include "../include/string.hpp"
 #include "../include/codegencontext.hpp"
+#include "../include/nativefn.hpp"
 
 //----------------------------
 #include "llvm/IR/Module.h"
@@ -23,6 +24,7 @@ namespace april
 {
     llvm::Value* String::codeGen(CodeGenContext& context)
     {
+		value = s_clean(value);
         llvm::ArrayType* array_type = llvm::ArrayType::get(llvm::IntegerType::get(context.getGlobalContext(), 8), value.size()+1);
         llvm::GlobalVariable* gvar = new llvm::GlobalVariable(*context.getModule(), array_type, true, llvm::GlobalValue::PrivateLinkage, 0, ".str");
         

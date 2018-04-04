@@ -18,5 +18,5 @@ extern "C" DECLSPEC void println(char* str, ...);
 extern "C" DECLSPEC int str_compare(char*);
 extern "C" DECLSPEC std::vector<std::string>* s_plit(std::string str, char token);
 extern "C" DECLSPEC char* str_concat(char* str0, char* str1);
-extern "C" DECLSPEC std::vector<std::string>* s_clean(std::string str);
+extern "C" DECLSPEC char* s_clean(std::string str);
 

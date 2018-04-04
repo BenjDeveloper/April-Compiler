@@ -16,6 +16,7 @@ extern "C" DECLSPEC void saludos()
 
 extern "C" DECLSPEC void print(char* str, ...)
 {
+	str = s_clean(str);
     va_list args;
     va_start(args, str);
     vprintf(str, args);
@@ -24,12 +25,13 @@ extern "C" DECLSPEC void print(char* str, ...)
 
 extern "C" DECLSPEC void println(char* str, ...)
 {
+	str = s_clean(str);
     char* aux_str;
     va_list args;
     va_start(args, str);
     aux_str = (char*) malloc(strlen(str)+2);
     strcpy(aux_str, str);
-    strcat(aux_str, "\n");
+    strcat(aux_str, "\n");	
     vprintf(aux_str, args);
     va_end(args);
 }
@@ -76,18 +78,14 @@ extern "C" DECLSPEC char* str_concat(char* str0, char* str1)
 	char* temp = new char( std::strlen(str0) + ::strlen(str1) +2);
 	std::strcpy(temp, str0);
 	std::strcat(temp, str1);
-	std::vector<std::string>* vtemp = s_clean(temp);
-	std::string t = vtemp->front();
-
-	std::strcpy(temp, t.c_str());
-
+	std::cout<< temp << std::endl;
+	//temp = s_clean(temp);
 	return temp;
 }
 
-extern "C" DECLSPEC std::vector<std::string>* s_clean(std::string str)
+extern "C" DECLSPEC char* s_clean(std::string str)
 {
-	std::vector<std::string>* result = new std::vector<std::string>();
-	//std::regex re("_?[a-z]*");
+	std::vector<std::string>* Vresult = new std::vector<std::string>();
 	std::string chain;
 
 	for (char& c : str)
@@ -97,6 +95,11 @@ extern "C" DECLSPEC std::vector<std::string>* s_clean(std::string str)
 			chain += c;
 		}
 	}
-	result->push_back(chain);
+	Vresult->push_back(chain);
+	std::string t = Vresult->front();
+
+	char* result = new char(t.length() + 2);
+	std::strcpy(result, t.c_str());
+
 	return result;
 }
