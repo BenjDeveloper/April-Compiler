@@ -80,6 +80,7 @@ set(SOURCES_COMMON
             src/vardeclaration.cpp		
             src/vardeclarationdeduce.cpp
 			src/vardeclarationref.cpp
+			src/arrayaddelement.cpp
             parser.cpp
             lexer.cpp	
             main.cpp					
@@ -119,6 +120,7 @@ set(HEADER_COMMON
             include/vardeclaration.hpp		
             include/vardeclarationdeduce.hpp
 			include/vardeclarationref.hpp
+			include/arrayaddelement.hpp
             parser.h
    )
 

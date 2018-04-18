@@ -26,6 +26,7 @@ namespace april
         
         llvm::AllocaInst* alloc = new llvm::AllocaInst(expr_value->getType(), id.name.c_str(), context.currentBlock());
         context.locals()[id.name] = alloc;
+		context.setVarType("var", id.getName());
         Assignment assn(id, *expr, expr_value);
         
         auto val = assn.codeGen(context);

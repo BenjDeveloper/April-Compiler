@@ -13,11 +13,11 @@ extern bool existMainFunction;
 
 namespace april
 {
-    static const std::string name_main = "_Pandicorn&KenshinUrashima";
-	
+    static const std::string name_main = "_Pandicorn&Kenshin";
 
     CodeGenContext::CodeGenContext()
     {
+		scope = ScopeType::Block;
         errors = 0;
         llvm::InitializeNativeTarget();
         llvm::InitializeNativeTargetAsmParser();
@@ -25,10 +25,11 @@ namespace april
         module = new llvm::Module("april", llvmContext);
     }
 
-    void CodeGenContext::pushBlock(llvm::BasicBlock* block, llvm::FunctionType* fn)
+    void CodeGenContext::pushBlock(llvm::BasicBlock* block, llvm::FunctionType* fn, ScopeType scope)
     {
         blocks.push_front(new CodeGenBlock(block));
         stackFunctionType.push(fn);    
+		this->scope = scope;
     }
 
     void CodeGenContext::popBlock()
@@ -76,51 +77,47 @@ namespace april
         {
             return llvm::Type::getInt8PtrTy(getGlobalContext());
         }
-		else if (name.compare("array") == 0)
-		{
-			return llvm::Type::getVoidTy(getGlobalContext());
-		}
-        else if (name.compare("void") == 0)
+		else if (name.compare("void") == 0)
         {
             return llvm::Type::getVoidTy(getGlobalContext());
         }
+		else if (name.compare("list") == 0)
+		{
+			std::vector<llvm::Type*> typeList;
+			llvm::StructType* _array = llvm::StructType::create(getGlobalContext(), llvm::makeArrayRef(typeList), "list");
+			auto alloc_array = new llvm::AllocaInst(_array, 0, "alloc_list", currentBlock());
+			return alloc_array->getType()->getElementType();
+		}
         Block::printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: tipo de dato '"+ name +"' no existe");
         addError();
         return nullptr;
-        // return llvm::Tyspe::getVoidTy(getGlobalContext());
     }
 
 	bool CodeGenContext::generateCode(Block& root)
     {
-        if (!existMainFunction)
+        /*if (!existMainFunction)
         {
             std::cout << "Falta la funcion 'main'" << std::endl; 
             return false;
-        }
+        }*/
         
         std::cout << "*******************Generando codigo*******************" << std::endl;
 		std::vector<llvm::Type*> argTypes;
-		//llvm::FunctionType* ftype = llvm::FunctionType::get(llvm::Type::getVoidTy(llvm::getGlobalContext()), llvm::makeArrayRef(argTypes), false);
 		llvm::FunctionType* ftype = llvm::FunctionType::get(llvm::Type::getVoidTy(llvmContext), argTypes, false);
 		mainFunction = llvm::Function::Create(ftype, llvm::GlobalValue::InternalLinkage, name_main, module);
-		//mainFunction = llvm::Function::Create(ftype, llvm::GlobalValue::InternalLinkage, name_main, getModule());
-		//llvm::BasicBlock* bblock = llvm::BasicBlock::Create(llvm::getGlobalContext(), name_main, mainFunction, 0);
 		llvm::BasicBlock* bblock = llvm::BasicBlock::Create(llvmContext, "entry", mainFunction, 0);
 		setupBuildFn();
-		pushBlock(bblock, nullptr);
+		pushBlock(bblock, nullptr, ScopeType::Block);
 		llvm::Value* result = root.codeGen(*this);
 
-		if (errors) 
-        { 
-            // std::cout << "Compilacion con errores..." << std::endl; 
-            return false;
-        }
+		if (errors) { return false; }
+        
+		//-----------------------------------------------------------------------------------
         //-----------------------------------------------------------------------------------
-        //-----------------------------------------------------------------------------------
-        std::string fn_main = "main";
+        /*std::string fn_main = "main";
         std::vector<llvm::Value*> args_prueba;
         llvm::Function* fn = getModule()->getFunction(fn_main.c_str());
-        llvm::CallInst* call = llvm::CallInst::Create(fn, args_prueba, "", currentBlock());
+        llvm::CallInst* call = llvm::CallInst::Create(fn, args_prueba, "", currentBlock());*/
         //-----------------------------------------------------------------------------------
         //-----------------------------------------------------------------------------------
         if (currentBlock()->getTerminator() == nullptr)
@@ -166,8 +163,6 @@ namespace april
 
     }
 
-    //arreglar esta funcion
-	//#define MAKE_LLVM_EXTERNAL_NAME(a) #a
     void CodeGenContext::setupBuildFn()
     {
         auto intType = llvm::Type::getInt32Ty(llvmContext);
@@ -249,4 +244,42 @@ namespace april
 		}
     }
 
+	void CodeGenContext::renameVariable(std::string oldVarName, std::string newVarName)
+	{
+		ValueNames& names = locals();
+		if (names.find(oldVarName) != names.end()) {
+			auto value = names[oldVarName];
+			names.erase(oldVarName);
+			names[newVarName] = value;
+
+			std::map<std::string, std::string>& typeMap = blocks.front()->getTypeMap();
+			if (typeMap.count(oldVarName)) {
+				auto value = typeMap[oldVarName];
+				typeMap.erase(oldVarName);
+				typeMap[newVarName] = value;
+			}
+		}
+	}
+
+	std::string CodeGenContext::getType(std::string varName)
+	{
+		if (blocks.front()->getTypeMap().find(varName) != blocks.front()->getTypeMap().end())
+			return blocks.front()->getTypeMap()[varName];
+
+		return std::string("");
+	}
+
+	void CodeGenContext::deleteVariable(std::string varName)
+	{
+		ValueNames& names = locals();
+		auto& typeMap = blocks.front()->getTypeMap();
+		if (names.find(varName) != names.end())
+		{
+			names.erase(varName);
+			if (typeMap.count(varName))
+			{
+				typeMap.erase(varName);
+			}
+		}
+	}
 }

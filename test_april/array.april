@@ -8,5 +8,8 @@
 fn main():void
 {
 	v := [1, 2, 3];
-	//v := [5, 1.2, "a"];
+	//posibles soluciones para hacer arreglos
+
+	var v:int = [1, 2, 3];
+
 }

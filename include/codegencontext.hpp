@@ -30,10 +30,13 @@
 
 namespace april
 {
-    enum class ScopeType
-    {
-        FunctionDeclaration
-    };
+	using ValueNames = std::map<std::string, llvm::AllocaInst*>;
+
+	enum class ScopeType
+	{
+		Function,
+		Block
+	};
 
     class CodeGenContext
     {
@@ -49,17 +52,18 @@ namespace april
             llvm::Function* printfFunction;
             llvm::LLVMContext llvmContext;
             int errors;
+			ScopeType scope;
 
         public:
             CodeGenContext();
             void optimize();
             llvm::LLVMContext& getGlobalContext() { return llvmContext; }
-            bool generateCode(Block& root);
+            bool generateCode(Block&);
             llvm::Module* getModule() { return this->module; }
             llvm::GenericValue runCode();
             std::map<std::string, llvm::AllocaInst*>& locals()  { return blocks.front()->locals; }
             llvm::BasicBlock* currentBlock() { return blocks.front()->block; }
-            void pushBlock(llvm::BasicBlock* block, llvm::FunctionType* fn);
+            void pushBlock(llvm::BasicBlock*, llvm::FunctionType*, ScopeType);
             void popBlock();
             void setupBuildFn();
             llvm::AllocaInst* searchVariable(std::string);
@@ -69,6 +73,11 @@ namespace april
             void valOperator(llvm::Value*&, llvm::Value*&);
             void addError() { ++errors; }
             llvm::FunctionType* getCurrentFunctionType() { return stackFunctionType.top(); }
+			ScopeType getScope() { return scope; }
+			void renameVariable(std::string, std::string);
+			void setVarType(std::string varType, std::string varName) { blocks.front()->getTypeMap()[varName] = varType; }
+			std::string getType(std::string);
+			void deleteVariable(std::string);
 	};
 }
 

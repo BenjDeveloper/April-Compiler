@@ -5,12 +5,11 @@
 // **    result: 1.41421                                  ***
 // ********************************************************** 
 
+v := [];
 
-fn main():void
-{
-	x:="uno, ";
-	y:="dos";
-	println("x: %s ", x);
-	println("y: %s ", y);
-	println("x + y: %s ", str_concat(x,y));
-}	
+v << 2;
+v << [5, 6];
+
+println("%d", v[0]);
+println("%d", v[1][1]);
+

@@ -28,8 +28,26 @@ namespace april
             return nullptr;
         }
 
-		llvm::AllocaInst* alloc = new llvm::AllocaInst(type_value, id.name.c_str(), context.currentBlock());
-		context.locals()[id.name] = alloc;
+		//--------------------------------------------------------
+
+		llvm::AllocaInst* alloc = nullptr;
+		if (type_value->isStructTy() && context.getScope() != ScopeType::Function)
+		{
+			alloc = new llvm::AllocaInst(type_value, 0, id.name.c_str(), context.currentBlock());
+			context.locals()[id.name] = alloc;
+		}
+		else
+		{
+			if (type_value->isStructTy())
+				type_value = llvm::PointerType::get(type_value, 0);
+			
+			alloc = new llvm::AllocaInst(type_value, 0, id.name.c_str(), context.currentBlock());
+			context.locals()[id.name] = alloc;
+
+		}
+		context.setVarType(type.getName(), id.getName());
+
+		//--------------------------------------------------------
 
 		if (assignmentExpr != nullptr)
         { 
@@ -43,9 +61,7 @@ namespace april
 
             //---------------------------------------------
 			if (type_value->isDoubleTy() && expr_value->getType()->isIntegerTy())
-            {
 				expr_value = llvm::CastInst::Create(llvm::CastInst::getCastOpcode(expr_value, true, llvm::Type::getDoubleTy(context.getGlobalContext()), true), expr_value, llvm::Type::getDoubleTy(context.getGlobalContext()), "cast_double", context.currentBlock());
-            }
            
 			if (type_value->isIntegerTy() && expr_value->getType()->isDoubleTy())
             {

@@ -31,6 +31,7 @@
     #include "include/arrayaccess.hpp"
     #include "include/assignmentarray.hpp"
 	#include "include/vardeclarationref.hpp"
+	#include "include/arrayaddelement.hpp"
 
     using namespace april;
     
@@ -60,7 +61,7 @@
 
 %token <string> TDIGIT TDOUBLE TIDENTIFIER TBOOLEAN 
 %token <token> TPLUS TMIN TMUL TDIV TVAR TAMPER
-%token <token> TCOLON TEQUAL TSC TJUMP TCOMMA TCOEQU
+%token <token> TCOLON TEQUAL TSC TJUMP TCOMMA TCOEQU TLTL
 %token <token> TRBRACE TLBRACE
 %token <token> TLPAREN TRPAREN TSTR TLBRACKET TRBRACKET
 %token <token> TCOMNE TCOMEQ TCOMLE TCOMGE TCOMLT TCOMGT
@@ -72,7 +73,7 @@
 %type <ident> ident
 %type <exprvec> call_args array_elements
 %type <expr> expr binary_ope_expr basics boolean_expr unary_ope method_call logic_ope array_expr array_access //array_declaration
-%type <stmt> stmt var_decl conditional scope for fn_decl var_decl_arg return 
+%type <stmt> stmt var_decl conditional scope for fn_decl var_decl_arg return array_add_element
 %type <block> program stmts block
 %type <token> comparasion
 %type <vardecl> fn_args;
@@ -100,7 +101,11 @@ stmt: var_decl                              { }
     | fn_decl
     | var_decl_arg
     | return
+	| array_add_element
     ;
+
+array_add_element: ident TLTL expr TSC		{ $$ = new april::ArrayAddElement($1, $3); }
+	;
 
 return: TRETURN  TSC                        { $$ = new april::Return(); }
     |   TRETURN expr TSC                    { $$ = new april::Return($2); }    
@@ -133,9 +138,6 @@ block: TLBRACE stmts TRBRACE				{ $$ = $2; }
 	;
 
 var_decl: TVAR ident TCOLON ident TSC								{ $$ = new april::VariableDeclaration(*$4, *$2);}
-	/*| TVAR ident TCOLON array_declaration TSC						{  }*/
-	| TVAR ident TCOLON ident TAMPER TEQUAL ident TSC				{ $$ = new april::VarDeclarationRef($2, $4, $7); }
-	| ident TAMPER TCOEQU ident TSC									{ $$ = new april::VarDeclarationRef($1, $4); }
     | TVAR ident TCOLON ident TEQUAL expr TSC						{ $$ = new april::VariableDeclaration(*$4, *$2, $6); }
     | TVAR ident TCOLON ident TEQUAL method_call TSC				{ $$ = new april::VariableDeclaration(*$4, *$2, $6); }
     | ident TCOEQU expr TSC											{ $$ = new april::VariableDeclarationDeduce(*$1, $3); }
@@ -159,11 +161,6 @@ expr: binary_ope_expr									{ }
 	| array_expr										{ }
 	| array_access										{ }
 	;
-
-/*array_declaration: TLBRACKET TDIGIT TRBRACKET			{  }	
-	| array_declaration ident							{  }
-	;
-*/
 
 array_access: ident TLBRACKET TDIGIT TRBRACKET			{ $$ = new april::ArrayAccess($1, std::atol($3->c_str())); delete $3; }
 	| array_access TLBRACKET TDIGIT TRBRACKET			{ $$ = new april::ArrayAccess($1, std::atol($3->c_str())); delete $3; }
@@ -213,7 +210,6 @@ basics: TDIGIT                              { $$ = new april::Integer(std::atol(
                                                 std::strcpy(value, "-");
                                                 std::strcat(value, $2->c_str());
                                                 $$ = new april::Integer(std::atol(value)); 
-                                                
 												//delete $2; 
                                                 //delete value;
 											}

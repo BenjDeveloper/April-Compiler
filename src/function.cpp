@@ -50,17 +50,17 @@ namespace april
             context.addError();
             return nullptr;
         }
-
         llvm::FunctionType* fn_type = llvm::FunctionType::get(context.typeOf(*type), args_type, false);
         std::string fn_name = id->getName();
         if (type->getName() == "var")
         {
             fn_name += "_del";
         }
+		
 
         llvm::Function* function = llvm::Function::Create(fn_type, llvm::GlobalValue::InternalLinkage, fn_name.c_str(), context.getModule());
         llvm::BasicBlock* bblock = llvm::BasicBlock::Create(context.getGlobalContext(), "entry", function, 0);
-        context.pushBlock(bblock, fn_type);
+        context.pushBlock(bblock, fn_type, ScopeType::Function);
 
 
 		std::cout << "uno function!: " << std::endl;
@@ -69,6 +69,7 @@ namespace april
         {
 			std::cout << "fn: " << id->getName() << "; para: " << var->getVarName() << "; ref: " << var->isRef() << std::endl;
             llvm::AllocaInst* alloca = llvm::dyn_cast<llvm::AllocaInst>(var->codeGen(context));
+			std::cout << "cassssssssss: " << std::endl;
 			std::string val_name = var->getVarName();
 			if (alloca != nullptr)
 			{

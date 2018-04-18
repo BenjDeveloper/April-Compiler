@@ -13,6 +13,7 @@ namespace april
 
 		if (expr != nullptr)
 		{
+			std::cout << "--> aqui <--" << std::endl;
 			llvm::Value* tmp = expr->codeGen(context);
 			var = new llvm::AllocaInst(tmp->getType(), 0, "tmp_access_array_index", context.currentBlock());
 			new llvm::StoreInst(tmp, var, context.currentBlock());

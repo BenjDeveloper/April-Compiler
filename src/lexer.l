@@ -28,6 +28,7 @@
     #include "include/arrayaccess.hpp"
     #include "include/assignmentarray.hpp"
 	#include "include/vardeclarationref.hpp"
+	#include "include/arrayaddelement.hpp"
 	#include "parser.h"
     
 
@@ -80,6 +81,7 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 ">="				{ return TOKEN(TCOMGE); }
 "<"					{ return TOKEN(TCOMLT); }
 ">"					{ return TOKEN(TCOMGT); }
+"<<"				{ return TOKEN(TLTL); }
 "("                 { return TOKEN(TLPAREN); }
 ")"                 { return TOKEN(TRPAREN); }
 ":="                { return TOKEN(TCOEQU); }

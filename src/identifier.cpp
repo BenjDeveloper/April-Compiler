@@ -10,7 +10,7 @@ namespace april
     {
         if (context.searchVariable(name) == nullptr)
         {
-            printError(april_errors->file_name+": "+std::to_string(april_errors->line)+" error: la variable '"+name+"' no ha sido declarada\n");
+            printError(april_errors->file_name+": "+std::to_string(april_errors->line)+" error: la variable '"+name+"' no ha sido declarada.\n");
             context.addError();
             return nullptr;
         }

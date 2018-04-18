@@ -40,6 +40,7 @@ namespace april
 				context.addError();
 				return nullptr;
 			}
+
             return new llvm::StoreInst(rhs_value, context.locals()[lhs.name], false, context.currentBlock());
         }
         else 
