@@ -85,8 +85,7 @@ namespace april
 		{
 			std::vector<llvm::Type*> typeList;
 			llvm::StructType* _array = llvm::StructType::create(getGlobalContext(), llvm::makeArrayRef(typeList), "list");
-			auto alloc_array = new llvm::AllocaInst(_array, 0, "alloc_list", currentBlock());
-			return alloc_array->getType()->getElementType();
+			return _array;
 		}
         Block::printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: tipo de dato '"+ name +"' no existe");
         addError();

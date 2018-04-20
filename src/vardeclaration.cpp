@@ -2,6 +2,7 @@
 #include "../include/vardeclaration.hpp"
 #include "../include/codegencontext.hpp"
 #include "../include/assignment.hpp"
+#include "../include/array.hpp"
 
 //----------------------------
 extern april::STRUCINFO* april_errors;
@@ -31,25 +32,37 @@ namespace april
 		//--------------------------------------------------------
 
 		llvm::AllocaInst* alloc = nullptr;
-		if (type_value->isStructTy() && context.getScope() != ScopeType::Function)
+
+		if (!type_value->isStructTy())
 		{
+			this->__is_struct = false;
 			alloc = new llvm::AllocaInst(type_value, 0, id.name.c_str(), context.currentBlock());
-			context.locals()[id.name] = alloc;
 		}
 		else
 		{
-			if (type_value->isStructTy())
-				type_value = llvm::PointerType::get(type_value, 0);
+			this->__is_struct = true;
+			llvm::Value* array_value = nullptr;
+			if (assignmentExpr == nullptr)
+			{
+				ExpressionList members;
+				Array* array = new Array{ &members };
+				array_value = array->codeGen(context);
+			}
+			else
+				array_value = assignmentExpr->codeGen(context);
 			
-			alloc = new llvm::AllocaInst(type_value, 0, id.name.c_str(), context.currentBlock());
-			context.locals()[id.name] = alloc;
+			//llvm::Type* _array_type = llvm::PointerType::get(array_value->getType(), 0);
+
+			//alloc = new llvm::AllocaInst(_array_type, id.getName().c_str(), context.currentBlock());
+			alloc = new llvm::AllocaInst(array_value->getType(), id.getName().c_str(), context.currentBlock());
+			new llvm::StoreInst(array_value, alloc, false, context.currentBlock());
 
 		}
+		context.locals()[id.getName()] = alloc;
 		context.setVarType(type.getName(), id.getName());
 
 		//--------------------------------------------------------
-
-		if (assignmentExpr != nullptr)
+		if (!type_value->isStructTy() && assignmentExpr != nullptr)
         { 
 			llvm::Value* expr_value = assignmentExpr->codeGen(context);
 			if (expr_value == nullptr)
@@ -73,7 +86,6 @@ namespace april
 			Assignment assn(id, *assignmentExpr, expr_value);
             assn.codeGen(context);
         }
-
         return alloc;
     }
 }
