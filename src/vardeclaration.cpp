@@ -2,8 +2,10 @@
 #include "../include/vardeclaration.hpp"
 #include "../include/codegencontext.hpp"
 #include "../include/assignment.hpp"
+#include "../include/errors.hpp"
 
 //----------------------------
+// Errors :: [1-10] node -> statemente -> vardeclaration
 extern april::STRUCINFO* april_errors;
 
 namespace april
@@ -14,18 +16,14 @@ namespace april
 
         if (context.searchVariable(id.name))
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la variable '"+id.name+"' ya existe\n");
-            context.addError();
-            return nullptr;
+			return Errors::call(context, 1, april_errors->file_name, april_errors->line, id.name);
         }
         
         type_value = context.typeOf(type.getName());
 		
 		if (type_value == nullptr)
         {
-			printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: tipo no definido");
-            context.addError();
-            return nullptr;
+			return Errors::call(context, 2, april_errors->file_name, april_errors->line, "");
         }
 
 		llvm::AllocaInst* alloc = new llvm::AllocaInst(type_value, id.name.c_str(), context.currentBlock());
@@ -36,9 +34,7 @@ namespace april
 			llvm::Value* expr_value = assignmentExpr->codeGen(context);
 			if (expr_value == nullptr)
             {
-                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: con el token de tipo "+type.name+"\n");
-                context.addError();
-                return nullptr;
+				return Errors::call(context, 3, april_errors->file_name, april_errors->line, type.name);
             }
 
             //---------------------------------------------
@@ -49,9 +45,7 @@ namespace april
            
 			if (type_value->isIntegerTy() && expr_value->getType()->isDoubleTy())
             {
-                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: al asignar una variable tipo 'int' con un 'double'");
-                context.addError();
-                return nullptr;
+				return Errors::call(context, 4, april_errors->file_name, april_errors->line, "");
             }
 			//---------------------------------------------
 			Assignment assn(id, *assignmentExpr, expr_value);

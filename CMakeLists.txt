@@ -67,7 +67,11 @@ set(SOURCES_COMMON
             src/function.cpp				
             src/identifier.cpp			
             src/integer.cpp				
-            src/lexer.l					
+            src/lexer.l
+			src/libcast.cpp
+			src/libmath.cpp
+			src/libconst.cpp
+			src/libstring.cpp	
             src/logicope.cpp				
             src/methodcall.cpp
 			src/msg.cpp
@@ -105,7 +109,11 @@ set(HEADER_COMMON
             include/forloop.hpp				
             include/function.hpp				
             include/identifier.hpp			
-            include/integer.hpp				
+            include/integer.hpp
+			include/libcast.hpp
+			include/libmath.hpp
+			include/libconst.hpp
+			include/libstring.hpp	
             include/logicope.hpp				
             include/methodcall.hpp	
 			include/msg.hpp	

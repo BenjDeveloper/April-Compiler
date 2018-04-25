@@ -38,6 +38,7 @@ namespace april
 			// [21-30] node -> expression -> Assignment
 			case(21): msg += Msg::M021 + name; break;
 			case(22): msg += Msg::M022; break;
+			case(23): msg += Msg::M023; break;
 
 			// [31-40] node -> expression -> AssigBioperator
 			case(31): msg += Msg::M031; break;
@@ -88,6 +89,7 @@ namespace april
 			case(171): msg += Msg::M171 + name; break;
 			case(172): msg += Msg::M172 + name; break;
 			case(173): msg += Msg::M173 + name; break;
+			case(174): msg += Msg::M174 + name; break;
 
 			// [181-190] node -> expression -> nativefn
 
@@ -106,7 +108,7 @@ namespace april
 		}
 		printError(msg);
 		printError(" ");
-		context.addError();
+		context.addError(); 
 		return nullptr;
 	}
 }

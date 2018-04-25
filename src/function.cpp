@@ -22,7 +22,7 @@ namespace april
     llvm::Value* Function::codeGen(CodeGenContext& context)
     {
         bool ban = false;
-		std::cout << "Inicio funcion: " << id->getName() << std::endl;
+		//std::cout << "Inicio funcion: " << id->getName() << std::endl;
 
         std::regex re (id->getName()+"\\.?[0-9]*");
         for (std::string& n : context.namesFunctions) { if (regex_match(n, re)) { ban = true; } }
@@ -63,11 +63,11 @@ namespace april
         context.pushBlock(bblock, fn_type);
 
 
-		std::cout << "uno function!: " << std::endl;
+		//std::cout << "uno function!: " << std::endl;
         llvm::Function::arg_iterator actual_args = function->arg_begin();
         for (auto var : *args)
         {
-			std::cout << "fn: " << id->getName() << "; para: " << var->getVarName() << "; ref: " << var->isRef() << std::endl;
+			//std::cout << "fn: " << id->getName() << "; para: " << var->getVarName() << "; ref: " << var->isRef() << std::endl;
             llvm::AllocaInst* alloca = llvm::dyn_cast<llvm::AllocaInst>(var->codeGen(context));
 			std::string val_name = var->getVarName();
 			if (alloca != nullptr)
@@ -81,7 +81,7 @@ namespace april
 			}
 			++actual_args;
         }
-		std::cout << "dos function!: " << std::endl;
+		//std::cout << "dos function!: " << std::endl;
 
         // genera el cuerpo de la funcion
         llvm::Value* block_value = block->codeGen(context);
@@ -149,7 +149,7 @@ namespace april
 		//}
 
         context.popBlock();
-		std::cout << "Fin funcion" << std::endl;
+		//std::cout << "Fin funcion" << std::endl;
 
         return function;
     }

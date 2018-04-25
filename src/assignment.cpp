@@ -18,7 +18,10 @@
 #include "llvm/ExecutionEngine/MCJIT.h"
 #include "llvm/Support/raw_ostream.h"
 #include <llvm/Support/ManagedStatic.h>
+#include "../include/errors.hpp"
 
+//----------------------------
+// Errors :: [21-30] node -> expression -> Assignment
 extern april::STRUCINFO* april_errors;
 
 namespace april
@@ -27,18 +30,14 @@ namespace april
     {
         if (context.searchVariable(lhs.name) == nullptr)
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la variable '"+lhs.name+"' no ha sido declarada en la asignacion\n");
-            context.addError();
-            return nullptr;
+			return Errors::call(context, 21, april_errors->file_name, april_errors->line, lhs.name);
         }
 		llvm::Value* lhs_type = lhs.codeGen(context);
         if (rhs_value != nullptr) 
         { 
 			if (lhs_type->getType() != rhs_value->getType())
 			{
-				printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: tipos diferentes en la asignacion de la variable '" + lhs.getName() + "' .\n");
-				context.addError();
-				return nullptr;
+				return Errors::call(context, 23, april_errors->file_name, april_errors->line, lhs.getName());
 			}
             return new llvm::StoreInst(rhs_value, context.locals()[lhs.name], false, context.currentBlock());
         }
@@ -47,16 +46,12 @@ namespace april
             llvm::Value* expr_value = rhs.codeGen(context);
             if (expr_value == nullptr)
             {
-                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la expresion es incorrecta en la asignacion\n");
-                context.addError();
-                return nullptr;
+				return Errors::call(context, 22, april_errors->file_name, april_errors->line, "");
             }
 
 			if (lhs_type->getType() != expr_value->getType())
 			{
-				printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: tipos diferentes en la asignacion de la variable '"+lhs.getName()+"' .\n");
-				context.addError();
-				return nullptr;
+				return Errors::call(context, 23, april_errors->file_name, april_errors->line, lhs.getName());
 			}
 
             return new llvm::StoreInst(expr_value, context.locals()[lhs.name], false, context.currentBlock()); 

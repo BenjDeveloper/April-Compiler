@@ -30,6 +30,7 @@ namespace april
 		// [21-30] node -> expression -> Assignment
 		static std::string M021;
 		static std::string M022;
+		static std::string M023;
 
 		// [31-40] node -> expression -> AssigBioperator
 		static std::string M031;
@@ -80,6 +81,7 @@ namespace april
 		static std::string M171;
 		static std::string M172;
 		static std::string M173;
+		static std::string M174;
 
 		// [181-190] node -> expression -> nativefn
 

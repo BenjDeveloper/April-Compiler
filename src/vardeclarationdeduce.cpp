@@ -1,7 +1,10 @@
 #include "../include/vardeclarationdeduce.hpp"
 #include "../include/codegencontext.hpp"
 #include "../include/assignment.hpp"
+#include "../include/errors.hpp"
 
+//----------------------------
+// Errors :: [11-20] node -> statemente -> vardeclarationdeduce
 extern april::STRUCINFO* april_errors;
 
 namespace april
@@ -10,18 +13,14 @@ namespace april
     {
         if (context.searchVariable(id.name))
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la variable '"+id.name+"' ya existe\n");
-            context.addError();
-            return nullptr;
+			return Errors::call(context, 11, april_errors->file_name, april_errors->line, id.getName());
         }
         
         llvm::Value* expr_value = expr->codeGen(context);
 
         if (expr_value == nullptr)
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la variable '"+id.name+"' no se pudo inicializar ya que la expresion es incorrecta\n");
-            context.addError();
-            return nullptr;
+			return Errors::call(context, 12, april_errors->file_name, april_errors->line, id.getName());
         }
         
         llvm::AllocaInst* alloc = new llvm::AllocaInst(expr_value->getType(), id.name.c_str(), context.currentBlock());
@@ -31,9 +30,7 @@ namespace april
         auto val = assn.codeGen(context);
         if (val == nullptr)
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la asignacion a '"+id.name+"' es vacia\n");
-            context.addError();
-            return nullptr;
+			return Errors::call(context, 13, april_errors->file_name, april_errors->line, id.getName());
         }
 
         return val;

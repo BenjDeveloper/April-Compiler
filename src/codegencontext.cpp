@@ -171,54 +171,337 @@ namespace april
     void CodeGenContext::setupBuildFn()
     {
         auto intType = llvm::Type::getInt32Ty(llvmContext);
-        std::vector<llvm::Type *>argTypesInt8Ptr(1, llvm::Type::getInt8PtrTy(llvmContext));
-
+        std::vector<llvm::Type *> argTypesInt8Ptr(1, llvm::Type::getInt8PtrTy(llvmContext));
         llvm::FunctionType * ft = nullptr;
         llvm::Function * f = nullptr;
         llvm::Function::arg_iterator i;
-
-		//-----------------------------------------------------------------------------------
-		//std::vector<llvm::Type*> args;
+		int num_arg = 1;
 		llvm::ArrayRef<llvm::Type*> args;
+	
+		//-----------------------------------------------------------------------------------
+		//                                      LIB IN-OUT                                   
+		//-----------------------------------------------------------------------------------
+		ft = llvm::FunctionType::get(llvm::Type::getVoidTy(llvmContext), argTypesInt8Ptr, true);
+		f = llvm::Function::Create( ft, llvm::Function::ExternalLinkage, "_print", getModule());
+        i = f->arg_begin();
+        if( i != f->arg_end() ) { i->setName("format_str"); }
+
+		//-----------------------------------------------------------------------------------
+		ft = llvm::FunctionType::get(llvm::Type::getVoidTy(llvmContext), argTypesInt8Ptr, true);
+		f = llvm::Function::Create( ft, llvm::Function::ExternalLinkage, "_println", getModule());
+        i = f->arg_begin();
+        if( i != f->arg_end() ) { i->setName("format_str"); }
+
+		//-----------------------------------------------------------------------------------
+		std::vector<llvm::Type*> arg_iprintln;
+		arg_iprintln.push_back(llvm::Type::getInt8PtrTy(llvmContext));
+		arg_iprintln.push_back(llvm::Type::getInt32Ty(llvmContext));
+
+		ft = llvm::FunctionType::get(llvm::Type::getVoidTy(llvmContext), arg_iprintln, false);
+		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "_iprintln", getModule());
+		i = f->arg_begin();
+		if (i != f->arg_end()) { i->setName("var"); }
+
+		//-----------------------------------------------------------------------------------
+		std::vector<llvm::Type*> arg_iprintln2;
+		arg_iprintln2.push_back(llvm::Type::getInt32Ty(llvmContext));
+
+		ft = llvm::FunctionType::get(llvm::Type::getVoidTy(llvmContext), arg_iprintln2, false);
+		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "_iprintln2", getModule());
+		i = f->arg_begin();
+		if (i != f->arg_end()) { i->setName("var"); }
 		
-		ft = llvm::FunctionType::get(llvm::Type::getVoidTy(llvmContext), args, false);
-		//f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, MAKE_LLVM_EXTERNAL_NAME(saludos), getModule());
-		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "saludos", getModule());
+		//-----------------------------------------------------------------------------------
+		std::vector<llvm::Type*> arg_dprintln;
+		arg_dprintln.push_back(llvm::Type::getInt8PtrTy(llvmContext));
+		arg_dprintln.push_back(llvm::Type::getDoubleTy(llvmContext));
+
+		ft = llvm::FunctionType::get(llvm::Type::getVoidTy(llvmContext), arg_dprintln, false);
+		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "_dprintln", getModule());
 		i = f->arg_begin();
-		if (i != f->arg_end()) { i->setName("prueba"); }
-		//-----------------------------------------------------------------------------------
-
-		ft = llvm::FunctionType::get(llvm::Type::getVoidTy(llvmContext), argTypesInt8Ptr, true);
-		//f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, MAKE_LLVM_EXTERNAL_NAME(print), getModule());
-		f = llvm::Function::Create( ft, llvm::Function::ExternalLinkage, "print", getModule());
-        i = f->arg_begin();
-        if( i != f->arg_end() ) { i->setName("format_str"); }
-
-		ft = llvm::FunctionType::get(llvm::Type::getVoidTy(llvmContext), argTypesInt8Ptr, true);
-		//f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, MAKE_LLVM_EXTERNAL_NAME(println), getModule());
-		f = llvm::Function::Create( ft, llvm::Function::ExternalLinkage, "println", getModule());
-        i = f->arg_begin();
-        if( i != f->arg_end() ) { i->setName("format_str"); }
+		if (i != f->arg_end()) { i->setName("var"); }
 
 		//-----------------------------------------------------------------------------------
-		//std::vector<llvm::Type*> args;
-		std::vector<llvm::Type*> para(1, llvm::Type::getInt8PtrTy(llvmContext));
+		std::vector<llvm::Type*> arg_dprintln2;
+		arg_dprintln2.push_back(llvm::Type::getDoubleTy(llvmContext));
 
-		ft = llvm::FunctionType::get(llvm::Type::getInt32Ty(llvmContext), para, true);
-		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "str_compare", getModule());
+		ft = llvm::FunctionType::get(llvm::Type::getVoidTy(llvmContext), arg_dprintln2, false);
+		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "_dprintln2", getModule());
 		i = f->arg_begin();
-		if (i != f->arg_end()) { i->setName("_var_p"); }
+		if (i != f->arg_end()) { i->setName("var"); }
 
 		//-----------------------------------------------------------------------------------
-		//std::vector<llvm::Type*> args;
-		std::vector<llvm::Type*> argConcat(1, llvm::Type::getInt8PtrTy(llvmContext));
+		std::vector<llvm::Type*> arg_sprintln;
+		arg_sprintln.push_back(llvm::Type::getInt8PtrTy(llvmContext));
 
-		ft = llvm::FunctionType::get(llvm::Type::getInt8PtrTy(llvmContext), argConcat, true);
-		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "str_concat", getModule());
+		ft = llvm::FunctionType::get(llvm::Type::getVoidTy(llvmContext), arg_sprintln, false);
+		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "_sprintln", getModule());
 		i = f->arg_begin();
-		if (i != f->arg_end()) { i->setName("_var_concat"); }
+		if (i != f->arg_end()) { i->setName("var"); }
+
 		//-----------------------------------------------------------------------------------
-    }
+		std::vector<llvm::Type*> Varg_sprint;
+		Varg_sprint.push_back(llvm::Type::getInt8PtrTy(llvmContext));
+
+		ft = llvm::FunctionType::get(llvm::Type::getVoidTy(llvmContext), Varg_sprint, false);
+		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "_sprint", getModule());
+		i = f->arg_begin();
+		if (i != f->arg_end()) { i->setName("var"); }
+
+		//-----------------------------------------------------------------------------------
+		ft = llvm::FunctionType::get(llvm::Type::getInt8PtrTy(llvmContext), args, false);
+		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "_input", getModule());
+		i = f->arg_begin();
+		if (i != f->arg_end()) { i->setName("var"); }
+
+		//-----------------------------------------------------------------------------------
+		//                                      LIB STRING                                   
+		//----------------------------------------------------------------------------------- 
+		num_arg = 2;
+		std::vector<llvm::Type*> argCompare(num_arg, llvm::Type::getInt8PtrTy(llvmContext));
+
+		ft = llvm::FunctionType::get(llvm::Type::getInt32Ty(llvmContext), argCompare, false);
+		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "_strcompare", getModule());
+		llvm::Function::arg_iterator arg_compare = f->arg_begin();
+		for (int i = 0; i < num_arg; i++)
+		{
+			arg_compare->setName("_arg" + std::to_string(i));
+			++arg_compare;
+		}
+		//-----------------------------------------------------------------------------------
+		num_arg = 2;
+		std::vector<llvm::Type*> argConcat(num_arg, llvm::Type::getInt8PtrTy(llvmContext));
+
+		ft = llvm::FunctionType::get(llvm::Type::getInt8PtrTy(llvmContext), argConcat, false);
+		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "_strconcat", getModule());
+		llvm::Function::arg_iterator arg_concat = f->arg_begin();
+		for (int i = 0; i < num_arg; i++)
+		{
+			arg_concat->setName("_arg" + std::to_string(i));
+			++arg_concat;
+		}
+		//-----------------------------------------------------------------------------------
+		num_arg = 2;
+		std::vector<llvm::Type*> argCopy(num_arg, llvm::Type::getInt8PtrTy(llvmContext));
+
+		ft = llvm::FunctionType::get(llvm::Type::getInt8PtrTy(llvmContext), argCopy, false);
+		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "_strcopy", getModule());
+		llvm::Function::arg_iterator arg_copy = f->arg_begin();
+		for (int i = 0; i < num_arg; i++)
+		{
+			arg_copy->setName("_arg" + std::to_string(i));
+			++arg_copy;
+		}
+		//-----------------------------------------------------------------------------------
+		num_arg = 1;
+		std::vector<llvm::Type*> argLength(num_arg, llvm::Type::getInt8PtrTy(llvmContext));
+
+		ft = llvm::FunctionType::get(llvm::Type::getInt32Ty(llvmContext), argLength, false);
+		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "_strlength", getModule());
+		llvm::Function::arg_iterator arg_length = f->arg_begin();
+		for (int i = 0; i < num_arg; i++)
+		{
+			arg_length->setName("_arg" + std::to_string(i));
+			++arg_length;
+		}
+
+		//-----------------------------------------------------------------------------------
+		//                                      LIB CONSTANT                                  
+		//----------------------------------------------------------------------------------- 
+		ft = llvm::FunctionType::get(llvm::Type::getDoubleTy(llvmContext), args, false);
+		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "_pi", getModule());
+		i = f->arg_begin();
+		if (i != f->arg_end()) { i->setName("_var_constPi"); }
+		//-----------------------------------------------------------------------------------
+
+		ft = llvm::FunctionType::get(llvm::Type::getDoubleTy(llvmContext), args, false);
+		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "_e", getModule());
+		i = f->arg_begin();
+		if (i != f->arg_end()) { i->setName("_var_constE"); }
+
+
+		//-----------------------------------------------------------------------------------
+		//                                      LIB CAST                                  
+		//----------------------------------------------------------------------------------- 
+		num_arg = 1;
+		std::vector<llvm::Type*> argf_str(num_arg, llvm::Type::getDoubleTy(llvmContext));
+
+		ft = llvm::FunctionType::get(llvm::Type::getInt8PtrTy(llvmContext), argf_str, false);
+		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "_dstr", getModule());
+		llvm::Function::arg_iterator arg_f_str = f->arg_begin();
+		for (int i = 0; i < num_arg; i++)
+		{
+			arg_f_str->setName("_arg" + std::to_string(i));
+			++arg_f_str;
+		}
+		//-----------------------------------------------------------------------------------
+		num_arg = 1;
+		std::vector<llvm::Type*> argi_str(num_arg, llvm::Type::getInt32Ty(llvmContext));
+
+		ft = llvm::FunctionType::get(llvm::Type::getInt8PtrTy(llvmContext), argi_str, false);
+		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "_istr", getModule());
+		llvm::Function::arg_iterator arg_i_str = f->arg_begin();
+		for (int i = 0; i < num_arg; i++)
+		{
+			arg_i_str->setName("_arg" + std::to_string(i));
+			++arg_i_str;
+		}
+		//-----------------------------------------------------------------------------------
+		num_arg = 1;
+		std::vector<llvm::Type*> Varg_sint(num_arg, llvm::Type::getInt8PtrTy(llvmContext));
+
+		ft = llvm::FunctionType::get(llvm::Type::getInt32Ty(llvmContext), Varg_sint, false);
+		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "_sint", getModule());
+		llvm::Function::arg_iterator arg_sint = f->arg_begin();
+		for (int i = 0; i < num_arg; i++)
+		{
+			arg_sint->setName("_arg" + std::to_string(i));
+			++arg_sint;
+		}
+
+		//-----------------------------------------------------------------------------------
+		num_arg = 1;
+		std::vector<llvm::Type*> Varg_sdou(num_arg, llvm::Type::getInt8PtrTy(llvmContext));
+
+		ft = llvm::FunctionType::get(llvm::Type::getDoubleTy(llvmContext), Varg_sdou, false);
+		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "_sdou", getModule());
+		llvm::Function::arg_iterator arg_sdou = f->arg_begin();
+		for (int i = 0; i < num_arg; i++)
+		{
+			arg_sdou->setName("_arg" + std::to_string(i));
+			++arg_sdou;
+		}
+
+
+		//-----------------------------------------------------------------------------------
+		//                                      LIB MATH                                  
+		//----------------------------------------------------------------------------------- 
+		num_arg = 2;
+		std::vector<llvm::Type*> Varg_imod(num_arg, llvm::Type::getInt32Ty(llvmContext));
+
+		ft = llvm::FunctionType::get(llvm::Type::getInt32Ty(llvmContext), Varg_imod, false);
+		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "_imod", getModule());
+		llvm::Function::arg_iterator arg_imod = f->arg_begin();
+		for (int i = 0; i < num_arg; i++)
+		{
+			arg_imod->setName("_arg" + std::to_string(i));
+			++arg_imod;
+		}
+		//-----------------------------------------------------------------------------------
+		num_arg = 2;
+		std::vector<llvm::Type*> Varg_dmod(num_arg, llvm::Type::getDoubleTy(llvmContext));
+
+		ft = llvm::FunctionType::get(llvm::Type::getDoubleTy(llvmContext), Varg_dmod, false);
+		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "_dmod", getModule());
+		llvm::Function::arg_iterator arg_dmod = f->arg_begin();
+		for (int i = 0; i < num_arg; i++)
+		{
+			arg_dmod->setName("_arg" + std::to_string(i));
+			++arg_dmod;
+		}
+		//-----------------------------------------------------------------------------------
+		num_arg =1;
+		std::vector<llvm::Type*> Varg_sqrt(num_arg, llvm::Type::getDoubleTy(llvmContext));
+
+		ft = llvm::FunctionType::get(llvm::Type::getDoubleTy(llvmContext), Varg_sqrt, false);
+		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "_sqrt", getModule());
+		llvm::Function::arg_iterator arg_sqrt = f->arg_begin();
+		for (int i = 0; i < num_arg; i++)
+		{
+			arg_sqrt->setName("_arg" + std::to_string(i));
+			++arg_sqrt;
+		}
+		//-----------------------------------------------------------------------------------
+		num_arg = 1;
+		std::vector<llvm::Type*> Varg_sin(num_arg, llvm::Type::getDoubleTy(llvmContext));
+
+		ft = llvm::FunctionType::get(llvm::Type::getDoubleTy(llvmContext), Varg_sin, false);
+		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "_sin", getModule());
+		llvm::Function::arg_iterator arg_sin = f->arg_begin();
+		for (int i = 0; i < num_arg; i++)
+		{
+			arg_sin->setName("_arg" + std::to_string(i));
+			++arg_sin;
+		}
+		//-----------------------------------------------------------------------------------
+		num_arg = 1;
+		std::vector<llvm::Type*> Varg_cos(num_arg, llvm::Type::getDoubleTy(llvmContext));
+
+		ft = llvm::FunctionType::get(llvm::Type::getDoubleTy(llvmContext), Varg_cos, false);
+		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "_cos", getModule());
+		llvm::Function::arg_iterator arg_cos = f->arg_begin();
+		for (int i = 0; i < num_arg; i++)
+		{
+			arg_cos->setName("_arg" + std::to_string(i));
+			++arg_cos;
+		}
+		//-----------------------------------------------------------------------------------
+		num_arg = 1;
+		std::vector<llvm::Type*> Varg_tan(num_arg, llvm::Type::getDoubleTy(llvmContext));
+
+		ft = llvm::FunctionType::get(llvm::Type::getDoubleTy(llvmContext), Varg_tan, false);
+		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "_tan", getModule());
+		llvm::Function::arg_iterator arg_tan = f->arg_begin();
+		for (int i = 0; i < num_arg; i++)
+		{
+			arg_tan->setName("_arg" + std::to_string(i));
+			++arg_tan;
+		}
+		//-----------------------------------------------------------------------------------
+		num_arg = 1;
+		std::vector<llvm::Type*> Varg_log(num_arg, llvm::Type::getDoubleTy(llvmContext));
+
+		ft = llvm::FunctionType::get(llvm::Type::getDoubleTy(llvmContext), Varg_log, false);
+		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "_log", getModule());
+		llvm::Function::arg_iterator arg_log = f->arg_begin();
+		for (int i = 0; i < num_arg; i++)
+		{
+			arg_log->setName("_arg" + std::to_string(i));
+			++arg_log;
+		}
+		//-----------------------------------------------------------------------------------
+		num_arg = 2;
+		std::vector<llvm::Type*> Varg_irand(num_arg, llvm::Type::getInt32Ty(llvmContext));
+
+		ft = llvm::FunctionType::get(llvm::Type::getInt32Ty(llvmContext), Varg_irand, false);
+		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "_irand", getModule());
+		llvm::Function::arg_iterator arg_irand = f->arg_begin();
+		for (int i = 0; i < num_arg; i++)
+		{
+			arg_irand->setName("_arg" + std::to_string(i));
+			++arg_irand;
+		}
+		//-----------------------------------------------------------------------------------
+		num_arg = 1;
+		std::vector<llvm::Type*> Varg_abs(num_arg, llvm::Type::getInt32Ty(llvmContext));
+
+		ft = llvm::FunctionType::get(llvm::Type::getInt32Ty(llvmContext), Varg_abs, false);
+		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "_abs", getModule());
+		llvm::Function::arg_iterator arg_abs = f->arg_begin();
+		for (int i = 0; i < num_arg; i++)
+		{
+			arg_abs->setName("_arg" + std::to_string(i));
+			++arg_abs;
+		}
+		//-----------------------------------------------------------------------------------
+		num_arg = 2;
+		std::vector<llvm::Type*> Varg_pow(num_arg, llvm::Type::getDoubleTy(llvmContext));
+
+		ft = llvm::FunctionType::get(llvm::Type::getDoubleTy(llvmContext), Varg_pow, false);
+		f = llvm::Function::Create(ft, llvm::Function::ExternalLinkage, "_pow", getModule());
+		llvm::Function::arg_iterator arg_pow = f->arg_begin();
+		for (int i = 0; i < num_arg; i++)
+		{
+			arg_pow->setName("_arg" + std::to_string(i));
+			++arg_pow;
+		}
+
+		//-----------------------------------------------------------------------------------
+		//                                      LIB HANDLE FILE                                  
+		//----------------------------------------------------------------------------------- 
+
+
+	}
 
     llvm::GenericValue CodeGenContext::runCode()
     {

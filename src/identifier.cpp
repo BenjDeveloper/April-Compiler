@@ -1,7 +1,10 @@
 #include <iostream>
 #include "../include/identifier.hpp"
 #include "../include/codegencontext.hpp"
+#include "../include/errors.hpp"
 
+//----------------------------
+// Errors :: [141-150] node -> expression -> Identifier
 extern april::STRUCINFO* april_errors;
 
 namespace april
@@ -10,9 +13,7 @@ namespace april
     {
         if (context.searchVariable(name) == nullptr)
         {
-            printError(april_errors->file_name+": "+std::to_string(april_errors->line)+" error: la variable '"+name+"' no ha sido declarada\n");
-            context.addError();
-            return nullptr;
+			return Errors::call(context, 141, april_errors->file_name, april_errors->line, name);
         }
         return new llvm::LoadInst(context.locals()[name], "", false, context.currentBlock());
     }

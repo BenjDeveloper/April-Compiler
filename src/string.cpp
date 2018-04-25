@@ -24,8 +24,14 @@ namespace april
 {
     llvm::Value* String::codeGen(CodeGenContext& context)
     {
-		value = s_clean(value);
-        llvm::ArrayType* array_type = llvm::ArrayType::get(llvm::IntegerType::get(context.getGlobalContext(), 8), value.size()+1);
+
+		//std::cout <<"UNO -> "<< value << std::endl;
+		if (value[0] == '"') 
+		{
+			value = s_clean(value);
+			//std::cout <<"DOS -> "<< value << std::endl;
+		}
+		llvm::ArrayType* array_type = llvm::ArrayType::get(llvm::IntegerType::get(context.getGlobalContext(), 8), value.size()+1);
         llvm::GlobalVariable* gvar = new llvm::GlobalVariable(*context.getModule(), array_type, true, llvm::GlobalValue::PrivateLinkage, 0, ".str");
         
         gvar->setAlignment(1);

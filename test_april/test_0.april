@@ -1,18 +1,44 @@
 // **********************************************************
 // **                                                     ***
 // **    Programado por Pandicorn & Kenshin Urashima      ***
-// **    Test: raiz cuadrada de Newton en April           ***
-// **    result: 1.41421                                  ***
+// **                                                     ***
 // ********************************************************** 
 
+//variable no declarada error 
+// ERROR //_iprintln("value -> ", i );
 
+fn suma(x:int, y:int):int
+{
+    var c:int = x + y;
+    return c;
+}
+ 
 fn main():void
 {
-	//p:=1;
-	x:="uno,";
-	y:="dos";
-	println("x: %s ", x);
-	println("y: %s ", y);
-	str_concat(x,y);
-	//println("x + y: %s ", str_concat(x,y));
-}	
+    // ********************************************************** 
+    // var t1:int = suma(1.1 ,1);
+    // t2:= suma(1.1,1);
+
+    // _iprintln2( t1 );
+    // _iprintln2( t2 );
+    // _iprintln2( suma(1.1,1) );
+
+    // ********************************************************** 
+    //var t1:int = _irand(1 ,10.1);
+    //t2:= _irand(1.1,1);
+
+    //_iprintln2( t1 );
+    //_iprintln2( t2 );
+    //_iprintln2( _irand(1.1,1) );
+
+    // ********************************************************** 
+    //var t1:int = _rand("123" ,10);
+    //t1:= _rand(1 ,10);
+    //_iprintln2( _rand(1.1,1) );
+
+    // **********************************************************
+
+    
+
+
+}
