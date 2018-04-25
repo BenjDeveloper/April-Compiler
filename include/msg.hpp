@@ -15,8 +15,8 @@ namespace april
 
 		static std::string M000; //999 errors
 
-		// [1-10] node -> statemente -> vardeclaration
-		static std::string M001; 
+								 // [1-10] node -> statemente -> vardeclaration
+		static std::string M001;
 		static std::string M002;
 		static std::string M003;
 		static std::string M004;
@@ -30,6 +30,7 @@ namespace april
 		// [21-30] node -> expression -> Assignment
 		static std::string M021;
 		static std::string M022;
+		static std::string M023;
 
 		// [31-40] node -> expression -> AssigBioperator
 		static std::string M031;
@@ -43,16 +44,16 @@ namespace april
 		// [51-60] node -> expression -> Block
 
 		// [61-70] node -> expression -> Boolean
-		
+
 		// [71-80] node -> expression -> CodeGenContext
-		
+
 		// [81-90] node -> expression -> ComparasionOpe
 		static std::string M081;
 		static std::string M082;
 
 		// [91-100] node -> expression -> Conditional
 		static std::string M091;
-		
+
 		// [101-110] node -> expression -> Double
 
 		// [111-120] node -> expression -> ExpressionStatement
@@ -69,9 +70,9 @@ namespace april
 
 		// [141-150] node -> expression -> Identifier
 		static std::string M141;
-		
+
 		// [151-160] node -> expression -> Integer
-		
+
 		// [161-170] node -> expression -> LogicOpe
 		static std::string M161;
 		static std::string M162;
@@ -80,6 +81,7 @@ namespace april
 		static std::string M171;
 		static std::string M172;
 		static std::string M173;
+		static std::string M174;
 
 		// [181-190] node -> expression -> nativefn
 

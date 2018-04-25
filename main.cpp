@@ -14,7 +14,8 @@ int main(int argc, char* argv[])
 	
     if (argc > 1)
     {
-        april_errors->file_name = "../../test_april/test_0.april";
+		std::cout << "filename: " << argv[1] << std::endl;
+        april_errors->file_name = argv[1];
     }
 
     yyin = fopen(april_errors->file_name.c_str(), "r+");

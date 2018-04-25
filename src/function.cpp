@@ -53,7 +53,6 @@ namespace april
 
 			args_type.push_back(ty);
 		} 
-		std::cout << "POMPOM" << std::endl;
         if (context.typeOf(*type) == nullptr)
         {   
             printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: no se puede crear la funcion '"+id->name+"'\n");
@@ -72,7 +71,6 @@ namespace april
         llvm::BasicBlock* bblock = llvm::BasicBlock::Create(context.getGlobalContext(), "entry", function, 0);
         context.pushBlock(bblock, fn_type, ScopeType::Function);
 
-		std::cout << "BEFORE" << std::endl;
         llvm::Function::arg_iterator actual_args = function->arg_begin();
 		for (auto var : *args)
         {
@@ -88,13 +86,11 @@ namespace april
 				actual_args->setName(val_name);
 				if (var->getVarTypeName() != "list" && !(context.map_struct_type.find(var->getVarTypeName()) != context.map_struct_type.end()))
 				{
-					std::cout << "LOLOL" << std::endl;
 					new llvm::StoreInst(&(*actual_args), alloc, context.currentBlock());
 				}
 			}
 			++actual_args;
         }
-		std::cout << "AFTER" << std::endl;
 
         // genera el cuerpo de la funcion
         llvm::Value* block_value = block->codeGen(context);

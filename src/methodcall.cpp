@@ -3,7 +3,10 @@
 #include "../include/codegencontext.hpp"
 #include "../include/arrayaccess.hpp"
 #include "../include/array.hpp"
+#include "../include/errors.hpp"
+
 //----------------------------
+// Errors :: [171-180] node -> expression -> MethodCall
 extern april::STRUCINFO* april_errors;
 
 namespace april
@@ -26,61 +29,42 @@ namespace april
         llvm::Function* fn = context.getModule()->getFunction(fn_name.c_str());
         if (fn == nullptr)
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la funcion '"+id->getName()+"' no existe\n");
-            context.addError();
-            return nullptr;
+			return Errors::call(context, 171, april_errors->file_name, april_errors->line, id->getName());
         }
 
-        if ( id->getName() != "println" && id->getName() != "str_compare" && id->getName() != "str_concat"  && (arguments->size() != fn->arg_size()))
+        if ( id->getName() != "_println" && id->getName() != "str_compare" && id->getName() != "str_concat"  && (arguments->size() != fn->arg_size()))
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: los numeros de parametros no coinciden en la llamada a la funcion '"+id->getName()+"' \n");
-            context.addError();
-            return nullptr;
+			return Errors::call(context, 172, april_errors->file_name, april_errors->line, id->getName());
         }
         
         std::vector<llvm::Value*> args;
 		
         for (Expression* expr : *arguments)
         {
-			llvm::Value* val_expr = expr->codeGen(context);
-			/*if (val_expr->getType()->isPointerTy() && expr->__is_struct)
+			llvm::Value* expr_value = expr->codeGen(context);
+			if (expr_value == nullptr)
 			{
-				std::cout << "es una estructura bitches: " << ((expr->__is_struct) ? (1) : (0)) << std::endl;
-				auto c = val_expr->getType()->getContainedType(0);
-				std::cout << "cantidad: " << c->getNumContainedTypes() << std::endl;
-			}*/
-			args.push_back(val_expr);
+				return Errors::call(context, 174, april_errors->file_name, april_errors->line, id->getName());
+			}
+			args.push_back(expr_value);
 		}
         
 		int cont = 0;
-		if (id->getName() != "println" && id->getName() != "str_compare" && id->getName() != "str_concat")
+		if (id->getName() != "_println" && id->getName() != "str_compare" && id->getName() != "str_concat")
 		{
 			bool cond = false;
 			llvm::Function::arg_iterator para_fn = fn->arg_begin();
 			for (llvm::Value*& para : args)
 			{   
-				if (para_fn->getType()->isIntegerTy() && para->getType()->isDoubleTy())
-				{
-					cond = true;
-				}
-				else if (para_fn->getType()->isDoubleTy() && para->getType()->isIntegerTy())
+				if (para_fn->getType()->isDoubleTy() && para->getType()->isIntegerTy())
 				{
 					para = llvm::CastInst::Create(llvm::CastInst::getCastOpcode(para, true, llvm::Type::getDoubleTy(context.getGlobalContext()), true), para, llvm::Type::getDoubleTy(context.getGlobalContext()), "cast", context.currentBlock());
 				}
-				else if (para_fn->getType()->isPointerTy())
+				else if (para_fn->getType() != para->getType())
 				{
-					std::cout << "para name: " << para->getName().str() << std::endl;
-					std::cout << "para_fn name: " << para_fn->getName().str() << std::endl;
+					return Errors::call(context, 173, april_errors->file_name, april_errors->line, id->getName());
+				}
 
-					para = llvm::CastInst::Create(llvm::CastInst::getCastOpcode(para, true, para_fn->getType(), true), para, para_fn->getType(), "cast", context.currentBlock());
-					
-				}
-				if (cond)
-				{
-					printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: los parametros no coinciden en la llamada a la funcion '"+id->getName()+"' \n");
-					context.addError();
-					return nullptr;
-				}
 				++para_fn;
 				cont++;
 			}
