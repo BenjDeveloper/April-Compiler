@@ -87,6 +87,16 @@ namespace april
 			llvm::StructType* _array = llvm::StructType::create(getGlobalContext(), llvm::makeArrayRef(typeList), "list");
 			return _array;
 		}
+		else
+		{
+			if (map_struct_type.find(name) != map_struct_type.end())
+			{
+				std::cout << "entra aqui!!: " << name << std::endl;
+				llvm::AllocaInst* alloc = map_struct_type[name];
+				return alloc->getAllocatedType();
+			}
+		}
+
         Block::printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: tipo de dato '"+ name +"' no existe");
         addError();
         return nullptr;

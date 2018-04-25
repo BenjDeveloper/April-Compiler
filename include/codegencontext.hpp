@@ -42,9 +42,11 @@ namespace april
     {
         public:
             std::vector<std::string> namesFunctions;
-			std::map<std::string, std::vector<bool>> func_args_refs;
-			std::map<std::string, std::vector<std::map<bool, llvm::AllocaInst*>>> func_args_alloc;
-        private:
+			//std::map<std::string, std::vector<bool>> func_args_refs;
+			//std::map<std::string, std::vector<std::map<bool, llvm::AllocaInst*>>> func_args_alloc;
+			std::map<std::string, llvm::AllocaInst*> map_struct_type;
+	
+		private:
             std::stack<llvm::FunctionType*> stackFunctionType;
             std::list<CodeGenBlock*> blocks;
             llvm::Function* mainFunction;

@@ -69,7 +69,11 @@ namespace april
 				}
 				else if (para_fn->getType()->isPointerTy())
 				{
+					std::cout << "para name: " << para->getName().str() << std::endl;
+					std::cout << "para_fn name: " << para_fn->getName().str() << std::endl;
+
 					para = llvm::CastInst::Create(llvm::CastInst::getCastOpcode(para, true, para_fn->getType(), true), para, para_fn->getType(), "cast", context.currentBlock());
+					
 				}
 				if (cond)
 				{

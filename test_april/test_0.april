@@ -1,12 +1,9 @@
-// **********************************************************
-// **                                                     ***
-// **    Programado por Pandicorn & Kenshin Urashima      ***
-// **    Test: raiz cuadrada de Newton en April           ***
-// **    result: 1.41421                                  ***
-// ********************************************************** 
+v := [];
 
-var struct_l:list = [];
-//var b:struct_l;
+v << 15;
+v << 158;
 
-//struct_l << 5;
-//println();
+x := 5;
+//v[1];
+
+println("%d", v[x]);

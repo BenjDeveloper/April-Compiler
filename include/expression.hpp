@@ -11,6 +11,7 @@ namespace april
 		llvm::Instruction* _ptr = nullptr; //puntero de acceso en la asignacion de variables dentro de un arreglo
 		llvm::Type* _expr_ref_type = nullptr;
 		bool __is_struct;
+		long long* __int_value = nullptr;
 	};
 }
 

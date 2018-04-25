@@ -29,12 +29,11 @@ namespace april
 
 		context.locals().erase(ident->name);
 		llvm::AllocaInst* alloc = new llvm::AllocaInst(array_value->getType(), ident->getName().c_str(), context.currentBlock());
-		context.locals()[ident->name] = alloc;
+		context.locals()[ident->getName()] = alloc;
+		context.map_struct_type[ident->getName()] = alloc;
 		new llvm::StoreInst(array_value, context.locals()[ident->getName()], false, context.currentBlock());
 		return alloc;
-
 		
-
 		//-----------------------------------
 
 		/*ExpressionList members;

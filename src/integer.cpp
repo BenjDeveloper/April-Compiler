@@ -10,6 +10,7 @@ namespace april
 {
     llvm::Value* Integer::codeGen(CodeGenContext& context)
     {
+		this->__int_value = &value;
         return llvm::ConstantInt::get(llvm::Type::getInt32Ty(context.getGlobalContext()), value, true);
     }
 }

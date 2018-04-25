@@ -14,6 +14,12 @@ namespace april
             context.addError();
             return nullptr;
         }
-        return new llvm::LoadInst(context.locals()[name], "", false, context.currentBlock());
+		if (context.map_struct_type.find(name) != context.map_struct_type.end())
+		{
+			std::cout << "APRIL" << std::endl;
+			return new llvm::LoadInst(context.map_struct_type[name], "", false, context.currentBlock());
+		}	
+		else
+			return new llvm::LoadInst(context.locals()[name], "", false, context.currentBlock());
     }
 }

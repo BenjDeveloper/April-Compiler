@@ -1,9 +1,13 @@
 #include <vector>
 #include <string>
+#include <fstream>
 #include "llvm/Transforms/Utils/Cloning.h"
 #include "../include/function.hpp"
 #include "../include/codegencontext.hpp"
 #include "../include/assignment.hpp"
+#include "../include/arrayaccess.hpp"
+#include "../include/array.hpp"
+#include "../include/identifier.hpp"
 
 extern april::STRUCINFO* april_errors;
 
@@ -36,26 +40,30 @@ namespace april
 
         std::vector<llvm::Type*> args_type;
 		llvm::Type* ty = nullptr;
-        for (auto var : *args)
+		for (auto var : *args)
         {
-			ty = context.typeOf(var->getIdentOfVarType());
-			if (ty->isStructTy())
+			std::cout << "TYPE: " << var->getIdentOfVarType().getName() << std::endl;
+			if (context.map_struct_type.find(var->getIdentOfVarType().getName()) != context.map_struct_type.end())
 			{
+				ty = context.map_struct_type[var->getIdentOfVarType().getName()]->getAllocatedType();
 				ty = llvm::PointerType::get(ty, 0);
-			
 			}
-			
-			args_type.push_back(ty);
-        } 
+			else
+				ty = context.typeOf(var->getIdentOfVarType());
 
+			args_type.push_back(ty);
+		} 
+		std::cout << "POMPOM" << std::endl;
         if (context.typeOf(*type) == nullptr)
         {   
             printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: no se puede crear la funcion '"+id->name+"'\n");
             context.addError();
             return nullptr;
         }
-        llvm::FunctionType* fn_type = llvm::FunctionType::get(context.typeOf(*type), args_type, false);
-        std::string fn_name = id->getName();
+
+		llvm::FunctionType* fn_type = fn_type = llvm::FunctionType::get(context.typeOf(*type), args_type, false);
+        
+		std::string fn_name = id->getName();
       
 		if (type->getName() == "var")
             fn_name += "_del";
@@ -64,24 +72,30 @@ namespace april
         llvm::BasicBlock* bblock = llvm::BasicBlock::Create(context.getGlobalContext(), "entry", function, 0);
         context.pushBlock(bblock, fn_type, ScopeType::Function);
 
-
+		std::cout << "BEFORE" << std::endl;
         llvm::Function::arg_iterator actual_args = function->arg_begin();
-        for (auto var : *args)
+		for (auto var : *args)
         {
+			std::cout << "var: " << var->getVarName() << std::endl;
             llvm::AllocaInst* alloc = llvm::dyn_cast<llvm::AllocaInst>(var->codeGen(context));
 			std::string val_name = var->getVarName();
-
+			
 			if (alloc != nullptr)
 			{
-                if (alloc->getAllocatedType()->isPointerTy())
-                    val_name += "_addr";
-				
-                actual_args->setName(val_name);
-				if (var->getVarTypeName() != "list")
+				if (alloc->getAllocatedType()->isPointerTy())
+					val_name += "_addr";
+
+				actual_args->setName(val_name);
+				if (var->getVarTypeName() != "list" && !(context.map_struct_type.find(var->getVarTypeName()) != context.map_struct_type.end()))
+				{
+					std::cout << "LOLOL" << std::endl;
 					new llvm::StoreInst(&(*actual_args), alloc, context.currentBlock());
+				}
 			}
 			++actual_args;
         }
+		std::cout << "AFTER" << std::endl;
+
         // genera el cuerpo de la funcion
         llvm::Value* block_value = block->codeGen(context);
         if (block_value == nullptr)
@@ -125,3 +139,4 @@ namespace april
         return function;
     }
 }
+

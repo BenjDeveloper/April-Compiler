@@ -23,11 +23,6 @@ namespace april
             context.addError();
             return nullptr;
 		}
-
-
-        // std::cout << "creando operacion binaria: " << op << std::endl;
-        // llvm::Instruction::BinaryOps instr;
-
         //---------------------------------------------
         //                  VALIDACION
         //---------------------------------------------
