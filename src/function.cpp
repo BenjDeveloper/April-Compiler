@@ -4,7 +4,10 @@
 #include "../include/function.hpp"
 #include "../include/codegencontext.hpp"
 #include "../include/assignment.hpp"
+#include "../include/errors.hpp"
 
+//----------------------------
+// Errors :: [131-140] node -> expression -> Function
 extern april::STRUCINFO* april_errors;
 
 namespace april
@@ -29,10 +32,8 @@ namespace april
 
         if (ban == true)
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la funcion '"+id->name+"' ya fue definida");
-            context.addError();
-            return nullptr;
-        }
+			return Errors::call(context, 131, april_errors->file_name, april_errors->line, id->name);
+		}
         context.namesFunctions.push_back(id->getName());
 
         std::vector<llvm::Type*> args_type;
@@ -46,9 +47,7 @@ namespace april
 
         if (context.typeOf(*type) == nullptr)
         {   
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: no se puede crear la funcion '"+id->name+"'\n");
-            context.addError();
-            return nullptr;
+			return Errors::call(context, 132, april_errors->file_name, april_errors->line, id->name);
         }
 
         llvm::FunctionType* fn_type = llvm::FunctionType::get(context.typeOf(*type), args_type, false);
@@ -94,10 +93,8 @@ namespace april
             }
             else
             {
-                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el cuerpo de la funcion esta vacio\n");
-                context.addError();
+				return Errors::call(context, 133, april_errors->file_name, april_errors->line, "");
             }
-            return nullptr;
         }
         
         llvm::Type* last_type = block_value->getType();

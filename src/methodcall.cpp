@@ -30,7 +30,7 @@ namespace april
 			return Errors::call(context, 171, april_errors->file_name, april_errors->line, id->getName());
         }
 
-        if ( id->getName() != "println" && id->getName() != "str_compare" && id->getName() != "str_concat"  && (arguments->size() != fn->arg_size()))
+        if (arguments->size() != fn->arg_size())
         {
 			return Errors::call(context, 172, april_errors->file_name, april_errors->line, id->getName());
         }
@@ -50,12 +50,12 @@ namespace april
 
         for (auto expr : *arguments)
         {
-			llvm::Value* value = expr->codeGen(context);
-			if (value == nullptr) 
+			llvm::Value* expr_value = expr->codeGen(context);
+			if (expr_value == nullptr)
 			{
 				return Errors::call(context, 174, april_errors->file_name, april_errors->line, id->getName());
 			}
-			args.push_back(value);
+			args.push_back(expr_value);
 		}
         
 		int cont = 0;

@@ -1,6 +1,9 @@
 #include "../include/return.hpp"
 #include "../include/codegencontext.hpp"
+#include "../include/errors.hpp"
 
+//----------------------------
+// Errors :: [191-200] node -> expression -> Return
 extern april::STRUCINFO* april_errors;
 
 namespace april
@@ -55,9 +58,7 @@ namespace april
 
             if (error_type)
             {
-                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: tipo de retorno diferente en la funcion ...\n");
-                context.addError();
-                return nullptr;
+				return Errors::call(context, 191, april_errors->file_name, april_errors->line, "");
             }
 
             

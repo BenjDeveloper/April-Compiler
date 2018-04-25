@@ -13,18 +13,19 @@ fn suma(x:int, y:int):int
     return c;
 }
  
-fn main():void
+fn n():void
 {
     // ********************************************************** 
     // var t1:int = suma(1.1 ,1);
     // t2:= suma(1.1,1);
 
-    // _iprintln2( t1 );
+    //_iprintln2( t1 );
     // _iprintln2( t2 );
     // _iprintln2( suma(1.1,1) );
 
     // ********************************************************** 
-    //var t1:int = _irand(1 ,10.1);
+    var t1:int = _irand(1 ,10.1);
+
     //t2:= _irand(1.1,1);
 
     //_iprintln2( t1 );
@@ -37,8 +38,16 @@ fn main():void
     //_iprintln2( _rand(1.1,1) );
 
     // **********************************************************
-
+    //var x:int = 1.2;
+    //var x:int = "saS";
+    //var x:double = 1;
     
+    // **********************************************************
+    //var t1:int = suma(1,1);
+    // t2:= suma(1.1,1);
 
+    // _iprintln2( t1 );
+    // _iprintln2( t2 );
+    // _iprintln2( suma(1.1,1) );
 
 }
