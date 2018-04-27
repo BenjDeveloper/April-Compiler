@@ -162,8 +162,8 @@ expr: binary_ope_expr									{ }
 	| array_access										{ }
 	;
 
-array_access: ident TLBRACKET expr TRBRACKET			{ $$ = new april::ArrayAccess($1, $3); }/* delete std::atol($3->c_str()))*/
-	| array_access TLBRACKET expr TRBRACKET				{ $$ = new april::ArrayAccess($1, $3); }
+array_access: ident TLBRACKET TDIGIT TRBRACKET			{ $$ = new april::ArrayAccess($1, std::atol($3->c_str())); delete $3;}
+	| array_access TLBRACKET TDIGIT TRBRACKET			{ $$ = new april::ArrayAccess($1, std::atol($3->c_str())); delete $3;}
 	;
 
 array_elements: /* blank */					{ $$ = new april::ExpressionList(); }

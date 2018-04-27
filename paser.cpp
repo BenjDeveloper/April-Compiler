@@ -107,7 +107,7 @@
     april::Block* programBlock;
     bool existMainFunction = false;
 
-#line 111 "parser.cpp" /* yacc.c:339  */
+#line 111 "paser.cpp" /* yacc.c:339  */
 
 # ifndef YY_NULL
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -207,7 +207,7 @@ union YYSTYPE
     std::vector<april::VariableDeclaration*> *vardecl;
     int token;
 
-#line 211 "parser.cpp" /* yacc.c:355  */
+#line 211 "paser.cpp" /* yacc.c:355  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
@@ -222,7 +222,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 226 "parser.cpp" /* yacc.c:358  */
+#line 226 "paser.cpp" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -1433,385 +1433,385 @@ yyreduce:
         case 2:
 #line 88 "src/parser.y" /* yacc.c:1646  */
     { programBlock = new april::Block();}
-#line 1437 "parser.cpp" /* yacc.c:1646  */
+#line 1437 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 3:
 #line 89 "src/parser.y" /* yacc.c:1646  */
     { programBlock = (yyvsp[0].block); }
-#line 1443 "parser.cpp" /* yacc.c:1646  */
+#line 1443 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 4:
 #line 92 "src/parser.y" /* yacc.c:1646  */
     { (yyval.block) = new april::Block(); (yyval.block)->statements.push_back((yyvsp[0].stmt)); }
-#line 1449 "parser.cpp" /* yacc.c:1646  */
+#line 1449 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 5:
 #line 93 "src/parser.y" /* yacc.c:1646  */
     { (yyvsp[-1].block)->statements.push_back((yyvsp[0].stmt)); }
-#line 1455 "parser.cpp" /* yacc.c:1646  */
+#line 1455 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 6:
 #line 96 "src/parser.y" /* yacc.c:1646  */
     { }
-#line 1461 "parser.cpp" /* yacc.c:1646  */
+#line 1461 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 7:
 #line 97 "src/parser.y" /* yacc.c:1646  */
     { (yyval.stmt) = new april::ExpressionStatement((yyvsp[-1].expr)); }
-#line 1467 "parser.cpp" /* yacc.c:1646  */
+#line 1467 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 15:
 #line 107 "src/parser.y" /* yacc.c:1646  */
     { (yyval.stmt) = new april::ArrayAddElement((yyvsp[-3].ident), (yyvsp[-1].expr)); }
-#line 1473 "parser.cpp" /* yacc.c:1646  */
+#line 1473 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 16:
 #line 110 "src/parser.y" /* yacc.c:1646  */
     { (yyval.stmt) = new april::Return(); }
-#line 1479 "parser.cpp" /* yacc.c:1646  */
+#line 1479 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 17:
 #line 111 "src/parser.y" /* yacc.c:1646  */
     { (yyval.stmt) = new april::Return((yyvsp[-1].expr)); }
-#line 1485 "parser.cpp" /* yacc.c:1646  */
+#line 1485 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 18:
 #line 114 "src/parser.y" /* yacc.c:1646  */
     { (yyval.stmt) = new april::Function((yyvsp[-1].ident), (yyvsp[-6].ident), (yyvsp[-4].vardecl), (yyvsp[0].block)); }
-#line 1491 "parser.cpp" /* yacc.c:1646  */
+#line 1491 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 19:
 #line 117 "src/parser.y" /* yacc.c:1646  */
     { (yyval.vardecl) = new april::VarList(); }
-#line 1497 "parser.cpp" /* yacc.c:1646  */
+#line 1497 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 20:
 #line 118 "src/parser.y" /* yacc.c:1646  */
     { (yyval.vardecl) = new april::VarList(); (yyval.vardecl)->push_back((yyvsp[0].var_decl)); }
-#line 1503 "parser.cpp" /* yacc.c:1646  */
+#line 1503 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 21:
 #line 119 "src/parser.y" /* yacc.c:1646  */
     { (yyvsp[-2].vardecl)->push_back((yyvsp[0].var_decl)); }
-#line 1509 "parser.cpp" /* yacc.c:1646  */
+#line 1509 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 22:
 #line 122 "src/parser.y" /* yacc.c:1646  */
     { (yyval.stmt) = new april::VariableDeclaration(*(yyvsp[0].ident), *(yyvsp[-2].ident));}
-#line 1515 "parser.cpp" /* yacc.c:1646  */
+#line 1515 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 23:
 #line 123 "src/parser.y" /* yacc.c:1646  */
     { (yyval.stmt) = new april::VariableDeclaration(*(yyvsp[-1].ident), *(yyvsp[-3].ident), true); /*$$ = new april::VarDeclarationRef($1, $3->getName()); */}
-#line 1521 "parser.cpp" /* yacc.c:1646  */
+#line 1521 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 24:
 #line 126 "src/parser.y" /* yacc.c:1646  */
     { (yyval.stmt) = new april::ForLoop((yyvsp[-1].expr), (yyvsp[0].block)); }
-#line 1527 "parser.cpp" /* yacc.c:1646  */
+#line 1527 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 25:
 #line 129 "src/parser.y" /* yacc.c:1646  */
     { (yyval.stmt) = new april::Scope((yyvsp[0].block)); }
-#line 1533 "parser.cpp" /* yacc.c:1646  */
+#line 1533 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 26:
 #line 132 "src/parser.y" /* yacc.c:1646  */
     { (yyval.stmt) = new april::Conditional((yyvsp[-1].expr), *(yyvsp[0].block)); }
-#line 1539 "parser.cpp" /* yacc.c:1646  */
+#line 1539 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 27:
 #line 133 "src/parser.y" /* yacc.c:1646  */
     { (yyval.stmt) = new april::Conditional((yyvsp[-3].expr),* (yyvsp[-2].block), *(yyvsp[0].block)); }
-#line 1545 "parser.cpp" /* yacc.c:1646  */
+#line 1545 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 28:
 #line 136 "src/parser.y" /* yacc.c:1646  */
     { (yyval.block) = (yyvsp[-1].block); }
-#line 1551 "parser.cpp" /* yacc.c:1646  */
+#line 1551 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 29:
 #line 137 "src/parser.y" /* yacc.c:1646  */
     { (yyval.block) = new april::Block();  }
-#line 1557 "parser.cpp" /* yacc.c:1646  */
+#line 1557 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 30:
 #line 140 "src/parser.y" /* yacc.c:1646  */
     { (yyval.stmt) = new april::VariableDeclaration(*(yyvsp[-1].ident), *(yyvsp[-3].ident));}
-#line 1563 "parser.cpp" /* yacc.c:1646  */
+#line 1563 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 31:
 #line 141 "src/parser.y" /* yacc.c:1646  */
     { (yyval.stmt) = new april::VariableDeclaration(*(yyvsp[-3].ident), *(yyvsp[-5].ident), (yyvsp[-1].expr)); }
-#line 1569 "parser.cpp" /* yacc.c:1646  */
+#line 1569 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 32:
 #line 142 "src/parser.y" /* yacc.c:1646  */
     { (yyval.stmt) = new april::VariableDeclaration(*(yyvsp[-3].ident), *(yyvsp[-5].ident), (yyvsp[-1].expr)); }
-#line 1575 "parser.cpp" /* yacc.c:1646  */
+#line 1575 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 33:
 #line 143 "src/parser.y" /* yacc.c:1646  */
     { (yyval.stmt) = new april::VariableDeclarationDeduce(*(yyvsp[-3].ident), (yyvsp[-1].expr)); }
-#line 1581 "parser.cpp" /* yacc.c:1646  */
+#line 1581 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 34:
 #line 144 "src/parser.y" /* yacc.c:1646  */
     { (yyval.stmt) = new april::VariableDeclarationDeduce(*(yyvsp[-3].ident), (yyvsp[-1].expr)); }
-#line 1587 "parser.cpp" /* yacc.c:1646  */
+#line 1587 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 35:
 #line 147 "src/parser.y" /* yacc.c:1646  */
     { }
-#line 1593 "parser.cpp" /* yacc.c:1646  */
+#line 1593 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 36:
 #line 148 "src/parser.y" /* yacc.c:1646  */
     { (yyval.expr) = new april::Assignment(*(yyvsp[-2].ident), *(yyvsp[0].expr)); }
-#line 1599 "parser.cpp" /* yacc.c:1646  */
+#line 1599 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 37:
 #line 149 "src/parser.y" /* yacc.c:1646  */
     { (yyval.expr) = new april::Assignment(*(yyvsp[-2].ident), *(yyvsp[0].expr)); }
-#line 1605 "parser.cpp" /* yacc.c:1646  */
+#line 1605 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 38:
 #line 150 "src/parser.y" /* yacc.c:1646  */
     { (yyval.expr) = new april::AssignmentArray((yyvsp[-2].expr), (yyvsp[0].expr));     }
-#line 1611 "parser.cpp" /* yacc.c:1646  */
+#line 1611 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 39:
 #line 151 "src/parser.y" /* yacc.c:1646  */
     { (yyval.expr) = new april::AssigBioperator((yyvsp[-2].ident), (yyvsp[-1].token), (yyvsp[0].expr)); }
-#line 1617 "parser.cpp" /* yacc.c:1646  */
+#line 1617 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 40:
 #line 152 "src/parser.y" /* yacc.c:1646  */
     { (yyval.expr) = new april::AssigBioperator((yyvsp[-2].ident), (yyvsp[-1].token), (yyvsp[0].expr)); }
-#line 1623 "parser.cpp" /* yacc.c:1646  */
+#line 1623 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 41:
 #line 153 "src/parser.y" /* yacc.c:1646  */
     { (yyval.expr) = new april::AssigBioperator((yyvsp[-2].ident), (yyvsp[-1].token), (yyvsp[0].expr)); }
-#line 1629 "parser.cpp" /* yacc.c:1646  */
+#line 1629 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 42:
 #line 154 "src/parser.y" /* yacc.c:1646  */
     { (yyval.expr) = new april::AssigBioperator((yyvsp[-2].ident), (yyvsp[-1].token), (yyvsp[0].expr)); }
-#line 1635 "parser.cpp" /* yacc.c:1646  */
+#line 1635 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 43:
 #line 155 "src/parser.y" /* yacc.c:1646  */
     { (yyval.expr) = (yyvsp[0].expr); }
-#line 1641 "parser.cpp" /* yacc.c:1646  */
+#line 1641 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 44:
 #line 156 "src/parser.y" /* yacc.c:1646  */
     { (yyval.ident) = (yyvsp[0].ident); }
-#line 1647 "parser.cpp" /* yacc.c:1646  */
+#line 1647 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 45:
 #line 157 "src/parser.y" /* yacc.c:1646  */
     { }
-#line 1653 "parser.cpp" /* yacc.c:1646  */
+#line 1653 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 46:
 #line 158 "src/parser.y" /* yacc.c:1646  */
     { }
-#line 1659 "parser.cpp" /* yacc.c:1646  */
+#line 1659 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 47:
 #line 159 "src/parser.y" /* yacc.c:1646  */
     { }
-#line 1665 "parser.cpp" /* yacc.c:1646  */
+#line 1665 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 48:
 #line 160 "src/parser.y" /* yacc.c:1646  */
     { }
-#line 1671 "parser.cpp" /* yacc.c:1646  */
+#line 1671 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 49:
 #line 161 "src/parser.y" /* yacc.c:1646  */
     { }
-#line 1677 "parser.cpp" /* yacc.c:1646  */
+#line 1677 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 50:
 #line 162 "src/parser.y" /* yacc.c:1646  */
     { }
-#line 1683 "parser.cpp" /* yacc.c:1646  */
+#line 1683 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 51:
 #line 165 "src/parser.y" /* yacc.c:1646  */
     { (yyval.expr) = new april::ArrayAccess((yyvsp[-3].ident), std::atol((yyvsp[-1].string)->c_str())); delete (yyvsp[-1].string);}
-#line 1689 "parser.cpp" /* yacc.c:1646  */
+#line 1689 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 52:
 #line 166 "src/parser.y" /* yacc.c:1646  */
     { (yyval.expr) = new april::ArrayAccess((yyvsp[-3].expr), std::atol((yyvsp[-1].string)->c_str())); delete (yyvsp[-1].string);}
-#line 1695 "parser.cpp" /* yacc.c:1646  */
+#line 1695 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 53:
 #line 169 "src/parser.y" /* yacc.c:1646  */
     { (yyval.exprvec) = new april::ExpressionList(); }
-#line 1701 "parser.cpp" /* yacc.c:1646  */
+#line 1701 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 54:
 #line 170 "src/parser.y" /* yacc.c:1646  */
     { (yyval.exprvec) = new april::ExpressionList(); (yyval.exprvec)->push_back((yyvsp[0].expr)); }
-#line 1707 "parser.cpp" /* yacc.c:1646  */
+#line 1707 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 55:
 #line 171 "src/parser.y" /* yacc.c:1646  */
     { (yyval.exprvec)->push_back((yyvsp[0].expr)); }
-#line 1713 "parser.cpp" /* yacc.c:1646  */
+#line 1713 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 56:
 #line 174 "src/parser.y" /* yacc.c:1646  */
     { (yyval.expr) = new april::Array((yyvsp[-1].exprvec)); }
-#line 1719 "parser.cpp" /* yacc.c:1646  */
+#line 1719 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 57:
 #line 177 "src/parser.y" /* yacc.c:1646  */
     { (yyval.expr) = new april::MethodCall((yyvsp[-3].ident), (yyvsp[-1].exprvec)); }
-#line 1725 "parser.cpp" /* yacc.c:1646  */
+#line 1725 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 58:
 #line 180 "src/parser.y" /* yacc.c:1646  */
     { (yyval.expr) = new april::LogicOpe((yyvsp[-1].token), (yyvsp[0].expr)); }
-#line 1731 "parser.cpp" /* yacc.c:1646  */
+#line 1731 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 59:
 #line 183 "src/parser.y" /* yacc.c:1646  */
     { (yyval.expr) = new april::UnaryOpe((yyvsp[-1].ident), (yyvsp[0].token)); }
-#line 1737 "parser.cpp" /* yacc.c:1646  */
+#line 1737 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 60:
 #line 184 "src/parser.y" /* yacc.c:1646  */
     { (yyval.expr) = new april::UnaryOpe((yyvsp[-1].ident), (yyvsp[0].token)); }
-#line 1743 "parser.cpp" /* yacc.c:1646  */
+#line 1743 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 61:
 #line 187 "src/parser.y" /* yacc.c:1646  */
     { (yyval.exprvec) = new april::ExpressionList(); }
-#line 1749 "parser.cpp" /* yacc.c:1646  */
+#line 1749 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 62:
 #line 188 "src/parser.y" /* yacc.c:1646  */
     { (yyval.exprvec) = new april::ExpressionList(); (yyval.exprvec)->push_back((yyvsp[0].expr)); }
-#line 1755 "parser.cpp" /* yacc.c:1646  */
+#line 1755 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 63:
 #line 189 "src/parser.y" /* yacc.c:1646  */
     { (yyval.exprvec)->push_back((yyvsp[0].expr)); }
-#line 1761 "parser.cpp" /* yacc.c:1646  */
+#line 1761 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 64:
 #line 192 "src/parser.y" /* yacc.c:1646  */
     { (yyval.expr) = new april::BinaryOperator(*(yyvsp[-2].expr), (yyvsp[-1].token), *(yyvsp[0].expr)); }
-#line 1767 "parser.cpp" /* yacc.c:1646  */
+#line 1767 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 65:
 #line 193 "src/parser.y" /* yacc.c:1646  */
     { (yyval.expr) = new april::BinaryOperator(*(yyvsp[-2].expr), (yyvsp[-1].token), *(yyvsp[0].expr)); }
-#line 1773 "parser.cpp" /* yacc.c:1646  */
+#line 1773 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 66:
 #line 194 "src/parser.y" /* yacc.c:1646  */
     { (yyval.expr) = new april::BinaryOperator(*(yyvsp[-2].expr), (yyvsp[-1].token), *(yyvsp[0].expr)); }
-#line 1779 "parser.cpp" /* yacc.c:1646  */
+#line 1779 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 67:
 #line 195 "src/parser.y" /* yacc.c:1646  */
     { (yyval.expr) = new april::BinaryOperator(*(yyvsp[-2].expr), (yyvsp[-1].token), *(yyvsp[0].expr)); }
-#line 1785 "parser.cpp" /* yacc.c:1646  */
+#line 1785 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 68:
 #line 196 "src/parser.y" /* yacc.c:1646  */
     { (yyval.expr) = new april::BinaryOperator(*(yyvsp[-2].expr), (yyvsp[-1].token), *(yyvsp[0].expr)); }
-#line 1791 "parser.cpp" /* yacc.c:1646  */
+#line 1791 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 69:
 #line 197 "src/parser.y" /* yacc.c:1646  */
     { (yyval.expr) = new april::BinaryOperator(*(yyvsp[-2].expr), (yyvsp[-1].token), *(yyvsp[0].expr)); }
-#line 1797 "parser.cpp" /* yacc.c:1646  */
+#line 1797 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 70:
 #line 198 "src/parser.y" /* yacc.c:1646  */
     { (yyval.expr) = (yyvsp[-1].expr); }
-#line 1803 "parser.cpp" /* yacc.c:1646  */
+#line 1803 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 71:
 #line 201 "src/parser.y" /* yacc.c:1646  */
     { (yyval.expr) = new april::ComparasionOpe(*(yyvsp[-2].expr), (yyvsp[-1].token), *(yyvsp[0].expr));}
-#line 1809 "parser.cpp" /* yacc.c:1646  */
+#line 1809 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 78:
 #line 207 "src/parser.y" /* yacc.c:1646  */
     { (yyval.expr) = new april::Integer(std::atol((yyvsp[0].string)->c_str())); delete (yyvsp[0].string); }
-#line 1815 "parser.cpp" /* yacc.c:1646  */
+#line 1815 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 79:
@@ -1824,13 +1824,13 @@ yyreduce:
 												//delete $2; 
                                                 //delete value;
 											}
-#line 1828 "parser.cpp" /* yacc.c:1646  */
+#line 1828 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 80:
 #line 216 "src/parser.y" /* yacc.c:1646  */
     { (yyval.expr) = new april::Double(std::atof((yyvsp[0].string)->c_str())); delete (yyvsp[0].string); }
-#line 1834 "parser.cpp" /* yacc.c:1646  */
+#line 1834 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 81:
@@ -1843,29 +1843,29 @@ yyreduce:
                                                 delete (yyvsp[0].string); 
                                                 delete value; 
                                             }
-#line 1847 "parser.cpp" /* yacc.c:1646  */
+#line 1847 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 82:
 #line 225 "src/parser.y" /* yacc.c:1646  */
     { (yyval.expr) = new april::String(yytext); }
-#line 1853 "parser.cpp" /* yacc.c:1646  */
+#line 1853 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 83:
 #line 226 "src/parser.y" /* yacc.c:1646  */
     { (yyval.expr) = new april::Boolean(*(yyvsp[0].string)); delete (yyvsp[0].string); }
-#line 1859 "parser.cpp" /* yacc.c:1646  */
+#line 1859 "paser.cpp" /* yacc.c:1646  */
     break;
 
   case 84:
 #line 229 "src/parser.y" /* yacc.c:1646  */
     { (yyval.ident) = new april::Identifier(*(yyvsp[0].string)); delete (yyvsp[0].string); }
-#line 1865 "parser.cpp" /* yacc.c:1646  */
+#line 1865 "paser.cpp" /* yacc.c:1646  */
     break;
 
 
-#line 1869 "parser.cpp" /* yacc.c:1646  */
+#line 1869 "paser.cpp" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires

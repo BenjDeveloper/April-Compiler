@@ -80,7 +80,6 @@ namespace april
 		}
 		else
 		{
-			std::cout << "despues aqui!" << std::endl;
 			this->__is_struct = true;
 			llvm::Value* array_value = nullptr;
 			if (assignmentExpr == nullptr)

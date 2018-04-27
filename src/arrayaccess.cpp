@@ -12,54 +12,9 @@ namespace april
 		llvm::AllocaInst* var = nullptr;
 		llvm::Type* var_type = nullptr;
 		llvm::Type* var_array_type = nullptr;
-
-		//--------------------------------------
-
-		uint64_t index = _index;
-		llvm::ConstantInt* const_int = nullptr;
-		llvm::Value* _val_index = nullptr;
-
-		if (expr_index != nullptr)
-		{
-			_val_index = expr_index->codeGen(context);
-			if (!_val_index->getType()->isIntegerTy())
-			{
-				printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el indice debe ser una expresion de tipo 'int'.\n");
-				context.addError();
-				return nullptr;
-			}
-
-			Integer* int_expr = new Integer(18);
-			llvm::Value* int_value = int_expr->codeGen(context);
-			
-			llvm::CmpInst* cmp = llvm::CmpInst::Create(llvm::Instruction::ICmp, llvm::CmpInst::ICMP_EQ, int_value, _val_index, "cmotmo", context.currentBlock());
-			
-			if (cmp->getType()->isIntegerTy())
-				std::cout << "es integer --> <--" << std::endl;
-
-
-
-			
-
-			const_int = llvm::dyn_cast<llvm::ConstantInt>(_val_index);
-			if (const_int == nullptr)
-				std::cout << "ERROR!!!" << std::endl;
-
-			std::cout << "final" << std::endl;
-			if (const_int == nullptr)
-			{
-				const_int->getValue();
-				std::cout << "(1)SHITTTT" << std::endl;
-			}
-			else
-				std::cout << "(1)NO SHITTTT" << std::endl;
-		}
-		//--------------------------------------
-
-
+		
 		if (expr != nullptr)
 		{
-			std::cout << "--> aqui <--" << std::endl;
 			llvm::Value* tmp = expr->codeGen(context);
 			var = new llvm::AllocaInst(tmp->getType(), 0, "tmp_access_array_index", context.currentBlock());
 			new llvm::StoreInst(tmp, var, context.currentBlock());
@@ -104,19 +59,7 @@ namespace april
 
 		std::vector<llvm::Value*> ptr_indices;
 		llvm::ConstantInt* const_int32_0 = llvm::ConstantInt::get(context.getModule()->getContext(), llvm::APInt(32, 0));
-		llvm::ConstantInt* const_int32 = nullptr;
-
-		if (const_int == nullptr)
-		{
-			std::cout << "-->> es NULO <<--" << std::endl;
-			const_int32 = llvm::ConstantInt::get(context.getModule()->getContext(), llvm::APInt(32, index));
-		}
-		else
-		{
-			std::cout << "-->> AQUI <<--" << std::endl;
-			const_int32 = llvm::ConstantInt::get(context.getModule()->getContext(), const_int->getValue());
-		}
-		
+		llvm::ConstantInt* const_int32 = llvm::ConstantInt::get(context.getModule()->getContext(), llvm::APInt(32, index));
 		ptr_indices.push_back(const_int32_0);
 		ptr_indices.push_back(const_int32);
 		
