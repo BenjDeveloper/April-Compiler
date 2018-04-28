@@ -35,7 +35,6 @@ int main(int argc, char* argv[])
 		
 		if (command == "run")
 		{
-			std::cout << "num: " << argc << std::endl;
 			if (argc == 3 || argc == 4)
 			{
 				april_errors->file_name = argv[2];	
@@ -85,12 +84,13 @@ int main(int argc, char* argv[])
 	}
 	else if (VERSION_MODE)
 		std::cout << "April version " << MAYOR_VERSION << "." << MENOR_VERSION << "." << MICRO_VERSION << " " << SYSTEM << "\n"<< std::endl;
+	
 	else if (RUN_MODE)
 	{
 		yyin = fopen(april_errors->file_name.c_str(), "r+");
 		if (yyin == nullptr)
 		{
-			std::cout << "Error al abrir el fichero: " << april_errors->file_name << std::endl;
+			std::cout << "Error: can not open file with name: " << april_errors->file_name << "\n"<< std::endl;
 			return EXIT_FAILURE;
 		}
 		else
@@ -108,6 +108,7 @@ int main(int argc, char* argv[])
 			delete programBlock;
 		}
 	}
+
     return 0;
 }
 
