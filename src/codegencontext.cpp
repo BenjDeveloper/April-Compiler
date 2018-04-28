@@ -11,6 +11,9 @@
 extern april::STRUCINFO* april_errors;
 extern bool existMainFunction;
 
+extern bool DEBUG_MODE;
+extern bool VERBOSE_MODE;
+
 namespace april
 {
     static const std::string name_main = "_Pandicorn&Kenshin";
@@ -110,7 +113,7 @@ namespace april
             return false;
         }*/
         
-        std::cout << "*******************Generando codigo*******************" << std::endl;
+        //std::cout << "*******************Generando codigo*******************" << std::endl;
 		std::vector<llvm::Type*> argTypes;
 		llvm::FunctionType* ftype = llvm::FunctionType::get(llvm::Type::getVoidTy(llvmContext), argTypes, false);
 		mainFunction = llvm::Function::Create(ftype, llvm::GlobalValue::InternalLinkage, name_main, module);
@@ -135,7 +138,7 @@ namespace april
         }
         popBlock();
 
-		std::cout << "verificando construccion... " << std::endl;
+		//std::cout << "verificando construccion... " << std::endl;
 
 		if (llvm::verifyModule(*getModule()))
 		{
@@ -144,16 +147,17 @@ namespace april
 			return false;
 		}
 
-		std::cout << "hecho... :)" << std::endl;
+		if (DEBUG_MODE == false)
+			optimize();
 
-        std::cout << "*******************Codigo generado*******************" << std::endl;
-        module->dump();
+		if (VERBOSE_MODE)
+		{
+			std::cout << "\n" << std::endl;
+			module->dump();
+			std::cout << "\n" << std::endl;
+		}
 
-
-        // optimize();
-        // std::cout << "*******************Codigo Optimizado*******************" << std::endl;
-        // module->dump();
-        return true;
+		return true;
     }
 
     void CodeGenContext::optimize()
@@ -507,7 +511,7 @@ namespace april
 
     llvm::GenericValue CodeGenContext::runCode()
     {
-        std::cout << "\n*******************Corriendo codigo*******************" << std::endl;
+        //std::cout << "\n*******************Corriendo codigo*******************" << std::endl;
         std::string err;
 		llvm::ExecutionEngine* ee = llvm::EngineBuilder(std::unique_ptr<llvm::Module>(module)).setErrorStr(&err).setEngineKind(llvm::EngineKind::JIT).create();
 		assert(ee);
@@ -518,7 +522,7 @@ namespace april
 		std::vector<llvm::GenericValue> noargs;
         llvm::GenericValue v = ee->runFunction(mainFunction, noargs);
 		delete ee;
-        std::cout << "*******************Codigo corrido*******************" << std::endl;
+        //std::cout << "*******************Codigo corrido*******************" << std::endl;
         return v;
     }
 
