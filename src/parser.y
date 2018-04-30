@@ -30,7 +30,6 @@
     #include "include/array.hpp"
     #include "include/arrayaccess.hpp"
     #include "include/assignmentarray.hpp"
-	#include "include/vardeclarationref.hpp"
 	#include "include/arrayaddelement.hpp"
 
     using namespace april;
@@ -120,7 +119,6 @@ fn_args: /* blank */                        { $$ = new april::VarList(); }
     ;
 
 var_decl_arg: ident TCOLON ident            { $$ = new april::VariableDeclaration(*$3, *$1);}
-	| ident TCOLON ident TAMPER				{ $$ = new april::VariableDeclaration(*$3, *$1, true); /*$$ = new april::VarDeclarationRef($1, $3->getName()); */}
     ;
 
 for: TFOR expr block                        { $$ = new april::ForLoop($2, $3); }

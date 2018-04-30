@@ -38,7 +38,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 # Disallow in-source builds. #
 ##############################
 EXECUTE_PROCESS(COMMAND pwd OUTPUT_VARIABLE CURR_DIR)
-if("${CURR_DIR}" STREQUAL "${liquid_SOURCE_DIR}\n")
+if("${CURR_DIR}" STREQUAL "${april_SOURCE_DIR}\n")
     message(FATAL_ERROR "In-source-builds are not allowed to build the liquid. Please go into the \"build\" directory and type \"ccmake ..\" there.\nThank you.")
 endif()
 
@@ -79,7 +79,6 @@ set(SOURCES_COMMON
             src/unaryope.cpp				
             src/vardeclaration.cpp		
             src/vardeclarationdeduce.cpp
-			src/vardeclarationref.cpp
 			src/arrayaddelement.cpp
             parser.cpp
             lexer.cpp	
@@ -119,7 +118,6 @@ set(HEADER_COMMON
             include/unaryope.hpp				
             include/vardeclaration.hpp		
             include/vardeclarationdeduce.hpp
-			include/vardeclarationref.hpp
 			include/arrayaddelement.hpp
             parser.h
    )
@@ -167,7 +165,7 @@ target_compile_definitions(april PRIVATE $<$<CONFIG:Debug>:_DEBUG>)
 if( CMAKE_SYSTEM_NAME MATCHES Linux )
     set(LLVM_ROOT "/usr/llvm" CACHE PATH "Root of LLVM installation.")
 elseif( CMAKE_SYSTEM_NAME MATCHES Windows )
-    set(LLVM_ROOT "C:/Users/kenshin urashima/Desktop/Tesis/llvm-3.8" CACHE PATH "Root of LLVM installation.")
+    set(LLVM_ROOT "C:/Users/kenshin urashima/Desktop/Tesis/llvm-3.8.0_x64" CACHE PATH "Root of LLVM installation.")
 else()
     set(LLVM_ROOT "" CACHE PATH "Root of LLVM install.")
 endif()

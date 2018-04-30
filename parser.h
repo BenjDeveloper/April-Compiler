@@ -97,7 +97,7 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 49 "src/parser.y" /* yacc.c:1909  */
+#line 48 "src/parser.y" /* yacc.c:1909  */
 
     april::Node* node;
     april::Block* block;
