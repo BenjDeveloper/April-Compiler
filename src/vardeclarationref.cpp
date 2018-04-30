@@ -9,7 +9,7 @@ namespace april
 	{
 		std::cout << "definicion de una ref!!" << std::endl;
 		
-		if (context.searchVariable(id->getName()))
+		if (context.searchVariableAll(id->getName()))
 		{
 			printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la variable '" + id->name + "' ya existe\n");
 			context.addError();
@@ -18,7 +18,7 @@ namespace april
 
 		if (id_obj != nullptr)
 		{
-			if (!context.searchVariable(id_obj->getName()))
+			if (!context.searchVariableAll(id_obj->getName()))
 			{
 				printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la variable '" + id_obj->name + "' NO existe\n");
 				context.addError();

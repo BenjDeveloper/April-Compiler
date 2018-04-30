@@ -1,20 +1,30 @@
 // **********************************************************
 // **                                                     ***
 // **    Programado por Pandicorn & Kenshin Urashima      ***
-// **    Test: ambitos en April                           ***
-// **                                                     ***
+// **    Test: raiz cuadrada de Newton en April           ***
+// **    result: 1.41421                                  *** 
 // **********************************************************
 
-var i:int = 0;
+//global x:string = sqr(2);
 
-i += 1;
-i += 1;
-i++;
-i++;
-i -= 1;
-i--;
-i--;
-i--;
-i--;
+fn sqr(x:int):double
+{
+    _println("x: %d",x);
+    z := 1.0;
+    cont := 0;
 
-_println("i: %d", i);
+    for cont < 10
+    {
+        z = z-(((z*z)-x)/(2*z));
+        _println("cont: %d", cont);
+        cont++;
+    }
+    return z;
+}
+
+fn main():void
+{
+    _println("result: %f", sqr(2));
+}
+
+main();

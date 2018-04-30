@@ -8,7 +8,7 @@ namespace april
 {
     llvm::Value* Identifier::codeGen(CodeGenContext& context)
     {
-        if (context.searchVariable(name) == nullptr)
+        if (context.searchVariableAll(name) == nullptr)
         {
             printError(april_errors->file_name+": "+std::to_string(april_errors->line)+" error: la variable '"+name+"' no ha sido declarada.\n");
             context.addError();
@@ -20,6 +20,6 @@ namespace april
 			return new llvm::LoadInst(context.map_struct_type[name], "", false, context.currentBlock());
 		}	
 		else
-			return new llvm::LoadInst(context.locals()[name], "", false, context.currentBlock());
+			return new llvm::LoadInst(context.searchVariableAll(name), "", false, context.currentBlock());
     }
 }

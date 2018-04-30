@@ -12,22 +12,22 @@ fn main():void
     if true
     {
         k := 1;
-        println("then x: %d", x);
-        println("then k: %d", k);
+        _println("then x: %d", x);
+        _println("then k: %d", k);
         if false 
         {
             j := 6;
-            println("then then j: %d", j);
+            _println("then then j: %d", j);
         }
         else 
         {
             j := 9;
-            println("then else j: %d", j);
+            _println("then else j: %d", j);
 
             if false 
             {
                 h := 6;
-                println("then else then j: %d", j);
+                _println("then else then j: %d", j);
             }
             else 
             {
@@ -38,28 +38,28 @@ fn main():void
                     {
                         w := 0;
                         
-                        println("q -->: %d", q);
+                        _println("q -->: %d", q);
                         for (w < 3) 
                         {
                             o := 0;
-                            println("w: %d", w);
+                            _println("w: %d", w);
                             w += 1;
                         }
-                        // println("z: %d", z); variable no definida
+                        // _println("z: %d", z); variable no definida
                         q += 1;
                     }
-                    println("q: %d", q);
-                    // println("w: %d", w); variable no definida
+                    _println("q: %d", q);
+                    // _println("w: %d", w); variable no definida
                 }
             }
-            //println("h: %d", h); error
+            //_println("h: %d", h); error
         }
     }
     else 
     {
         j := 0;
-        println("else x: %d", x);
-        println("else j: %d", j);
+        _println("else x: %d", x);
+        _println("else j: %d", j);
     }
     // manejo de ambitos
     k := 0;
@@ -67,15 +67,15 @@ fn main():void
         j := 1;
         {
             i := 2;
-            println("i: %d", i);
-            println("k: %d", k);
-            println("j: %d", j);
+            _println("i: %d", i);
+            _println("k: %d", k);
+            _println("j: %d", j);
         }
-        //println("i: %d", i); error: variable no definida
-        println("k: %d", k);
-        println("j: %d", j);
+        //_println("i: %d", i); error: variable no definida
+        _println("k: %d", k);
+        _println("j: %d", j);
     }
-    //println("i: %d", i); error: variable no definida
-    println("k: %d", k);
-    // println("j: %d", j); error: variable no definida
+    //_println("i: %d", i); error: variable no definida
+    _println("k: %d", k);
+    // _println("j: %d", j); error: variable no definida
 }

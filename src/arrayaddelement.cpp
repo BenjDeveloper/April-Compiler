@@ -11,7 +11,7 @@ namespace april
 	llvm::Value* ArrayAddElement::codeGen(CodeGenContext& context)
 	{
 		ExpressionList members;
-		llvm::AllocaInst* var = context.searchVariable(ident->getName());
+		llvm::AllocaInst* var = context.searchVariableAll(ident->getName());
 
 
 		auto var_type = var->getAllocatedType();

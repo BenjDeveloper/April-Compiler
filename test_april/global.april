@@ -1,9 +1,13 @@
 // **********************************************************
 // **                                                     ***
 // **    Programado por Pandicorn & Kenshin Urashima      ***
-// **    Test: "Hello World" en April                     ***
+// **    Test: "Global" en April                          ***
 // **                                                     ***
 // **********************************************************
+
+global x:int = 100;
+
+_iprintln2(x);
 
 fn main():void
 {

@@ -8,7 +8,7 @@ namespace april
 {
     llvm::Value* VariableDeclarationDeduce::codeGen(CodeGenContext& context)
     {
-        if (context.searchVariable(id.name))
+        if (context.searchVariableAll(id.name))
         {
             printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la variable '"+id.name+"' ya existe\n");
             context.addError();

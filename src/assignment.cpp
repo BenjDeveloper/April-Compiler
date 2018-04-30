@@ -25,7 +25,7 @@ namespace april
 {
     llvm::Value* Assignment::codeGen(CodeGenContext& context)
     {
-        if (context.searchVariable(lhs.name) == nullptr)
+        if (context.searchVariableAll(lhs.name) == nullptr)
         {
             printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la variable '"+lhs.name+"' no ha sido declarada en la asignacion\n");
             context.addError();
@@ -41,7 +41,7 @@ namespace april
 				return nullptr;
 			}
 
-            return new llvm::StoreInst(rhs_value, context.locals()[lhs.name], false, context.currentBlock());
+            return new llvm::StoreInst(rhs_value, context.searchVariableAll(lhs.name), false, context.currentBlock());
         }
         else 
         { 
@@ -60,7 +60,7 @@ namespace april
 				return nullptr;
 			}
 
-            return new llvm::StoreInst(expr_value, context.locals()[lhs.name], false, context.currentBlock()); 
+            return new llvm::StoreInst(expr_value, context.searchVariableAll(lhs.name), false, context.currentBlock());
         }
     }
 }

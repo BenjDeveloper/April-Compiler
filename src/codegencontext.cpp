@@ -17,6 +17,7 @@ namespace april
 
     CodeGenContext::CodeGenContext()
     {
+		mainblock = nullptr;
 		scope = ScopeType::Block;
         errors = 0;
         llvm::InitializeNativeTarget();
@@ -42,6 +43,39 @@ namespace april
 		}
         if (stackFunctionType.size() > 0) { stackFunctionType.pop(); } 
     }
+
+	llvm::AllocaInst* CodeGenContext::searchVariableAll(std::string name)
+	{
+		llvm::AllocaInst* result_variable = nullptr;
+
+		result_variable = searchGlobalVariable(name);
+		if (result_variable)
+		{
+			std::cout << "searchGlobalVariable(name);" << name << std::endl;
+			return result_variable;
+		}
+
+		result_variable = searchVariable(name);
+		if (result_variable)
+		{
+			std::cout<< "searchVariable(name);" << name << std::endl;
+			return result_variable;
+		}
+		
+		std::cout << "nullptr;" << std::endl;
+		return result_variable;
+	}
+
+	llvm::AllocaInst* CodeGenContext::searchGlobalVariable(std::string name)
+	{
+		std::map<std::string, llvm::AllocaInst*>& variables = this->global;
+
+		if (variables.find(name) != variables.end())
+		{
+			return variables[name];
+		}
+		return nullptr;
+	}
 
     llvm::AllocaInst* CodeGenContext::searchVariable(std::string name)
     {
@@ -115,6 +149,7 @@ namespace april
 		llvm::FunctionType* ftype = llvm::FunctionType::get(llvm::Type::getVoidTy(llvmContext), argTypes, false);
 		mainFunction = llvm::Function::Create(ftype, llvm::GlobalValue::InternalLinkage, name_main, module);
 		llvm::BasicBlock* bblock = llvm::BasicBlock::Create(llvmContext, "entry", mainFunction, 0);
+		mainblock = bblock;
 		setupBuildFn();
 		pushBlock(bblock, nullptr, ScopeType::Block);
 		llvm::Value* result = root.codeGen(*this);

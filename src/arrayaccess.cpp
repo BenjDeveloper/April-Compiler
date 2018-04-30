@@ -71,7 +71,7 @@ namespace april
 			if (context.map_struct_type.find(id->getName()) != context.map_struct_type.end())
 				var = context.map_struct_type[id->getName()];
 			else
-				var = context.searchVariable(id->getName());
+				var = context.searchVariableAll(id->getName());
 
 			if (var == nullptr)
 			{

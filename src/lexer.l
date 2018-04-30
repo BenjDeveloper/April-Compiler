@@ -75,6 +75,7 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 "for"               { return TOKEN(TFOR); }
 "fn"                { return TOKEN(TFN); }
 "return"            { return TOKEN(TRETURN); }
+"global"            { return TOKEN(TGLOBAL); }
 "!="				{ return TOKEN(TCOMNE); }
 "=="				{ return TOKEN(TCOMEQ); }
 "<="				{ return TOKEN(TCOMLE); }

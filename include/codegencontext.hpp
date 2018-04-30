@@ -55,10 +55,16 @@ namespace april
             llvm::LLVMContext llvmContext;
             int errors;
 			ScopeType scope;
+			std::map<std::string, llvm::AllocaInst*> global;
+			llvm::BasicBlock* mainblock;
 
         public:
             CodeGenContext();
             void optimize();
+			std::map<std::string, llvm::AllocaInst*>& getGlobal() { return global; }
+			llvm::BasicBlock* getMainBlock() { return mainblock; }
+			llvm::AllocaInst* searchGlobalVariable(std::string);
+			llvm::AllocaInst* CodeGenContext::searchVariableAll(std::string);
             llvm::LLVMContext& getGlobalContext() { return llvmContext; }
             bool generateCode(Block&);
             llvm::Module* getModule() { return this->module; }
@@ -69,6 +75,7 @@ namespace april
             void popBlock();
             void setupBuildFn();
             llvm::AllocaInst* searchVariable(std::string);
+
             void setCurrentBlock(llvm::BasicBlock* block) { blocks.front()->setCodeBlock(block); }
             llvm::Type* typeOf(const Identifier&);
             llvm::Type* typeOf(const std::string);

@@ -16,7 +16,7 @@ namespace april
             return nullptr;
         }
 
-        if (context.locals()[ident->name] == nullptr)
+        if (context.searchVariableAll(ident->name))
         {
             printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la variable "+ ident->name +" no ha sido declarada\n");
             context.addError();
@@ -55,7 +55,8 @@ namespace april
 			return nullptr;
 		}
 
-        bool op_decimal = (context.locals()[ident->name]->getType()->isDoubleTy() || expr_value->getType()->isDoubleTy())?(true):(false);
+
+        bool op_decimal = (context.searchVariableAll(ident->name)->getType()->isDoubleTy() || expr_value->getType()->isDoubleTy())?(true):(false);
 
         llvm::Value* result = nullptr;
         switch(_operator)
@@ -85,7 +86,7 @@ namespace april
                 break;
         }
 
-        return new llvm::StoreInst(result, context.locals()[ident->name], false, context.currentBlock());
+        return new llvm::StoreInst(result, context.searchVariableAll(ident->name), false, context.currentBlock());
         // context.locals()[ident->name] = (llvm::AllocaInst*) result;
         // return nullptr;
     }

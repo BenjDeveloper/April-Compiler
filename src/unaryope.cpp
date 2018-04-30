@@ -42,8 +42,8 @@ namespace april
 			}
 
 			llvm::Value* result =  llvm::BinaryOperator::Create(instr, rhs_value , lhs_value, "unarAdd", context.currentBlock());
-			new llvm::StoreInst(result, context.locals()[iden->getName()], false, context.currentBlock());
-			return new llvm::LoadInst(context.locals()[iden->getName()], "", false, context.currentBlock());
+			new llvm::StoreInst(result, context.searchVariableAll(iden->getName()), false, context.currentBlock());
+			return new llvm::LoadInst(context.searchVariableAll(iden->getName()), "", false, context.currentBlock());
 		}
 		else if (ope  == TUNARIMIN)
 		{
@@ -69,8 +69,8 @@ namespace april
 			}
 
 			llvm::Value* result = llvm::BinaryOperator::Create(instr,lhs_value, rhs_value, "unarSub", context.currentBlock());
-			new llvm::StoreInst(result, context.locals()[iden->getName()], false, context.currentBlock());
-			return new llvm::LoadInst(context.locals()[iden->getName()], "", false, context.currentBlock());
+			new llvm::StoreInst(result, context.searchVariableAll(iden->getName()), false, context.currentBlock());
+			return new llvm::LoadInst(context.searchVariableAll(iden->getName()), "", false, context.currentBlock());
 		}
 		printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el operador unario no esta definido\n");
 		context.addError();

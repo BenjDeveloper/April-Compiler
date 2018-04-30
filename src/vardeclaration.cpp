@@ -9,12 +9,12 @@
 extern april::STRUCINFO* april_errors;
 
 namespace april
-{
+{   
     llvm::Value* VariableDeclaration::codeGen(CodeGenContext& context)
     {
 		llvm::Type* type_value = nullptr;
 
-        if (context.searchVariable(id.name))
+        if (context.searchVariableAll(id.name))
         {
             printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la variable '"+id.name+"' ya existe\n");
             context.addError();
@@ -64,11 +64,19 @@ namespace april
 				Array* array = new Array{ &members };
 				llvm::Value* array_value = array->codeGen(context);
 
-				alloc = new llvm::AllocaInst(array_value->getType(), id.getName().c_str(), context.currentBlock());
-				context.locals()[id.name] = alloc;
-				context.map_struct_type[id.name] = alloc;
+				if (is_global)
+				{
+					alloc = new llvm::AllocaInst(array_value->getType(), id.getName().c_str(), context.getMainBlock());
+					context.getGlobal()[id.name] = alloc;
+				}
+				else
+				{
+					alloc = new llvm::AllocaInst(array_value->getType(), id.getName().c_str(), context.currentBlock());
+					context.locals()[id.name] = alloc;
+					context.map_struct_type[id.name] = alloc;
+				}
 
-				new llvm::StoreInst(array_value, context.locals()[id.getName()], false, context.currentBlock());
+				new llvm::StoreInst(array_value, context.searchVariableAll(id.getName()), false, context.currentBlock());
 				return alloc;
 				//-------------------------------------------------------
 			}
@@ -96,8 +104,9 @@ namespace april
 			new llvm::StoreInst(array_value, alloc, false, context.currentBlock());
 			context.map_struct_type[id.getName()] = alloc;
 		}
-		context.locals()[id.getName()] = alloc;
-		context.setVarType(type.getName(), id.getName());
+
+		/*context.locals()[id.getName()] = alloc;
+		context.setVarType(type.getName(), id.getName());*/
 
 		//--------------------------------------------------------
 		if (!type_value->isStructTy() && assignmentExpr != nullptr)
@@ -123,6 +132,7 @@ namespace april
 			Assignment assn(id, *assignmentExpr, expr_value);
             assn.codeGen(context);
         }
+
         return alloc;
     }
 }
