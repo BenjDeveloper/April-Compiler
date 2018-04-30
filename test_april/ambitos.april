@@ -79,3 +79,5 @@ fn main():void
     _println("k: %d", k);
     // _println("j: %d", j); error: variable no definida
 }
+
+main();

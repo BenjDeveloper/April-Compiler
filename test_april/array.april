@@ -7,9 +7,7 @@
 
 fn main():void
 {
-	v := [1, 2, 3];
 	//posibles soluciones para hacer arreglos
-
-	var v:int = [1, 2, 3];
+	v := [1, 2, 3];
 
 }

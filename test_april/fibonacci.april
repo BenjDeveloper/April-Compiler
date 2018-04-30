@@ -15,5 +15,7 @@ fn main():void
 {
     x := 12;
     result := fibonacci(x);
-    println("result: %d", result);
+    _println("result: %d", result);
 }
+
+main();

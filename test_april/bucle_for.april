@@ -18,7 +18,9 @@ fn main():void
     for ini > fin 
     {
         ini = resta(ini, 1);
-        println("ini: %d", ini);
+        _println("ini: %d", ini);
     }
-    println("adios!!");
+    _println("adios!!");
 } 
+
+main();
