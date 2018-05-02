@@ -1,6 +1,4 @@
-# April ![alt text](https://github.com/PandiCornDeveloper/April-Compiler/blob/April-Windows-Pandicorn/d25.png)
-  
-## Syntax Cheat Sheet 
+# April Syntax Cheat Sheet ![alt text](https://github.com/PandiCornDeveloper/April-Compiler/blob/April-Windows-Pandicorn/d25.png)
 
 ### Data Types
 *    int
