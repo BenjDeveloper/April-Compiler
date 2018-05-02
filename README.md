@@ -96,6 +96,15 @@ for (booleanExpression)
 ### Algorithms
 Examples: 
 
+#### Hello World
+```c++
+fn main():void
+{
+    _println("Hi April");
+} 
+main();
+```
+
 #### fibonacci
 ```c++
 fn fibonacci(valor:int):int
