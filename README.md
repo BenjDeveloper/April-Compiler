@@ -1,13 +1,13 @@
 # April Syntax Cheat Sheet 
 ![alt text](https://github.com/PandiCornDeveloper/April-Compiler/blob/April-Windows-Pandicorn/d25.png)
 
-### Data Types
+### Data Types in April Programming
 *    int
 *    double
 *    string
 *    bool
 
-### Declarations
+### Declarations in April Programming
 Declarations use is intrinsic. The intrinsic types are
 
 #### Local Variables
@@ -91,5 +91,48 @@ for (booleanExpression)
 {
     expressions;
 }
+```
+
+### Algorithms
+Examples: 
+
+#### fibonacci
+```c++
+fn fibonacci(valor:int):int
+{
+    if valor < 3 { if valor == 0 {return 0;} else {return 1;} }
+    else { return fibonacci(valor-1)+fibonacci(valor-2); }
+}
+
+fn main():void
+{
+    x := 12;
+    result := fibonacci(x);
+    _println("result: %d", result);
+}
+
+main();
+```
+
+#### Raiz Cuadrada de Newton
+```c++
+fn raizNewton(x:int):double
+{
+    z := 1.0;
+    cont := 0;
+    for cont < 10
+    {
+        z = z-(((z*z)-x)/(2*z));
+        cont++;
+    }
+    return z;
+}
+
+fn main():void
+{
+    _println("result: %f", raizNewton(2));
+}
+
+main();
 ```
 
