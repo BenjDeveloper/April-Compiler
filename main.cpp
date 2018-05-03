@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
     }
 
     // std::string name_file = argv[1];
-    std::string name_file = "test/test.lore";
+    std::string name_file = "test/test.april";
 
     yyin = fopen(name_file.c_str(), "r+");
     if (yyin == nullptr)

@@ -65,6 +65,7 @@ stmt: expr TSC                  { $$ = new april::ExprStatement{$1}; }
     ;
 
 var_decl: TVAR ident TCOLON ident TSC								{ $$ = new april::VarDeclaration($2, $4);}
+    | TVAR ident TCOLON ident TEQUAL expr TSC                       { $$ = new april::VarDeclaration($2, $4, $6);}
     ;
 
 expr: binary_ope                {  }
