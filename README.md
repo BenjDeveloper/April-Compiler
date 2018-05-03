@@ -1,5 +1,5 @@
 # April Syntax Cheat Sheet 
-![alt text](https://github.com/PandiCornDeveloper/April-Compiler/blob/April-Windows-Pandicorn/image/d25.png)
+![alt text](April-Compiler/image/d25.png)
 
 ### Data Types in April Programming
 *    int
