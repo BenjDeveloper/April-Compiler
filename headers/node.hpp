@@ -2,6 +2,7 @@
 #define NODE_HPP
 
 #include <iostream>
+#include <vector>
 #include "symbol.hpp"
 
 namespace april
@@ -13,6 +14,8 @@ namespace april
         int line;
         std::string file_name;
     } STRUCINFO;
+
+    using ExpressionList = std::vector<class Expression*>;
 
     class Node
     {

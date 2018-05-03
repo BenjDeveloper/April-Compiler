@@ -12,6 +12,7 @@ OBJS = parser.o				\
 	codegencontext.o 		\
 	identifier.o	 		\
 	vardeclaration.o	 	\
+	methodcall.o		 	\
 	main.o					\
 
 CPPFLAGS = -std=gnu++11

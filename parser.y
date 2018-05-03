@@ -13,6 +13,7 @@
     #include "headers/binaryope.hpp"
     #include "headers/identifier.hpp"
     #include "headers/vardeclaration.hpp"
+    #include "headers/methodcall.hpp"
 
     using namespace april;
 
@@ -31,6 +32,7 @@
     april::Statement* stmt;
     april::Block* block;
     april::Identifier* ident;
+    std::vector<april::Expression*> *exprvec;
     std::string* _string;
     int token;
 }
@@ -38,12 +40,13 @@
 %token <_string> TDIGIT TDOUBLE TIDENTIFIER
 %token <token> TPLUS TMIN TMUL TDIV TJUMP TSC
 %token <token> TLPAREN TRPAREN TSTR
-%token <token> TVAR TEQUAL TCOLON
+%token <token> TVAR TEQUAL TCOLON TCOMMA
 
 %type <ident> ident
-%type <expr> expr basic binary_ope
+%type <expr> expr basic binary_ope method_call
 %type <stmt> stmt  var_decl
 %type <block> program stmts
+%type <exprvec> call_args
 
 %left TPLUS TMIN
 %left TMUL TDIV
@@ -71,6 +74,15 @@ var_decl: TVAR ident TCOLON ident TSC								{ $$ = new april::VarDeclaration($2
 expr: binary_ope                {  }
     | basic                     { $$ = $1; }
     | ident                     { $<ident>$ = $1; }
+    | method_call               {  }
+    ;
+
+method_call: ident TLPAREN call_args TRPAREN       { $$ = new april::MethodCall($1, $3); }
+    ;
+
+call_args: %empty                           { $$ = new april::ExpressionList(); }
+    | expr                                  { $$ = new april::ExpressionList(); $$->push_back($1); }
+    | call_args TCOMMA expr                 { $$->push_back($3); }
     ;
 
 binary_ope: expr TPLUS expr       { $$ = new april::BinaryOpe{ $1, april::OPE::PLUS, $3 }; }

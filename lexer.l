@@ -12,6 +12,7 @@
     #include "headers/binaryope.hpp"
     #include "headers/identifier.hpp"
     #include "headers/vardeclaration.hpp"
+    #include "headers/methodcall.hpp"
     #include "parser.h"
 
     #define SAVE_TOKEN yylval._string = new std::string(yytext, yyleng)
@@ -55,6 +56,7 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 "("                 { return TOKEN(TLPAREN); }
 ")"                 { return TOKEN(TRPAREN); }
 ";"                 { return TOKEN(TSC); }
+","                 { return TOKEN(TCOMMA); }
 {IDENTIFIER}        { SAVE_TOKEN; return TIDENTIFIER; }
 .                   { /*empty*/ }
 %%
