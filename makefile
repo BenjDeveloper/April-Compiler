@@ -4,6 +4,7 @@ CC = g++
 
 OBJS = parser.o				\
 	lexer.o					\
+	symbol.o				\
 	integer.o				\
 	double.o				\
 	binaryope.o				\
@@ -13,6 +14,7 @@ OBJS = parser.o				\
 	identifier.o	 		\
 	vardeclaration.o	 	\
 	methodcall.o		 	\
+	booleancmp.o		 	\
 	main.o					\
 
 CPPFLAGS = -std=gnu++11
@@ -35,8 +37,8 @@ lexer.cpp: lexer.l parser.h
 
 .PHONY: clean
 clean:
-	cls && del $(OBJS) parser.cpp lexer.cpp parser.h
+	cls && del $(OBJS) parser.cpp lexer.cpp
 
 .PHONY: clean_all
 clean_all:
-	cls && del $(OBJS) parser.cpp lexer.cpp parser.h *.exe
+	cls && del $(OBJS) parser.cpp lexer.cpp *.exe

@@ -10,7 +10,9 @@ namespace april
         PLUS,
         MIN,
         MUL,
-        DIV
+        DIV,
+        AND,
+        OR
     };
 
     class BinaryOpe: public Expression

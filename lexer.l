@@ -1,6 +1,7 @@
 %{
     #include <iostream>
     #include <algorithm>
+    #include "headers/symbol.hpp"
     #include "headers/node.hpp"
     #include "headers/statement.hpp"
     #include "headers/expression.hpp"
@@ -13,6 +14,7 @@
     #include "headers/identifier.hpp"
     #include "headers/vardeclaration.hpp"
     #include "headers/methodcall.hpp"
+    #include "headers/booleancmp.hpp"
     #include "parser.h"
 
     #define SAVE_TOKEN yylval._string = new std::string(yytext, yyleng)
@@ -57,6 +59,14 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 ")"                 { return TOKEN(TRPAREN); }
 ";"                 { return TOKEN(TSC); }
 ","                 { return TOKEN(TCOMMA); }
+"!="				{ return TOKEN(TCOMNE); }
+"=="				{ return TOKEN(TCOMEQ); }
+"<="				{ return TOKEN(TCOMLE); }
+">="				{ return TOKEN(TCOMGE); }
+"<"					{ return TOKEN(TCOMLT); }
+">"                 { return TOKEN(TCOMGT); }
+"and"               { return TOKEN(TAND); }
+"or"                { return TOKEN(TOR); }
 {IDENTIFIER}        { SAVE_TOKEN; return TIDENTIFIER; }
 .                   { /*empty*/ }
 %%
