@@ -1,4 +1,6 @@
 #include "../headers/symbol.hpp"
+#include <fstream>
+
 
 namespace april
 {
@@ -188,5 +190,17 @@ namespace april
     }
 
 
+    std::ostream& operator<< (std::ostream& out, const Symbol& sym)
+    {
+        if (sym.type == Type::INTEGER)
+            out << sym.value._bval;
+        
+        else if (sym.type == Type::DOUBLE)
+            out << sym.value._dval;
+        
+        else if (sym.type == Type::BOOLEAN)
+            out << sym.value._bval;
 
+        return out;
+    }
 }
