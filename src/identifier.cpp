@@ -9,6 +9,7 @@ namespace april
         tmp->name = name;
         tmp->type = Type::UNDEFINED;
         tmp->is_constant = false;
+        tmp->is_variable = true;
 
         context.getCurrentBlock()->locals.push_back(tmp);
         return tmp;

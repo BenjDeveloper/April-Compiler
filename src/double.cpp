@@ -10,6 +10,7 @@ namespace april
         tmp->type = Type::DOUBLE;
         tmp->value._dval = value;
         tmp->is_constant = true;
+        tmp->is_variable = false;
 
         context.getCurrentBlock()->locals.push_back(tmp);
         return tmp;
