@@ -18,7 +18,10 @@
     #include "headers/booleancmp.hpp"
     #include "headers/if.hpp"
     #include "headers/boolean.hpp"
-
+    #include "headers/for.hpp"
+    #include "headers/assignment.hpp"
+    #include "headers/assigbioperator.hpp"
+    
     using namespace april;
 
     extern int yylex();
@@ -46,11 +49,12 @@
 %token <token> TLPAREN TRPAREN TSTR TLBRACE TRBRACE 
 %token <token> TVAR TEQUAL TCOLON TCOMMA TAND TOR
 %token <token> TCOMNE TCOMEQ TCOMLE TCOMGE TCOMLT TCOMGT
-%token <token> TIF TELSE
+%token <token> TIF TELSE TFOR
+%token <token> TASIGPLUS TASIGMINUS TASIGMULT TASIGDIV
 
 %type <ident> ident
 %type <expr> expr basic binary_ope method_call boolean_expr
-%type <stmt> stmt  var_decl conditional
+%type <stmt> stmt  var_decl conditional for
 %type <block> program stmts block
 %type <exprvec> call_args
 %type <token> comparasion;
@@ -72,8 +76,12 @@ stmts: stmt                     { $$ = new april::Block(); $$->statements.push_b
 
 stmt: expr TSC                  { $$ = new april::ExprStatement{$1}; }
     | var_decl                  { }
-    | conditional               
+    | conditional   
+    | for            
     ;
+
+for: TFOR expr block                        { $$ = new april::For($2, $3); }
+;
 
 conditional: TIF expr block					{ $$ = new april::If($2, $3); }
 	| TIF expr block TELSE block			{ $$ = new april::If($2, $3, $5); }
@@ -88,6 +96,11 @@ var_decl: TVAR ident TCOLON ident TSC								{ $$ = new april::VarDeclaration($2
     ;
 
 expr: binary_ope                {  }
+    | ident TEQUAL expr         { $$ = new april::Assignment{$<ident>1, $3}; }
+    | ident TASIGPLUS expr		{ $$ = new april::AssigBioperator{ $1, april::OPE::PLUS, $3 }; }
+    | ident TASIGMINUS expr		{ $$ = new april::AssigBioperator{ $1, april::OPE::MIN, $3 }; }
+    | ident TASIGMULT expr		{ $$ = new april::AssigBioperator{ $1, april::OPE::MUL, $3 }; }
+    | ident TASIGDIV expr       { $$ = new april::AssigBioperator{ $1, april::OPE::DIV, $3 }; }
     | basic                     { $$ = $1; }
     | ident                     { $<ident>$ = $1; }
     | method_call               {  }

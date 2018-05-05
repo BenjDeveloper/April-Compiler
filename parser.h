@@ -73,7 +73,12 @@ extern int yydebug;
     TCOMLT = 283,
     TCOMGT = 284,
     TIF = 285,
-    TELSE = 286
+    TELSE = 286,
+    TFOR = 287,
+    TASIGPLUS = 288,
+    TASIGMINUS = 289,
+    TASIGMULT = 290,
+    TASIGDIV = 291
   };
 #endif
 
@@ -82,7 +87,7 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 34 "parser.y" /* yacc.c:1909  */
+#line 37 "parser.y" /* yacc.c:1909  */
 
     april::Expression* expr;
     april::Statement* stmt;
@@ -92,7 +97,7 @@ union YYSTYPE
     std::string* _string;
     int token;
 
-#line 96 "parser.h" /* yacc.c:1909  */
+#line 101 "parser.h" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

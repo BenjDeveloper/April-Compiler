@@ -15,7 +15,7 @@ namespace april
             std::vector<Statement*> statements;
             std::vector<Symbol*> locals;
             Block* prev;
-            
+
         public:
             Block():prev(nullptr) {}
             ~Block();

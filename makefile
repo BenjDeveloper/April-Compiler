@@ -17,6 +17,9 @@ OBJS = parser.o				\
 	booleancmp.o		 	\
 	if.o				 	\
 	boolean.o				\
+	for.o					\
+	assignment.o			\
+	assigbioperator.o		\
 	main.o					\
 
 CPPFLAGS = -std=gnu++11
