@@ -201,6 +201,9 @@ namespace april
         else if (sym.type == Type::BOOLEAN)
             out << sym.value._bval;
 
+        else if (sym.type == Type::STRING)
+            out << sym.value._sval->c_str();
+
         return out;
     }
 

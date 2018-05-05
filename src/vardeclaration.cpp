@@ -1,6 +1,7 @@
 #include <iostream>
 #include "../headers/vardeclaration.hpp"
 #include "../headers/codegencontext.hpp"
+#include "../headers/assignment.hpp"
 
 extern april::STRUCINFO* april_errors;
 
@@ -8,6 +9,15 @@ namespace april
 {
     Symbol* VarDeclaration::codeGen(CodeGenContext& context)
     {
+        if(ident)
+        {
+            //mala inicializacion
+        }
+
+        if(type)
+        {
+            //mala inicializacion
+        }
         
         if (context.findIdentLocals(ident->getName()))
         {
@@ -17,7 +27,6 @@ namespace april
         }
 
         ident->codeGen(context);
-
         Symbol* symbol = context.findIdentLocals(ident->getName());
         symbol->type = context.typeOf(type->getName());
         symbol->is_variable = true;
@@ -29,18 +38,14 @@ namespace april
             return nullptr;
         }
 
-        if (expr && ident)
+        if (expr)
         {
-            Symbol* tmp = expr->codeGen(context);
-
-            if ((symbol->type != tmp->type) && !(symbol->type == Type::DOUBLE && tmp->type == Type::INTEGER))
-            {
-                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el tipo de dato incompatible\n");
-                context.addError();
-                return nullptr;
-            }
-            context.findIdentLocals(ident->getName())->value = tmp->value;
+            Assignment assig = Assignment(ident,expr);
+            assig.codeGen(context);  
         }
+
+        Symbol* tmp = context.findIdentLocals(ident->getName());
+
         return symbol;
     }
 }

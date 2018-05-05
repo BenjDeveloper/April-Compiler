@@ -1,7 +1,7 @@
 #include "../headers/assignment.hpp"
 #include "../headers/codegencontext.hpp"
 
-extern april::STRUCINFO* april_error;
+extern april::STRUCINFO* april_errors;
 
 namespace april 
 {
@@ -15,27 +15,25 @@ namespace april
         {
             // error de identificardo nullo
         }
-        Symbol* symbol_expr = expr->codeGen(context);
-        if (!symbol_expr){
+
+        Symbol* sym_expr = expr->codeGen(context);
+        if (!sym_expr)
+        {
             //erro por symbolo nullo - creacion 
         }
-        Symbol* symbol_ident = context.findIdentLocals(ident->getName());
-        if (!symbol_ident){
+
+        Symbol* sym_ident = context.findIdentLocals(ident->getName());
+        if (!sym_ident){
             //erro por symbolo nullo - busqueda
         }
 
-        Symbol* tmp = expr->codeGen(context);
-        if ((symbol->type != tmp->type) && !(symbol->type == Type::DOUBLE && tmp->type == Type::INTEGER))
+        if ((sym_expr->type != sym_ident->type) && !(sym_expr->type == Type::DOUBLE && sym_ident->type == Type::INTEGER))
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el tipo de dato incompatible\n");
-            context.addError();
-            return nullptr;
+            // error: el tipo de dato incompatible\n");
         }
-        symbol->value = tmp->value;
 
-        if (symbol_expr->type == symbol_ident->type)
-            symbol_expr->value = symbol_ident->value;
+        sym_ident->value = sym_expr->value;
 
-        return symbol_expr;
+        return sym_ident;
     }
 }

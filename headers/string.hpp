@@ -9,12 +9,13 @@ namespace april{
     class String: public Expression
     {
         private:
-            std::string str;
+            std::string value;
 
         public:
             String(std::string);
             virtual Symbol* codeGen(CodeGenContext&);
             int len();
+            std::string getValue(){return value;};
     };
 }
 

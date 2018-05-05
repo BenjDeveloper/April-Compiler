@@ -1,22 +1,5 @@
-println("hola");
 var x:string = "HI, APRIL";
 println(x); 
-0;
 
-5 <= 5;
-50 >= 6;
-50 == 6;
-50 != 6;
-50 < 6;
-// 5 <= 5;
-// 50 >= 6;
-// 50 == 6;
-// 50 != 6;
-// 50 < 6;
-// 50 > 6;
-
-// var x:bool;
-// println(x);
-
-var x:int = 9;
-println(x);
+var y:int = 9;
+println(y);

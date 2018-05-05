@@ -13,6 +13,7 @@ namespace april
         public:
             Integer(long long value):value(value) {}
             virtual Symbol* codeGen(CodeGenContext&);
+            long long getValue(){return value;};
     }; 
 }
 

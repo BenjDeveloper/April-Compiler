@@ -16,12 +16,13 @@
     #include "headers/vardeclaration.hpp"
     #include "headers/methodcall.hpp"
     #include "headers/booleancmp.hpp"
+    #include "headers/assignment.hpp"
     #include "parser.h"
 
     #define SAVE_TOKEN yylval._string = new std::string(yytext, yyleng)
     #define TOKEN(t) (yylval.token = t)
 
-    extern "C" yywrap() { return 1; }
+    extern "C" int yywrap() { return 1; }
 
     april::STRUCINFO* april_errors = new april::STRUCINFO{1, "empty"};
 
@@ -68,6 +69,7 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 ">"                 { return TOKEN(TCOMGT); }
 "and"               { return TOKEN(TAND); }
 "or"                { return TOKEN(TOR); }
+"."                 { return TOKEN(TPOINT); }
 {IDENTIFIER}        { SAVE_TOKEN; return TIDENTIFIER; }
 .                   { /*empty*/ }
 %%

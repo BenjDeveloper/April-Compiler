@@ -13,6 +13,7 @@ namespace april
         public:
             Double(double value):value(value) {}
             virtual Symbol* codeGen(CodeGenContext&);
+            double getValue(){return value;};
     }; 
 }
 

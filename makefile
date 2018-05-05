@@ -16,6 +16,7 @@ OBJS = parser.o				\
 	vardeclaration.o	 	\
 	methodcall.o		 	\
 	booleancmp.o		 	\
+	assignment.o			\
 	main.o					\
 
 CPPFLAGS = -std=gnu++11
@@ -31,15 +32,15 @@ april: $(OBJS)
 	$(CC) -c $< $(CPPFLAGS)
 
 parser.cpp: parser.y
-	win_bison -o $@ $<
+	bison -o $@ $<
 
 lexer.cpp: lexer.l parser.h
-	win_flex -o $@ $^ 
+	flex -o $@ $^ 
 
 .PHONY: clean
 clean:
-	cls && del $(OBJS) parser.cpp lexer.cpp
+	clear && rm $(OBJS) parser.cpp lexer.cpp
 
 .PHONY: clean_all
 clean_all:
-	cls && del $(OBJS) parser.cpp lexer.cpp *.exe
+	clear && rm $(OBJS) parser.cpp lexer.cpp 
