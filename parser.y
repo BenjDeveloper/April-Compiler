@@ -16,6 +16,8 @@
     #include "headers/vardeclaration.hpp"
     #include "headers/methodcall.hpp"
     #include "headers/booleancmp.hpp"
+    #include "headers/if.hpp"
+    #include "headers/boolean.hpp"
 
     using namespace april;
 
@@ -39,16 +41,17 @@
     int token;
 }
 
-%token <_string> TDIGIT TDOUBLE TIDENTIFIER
+%token <_string> TDIGIT TDOUBLE TIDENTIFIER TBOOLEAN
 %token <token> TPLUS TMIN TMUL TDIV TJUMP TSC
-%token <token> TLPAREN TRPAREN TSTR
+%token <token> TLPAREN TRPAREN TSTR TLBRACE TRBRACE 
 %token <token> TVAR TEQUAL TCOLON TCOMMA TAND TOR
 %token <token> TCOMNE TCOMEQ TCOMLE TCOMGE TCOMLT TCOMGT
+%token <token> TIF TELSE
 
 %type <ident> ident
 %type <expr> expr basic binary_ope method_call boolean_expr
-%type <stmt> stmt  var_decl
-%type <block> program stmts
+%type <stmt> stmt  var_decl conditional
+%type <block> program stmts block
 %type <exprvec> call_args
 %type <token> comparasion;
 
@@ -69,6 +72,15 @@ stmts: stmt                     { $$ = new april::Block(); $$->statements.push_b
 
 stmt: expr TSC                  { $$ = new april::ExprStatement{$1}; }
     | var_decl                  { }
+    | conditional               
+    ;
+
+conditional: TIF expr block					{ $$ = new april::If($2, $3); }
+	| TIF expr block TELSE block			{ $$ = new april::If($2, $3, $5); }
+	;
+
+block: TLBRACE stmts TRBRACE				{ $$ = $2; }
+	| TLBRACE TRBRACE						{ $$ = new april::Block();  }
     ;
 
 var_decl: TVAR ident TCOLON ident TSC								{ $$ = new april::VarDeclaration($2, $4);}
@@ -102,15 +114,17 @@ binary_ope: expr TPLUS expr       { $$ = new april::BinaryOpe{ $1, april::OPE::P
     |   expr TDIV  expr           { $$ = new april::BinaryOpe{ $1, april::OPE::DIV, $3 }; }
     |   expr TAND  expr           { $$ = new april::BinaryOpe{ $1, april::OPE::AND, $3 }; }
     |   expr TOR  expr            { $$ = new april::BinaryOpe{ $1, april::OPE::OR, $3 }; }
+    |   TLPAREN expr TRPAREN      { $$ = $2; }
     ;
 
 basic: TDIGIT                       { $$ = new april::Integer{ std::atol($1->c_str()) }; delete $1; }
     |   TDOUBLE                     { $$ = new april::Double{ std::atof($1->c_str()) }; delete $1; }
     |   TMIN TDIGIT  %prec TDIV     { $$ = new april::Integer{ -std::atol($2->c_str()) }; delete $2; }
     |   TMIN TDOUBLE  %prec TDIV    { $$ = new april::Double{ -std::atof($2->c_str()) }; delete $2; }
+    |   TBOOLEAN                    { $$ = new april::Boolean{ *$1 }; delete $1; }
     ;
 
 ident: TIDENTIFIER                          { $$ = new april::Identifier(*$1); delete $1; }
-    ;
+    ; 
 
 %%

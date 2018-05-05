@@ -32,13 +32,10 @@ int main(int argc, char* argv[])
     if (programBlock != nullptr)
     {
         CodeGenContext contex;
-        Symbol* result = contex.runCode(programBlock);
+        contex.runCode(programBlock);
         
         if (programBlock != nullptr)
             delete programBlock;
-        
-        if (result != nullptr)
-            delete  result;
         
     }
 

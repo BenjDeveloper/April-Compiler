@@ -44,6 +44,10 @@ namespace april
             Symbol* operator* (const Symbol&);
             Symbol* operator/ (const Symbol&);
             Symbol* operator= (const Symbol&);
+            bool operator&& (const Symbol&);
+            bool operator|| (const Symbol&);
+
+            std::string getType();
 
             friend std::ostream& operator<< (std::ostream& out, const Symbol& sym);
     };

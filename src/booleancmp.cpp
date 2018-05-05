@@ -50,7 +50,7 @@ namespace april
                 break;
         }
 
-        std:: cout << ">> " << *tmp << std::endl;
+        std::cout << "result-> " << *tmp << std::endl;
 
         return tmp;
     }

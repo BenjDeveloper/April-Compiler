@@ -15,6 +15,8 @@
     #include "headers/vardeclaration.hpp"
     #include "headers/methodcall.hpp"
     #include "headers/booleancmp.hpp"
+    #include "headers/if.hpp"
+    #include "headers/boolean.hpp"
     #include "parser.h"
 
     #define SAVE_TOKEN yylval._string = new std::string(yytext, yyleng)
@@ -49,6 +51,12 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 {DIGIT}             { SAVE_TOKEN; return TDIGIT; }
 {DOUBLE}            { SAVE_TOKEN; return TDOUBLE; }
 "var"               { return TOKEN(TVAR); }
+"if"                { return TOKEN(TIF); }
+"else"              { return TOKEN(TELSE); }
+"true"              { SAVE_TOKEN; return TBOOLEAN; }
+"false"             { SAVE_TOKEN; return TBOOLEAN; }
+"and"               { return TOKEN(TAND); }
+"or"                { return TOKEN(TOR); }
 ":"                 { return TOKEN(TCOLON); }
 "="                 { return TOKEN(TEQUAL); }
 "+"                 { return TOKEN(TPLUS); }
@@ -57,6 +65,8 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 "/"                 { return TOKEN(TDIV); }
 "("                 { return TOKEN(TLPAREN); }
 ")"                 { return TOKEN(TRPAREN); }
+"{"                 { return TOKEN(TLBRACE); }
+"}"                 { return TOKEN(TRBRACE); }
 ";"                 { return TOKEN(TSC); }
 ","                 { return TOKEN(TCOMMA); }
 "!="				{ return TOKEN(TCOMNE); }
@@ -65,8 +75,6 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 ">="				{ return TOKEN(TCOMGE); }
 "<"					{ return TOKEN(TCOMLT); }
 ">"                 { return TOKEN(TCOMGT); }
-"and"               { return TOKEN(TAND); }
-"or"                { return TOKEN(TOR); }
 {IDENTIFIER}        { SAVE_TOKEN; return TIDENTIFIER; }
 .                   { /*empty*/ }
 %%

@@ -137,7 +137,8 @@ namespace april
             tmp = new Symbol{};
             bool is_double = is_double = (this->type == Type::DOUBLE)?(true):((sym.type == Type::DOUBLE)?(true):(false));
             tmp->type = (is_double)?(Type::DOUBLE):(Type::INTEGER);
-
+            tmp->is_variable = false; 
+            
             if (is_double) { tmp->value._dval = ((this->type == Type::DOUBLE)?(this->value._dval):(this->value._ival)) + ((sym.type == Type::DOUBLE)?(sym.value._dval):(sym.value._ival)); }
             else { tmp->value._ival = this->value._ival + sym.value._ival; }
         }
@@ -152,6 +153,7 @@ namespace april
             tmp = new Symbol{};
             bool is_double = is_double = (this->type == Type::DOUBLE)?(true):((sym.type == Type::DOUBLE)?(true):(false));
             tmp->type = (is_double)?(Type::DOUBLE):(Type::INTEGER);
+            tmp->is_variable = false; 
 
             if (is_double) { tmp->value._dval = ((this->type == Type::DOUBLE)?(this->value._dval):(this->value._ival)) - ((sym.type == Type::DOUBLE)?(sym.value._dval):(sym.value._ival)); }
             else { tmp->value._ival = this->value._ival - sym.value._ival; }
@@ -167,6 +169,7 @@ namespace april
             tmp = new Symbol{};
             bool is_double = is_double = (this->type == Type::DOUBLE)?(true):((sym.type == Type::DOUBLE)?(true):(false));
             tmp->type = (is_double)?(Type::DOUBLE):(Type::INTEGER);
+            tmp->is_variable = false; 
 
             if (is_double) { tmp->value._dval = ((this->type == Type::DOUBLE)?(this->value._dval):(this->value._ival)) * ((sym.type == Type::DOUBLE)?(sym.value._dval):(sym.value._ival)); }
             else { tmp->value._ival = this->value._ival * sym.value._ival; }
@@ -176,12 +179,13 @@ namespace april
 
     Symbol* Symbol::operator/ (const Symbol& sym)
     {
-        Symbol* tmp =nullptr;
+        Symbol* tmp = nullptr;
         if ((this->type == Type::INTEGER || this->type == Type::DOUBLE) && (sym.type == Type::INTEGER || sym.type == Type::DOUBLE))
         {
             tmp = new Symbol{};
             bool is_double = is_double = (this->type == Type::DOUBLE)?(true):((sym.type == Type::DOUBLE)?(true):(false));
             tmp->type = (is_double)?(Type::DOUBLE):(Type::INTEGER);
+            tmp->is_variable = false; 
 
             if (is_double) { tmp->value._dval = ((this->type == Type::DOUBLE)?(this->value._dval):(this->value._ival)) / ((sym.type == Type::DOUBLE)?(sym.value._dval):(sym.value._ival)); }
             else { tmp->value._ival = this->value._ival / sym.value._ival; }
@@ -189,7 +193,41 @@ namespace april
         return tmp;
     }
 
+    bool Symbol::operator&& (const Symbol& sym)
+    {
+        if (this->type == sym.type && this->type == Type::BOOLEAN)
+        {
+            return this->value._bval && sym.value._bval;
+        }
 
+        return false;
+    }
+
+    bool Symbol::operator|| (const Symbol& sym)
+    {
+        if (this->type == sym.type && this->type == Type::BOOLEAN)
+        {
+            return this->value._bval || sym.value._bval;
+        }
+
+        return false;
+    }
+
+    std::string Symbol::getType()
+    {
+        if (type == Type::INTEGER)
+            return "integer";
+        
+        else if (type == Type::DOUBLE)
+            return "double";
+        
+        else if (type == Type::BOOLEAN)
+            return "boolean";
+        
+        else if (type == Type::UNDEFINED)
+            return "undefined";
+    }
+    
     std::ostream& operator<< (std::ostream& out, const Symbol& sym)
     {
         if (sym.type == Type::INTEGER)
