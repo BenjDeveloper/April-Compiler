@@ -12,7 +12,8 @@ namespace april
         STRING,
         UNDEFINED,
         INTEGER,
-        DOUBLE
+        DOUBLE,
+        BOOLEAN
     };
 
     union Value
@@ -20,14 +21,29 @@ namespace april
         std::string* _sval;  
         long long _ival;
         double _dval;
+        bool _bval;
     };
 
-    struct Symbol
+    class Symbol
     {
-        std::string name;
-        Type type;
-        Value value;
-        bool is_constant;
+        public:
+            std::string name;
+            Type type;
+            Value value;
+            bool is_constant;
+        
+        public:
+            Symbol();
+            bool operator!= (const Symbol&) const;
+            bool operator== (const Symbol&) const;
+            bool operator<= (const Symbol&) const;
+            bool operator>= (const Symbol&) const;
+            bool operator< (const Symbol&) const;
+            bool operator> (const Symbol&) const;
+            Symbol* operator+ (const Symbol&);
+            Symbol* operator- (const Symbol&);
+            Symbol* operator* (const Symbol&);
+            Symbol* operator/ (const Symbol&);
     };
 }
 

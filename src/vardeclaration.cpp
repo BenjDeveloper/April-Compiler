@@ -41,7 +41,6 @@ namespace april
             }
             symbol->value = tmp->value;
         }
-
         return symbol;
     }
 }

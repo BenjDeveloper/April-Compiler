@@ -2,6 +2,7 @@
 
 %{
     #include <iostream>
+    #include "headers/symbol.hpp"
     #include "headers/node.hpp"
     #include "headers/statement.hpp"
     #include "headers/expression.hpp"
@@ -15,6 +16,7 @@
     #include "headers/identifier.hpp"
     #include "headers/vardeclaration.hpp"
     #include "headers/methodcall.hpp"
+    #include "headers/booleancmp.hpp"
 
     using namespace april;
 
@@ -41,13 +43,15 @@
 %token <_string> TDIGIT TDOUBLE TIDENTIFIER  
 %token <token> TPLUS TMIN TMUL TDIV TJUMP TSC
 %token <token> TLPAREN TRPAREN TSTR
-%token <token> TVAR TEQUAL TCOLON TCOMMA
+%token <token> TVAR TEQUAL TCOLON TCOMMA TAND TOR
+%token <token> TCOMNE TCOMEQ TCOMLE TCOMGE TCOMLT TCOMGT
 
 %type <ident> ident
-%type <expr> expr basic binary_ope method_call
+%type <expr> expr basic binary_ope method_call boolean_expr
 %type <stmt> stmt  var_decl
 %type <block> program stmts
 %type <exprvec> call_args
+%type <token> comparasion;
 
 %left TPLUS TMIN
 %left TMUL TDIV
@@ -76,6 +80,13 @@ expr: binary_ope                {  }
     | basic                     { $$ = $1; }
     | ident                     { $<ident>$ = $1; }
     | method_call               {  }
+    | boolean_expr              {  }
+    ;
+
+boolean_expr: expr comparasion expr		    { $$ = new april::BooleanCmp($1, $2, $3);} 
+	;
+
+comparasion: TCOMNE | TCOMEQ | TCOMLE | TCOMGE | TCOMLT | TCOMGT
     ;
 
 method_call: ident TLPAREN call_args TRPAREN       { $$ = new april::MethodCall($1, $3); }
@@ -90,6 +101,8 @@ binary_ope: expr TPLUS expr       { $$ = new april::BinaryOpe{ $1, april::OPE::P
     |   expr TMIN  expr           { $$ = new april::BinaryOpe{ $1, april::OPE::MIN, $3 }; }
     |   expr TMUL  expr           { $$ = new april::BinaryOpe{ $1, april::OPE::MUL, $3 }; }
     |   expr TDIV  expr           { $$ = new april::BinaryOpe{ $1, april::OPE::DIV, $3 }; }
+    |   expr TAND  expr           { $$ = new april::BinaryOpe{ $1, april::OPE::AND, $3 }; }
+    |   expr TOR  expr            { $$ = new april::BinaryOpe{ $1, april::OPE::OR, $3 }; }
     ;
 
 basic: TDIGIT                       { $$ = new april::Integer{ std::atol($1->c_str()) }; delete $1; }
@@ -100,5 +113,6 @@ basic: TDIGIT                       { $$ = new april::Integer{ std::atol($1->c_s
     ;   
 
 ident: TIDENTIFIER                          { $$ = new april::Identifier(*$1); delete $1; }
+    ;
 
 %%

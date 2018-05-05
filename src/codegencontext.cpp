@@ -12,8 +12,7 @@ namespace april
     {
         current_block = block;
         Symbol* symbol = current_block->codeGen(*this);
-        std::cout << "result: " << ((symbol->type == Type::INTEGER)?(symbol->value._ival):(symbol->value._dval)) << std::endl;
-        
+        //std::cout << "result: " << ((symbol->type == Type::INTEGER)?(symbol->value._ival):(symbol->value._dval)) << std::endl;
         return symbol;
     }
 
