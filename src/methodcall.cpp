@@ -15,9 +15,7 @@ namespace april
                 else if (tmp->type == Type::DOUBLE)
                     std::cout<< tmp->value._dval <<std::endl;
             }
-
         }        
-
         return nullptr;
     }
 }

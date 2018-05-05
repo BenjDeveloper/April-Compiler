@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <fstream>
 
 namespace april
 {
@@ -41,6 +42,8 @@ namespace april
             Symbol* operator- (const Symbol&);
             Symbol* operator* (const Symbol&);
             Symbol* operator/ (const Symbol&);
+
+            friend std::ostream& operator<< (std::ostream& out, const Symbol& sym);
     };
 }
 

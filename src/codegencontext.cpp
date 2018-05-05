@@ -35,6 +35,9 @@ namespace april
         else if (type == "double")
             return Type::DOUBLE;
 
+        else if (type == "bool")
+            return Type::BOOLEAN;
+
         return Type::UNDEFINED;
     }
 }
