@@ -193,7 +193,7 @@ namespace april
     std::ostream& operator<< (std::ostream& out, const Symbol& sym)
     {
         if (sym.type == Type::INTEGER)
-            out << sym.value._bval;
+            out << sym.value._ival;
         
         else if (sym.type == Type::DOUBLE)
             out << sym.value._dval;
@@ -203,4 +203,5 @@ namespace april
 
         return out;
     }
+
 }

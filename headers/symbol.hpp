@@ -29,6 +29,7 @@ namespace april
             Type type;
             Value value;
             bool is_constant;
+            bool is_variable;
         
         public:
             Symbol();
@@ -42,6 +43,7 @@ namespace april
             Symbol* operator- (const Symbol&);
             Symbol* operator* (const Symbol&);
             Symbol* operator/ (const Symbol&);
+            Symbol* operator= (const Symbol&);
 
             friend std::ostream& operator<< (std::ostream& out, const Symbol& sym);
     };

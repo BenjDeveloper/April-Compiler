@@ -3,7 +3,10 @@
 // 50 == 6;
 // 50 != 6;
 // 50 < 6;
-50 > 6;
+// 50 > 6;
 
-var x:bool;
+// var x:bool;
+// println(x);
+
+var x:int = 9;
 println(x);

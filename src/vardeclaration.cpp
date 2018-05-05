@@ -20,6 +20,8 @@ namespace april
 
         Symbol* symbol = context.findIdentLocals(ident->getName());
         symbol->type = context.typeOf(type->getName());
+        symbol->is_variable = true;
+        
         if (symbol->type == Type::UNDEFINED)
         {
             printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el tipo de dato '"+type->getName()+"' no esta definido\n");
@@ -30,13 +32,14 @@ namespace april
         if (expr)
         {
             Symbol* tmp = expr->codeGen(context);
+
             if ((symbol->type != tmp->type) && !(symbol->type == Type::DOUBLE && tmp->type == Type::INTEGER))
             {
                 printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el tipo de dato incompatible\n");
                 context.addError();
                 return nullptr;
             }
-            symbol->value = tmp->value;
+            context.findIdentLocals(ident->getName())->value = tmp->value;
         }
         return symbol;
     }
