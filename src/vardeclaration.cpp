@@ -30,16 +30,16 @@ namespace april
             return nullptr;
         }
 
-        if (expr)
+        if (expr && ident)
         {
-            Symbol* tmp = expr->codeGen(context);
-            if ((symbol->type != tmp->type) && !(symbol->type == Type::DOUBLE && tmp->type == Type::INTEGER))
-            {
-                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el tipo de dato incompatible\n");
-                context.addError();
-                return nullptr;
-            }
-            symbol->value = tmp->value;
+            // Symbol* tmp = expr->codeGen(context);
+            // if ((symbol->type != tmp->type) && !(symbol->type == Type::DOUBLE && tmp->type == Type::INTEGER))
+            // {
+            //     printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el tipo de dato incompatible\n");
+            //     context.addError();
+            //     return nullptr;
+            // }
+            // symbol->value = tmp->value;
         }
         return symbol;
     }
