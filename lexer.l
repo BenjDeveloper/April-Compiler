@@ -9,6 +9,7 @@
     #include "headers/codegencontext.hpp"
     #include "headers/integer.hpp"
     #include "headers/double.hpp"
+    #include "headers/string.hpp"
     #include "headers/binaryope.hpp"
     #include "headers/identifier.hpp"
     #include "headers/vardeclaration.hpp"

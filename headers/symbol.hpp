@@ -3,18 +3,21 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
 
 namespace april
 {
     enum class Type
     {
+        STRING,
         UNDEFINED,
         INTEGER,
         DOUBLE
     };
 
     union Value
-    {
+    { 
+        std::string* _sval;  
         long long _ival;
         double _dval;
     };

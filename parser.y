@@ -10,6 +10,7 @@
     #include "headers/codegencontext.hpp"
     #include "headers/integer.hpp"
     #include "headers/double.hpp"
+    #include "headers/string.hpp"
     #include "headers/binaryope.hpp"
     #include "headers/identifier.hpp"
     #include "headers/vardeclaration.hpp"
@@ -37,7 +38,7 @@
     int token;
 }
 
-%token <_string> TDIGIT TDOUBLE TIDENTIFIER
+%token <_string> TDIGIT TDOUBLE TIDENTIFIER  
 %token <token> TPLUS TMIN TMUL TDIV TJUMP TSC
 %token <token> TLPAREN TRPAREN TSTR
 %token <token> TVAR TEQUAL TCOLON TCOMMA
@@ -95,7 +96,8 @@ basic: TDIGIT                       { $$ = new april::Integer{ std::atol($1->c_s
     |   TDOUBLE                     { $$ = new april::Double{ std::atof($1->c_str()) }; delete $1; }
     |   TMIN TDIGIT  %prec TDIV     { $$ = new april::Integer{ -std::atol($2->c_str()) }; delete $2; }
     |   TMIN TDOUBLE  %prec TDIV    { $$ = new april::Double{ -std::atof($2->c_str()) }; delete $2; }
-    ;
+    |   TSTR                        { $$ = new april::String(yytext); }
+    ;   
 
 ident: TIDENTIFIER                          { $$ = new april::Identifier(*$1); delete $1; }
 

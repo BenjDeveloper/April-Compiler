@@ -6,6 +6,7 @@ OBJS = parser.o				\
 	lexer.o					\
 	integer.o				\
 	double.o				\
+	string.o				\
 	binaryope.o				\
 	block.o					\
 	exprstatement.o			\
