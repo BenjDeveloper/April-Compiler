@@ -2,6 +2,7 @@
 #define CODE_GEN_CONTEXT_HPP
 #include <string>
 #include "block.hpp"
+#include "identifier.hpp"
 
 namespace april
 {
@@ -9,7 +10,10 @@ namespace april
     {
         private:
             Block* current_block;  
-            int errors;
+            int errors;            
+            std::vector<std::string> listMethods;
+            
+
         public:
             CodeGenContext();
             Symbol* runCode(Block*);
@@ -17,6 +21,11 @@ namespace april
             Symbol* findIdentLocals(std::string);
             Type typeOf(std::string);
             void addError() { ++errors; }
+
+            std::vector<std::string> getMethods(){return listMethods;}
+            bool findMethods(std::string);
+            std::vector<std::string> loadMethod(std::string);
+
     };
 }
 #endif //CODE_GEN_CONTEXT_HPP

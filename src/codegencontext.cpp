@@ -6,6 +6,7 @@ namespace april
     {
         current_block = nullptr;
         errors = 0;
+        listMethods = loadMethod("len");
     }
 
     Symbol* CodeGenContext::runCode(Block* block)
@@ -20,9 +21,7 @@ namespace april
     {
         for (Symbol*& symbol : this->current_block->locals)
             if (symbol->name == name)
-            {
                 return symbol;
-            }
 
         return nullptr;
     }
@@ -43,4 +42,20 @@ namespace april
 
         return Type::UNDEFINED;
     }
+
+    bool CodeGenContext::findMethods(std::string name)
+    {
+        for (std::string method : this->listMethods)
+            if (method == name)
+                return true;
+
+        return false;
+    }
+    
+    std::vector<std::string> CodeGenContext::loadMethod(std::string name)
+    {
+        this->listMethods.push_back(name);
+        return listMethods;
+    }
+
 }

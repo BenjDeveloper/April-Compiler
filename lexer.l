@@ -15,6 +15,8 @@
     #include "headers/identifier.hpp"
     #include "headers/vardeclaration.hpp"
     #include "headers/methodcall.hpp"
+    #include "headers/methodstruct.hpp"
+    #include "headers/methodhandle.hpp"
     #include "headers/booleancmp.hpp"
     #include "headers/assignment.hpp"
     #include "parser.h"
@@ -57,6 +59,7 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 "-"                 { return TOKEN(TMIN); }
 "*"                 { return TOKEN(TMUL); }
 "/"                 { return TOKEN(TDIV); }
+"."                 { return TOKEN(TPOINT); }
 "("                 { return TOKEN(TLPAREN); }
 ")"                 { return TOKEN(TRPAREN); }
 ";"                 { return TOKEN(TSC); }
@@ -69,7 +72,6 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 ">"                 { return TOKEN(TCOMGT); }
 "and"               { return TOKEN(TAND); }
 "or"                { return TOKEN(TOR); }
-"."                 { return TOKEN(TPOINT); }
 {IDENTIFIER}        { SAVE_TOKEN; return TIDENTIFIER; }
 .                   { /*empty*/ }
 %%

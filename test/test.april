@@ -1,5 +1,6 @@
 var x:string = "HI, APRIL";
-println(x); 
 
-var y:int = 9;
+println(x.len()); 
+
+var y:int = 10;
 println(y);

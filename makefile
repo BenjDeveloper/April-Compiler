@@ -15,6 +15,8 @@ OBJS = parser.o				\
 	identifier.o	 		\
 	vardeclaration.o	 	\
 	methodcall.o		 	\
+	methodstruct.o		 	\
+	methodhandle.o		 	\
 	booleancmp.o		 	\
 	assignment.o			\
 	main.o					\

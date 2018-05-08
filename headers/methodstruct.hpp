@@ -1,30 +1,21 @@
 #ifndef METHOD_STRUCT_HPP
 #define METHOD_STRUCT_HPP
 
-#include <string>
-#include <vector>
 #include "identifier.hpp"
 #include "expression.hpp"
 
 namespace april
 {
-    class MethodStruct : public Expression
+    class MethodStruct: public Expression
     {
         private:
-            Identifier* ident;
-            Identifier* method;
-            ExpressionList* args;
-            std::vector<Symbol*> methods;
+            Identifier* ident_var;
+            Identifier* ident_method;
+            ExpressionList* args; // aun no se a manejado ya que no poseemos metodos que lo necesiten
 
         public:
-            MethodStruct();
-            Symbol* codeGen(CodeGenContext&);
-            Identifier* getIdent(){return ident;}
-            Identifier* getMethod(){return method;}
-            ExpressionList* getArgs(){return args;}
-            std::vector<Symbol*> getMethods(){return methods;}
-            Symbol* findMethods(std::string);
-            void call();
+            MethodStruct(Identifier* ident_var,Identifier* ident_method, ExpressionList* args): ident_var(ident_var), ident_method(ident_method), args(args){}
+            virtual Symbol* codeGen(CodeGenContext&);
     };
 }
 

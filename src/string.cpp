@@ -11,7 +11,7 @@ namespace april
         Symbol* tmp = new Symbol();
         tmp->name = "";
         tmp->type = Type::STRING;
-        tmp->value._sval = &str;
+        tmp->value._sval = &value;
         tmp->is_constant = false;
 
         context.getCurrentBlock()->locals.push_back(tmp);
@@ -20,11 +20,11 @@ namespace april
 
     String::String(std::string tmp)
     {
-         str = tmp.substr(1,tmp.length()-2);
+         value = tmp.substr(1,tmp.length()-2);
     }
 
     int String::len()
     {
-        return str.length();
+        return value.length();
     }
 }

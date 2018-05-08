@@ -16,6 +16,8 @@
     #include "headers/identifier.hpp"
     #include "headers/vardeclaration.hpp"
     #include "headers/methodcall.hpp"
+    #include "headers/methodstruct.hpp"
+    #include "headers/methodhandle.hpp"
     #include "headers/booleancmp.hpp"
     #include "headers/assignment.hpp"
 
@@ -43,7 +45,7 @@
 
 %token <_string> TDIGIT TDOUBLE TIDENTIFIER  
 %token <token> TPLUS TMIN TMUL TDIV TJUMP TSC
-%token <token> TLPAREN TRPAREN TSTR
+%token <token> TLPAREN TRPAREN TSTR TPOINT
 %token <token> TVAR TEQUAL TCOLON TCOMMA TAND TOR
 %token <token> TCOMNE TCOMEQ TCOMLE TCOMGE TCOMLT TCOMGT
 
@@ -90,8 +92,8 @@ boolean_expr: expr comparasion expr		    { $$ = new april::BooleanCmp($1, $2, $3
 comparasion: TCOMNE | TCOMEQ | TCOMLE | TCOMGE | TCOMLT | TCOMGT
     ;
 
-method_call: ident TLPAREN call_args TRPAREN       { $$ = new april::MethodCall($1, $3); }
-    | ident TPOINT ident TLPAREN call_args TRPAREN { $$ = new april::MethodStrunct($1, $3, $5)}
+method_call: ident TLPAREN call_args TRPAREN       { $$ = new april::MethodCall( $1, $3 ); }
+    | ident TPOINT ident TLPAREN call_args TRPAREN { $$ = new april::MethodStruct( $1, $3, $5 ); }
     ;
 
 call_args: %empty                           { $$ = new april::ExpressionList(); }

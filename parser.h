@@ -57,18 +57,19 @@ extern int yydebug;
     TLPAREN = 267,
     TRPAREN = 268,
     TSTR = 269,
-    TVAR = 270,
-    TEQUAL = 271,
-    TCOLON = 272,
-    TCOMMA = 273,
-    TAND = 274,
-    TOR = 275,
-    TCOMNE = 276,
-    TCOMEQ = 277,
-    TCOMLE = 278,
-    TCOMGE = 279,
-    TCOMLT = 280,
-    TCOMGT = 281
+    TPOINT = 270,
+    TVAR = 271,
+    TEQUAL = 272,
+    TCOLON = 273,
+    TCOMMA = 274,
+    TAND = 275,
+    TOR = 276,
+    TCOMNE = 277,
+    TCOMEQ = 278,
+    TCOMLE = 279,
+    TCOMGE = 280,
+    TCOMLT = 281,
+    TCOMGT = 282
   };
 #endif
 
@@ -77,7 +78,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 34 "parser.y" /* yacc.c:1909  */
+#line 36 "parser.y" /* yacc.c:1909  */
 
     april::Expression* expr;
     april::Statement* stmt;
@@ -87,7 +88,7 @@ union YYSTYPE
     std::string* _string;
     int token;
 
-#line 91 "parser.h" /* yacc.c:1909  */
+#line 92 "parser.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
