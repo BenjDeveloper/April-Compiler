@@ -23,6 +23,8 @@
     #include "headers/not.hpp"  
     #include "headers/function.hpp"
     #include "headers/vardeclarationdeduce.hpp"
+    #include "headers/return.hpp"
+    
     #include "parser.h"
 
     #define SAVE_TOKEN yylval._string = new std::string(yytext, yyleng)
@@ -66,6 +68,7 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 "or"                { return TOKEN(TOR); }
 "not"               { return TOKEN(TNOT); }
 "fn"                { return TOKEN(TFN); }
+"return"            { return TOKEN(TRETURN); }
 ":="                { return TOKEN(TCOEQU); }
 ":"                 { return TOKEN(TCOLON); }
 "="                 { return TOKEN(TEQUAL); }

@@ -15,9 +15,10 @@ namespace april
             std::vector<Statement*> statements;
             std::vector<Symbol*> locals;
             Block* prev;
+            bool stop;
 
         public:
-            Block():prev(nullptr) {}
+            Block():prev(nullptr), stop(false) {}
             ~Block();
             virtual Symbol* codeGen(CodeGenContext&);
     };
