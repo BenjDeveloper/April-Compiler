@@ -1,0 +1,14 @@
+var x:int = 0;
+var salida:bool = false;
+
+for not salida
+{
+    println(x);
+    x -= 1;
+
+    if x == -10
+    {
+        salida = not salida;
+    }
+}
+

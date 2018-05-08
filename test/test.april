@@ -1,26 +1,32 @@
+fn contador(i:int)
+{
+    for (i < 10)
+    {
+        println(i);
+        i += 1;
+    }
 var x:string = "HI, APRIL";
 
-println(x.len()); 
+}
 
-var y:int = 10;
-println(y);
+fn foo(x:double)
+{
+    println(x);
+    x += 12;
+    println(x);
+    println(15);
+    contador(0);
+}
 
+fn main()
+{
+    x := 1.3;
+    println(x);
+    foo(x);
+    println(x);
 
-	// lexer.o					\
-	// symbol.o				\
-	// integer.o				\
-	// double.o				\
-	// string.o				\
-	// binaryope.o				\
-	// block.o					\
-	// exprstatement.o			\
-	// codegencontext.o 		\
-	// identifier.o	 		\
-	// vardeclaration.o	 	\
-	// methodcall.o		 	\
-	// methodstruct.o		 	\
-	// methodhandle.o		 	\
-	// booleancmp.o		 	\
-	// assignment.o			\
-	// stringarray.o			\	
-	// main.o					\
+    x = 1;
+    println(x);
+}
+
+main();

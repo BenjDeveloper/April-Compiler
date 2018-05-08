@@ -18,7 +18,14 @@ OBJS = parser.o				\
 	methodstruct.o		 	\
 	methodhandle.o		 	\
 	booleancmp.o		 	\
+	if.o				 	\
+	boolean.o				\
+	for.o					\
 	assignment.o			\
+	assigbioperator.o		\
+	not.o					\
+	function.o				\
+	vardeclarationdeduce.o	\
 	stringarray.o			\	
 	main.o					\
 

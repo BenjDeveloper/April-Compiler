@@ -12,7 +12,6 @@ namespace april
         tmp->is_constant = true;
         tmp->is_variable = false;
 
-        context.getCurrentBlock()->locals.push_back(tmp);
         return tmp;
     }
 }

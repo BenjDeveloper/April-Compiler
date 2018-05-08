@@ -48,6 +48,7 @@ extern int yydebug;
     TDIGIT = 258,
     TDOUBLE = 259,
     TIDENTIFIER = 260,
+<<<<<<< HEAD
     TPLUS = 261,
     TMIN = 262,
     TMUL = 263,
@@ -60,18 +61,51 @@ extern int yydebug;
     TPOINT = 270,
     TLBRACKET = 271,
     TRBRACKET = 272,
+=======
+    TBOOLEAN = 261,
+    TPLUS = 262,
+    TMIN = 263,
+    TMUL = 264,
+    TDIV = 265,
+    TJUMP = 266,
+    TSC = 267,
+    TLPAREN = 268,
+    TRPAREN = 269,
+    TSTR = 270,
+    TLBRACE = 271,
+    TRBRACE = 272,
+>>>>>>> lorena
     TVAR = 273,
     TEQUAL = 274,
     TCOLON = 275,
     TCOMMA = 276,
     TAND = 277,
     TOR = 278,
+<<<<<<< HEAD
     TCOMNE = 279,
     TCOMEQ = 280,
     TCOMLE = 281,
     TCOMGE = 282,
     TCOMLT = 283,
     TCOMGT = 284
+=======
+    TCOEQU = 279,
+    TCOMNE = 280,
+    TCOMEQ = 281,
+    TCOMLE = 282,
+    TCOMGE = 283,
+    TCOMLT = 284,
+    TCOMGT = 285,
+    TIF = 286,
+    TELSE = 287,
+    TFOR = 288,
+    TFN = 289,
+    TASIGPLUS = 290,
+    TASIGMINUS = 291,
+    TASIGMULT = 292,
+    TASIGDIV = 293,
+    TNOT = 294
+>>>>>>> lorena
   };
 #endif
 
@@ -80,17 +114,27 @@ extern int yydebug;
 
 union YYSTYPE
 {
+<<<<<<< HEAD
 #line 36 "parser.y" /* yacc.c:1909  */
+=======
+#line 40 "parser.y" /* yacc.c:1909  */
+>>>>>>> lorena
 
     april::Expression* expr;
     april::Statement* stmt;
     april::Block* block;
     april::Identifier* ident;
     std::vector<april::Expression*> *exprvec;
+    std::vector<april::VarDeclaration*> *vardecl;
+    april::VarDeclaration* var_decl;
     std::string* _string;
     int token;
 
+<<<<<<< HEAD
 #line 94 "parser.h" /* yacc.c:1909  */
+=======
+#line 106 "parser.h" /* yacc.c:1909  */
+>>>>>>> lorena
 };
 
 typedef union YYSTYPE YYSTYPE;

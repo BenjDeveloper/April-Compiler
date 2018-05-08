@@ -30,11 +30,13 @@ namespace april
                 break;
             
             case OPE::AND:
-                
+                tmp->value._bval = *value_left && *value_right;
+                tmp->type = Type::BOOLEAN;
                 break;
             
             case OPE::OR:
-                
+                tmp->value._bval = *value_left || *value_right;
+                tmp->type = Type::BOOLEAN;
                 break;
         }
         return tmp;

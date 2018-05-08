@@ -17,6 +17,7 @@ namespace april
         public:
             VarDeclaration(Identifier* ident, Identifier* type, Expression* expr):ident(ident), type(type), expr(expr) {}
             VarDeclaration(Identifier* ident, Identifier* type):ident(ident), type(type), expr(nullptr) {}
+            virtual ~VarDeclaration();
             virtual Symbol* codeGen(CodeGenContext&);
     };
 }

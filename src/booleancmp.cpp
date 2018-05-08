@@ -17,6 +17,13 @@ namespace april
         Symbol* tmp = new Symbol{};
         tmp->type = Type::BOOLEAN;
 
+        if (sym_left->type == Type::UNDEFINED || sym_right->type == Type::UNDEFINED)
+        {
+            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: Variables indefinidas.\n");
+            context.addError();
+            return nullptr;
+        }
+
         switch (ope)
         {
             // !=
@@ -50,7 +57,7 @@ namespace april
                 break;
         }
 
-        std:: cout << ">> " << *tmp << std::endl;
+        //std::cout << "result-> " << *tmp << std::endl;
 
         return tmp;
     }

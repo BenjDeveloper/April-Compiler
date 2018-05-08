@@ -13,7 +13,8 @@ namespace april
         UNDEFINED,
         INTEGER,
         DOUBLE,
-        BOOLEAN
+        BOOLEAN,
+        STRING
     };
 
     union Value
@@ -22,6 +23,7 @@ namespace april
         long long _ival;
         double _dval;
         bool _bval;
+        std::string* _str;
     };
 
     class Symbol
@@ -45,7 +47,11 @@ namespace april
             Symbol* operator- (const Symbol&);
             Symbol* operator* (const Symbol&);
             Symbol* operator/ (const Symbol&);
-            Symbol* operator= (const Symbol&);
+            void operator= (const Symbol&);
+            bool operator&& (const Symbol&);
+            bool operator|| (const Symbol&);
+
+            std::string getType();
 
             friend std::ostream& operator<< (std::ostream& out, const Symbol& sym);
     };

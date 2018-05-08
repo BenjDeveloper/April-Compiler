@@ -1,11 +1,11 @@
-#include "../headers/assignment.hpp"
+#include "../headers/assigbioperator.hpp"
 #include "../headers/codegencontext.hpp"
 
 extern april::STRUCINFO* april_errors;
 
 namespace april
 {
-    Symbol* Assignment::codeGen(CodeGenContext& context)
+    Symbol* AssigBioperator::codeGen(CodeGenContext& context)
     {
         if (!context.existIdenLocals(ident->getName()))
         {
@@ -23,11 +23,34 @@ namespace april
             context.addError();
             return nullptr;
         }
-        if (symbol->type == Type::DOUBLE && sym_expr->type == Type::INTEGER)
-            symbol->value._dval = sym_expr->value._ival;
-        else
-            symbol->value = sym_expr->value;
+        
+        Symbol* tmp = new Symbol{};
 
-        return sym_expr;
+        switch (ope)
+        {
+            case OPE::PLUS:
+                tmp = *symbol + *sym_expr;
+                symbol->value = tmp->value;
+                break;
+            
+            case OPE::MIN:
+                tmp = *symbol - *sym_expr;
+                symbol->value = tmp->value;
+                break;
+
+            case OPE::MUL:
+                tmp = *symbol * *sym_expr;
+                symbol->value = tmp->value;
+                break;
+
+            case OPE::DIV:
+                tmp = *symbol / *sym_expr;
+                symbol->value = tmp->value;
+                break;
+        }
+
+        delete tmp;
+
+        return symbol;
     }
 }
