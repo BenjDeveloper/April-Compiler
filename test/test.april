@@ -4,3 +4,23 @@ println(x.len());
 
 var y:int = 10;
 println(y);
+
+
+	// lexer.o					\
+	// symbol.o				\
+	// integer.o				\
+	// double.o				\
+	// string.o				\
+	// binaryope.o				\
+	// block.o					\
+	// exprstatement.o			\
+	// codegencontext.o 		\
+	// identifier.o	 		\
+	// vardeclaration.o	 	\
+	// methodcall.o		 	\
+	// methodstruct.o		 	\
+	// methodhandle.o		 	\
+	// booleancmp.o		 	\
+	// assignment.o			\
+	// stringarray.o			\	
+	// main.o					\

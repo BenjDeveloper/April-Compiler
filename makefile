@@ -19,6 +19,7 @@ OBJS = parser.o				\
 	methodhandle.o		 	\
 	booleancmp.o		 	\
 	assignment.o			\
+	stringarray.o			\	
 	main.o					\
 
 CPPFLAGS = -std=gnu++11

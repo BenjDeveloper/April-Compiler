@@ -11,6 +11,7 @@
     #include "headers/integer.hpp"
     #include "headers/double.hpp"
     #include "headers/string.hpp"
+    #include "headers/stringarray.hpp"
     #include "headers/binaryope.hpp"
     #include "headers/identifier.hpp"
     #include "headers/vardeclaration.hpp"
@@ -62,6 +63,8 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 "."                 { return TOKEN(TPOINT); }
 "("                 { return TOKEN(TLPAREN); }
 ")"                 { return TOKEN(TRPAREN); }
+"["                 { return TOKEN(TLBRACKET); }
+"]"                 { return TOKEN(TRBRACKET); }
 ";"                 { return TOKEN(TSC); }
 ","                 { return TOKEN(TCOMMA); }
 "!="				{ return TOKEN(TCOMNE); }

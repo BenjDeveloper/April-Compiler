@@ -12,6 +12,7 @@
     #include "headers/integer.hpp"
     #include "headers/double.hpp"
     #include "headers/string.hpp"
+    #include "headers/stringarray.hpp"
     #include "headers/binaryope.hpp"
     #include "headers/identifier.hpp"
     #include "headers/vardeclaration.hpp"
@@ -45,12 +46,12 @@
 
 %token <_string> TDIGIT TDOUBLE TIDENTIFIER  
 %token <token> TPLUS TMIN TMUL TDIV TJUMP TSC
-%token <token> TLPAREN TRPAREN TSTR TPOINT
+%token <token> TLPAREN TRPAREN TSTR TPOINT TLBRACKET TRBRACKET
 %token <token> TVAR TEQUAL TCOLON TCOMMA TAND TOR
 %token <token> TCOMNE TCOMEQ TCOMLE TCOMGE TCOMLT TCOMGT
 
 %type <ident> ident
-%type <expr> expr basic binary_ope method_call boolean_expr 
+%type <expr> expr basic binary_ope method_call boolean_expr array_string
 %type <stmt> stmt  var_decl
 %type <block> program stmts
 %type <exprvec> call_args
@@ -83,6 +84,7 @@ expr: binary_ope                {  }
     | basic                     { $$ = $1; }
     | ident                     { $<ident>$ = $1; }
     | method_call               {  }
+    | array_string              {  }
     | boolean_expr              {  }
     ;
 
@@ -91,6 +93,8 @@ boolean_expr: expr comparasion expr		    { $$ = new april::BooleanCmp($1, $2, $3
 
 comparasion: TCOMNE | TCOMEQ | TCOMLE | TCOMGE | TCOMLT | TCOMGT
     ;
+
+array_string: ident TLBRACKET TDIGIT TLBRACKET     { $$ = new april::StringArray( $1, std::atol($3->c_str())); delete $3; }
 
 method_call: ident TLPAREN call_args TRPAREN       { $$ = new april::MethodCall( $1, $3 ); }
     | ident TPOINT ident TLPAREN call_args TRPAREN { $$ = new april::MethodStruct( $1, $3, $5 ); }

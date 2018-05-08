@@ -1,5 +1,6 @@
 #ifndef CODE_GEN_CONTEXT_HPP
 #define CODE_GEN_CONTEXT_HPP
+
 #include <string>
 #include "block.hpp"
 #include "identifier.hpp"

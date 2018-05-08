@@ -58,18 +58,20 @@ extern int yydebug;
     TRPAREN = 268,
     TSTR = 269,
     TPOINT = 270,
-    TVAR = 271,
-    TEQUAL = 272,
-    TCOLON = 273,
-    TCOMMA = 274,
-    TAND = 275,
-    TOR = 276,
-    TCOMNE = 277,
-    TCOMEQ = 278,
-    TCOMLE = 279,
-    TCOMGE = 280,
-    TCOMLT = 281,
-    TCOMGT = 282
+    TLBRACKET = 271,
+    TRBRACKET = 272,
+    TVAR = 273,
+    TEQUAL = 274,
+    TCOLON = 275,
+    TCOMMA = 276,
+    TAND = 277,
+    TOR = 278,
+    TCOMNE = 279,
+    TCOMEQ = 280,
+    TCOMLE = 281,
+    TCOMGE = 282,
+    TCOMLT = 283,
+    TCOMGT = 284
   };
 #endif
 
@@ -88,7 +90,7 @@ union YYSTYPE
     std::string* _string;
     int token;
 
-#line 92 "parser.h" /* yacc.c:1909  */
+#line 94 "parser.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

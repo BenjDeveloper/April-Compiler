@@ -21,6 +21,9 @@ namespace april
 
             else if (this->type == Type::BOOLEAN)
                 return this->value._bval != sym.value._bval;
+
+            else if (this->type == Type::STRING)
+                return (this->value._sval)->c_str() != (sym.value._sval)->c_str();
         }  
         return true;
     }
