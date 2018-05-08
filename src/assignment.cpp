@@ -23,8 +23,11 @@ namespace april
             context.addError();
             return nullptr;
         }
+        if (symbol->type == Type::DOUBLE && sym_expr->type == Type::INTEGER)
+            symbol->value._dval = sym_expr->value._ival;
+        else
+            symbol->value = sym_expr->value;
 
-        symbol->value = sym_expr->value;
         return sym_expr;
     }
 }

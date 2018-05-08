@@ -20,7 +20,9 @@
     #include "headers/for.hpp"
     #include "headers/assignment.hpp"
     #include "headers/assigbioperator.hpp"
-    
+    #include "headers/not.hpp"  
+    #include "headers/function.hpp"
+    #include "headers/vardeclarationdeduce.hpp"
     #include "parser.h"
 
     #define SAVE_TOKEN yylval._string = new std::string(yytext, yyleng)
@@ -55,13 +57,16 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 {DIGIT}             { SAVE_TOKEN; return TDIGIT; }
 {DOUBLE}            { SAVE_TOKEN; return TDOUBLE; }
 "var"               { return TOKEN(TVAR); }
-"for"                { return TOKEN(TFOR); }
+"for"               { return TOKEN(TFOR); }
 "if"                { return TOKEN(TIF); }
 "else"              { return TOKEN(TELSE); }
 "true"              { SAVE_TOKEN; return TBOOLEAN; }
 "false"             { SAVE_TOKEN; return TBOOLEAN; }
 "and"               { return TOKEN(TAND); }
 "or"                { return TOKEN(TOR); }
+"not"               { return TOKEN(TNOT); }
+"fn"                { return TOKEN(TFN); }
+":="                { return TOKEN(TCOEQU); }
 ":"                 { return TOKEN(TCOLON); }
 "="                 { return TOKEN(TEQUAL); }
 "+"                 { return TOKEN(TPLUS); }

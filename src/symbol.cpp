@@ -213,6 +213,16 @@ namespace april
         return false;
     }
 
+    void Symbol::operator= (const Symbol& sym)
+    {
+        std::cout << "new symbol" << std::endl;
+        this->name = sym.name;
+        this->type = sym.type;
+        this->value = sym.value;
+        this->is_constant = sym.is_constant;
+        this->is_variable = sym.is_variable;
+    }
+
     std::string Symbol::getType()
     {
         if (type == Type::INTEGER)
@@ -238,6 +248,9 @@ namespace april
         
         else if (sym.type == Type::BOOLEAN)
             out << sym.value._bval;
+        
+        else if (sym.type == Type::STRING)
+            out << sym.value._str->c_str();
 
         return out;
     }

@@ -6,6 +6,7 @@ namespace april
     {
         current_block = nullptr;
         errors = 0;
+        scope_type = Scope::BLOCK;
     }
 
     void CodeGenContext::push_block(Block* block)
@@ -48,11 +49,9 @@ namespace april
 
     Symbol* CodeGenContext::existIdenLocals(std::string name)
     {
-        for (Symbol*& symbol : this->current_block->locals)
+        for (Symbol*& symbol : current_block->locals)
             if (symbol->name == name)
-            {
                 return symbol;
-            }
         
         return nullptr;
     }
@@ -69,5 +68,28 @@ namespace april
             return Type::BOOLEAN;
 
         return Type::UNDEFINED;
+    }
+
+    bool CodeGenContext::existFunction(std::string name)
+    {
+        if (functions.find(name) != functions.end())
+            return true;
+        
+        return false;
+    }
+
+    bool CodeGenContext::deleteIdentLocals(std::string name)
+    {
+        
+        for (Symbol*& s : current_block->locals)
+        {
+            if (s->name == name)
+            {
+                delete s;
+                return true;
+            }
+        }
+        
+        return false;
     }
 }

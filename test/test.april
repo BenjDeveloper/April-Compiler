@@ -1,9 +1,15 @@
-var x:int = 10000;
-
-for x >= 1
+fn foo(x:double)
 {
     println(x);
-    x -= x;
-    
+    x += 12;
+    println(x);
 }
 
+x := 1.3;
+println(x);
+foo(x);
+println(x);
+
+x = 1;
+
+println(x);

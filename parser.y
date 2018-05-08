@@ -21,6 +21,9 @@
     #include "headers/for.hpp"
     #include "headers/assignment.hpp"
     #include "headers/assigbioperator.hpp"
+    #include "headers/not.hpp"
+    #include "headers/function.hpp"
+    #include "headers/vardeclarationdeduce.hpp"
     
     using namespace april;
 
@@ -40,6 +43,8 @@
     april::Block* block;
     april::Identifier* ident;
     std::vector<april::Expression*> *exprvec;
+    std::vector<april::VarDeclaration*> *vardecl;
+    april::VarDeclaration* var_decl;
     std::string* _string;
     int token;
 }
@@ -47,17 +52,18 @@
 %token <_string> TDIGIT TDOUBLE TIDENTIFIER TBOOLEAN
 %token <token> TPLUS TMIN TMUL TDIV TJUMP TSC
 %token <token> TLPAREN TRPAREN TSTR TLBRACE TRBRACE 
-%token <token> TVAR TEQUAL TCOLON TCOMMA TAND TOR
+%token <token> TVAR TEQUAL TCOLON TCOMMA TAND TOR TCOEQU
 %token <token> TCOMNE TCOMEQ TCOMLE TCOMGE TCOMLT TCOMGT
-%token <token> TIF TELSE TFOR
-%token <token> TASIGPLUS TASIGMINUS TASIGMULT TASIGDIV
+%token <token> TIF TELSE TFOR TFN
+%token <token> TASIGPLUS TASIGMINUS TASIGMULT TASIGDIV TNOT
 
 %type <ident> ident
-%type <expr> expr basic binary_ope method_call boolean_expr
-%type <stmt> stmt  var_decl conditional for
+%type <expr> expr basic binary_ope method_call boolean_expr logic_ope
+%type <stmt> stmt  var_decl conditional for fn_decl var_decl_arg 
 %type <block> program stmts block
 %type <exprvec> call_args
 %type <token> comparasion;
+%type <vardecl> fn_args;
 
 %left TPLUS TMIN
 %left TMUL TDIV
@@ -77,22 +83,35 @@ stmts: stmt                     { $$ = new april::Block(); $$->statements.push_b
 stmt: expr TSC                  { $$ = new april::ExprStatement{$1}; }
     | var_decl                  { }
     | conditional   
-    | for            
+    | for      
+    | fn_decl      
     ;
 
-for: TFOR expr block                        { $$ = new april::For($2, $3); }
+fn_decl: TFN ident TLPAREN fn_args TRPAREN block       { $$ = new april::Function{$2, $4, $6}; }
+    ;
+
+fn_args: %empty                             { $$ = new april::VarList(); }
+    |   var_decl_arg                        { $$ = new april::VarList(); $$->push_back($<var_decl>1); }
+    |   fn_args TCOMMA var_decl_arg         { $1->push_back($<var_decl>3); }
+    ;
+
+var_decl_arg: ident TCOLON ident            { $$ = new april::VarDeclaration{$1, $3};}
 ;
 
-conditional: TIF expr block					{ $$ = new april::If($2, $3); }
-	| TIF expr block TELSE block			{ $$ = new april::If($2, $3, $5); }
+for: TFOR expr block                        { $$ = new april::For{$2, $3}; }
+;
+
+conditional: TIF expr block					{ $$ = new april::If{$2, $3}; }
+	| TIF expr block TELSE block			{ $$ = new april::If{$2, $3, $5}; }
 	;
 
 block: TLBRACE stmts TRBRACE				{ $$ = $2; }
-	| TLBRACE TRBRACE						{ $$ = new april::Block();  }
+	| TLBRACE TRBRACE						{ $$ = new april::Block{};  }
     ;
 
-var_decl: TVAR ident TCOLON ident TSC								{ $$ = new april::VarDeclaration($2, $4);}
-    | TVAR ident TCOLON ident TEQUAL expr TSC                       { $$ = new april::VarDeclaration($2, $4, $6);}
+var_decl: TVAR ident TCOLON ident TSC								{ $$ = new april::VarDeclaration{$2, $4};}
+    | TVAR ident TCOLON ident TEQUAL expr TSC                       { $$ = new april::VarDeclaration{$2, $4, $6};}
+    | ident TCOEQU expr TSC                                         { $$ = new april::VarDeclarationDeduce{$1, $3}; }
     ;
 
 expr: binary_ope                {  }
@@ -105,15 +124,19 @@ expr: binary_ope                {  }
     | ident                     { $<ident>$ = $1; }
     | method_call               {  }
     | boolean_expr              {  }
+    | logic_ope                 {  }
     ;
 
-boolean_expr: expr comparasion expr		    { $$ = new april::BooleanCmp($1, $2, $3);} 
+logic_ope: TNOT expr 			            { $$ = new april::Not{ $2 }; }
+;
+
+boolean_expr: expr comparasion expr		    { $$ = new april::BooleanCmp{$1, $2, $3};} 
 	;
 
 comparasion: TCOMNE | TCOMEQ | TCOMLE | TCOMGE | TCOMLT | TCOMGT
     ;
 
-method_call: ident TLPAREN call_args TRPAREN       { $$ = new april::MethodCall($1, $3); }
+method_call: ident TLPAREN call_args TRPAREN       { $$ = new april::MethodCall{$1, $3}; }
     ;
 
 call_args: %empty                           { $$ = new april::ExpressionList(); }
@@ -137,7 +160,7 @@ basic: TDIGIT                       { $$ = new april::Integer{ std::atol($1->c_s
     |   TBOOLEAN                    { $$ = new april::Boolean{ *$1 }; delete $1; }
     ;
 
-ident: TIDENTIFIER                          { $$ = new april::Identifier(*$1); delete $1; }
+ident: TIDENTIFIER                          { $$ = new april::Identifier{*$1}; delete $1; }
     ; 
 
 %%

@@ -20,6 +20,9 @@ OBJS = parser.o				\
 	for.o					\
 	assignment.o			\
 	assigbioperator.o		\
+	not.o					\
+	function.o				\
+	vardeclarationdeduce.o	\
 	main.o					\
 
 CPPFLAGS = -std=gnu++11

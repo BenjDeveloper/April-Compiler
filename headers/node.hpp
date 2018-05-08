@@ -8,14 +8,14 @@
 namespace april
 {
     class CodeGenContext;
+    using ExpressionList = std::vector<class Expression*>;
+    using VarList = std::vector<class VarDeclaration*>;
 
     typedef struct STRUCINFO
     {
         int line;
         std::string file_name;
     } STRUCINFO;
-
-    using ExpressionList = std::vector<class Expression*>;
 
     class Node
     {

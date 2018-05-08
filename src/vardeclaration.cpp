@@ -7,18 +7,35 @@ extern april::STRUCINFO* april_errors;
 
 namespace april
 {
+    VarDeclaration::~VarDeclaration()
+    {
+        std::cout << "des varde" << std::endl;
+        if (type != nullptr)
+            delete type;
+        
+        if (ident != nullptr)
+            delete ident;
+
+        if (expr != nullptr)
+            delete expr;
+    }
+
     Symbol* VarDeclaration::codeGen(CodeGenContext& context)
     {
-        
-        if (context.existIdenLocals(ident->getName()))
+        Symbol* symbol = nullptr;
+        if ((context.scope_type == Scope::BLOCK)?(context.existIdenLocals(ident->getName())):(context.getCurrentFunction()->existIdenLocals(ident->getName()))  )
         {
             printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la variable '"+ident->getName()+"' ya existe\n");
             context.addError();
             return nullptr;
         }
-
+        
         ident->codeGen(context);
-        Symbol*& symbol = context.findIdentLocals(ident->getName());
+        if (context.scope_type == Scope::BLOCK)
+            symbol = context.findIdentLocals(ident->getName());
+        else
+            symbol = context.getCurrentFunction()->existIdenLocals(ident->getName());
+
         if (context.typeOf(type->getName()) == Type::UNDEFINED)
         {
             printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: typo de dato indefinido.\n");
@@ -35,7 +52,6 @@ namespace april
         }
 
         symbol->is_variable = true;
-        
         if (expr)
         {
             Assignment* assig = new Assignment{ident, expr};

@@ -66,19 +66,22 @@ extern int yydebug;
     TCOMMA = 276,
     TAND = 277,
     TOR = 278,
-    TCOMNE = 279,
-    TCOMEQ = 280,
-    TCOMLE = 281,
-    TCOMGE = 282,
-    TCOMLT = 283,
-    TCOMGT = 284,
-    TIF = 285,
-    TELSE = 286,
-    TFOR = 287,
-    TASIGPLUS = 288,
-    TASIGMINUS = 289,
-    TASIGMULT = 290,
-    TASIGDIV = 291
+    TCOEQU = 279,
+    TCOMNE = 280,
+    TCOMEQ = 281,
+    TCOMLE = 282,
+    TCOMGE = 283,
+    TCOMLT = 284,
+    TCOMGT = 285,
+    TIF = 286,
+    TELSE = 287,
+    TFOR = 288,
+    TFN = 289,
+    TASIGPLUS = 290,
+    TASIGMINUS = 291,
+    TASIGMULT = 292,
+    TASIGDIV = 293,
+    TNOT = 294
   };
 #endif
 
@@ -87,17 +90,19 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 37 "parser.y" /* yacc.c:1909  */
+#line 40 "parser.y" /* yacc.c:1909  */
 
     april::Expression* expr;
     april::Statement* stmt;
     april::Block* block;
     april::Identifier* ident;
     std::vector<april::Expression*> *exprvec;
+    std::vector<april::VarDeclaration*> *vardecl;
+    april::VarDeclaration* var_decl;
     std::string* _string;
     int token;
 
-#line 101 "parser.h" /* yacc.c:1909  */
+#line 106 "parser.h" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
