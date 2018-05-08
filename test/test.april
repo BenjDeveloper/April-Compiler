@@ -1,8 +1,23 @@
 fn foo(x:int, y:int)
 {
-    if x == 5 { return 1; }
-    else { return 0; }
+    for (x < 10)
+    {
+        if x == 5 
+        {
+            if x == 5
+            {
+                if x == 5
+                {
+                    return 9;
+                }
+            }
+        }
+        x += 1;
+    }
 }
 
-x := foo(9, 9);
+
+x := foo(0, 9);
 println(x);
+
+// x := foo(0, 9);

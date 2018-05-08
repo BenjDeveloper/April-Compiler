@@ -49,6 +49,11 @@ namespace april
             context.popCurrentBlock();
         }
 
+        // if (result == nullptr)
+        //     std::cout << "result es NULO (IF)" << std::endl;
+        // else
+        //     std::cout << "result (IF): " << *result << std::endl;
+
         return result;
     }
 }
