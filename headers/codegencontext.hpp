@@ -39,6 +39,7 @@ namespace april
             void push_block(Block*);
             void pop_block();
             void setCurrentBlock(Block*);
+            void popCurrentBlock();
             std::stack<Block*>& getStackBlock() { return stack_block; }
             CallFunctionList& getFunctions() { return functions; }
             void addFunction(std::string name, Function* function) { functions[name] = function; }
@@ -46,6 +47,7 @@ namespace april
             bool deleteIdentLocals(std::string);
             void setCurrentFunction(Function* func) { current_function = func; }
             Function*& getCurrentFunction() { return current_function; }
+            void stopRootBlock();
     };
 }
 #endif //CODE_GEN_CONTEXT_HPP

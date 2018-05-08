@@ -32,6 +32,7 @@ namespace april
             delete arg;
         
         args = nullptr;
+        
     }
 
     Symbol* Function::codeGen(CodeGenContext& context)
@@ -55,7 +56,7 @@ namespace april
         std::vector<Symbol*> tmp_locals = context.getCurrentBlock()->locals;
         context.push_block(block);
         context.getCurrentBlock()->locals = locals;
-
+        
         last = block->codeGen(context);
 
         context.pop_block();

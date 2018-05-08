@@ -30,8 +30,6 @@ namespace april
             Symbol* sym_0 = nullptr;
             Symbol* sym_1 = nullptr;
 
-            //std::vector<Symbol*>& tmp_locals = context.getCurrentBlock()->locals;
-
             while (ite_args != args->end())
             {
                 sym_0 = (*ite_args)->codeGen(context);
@@ -58,14 +56,6 @@ namespace april
                 }
 
                 sym_1->value = sym_0->value; 
-                //Symbol* sym_new = new Symbol{};
-                //*sym_new = *sym_1;
-                
-                //context.getFunctions()[ident->getName()]->getLocals().push_back(sym_new);
-                //context.getFunctions()[ident->getName()]->existIdenLocals(sym_1->name);
-                //delete sym_0;
-                //delete sym_1;
-
                 ite_args++;
                 ite_para_fn++;
             }

@@ -31,18 +31,18 @@ int main(int argc, char* argv[])
     yyparse();
     if (programBlock != nullptr)
     {
+        // std::cout << ">> inicio main <<" << std::endl; 
         CodeGenContext contex;
         contex.runCode(programBlock);
+        // std::cout << ">> final main <<" << std::endl; 
         
         if (programBlock != nullptr)
             delete programBlock;
-        
     }
-
+    
     if (yyin != nullptr)
         fclose(yyin);
 
     yylex_destroy();
-
     return 0;
 }

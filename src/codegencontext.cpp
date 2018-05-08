@@ -23,10 +23,26 @@ namespace april
         else
             current_block = nullptr;
     }
-
+    
     void CodeGenContext::setCurrentBlock(Block* block)
     {
         current_block = block;
+    }
+
+    void CodeGenContext::popCurrentBlock()
+    {
+        Block* aux = current_block;
+        if (aux != nullptr)
+        {
+            current_block = aux->prev;
+            aux->prev = nullptr;
+        }
+        
+        // if (aux != nullptr)
+        // {
+        //     delete aux;
+        //     aux = nullptr;
+        // }
     }
 
     void CodeGenContext::runCode(Block* block)
@@ -35,24 +51,43 @@ namespace april
         push_block(current_block);
         
         current_block->codeGen(*this);
+        
         pop_block();
     }
 
     Symbol*& CodeGenContext::findIdentLocals(std::string name)
     {
-        for (Symbol*& symbol : this->current_block->locals)
-            if (symbol->name == name)
+        Block* aux = current_block;
+
+        while (aux != nullptr)
+        {
+            for (Symbol*& symbol : aux->locals)
             {
-                return symbol;
+                if (symbol->name == name)
+                {
+                    return symbol;
+                }
             }
+            aux = aux->prev;
+        }
     }
 
     Symbol* CodeGenContext::existIdenLocals(std::string name)
     {
-        for (Symbol*& symbol : current_block->locals)
-            if (symbol->name == name)
-                return symbol;
-        
+        Block* aux = current_block;
+
+        while (aux != nullptr)
+        {
+            for (Symbol*& symbol : aux->locals)
+            {
+                if (symbol->name == name)
+                {
+                    return symbol;
+                }
+            }
+            aux = aux->prev;
+        }
+
         return nullptr;
     }
 
@@ -91,5 +126,21 @@ namespace april
         }
         
         return false;
+    }
+
+    void CodeGenContext::stopRootBlock()
+    {
+        Block* aux = current_block;
+        while (aux != nullptr && aux->prev != nullptr)
+        {
+            aux->stop = true;
+            aux = aux->prev;
+        }
+        
+        if (aux != nullptr)
+        {
+            current_block = aux;
+            current_block->stop = true;
+        }
     }
 }

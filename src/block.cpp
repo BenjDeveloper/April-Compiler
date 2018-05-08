@@ -5,7 +5,8 @@ namespace april
     Block::~Block()
     {
         for (Statement*& stmt: statements)
-            delete stmt;
+            if (stmt != nullptr)
+                delete stmt;
     }
 
     Symbol* Block::codeGen(CodeGenContext& context)
@@ -13,17 +14,12 @@ namespace april
         Symbol* last = nullptr;
         for (Statement*& stmt: statements)
         {
-            if (stop)
-            {
-                std::cout << "adios" << std::endl;
+            if (!stop)
+                last = stmt->codeGen(context);
+            else
                 break;
-            }
-            last = stmt->codeGen(context);
-            
         }
-        
-        std::cout << "fin del bloque" << std::endl;
-        stop = false;
+        //stop = false;
         return last;
     }
 }

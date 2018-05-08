@@ -55,8 +55,9 @@ namespace april
         if (expr)
         {
             Assignment* assig = new Assignment{ident, expr};
-            assig->codeGen(context);            
+            symbol = assig->codeGen(context);            
         }
+        
         return symbol;
     }
 }

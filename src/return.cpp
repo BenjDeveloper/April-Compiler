@@ -7,16 +7,15 @@ namespace april
 {
     Return::~Return()
     {
-        if (expr != nullptr)
-        {
-            delete expr;
-            expr = nullptr;
-        }
+        // if (expr != nullptr)
+        // {
+        //     delete expr;
+        //     expr = nullptr;
+        // }
     }
 
     Symbol* Return::codeGen(CodeGenContext& context)
     {
-        std::cout << "inicio return" << std::endl;
         Symbol* sym_expr = expr->codeGen(context);
         
         if (sym_expr == nullptr)
@@ -32,9 +31,7 @@ namespace april
             context.addError();
             return nullptr;
         }
-
-        context.getCurrentBlock()->stop = true;
-        std::cout << "fin return" << std::endl;
+        context.stopRootBlock();
         return sym_expr;
     }
 }
