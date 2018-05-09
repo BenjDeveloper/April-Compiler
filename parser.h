@@ -48,20 +48,6 @@ extern int yydebug;
     TDIGIT = 258,
     TDOUBLE = 259,
     TIDENTIFIER = 260,
-<<<<<<< HEAD
-    TPLUS = 261,
-    TMIN = 262,
-    TMUL = 263,
-    TDIV = 264,
-    TJUMP = 265,
-    TSC = 266,
-    TLPAREN = 267,
-    TRPAREN = 268,
-    TSTR = 269,
-    TPOINT = 270,
-    TLBRACKET = 271,
-    TRBRACKET = 272,
-=======
     TBOOLEAN = 261,
     TPLUS = 262,
     TMIN = 263,
@@ -74,38 +60,31 @@ extern int yydebug;
     TSTR = 270,
     TLBRACE = 271,
     TRBRACE = 272,
->>>>>>> lorena
-    TVAR = 273,
-    TEQUAL = 274,
-    TCOLON = 275,
-    TCOMMA = 276,
-    TAND = 277,
-    TOR = 278,
-<<<<<<< HEAD
-    TCOMNE = 279,
-    TCOMEQ = 280,
-    TCOMLE = 281,
-    TCOMGE = 282,
-    TCOMLT = 283,
-    TCOMGT = 284
-=======
-    TCOEQU = 279,
-    TCOMNE = 280,
-    TCOMEQ = 281,
-    TCOMLE = 282,
-    TCOMGE = 283,
-    TCOMLT = 284,
-    TCOMGT = 285,
-    TIF = 286,
-    TELSE = 287,
-    TFOR = 288,
-    TFN = 289,
-    TASIGPLUS = 290,
-    TASIGMINUS = 291,
-    TASIGMULT = 292,
-    TASIGDIV = 293,
-    TNOT = 294
->>>>>>> lorena
+    TPOINT = 273,
+    TLBRACKET = 274,
+    TRBRACKET = 275,
+    TVAR = 276,
+    TEQUAL = 277,
+    TCOLON = 278,
+    TCOMMA = 279,
+    TAND = 280,
+    TOR = 281,
+    TCOEQU = 282,
+    TCOMNE = 283,
+    TCOMEQ = 284,
+    TCOMLE = 285,
+    TCOMGE = 286,
+    TCOMLT = 287,
+    TCOMGT = 288,
+    TIF = 289,
+    TELSE = 290,
+    TFOR = 291,
+    TFN = 292,
+    TASIGPLUS = 293,
+    TASIGMINUS = 294,
+    TASIGMULT = 295,
+    TASIGDIV = 296,
+    TNOT = 297
   };
 #endif
 
@@ -114,11 +93,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-<<<<<<< HEAD
-#line 36 "parser.y" /* yacc.c:1909  */
-=======
-#line 40 "parser.y" /* yacc.c:1909  */
->>>>>>> lorena
+#line 44 "parser.y" /* yacc.c:1909  */
 
     april::Expression* expr;
     april::Statement* stmt;
@@ -130,11 +105,7 @@ union YYSTYPE
     std::string* _string;
     int token;
 
-<<<<<<< HEAD
-#line 94 "parser.h" /* yacc.c:1909  */
-=======
-#line 106 "parser.h" /* yacc.c:1909  */
->>>>>>> lorena
+#line 109 "parser.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

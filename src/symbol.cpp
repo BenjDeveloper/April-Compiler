@@ -23,7 +23,7 @@ namespace april
                 return this->value._bval != sym.value._bval;
 
             else if (this->type == Type::STRING)
-                return (this->value._sval)->c_str() != (sym.value._sval)->c_str();
+                return *(this->value._sval) != *(sym.value._sval);
         }  
         return true;
     }
@@ -40,6 +40,9 @@ namespace april
 
             else if (this->type == Type::BOOLEAN)
                 return this->value._bval == sym.value._bval;
+            
+            else if (this->type == Type::STRING)
+                return true;
         }  
         return false;
     }
@@ -56,6 +59,9 @@ namespace april
 
             else if (this->type == Type::BOOLEAN)
                 return this->value._bval <= sym.value._bval;
+            
+            else if (this->type == Type::STRING)
+                return true;
         } 
         else if (this->type == Type::INTEGER && sym.type == Type::DOUBLE)
              return this->value._ival <= sym.value._dval;
@@ -78,6 +84,9 @@ namespace april
 
             else if (this->type == Type::BOOLEAN)
                 return this->value._bval >= sym.value._bval;
+            
+            else if (this->type == Type::STRING)
+                return true;
         } 
         else if (this->type == Type::INTEGER && sym.type == Type::DOUBLE)
              return this->value._ival >= sym.value._dval;
@@ -100,6 +109,9 @@ namespace april
 
             else if (this->type == Type::BOOLEAN)
                 return this->value._bval < sym.value._bval;
+            
+            else if (this->type == Type::STRING)
+                return true;
         } 
         else if (this->type == Type::INTEGER && sym.type == Type::DOUBLE)
              return this->value._ival < sym.value._dval;
@@ -122,6 +134,9 @@ namespace april
 
             else if (this->type == Type::BOOLEAN)
                 return this->value._bval > sym.value._bval;
+
+            else if (this->type == Type::STRING)
+                return true;
         } 
         else if (this->type == Type::INTEGER && sym.type == Type::DOUBLE)
              return this->value._ival > sym.value._dval;
@@ -145,6 +160,12 @@ namespace april
             if (is_double) { tmp->value._dval = ((this->type == Type::DOUBLE)?(this->value._dval):(this->value._ival)) + ((sym.type == Type::DOUBLE)?(sym.value._dval):(sym.value._ival)); }
             else { tmp->value._ival = this->value._ival + sym.value._ival; }
         }
+        else if (this->type == Type::STRING)
+        {
+            // AQUI
+            //return this->value._sval->c_str() >= sym.value._sval->c_str();
+        }
+                
         return tmp;
     }
 
@@ -253,11 +274,8 @@ namespace april
             out << sym.value._bval;
         
         else if (sym.type == Type::STRING)
-            out << sym.value._str->c_str();
-
-        else if (sym.type == Type::STRING)
             out << sym.value._sval->c_str();
-
+        
         return out;
     }
 

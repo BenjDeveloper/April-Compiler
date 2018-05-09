@@ -69,7 +69,7 @@ namespace april
                 ite_args++;
                 ite_para_fn++;
             }
-
+            
             Symbol* sym = context.getFunctions()[ident->getName()]->runCode(context);
             return sym;
         }
@@ -79,10 +79,12 @@ namespace april
             Symbol* tmp = expr->codeGen(context);
             if (tmp->is_variable)
                 tmp = context.findIdentLocals(tmp->name);
-
-            if (ident->getName() == "println")
+                
+            if ((ident->getName() == "println") && (tmp != nullptr))
+            { 
                 std::cout << ">> "<< *tmp << std::endl;
-        }        
+            }
+        }
         return nullptr;
     }
 }

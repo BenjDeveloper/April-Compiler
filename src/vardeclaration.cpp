@@ -55,8 +55,10 @@ namespace april
         if (expr)
         {
             Assignment* assig = new Assignment{ident, expr};
-            assig->codeGen(context);            
+            symbol = assig->codeGen(context);            
         }
+        std::cout<< "VARDECLARATION -> "<< symbol->name <<" - "<< *symbol <<std::endl;
+        
         return symbol;
     }
 }

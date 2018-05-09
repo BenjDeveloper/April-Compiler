@@ -14,7 +14,6 @@ namespace april
         INTEGER,
         DOUBLE,
         BOOLEAN,
-        STRING
     };
 
     union Value
@@ -23,7 +22,6 @@ namespace april
         long long _ival;
         double _dval;
         bool _bval;
-        std::string* _str;
     };
 
     class Symbol

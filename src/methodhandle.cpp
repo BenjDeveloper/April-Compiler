@@ -23,12 +23,10 @@ namespace april
                 sym_expr->value._ival = context.findIdentLocals(ident_var->getName())->value._sval->length();
                 
                 std::string a = " a ";
-                str::string b = " b ";
-                str::string* aa = a;
-                str::string* bb = b;
+                std::string b = " b ";
+                std::string* aa = &a;
+                std::string* bb = &b;
             
-                if (aa != bb) std::cout<<"aa!=bb"<< std::endl;
-
                 if (aa->c_str() != bb->c_str()) std::cout<<"aa->c_str() != bb->c_str()"<< std::endl;
             }
         }

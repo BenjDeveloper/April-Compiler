@@ -20,10 +20,6 @@
     #include "headers/methodstruct.hpp"
     #include "headers/methodhandle.hpp"
     #include "headers/booleancmp.hpp"
-<<<<<<< HEAD
-    #include "headers/assignment.hpp"
-
-=======
     #include "headers/if.hpp"
     #include "headers/boolean.hpp"
     #include "headers/for.hpp"
@@ -33,7 +29,6 @@
     #include "headers/function.hpp"
     #include "headers/vardeclarationdeduce.hpp"
     
->>>>>>> lorena
     using namespace april;
 
     extern int yylex();
@@ -58,31 +53,18 @@
     int token;
 }
 
-<<<<<<< HEAD
-%token <_string> TDIGIT TDOUBLE TIDENTIFIER  
-%token <token> TPLUS TMIN TMUL TDIV TJUMP TSC
-%token <token> TLPAREN TRPAREN TSTR TPOINT TLBRACKET TRBRACKET
-%token <token> TVAR TEQUAL TCOLON TCOMMA TAND TOR
-=======
 %token <_string> TDIGIT TDOUBLE TIDENTIFIER TBOOLEAN
 %token <token> TPLUS TMIN TMUL TDIV TJUMP TSC
-%token <token> TLPAREN TRPAREN TSTR TLBRACE TRBRACE 
+%token <token> TLPAREN TRPAREN TSTR TLBRACE TRBRACE TPOINT TLBRACKET TRBRACKET
 %token <token> TVAR TEQUAL TCOLON TCOMMA TAND TOR TCOEQU
->>>>>>> lorena
 %token <token> TCOMNE TCOMEQ TCOMLE TCOMGE TCOMLT TCOMGT
 %token <token> TIF TELSE TFOR TFN
 %token <token> TASIGPLUS TASIGMINUS TASIGMULT TASIGDIV TNOT
 
 %type <ident> ident
-<<<<<<< HEAD
-%type <expr> expr basic binary_ope method_call boolean_expr array_string
-%type <stmt> stmt  var_decl
-%type <block> program stmts
-=======
-%type <expr> expr basic binary_ope method_call boolean_expr logic_ope
+%type <expr> expr basic binary_ope method_call boolean_expr logic_ope array_string
 %type <stmt> stmt  var_decl conditional for fn_decl var_decl_arg 
 %type <block> program stmts block
->>>>>>> lorena
 %type <exprvec> call_args
 %type <token> comparasion;
 %type <vardecl> fn_args;
@@ -159,14 +141,10 @@ boolean_expr: expr comparasion expr		    { $$ = new april::BooleanCmp{$1, $2, $3
 comparasion: TCOMNE | TCOMEQ | TCOMLE | TCOMGE | TCOMLT | TCOMGT
     ;
 
-<<<<<<< HEAD
 array_string: ident TLBRACKET TDIGIT TLBRACKET     { $$ = new april::StringArray( $1, std::atol($3->c_str())); delete $3; }
 
 method_call: ident TLPAREN call_args TRPAREN       { $$ = new april::MethodCall( $1, $3 ); }
     | ident TPOINT ident TLPAREN call_args TRPAREN { $$ = new april::MethodStruct( $1, $3, $5 ); }
-=======
-method_call: ident TLPAREN call_args TRPAREN       { $$ = new april::MethodCall{$1, $3}; }
->>>>>>> lorena
     ;
 
 call_args: %empty                           { $$ = new april::ExpressionList(); }
@@ -187,13 +165,10 @@ basic: TDIGIT                       { $$ = new april::Integer{ std::atol($1->c_s
     |   TDOUBLE                     { $$ = new april::Double{ std::atof($1->c_str()) }; delete $1; }
     |   TMIN TDIGIT  %prec TDIV     { $$ = new april::Integer{ -std::atol($2->c_str()) }; delete $2; }
     |   TMIN TDOUBLE  %prec TDIV    { $$ = new april::Double{ -std::atof($2->c_str()) }; delete $2; }
-<<<<<<< HEAD
     |   TSTR                        { $$ = new april::String(yytext); }
     ;   
-=======
     |   TBOOLEAN                    { $$ = new april::Boolean{ *$1 }; delete $1; }
     ;
->>>>>>> lorena
 
 ident: TIDENTIFIER                          { $$ = new april::Identifier{*$1}; delete $1; }
     ; 

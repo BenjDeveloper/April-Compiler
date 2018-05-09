@@ -4,7 +4,7 @@
 #include "identifier.hpp"
 #include "expression.hpp"
 
-namespace
+namespace april
 {
     class StringArray: public Expression
     {
@@ -15,7 +15,7 @@ namespace
         public: 
             StringArray(Identifier* ident_var, int num): ident_var(ident_var), num(num){}
             virtual Symbol* codeGen(CodeGenContext&);
-    }; 
+    };
 }
 
 #endif //STRING_ARRAY_HPP

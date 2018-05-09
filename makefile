@@ -26,7 +26,7 @@ OBJS = parser.o				\
 	not.o					\
 	function.o				\
 	vardeclarationdeduce.o	\
-	stringarray.o			\	
+	stringarray.o			\
 	main.o					\
 
 CPPFLAGS = -std=gnu++11
@@ -42,15 +42,15 @@ april: $(OBJS)
 	$(CC) -c $< $(CPPFLAGS)
 
 parser.cpp: parser.y
-	bison -o $@ $<
+	win_bison -o $@ $<
 
 lexer.cpp: lexer.l parser.h
-	flex -o $@ $^ 
+	win_flex -o $@ $^ 
 
 .PHONY: clean
 clean:
-	clear && rm $(OBJS) parser.cpp lexer.cpp
+	cls && del $(OBJS) parser.cpp lexer.cpp
 
 .PHONY: clean_all
 clean_all:
-	clear && rm $(OBJS) parser.cpp lexer.cpp 
+	cls && del $(OBJS) parser.cpp lexer.cpp *.exe

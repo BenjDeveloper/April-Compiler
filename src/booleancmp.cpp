@@ -28,6 +28,7 @@ namespace april
         {
             // !=
             case TCOMNE:
+                std::cout << "!=" << std::endl;
                 tmp->value._bval = *sym_left != *sym_right;
                 break;
         

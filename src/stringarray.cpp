@@ -1,7 +1,7 @@
 #include "../headers/stringarray.hpp"
 #include "../headers/codegencontext.hpp"
 
-namespace
+namespace april
 {
     Symbol* StringArray::codeGen(CodeGenContext& context)
     {
@@ -12,7 +12,7 @@ namespace
             // el variable no existe
         }
 
-        if (num > (sym_ident->v)
+        if (num > (sym_ident->value._sval)->length())
         {
 
         }

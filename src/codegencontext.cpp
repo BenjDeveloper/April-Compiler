@@ -43,8 +43,10 @@ namespace april
     {
         for (Symbol*& symbol : this->current_block->locals)
             if (symbol->name == name)
+            {
                 return symbol;
-
+            }
+    }
     Symbol* CodeGenContext::existIdenLocals(std::string name)
     {
         for (Symbol*& symbol : current_block->locals)
