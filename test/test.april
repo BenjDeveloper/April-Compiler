@@ -13,9 +13,9 @@ fn foo(x:int)
     }
 
     println(x);
-    return 9;
+    return x+6;
 }
 
 x := 0;
-x = foo(x);
+x = foo(x)+9;
 println(x);

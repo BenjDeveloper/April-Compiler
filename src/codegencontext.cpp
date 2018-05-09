@@ -131,40 +131,33 @@ namespace april
     void CodeGenContext::stopRootBlock()
     {
         Block* aux = current_block;
+        Block* tmp = nullptr;
         while (aux != nullptr && aux->prev != nullptr)
         {
             aux->stop = true;
+            tmp = aux;
             aux = aux->prev;
+            delete tmp;
         }
         
         if (aux != nullptr)
-        {
-            //current_block = aux;
             aux->stop = true;
-        }
     }
 
     void CodeGenContext::stopBreakBlock()
     {
         Block* aux = current_block;
+        Block* tmp = nullptr;
         while (aux != nullptr && aux->prev != nullptr && aux->type_scope != BlockScope::FOR)
         {
             aux->stop = true;
+            tmp = aux;
             aux = aux->prev;
+            delete tmp;
         }
         
         if (aux != nullptr)
-        {
             aux->stop = true;
-        }
-
-        // printLocals();
-        // if (aux->type_scope == BlockScope::FOR)
-        //     std::cout << "es for" << std::endl;
-        // else
-        //     std::cout << "NO es for" << std::endl;
-        
-
     }
 
     void CodeGenContext::printLocals()

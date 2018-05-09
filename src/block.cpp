@@ -6,6 +6,7 @@ namespace april
 {
     Block::~Block()
     {
+        //std::cout << "destructor block" << std::endl;
         for (Statement*& stmt: statements)
             if (stmt != nullptr)
                 delete stmt;
