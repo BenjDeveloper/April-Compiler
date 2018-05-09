@@ -34,13 +34,8 @@ namespace april
         Block* aux = current_block;
         if (aux != nullptr)
         {
-            //aux->stop = true;
             current_block = aux->prev;
             aux->prev = nullptr;
-        }
-        else
-        {
-            std::cout << "es IGUAL a NULO" << std::endl;
         }
     }
 
