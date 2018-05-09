@@ -25,6 +25,7 @@ namespace april
     {
         Symbol* sym_expr = expr->codeGen(context);
         Symbol* result = nullptr;
+
         if (sym_expr->type != Type::BOOLEAN)
         {
             printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la expresion no es un boolean.\n");
@@ -34,6 +35,7 @@ namespace april
     
         if (sym_expr->value._bval == true)
         {
+            _then->type_scope = BlockScope::IF;
             _then->prev = context.getCurrentBlock();
             context.setCurrentBlock(_then);
 
@@ -42,6 +44,7 @@ namespace april
         }
         else if (_else != nullptr) 
         {
+            _else->type_scope = BlockScope::IF;
             _else->prev = context.getCurrentBlock();
             context.setCurrentBlock(_else);
 

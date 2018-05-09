@@ -1,4 +1,6 @@
 #include "../headers/block.hpp"
+#include "../headers/codegencontext.hpp"
+
 
 namespace april
 {
@@ -15,11 +17,18 @@ namespace april
         for (Statement*& stmt: statements)
         {
             if (!stop)
+            {
                 last = stmt->codeGen(context);
+            }
             else
                 break;
         }
-        //stop = false;
+        
+        // if (last == nullptr)
+        //     std::cout << "result es NULO (BLOCK)" << std::endl;
+        // else
+        //     std::cout << "result (BLOCK): " << *last << std::endl;
+
         return last;
     }
 }

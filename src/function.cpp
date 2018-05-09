@@ -54,6 +54,7 @@ namespace april
     Symbol* Function::runCode(CodeGenContext& context)
     {
         std::vector<Symbol*> tmp_locals = context.getCurrentBlock()->locals;
+        block->type_scope = BlockScope::FUNCTION;
         context.push_block(block);
         context.getCurrentBlock()->locals = locals;
         

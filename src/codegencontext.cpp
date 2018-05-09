@@ -34,20 +34,20 @@ namespace april
         Block* aux = current_block;
         if (aux != nullptr)
         {
+            //aux->stop = true;
             current_block = aux->prev;
             aux->prev = nullptr;
         }
-        
-        // if (aux != nullptr)
-        // {
-        //     delete aux;
-        //     aux = nullptr;
-        // }
+        else
+        {
+            std::cout << "es IGUAL a NULO" << std::endl;
+        }
     }
 
     void CodeGenContext::runCode(Block* block)
     {
         current_block = block;
+        current_block->type_scope = BlockScope::FUNCTION;
         push_block(current_block);
         
         current_block->codeGen(*this);
@@ -139,8 +139,46 @@ namespace april
         
         if (aux != nullptr)
         {
-            current_block = aux;
-            current_block->stop = true;
+            //current_block = aux;
+            aux->stop = true;
+        }
+    }
+
+    void CodeGenContext::stopBreakBlock()
+    {
+        Block* aux = current_block;
+        while (aux != nullptr && aux->prev != nullptr && aux->type_scope != BlockScope::FOR)
+        {
+            aux->stop = true;
+            aux = aux->prev;
+        }
+        
+        if (aux != nullptr)
+        {
+            aux->stop = true;
+        }
+
+        // printLocals();
+        // if (aux->type_scope == BlockScope::FOR)
+        //     std::cout << "es for" << std::endl;
+        // else
+        //     std::cout << "NO es for" << std::endl;
+        
+
+    }
+
+    void CodeGenContext::printLocals()
+    {
+        Block* aux = current_block;
+
+        while (aux != nullptr)
+        {
+            for (Symbol* s : aux->locals)
+            {
+                std::cout << "name: " << s->name << std::endl;
+            }
+
+            aux = aux->prev;
         }
     }
 }

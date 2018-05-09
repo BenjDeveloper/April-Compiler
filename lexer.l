@@ -24,6 +24,7 @@
     #include "headers/function.hpp"
     #include "headers/vardeclarationdeduce.hpp"
     #include "headers/return.hpp"
+    #include "headers/break.hpp"
     
     #include "parser.h"
 
@@ -69,6 +70,7 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 "not"               { return TOKEN(TNOT); }
 "fn"                { return TOKEN(TFN); }
 "return"            { return TOKEN(TRETURN); }
+"break"             { return TOKEN(TBREAK); }
 ":="                { return TOKEN(TCOEQU); }
 ":"                 { return TOKEN(TCOLON); }
 "="                 { return TOKEN(TEQUAL); }

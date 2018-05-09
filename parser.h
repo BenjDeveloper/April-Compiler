@@ -78,11 +78,12 @@ extern int yydebug;
     TFOR = 288,
     TFN = 289,
     TRETURN = 290,
-    TASIGPLUS = 291,
-    TASIGMINUS = 292,
-    TASIGMULT = 293,
-    TASIGDIV = 294,
-    TNOT = 295
+    TBREAK = 291,
+    TASIGPLUS = 292,
+    TASIGMINUS = 293,
+    TASIGMULT = 294,
+    TASIGDIV = 295,
+    TNOT = 296
   };
 #endif
 
@@ -91,7 +92,7 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 41 "parser.y" /* yacc.c:1909  */
+#line 42 "parser.y" /* yacc.c:1909  */
 
     april::Expression* expr;
     april::Statement* stmt;
@@ -103,7 +104,7 @@ union YYSTYPE
     std::string* _string;
     int token;
 
-#line 107 "parser.h" /* yacc.c:1909  */
+#line 108 "parser.h" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

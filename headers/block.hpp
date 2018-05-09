@@ -9,6 +9,14 @@
 
 namespace april
 {
+    enum class BlockScope
+    {
+        FOR,
+        FUNCTION,
+        IF,
+        UNDEFINED
+    };
+
     class Block: public Expression
     {
         public:
@@ -16,9 +24,10 @@ namespace april
             std::vector<Symbol*> locals;
             Block* prev;
             bool stop;
+            BlockScope type_scope;
 
         public:
-            Block():prev(nullptr), stop(false) {}
+            Block():prev(nullptr), stop(false), type_scope(BlockScope::UNDEFINED) {}
             ~Block();
             virtual Symbol* codeGen(CodeGenContext&);
     };

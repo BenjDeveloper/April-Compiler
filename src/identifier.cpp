@@ -7,8 +7,9 @@ namespace april
     {
         if (context.scope_type == Scope::BLOCK)
         {
-            if (!context.existIdenLocals(name))
+            if (context.existIdenLocals(name) == nullptr)
             {
+                
                 Symbol* tmp = new Symbol{};
                 tmp->name = name;
                 tmp->type = Type::UNDEFINED;
@@ -22,7 +23,7 @@ namespace april
                 
             return context.findIdentLocals(name);
         }
-
+        
         Symbol* tmp = new Symbol{};
         tmp->name = name;
         tmp->type = Type::UNDEFINED;

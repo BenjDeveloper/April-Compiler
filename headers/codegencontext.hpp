@@ -20,14 +20,14 @@ namespace april
     {
         public:
             Scope scope_type;
-            
+
         private:
             Block* current_block;
             std::stack<Block*> stack_block;
             int errors;
             CallFunctionList functions;
             Function* current_function;
-           
+
         public:
             CodeGenContext();
             void runCode(Block*);
@@ -48,6 +48,8 @@ namespace april
             void setCurrentFunction(Function* func) { current_function = func; }
             Function*& getCurrentFunction() { return current_function; }
             void stopRootBlock();
+            void stopBreakBlock();
+            void printLocals();
     };
 }
 #endif //CODE_GEN_CONTEXT_HPP

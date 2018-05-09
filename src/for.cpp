@@ -8,6 +8,7 @@ namespace april
         Symbol* sym_expr = expr->codeGen(context);
         Symbol* result = nullptr;
         
+        block->type_scope = BlockScope::FOR;
         block->prev = context.getCurrentBlock();
         context.setCurrentBlock(block);
        
@@ -20,11 +21,10 @@ namespace april
         }
 
         context.popCurrentBlock();
-
         // if (result == nullptr)
         //     std::cout << "result es NULO (FOR)" << std::endl;
         // else
-        //     std::cout << "result: (FOR)" << *result << std::endl;
+        //     std::cout << "result (FOR): " << *result << std::endl;
 
         return result;     
     }

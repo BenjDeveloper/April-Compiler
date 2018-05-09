@@ -25,6 +25,7 @@
     #include "headers/function.hpp"
     #include "headers/vardeclarationdeduce.hpp"
     #include "headers/return.hpp"
+    #include "headers/break.hpp"
     
     using namespace april;
 
@@ -55,12 +56,12 @@
 %token <token> TLPAREN TRPAREN TSTR TLBRACE TRBRACE 
 %token <token> TVAR TEQUAL TCOLON TCOMMA TAND TOR TCOEQU
 %token <token> TCOMNE TCOMEQ TCOMLE TCOMGE TCOMLT TCOMGT
-%token <token> TIF TELSE TFOR TFN TRETURN
+%token <token> TIF TELSE TFOR TFN TRETURN TBREAK
 %token <token> TASIGPLUS TASIGMINUS TASIGMULT TASIGDIV TNOT
 
 %type <ident> ident
 %type <expr> expr basic binary_ope method_call boolean_expr logic_ope
-%type <stmt> stmt  var_decl conditional for fn_decl var_decl_arg return
+%type <stmt> stmt  var_decl conditional for fn_decl var_decl_arg return break
 %type <block> program stmts block
 %type <exprvec> call_args
 %type <token> comparasion;
@@ -87,10 +88,13 @@ stmt: expr TSC                  { $$ = new april::ExprStatement{$1}; }
     | for      
     | fn_decl  
     | return    
+    | break
     ;
 
-return: TRETURN  TSC                        { $$ = new april::Return{}; }
-    |   TRETURN expr TSC                    { $$ = new april::Return{$2}; }    
+break: TBREAK TSC   { $$ = new april::Break{}; }
+    ;
+
+return: TRETURN expr TSC                    { $$ = new april::Return{$2}; }    
     ;
 
 fn_decl: TFN ident TLPAREN fn_args TRPAREN block       { $$ = new april::Function{$2, $4, $6}; }
