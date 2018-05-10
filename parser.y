@@ -148,8 +148,8 @@ method_call: ident TLPAREN call_args TRPAREN       { $$ = new april::MethodCall(
     ;
 
 call_args: %empty                           { $$ = new april::ExpressionList(); }
-    | expr                                  { $$ = new april::ExpressionList(); $$->push_back($1); }
     | call_args TCOMMA expr                 { $$->push_back($3); }
+    | expr                                  { $$ = new april::ExpressionList(); $$->push_back($1); }
     ;
 
 binary_ope: expr TPLUS expr       { $$ = new april::BinaryOpe{ $1, april::OPE::PLUS, $3 }; }

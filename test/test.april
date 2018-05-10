@@ -2,15 +2,47 @@
 
 fn main()
 {
-	var x:string = "HI, APRIL";
-    var y:string = "I, APRIL";
-    
-    //println(x,y);
-    
-    // if (x != y)
-    // {
-    //     println(x,y);    
-    // }
+	var x:string;
+    var y:string;
 
+    x = "HI";
+    y = "HI";
+    println(x, y);
+
+    if (x == y)
+    {
+        println("x == y", x);
+    }
+
+    x = "HI,";
+    y = " APRIL";
+    if (x != y)
+    {
+        println("->","x != y", x, y);
+    }
+
+    if (x <= y)
+    {
+        println("x <= y", x, y);
+    }
+    
+    if (x >= y)
+    {
+        println("x >= y", x, y);
+    }
+    
+    if (x < y)
+    {
+        println("x > y", x, y);
+    }
+
+    if (x > y)
+    {
+        println("x > y", x, y);
+    }
+
+    println("");
+    println("x + y");
+    println(x + y);
 }
 main();

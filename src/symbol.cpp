@@ -42,7 +42,7 @@ namespace april
                 return this->value._bval == sym.value._bval;
             
             else if (this->type == Type::STRING)
-                return true;
+                return *(this->value._sval) == *(sym.value._sval);
         }  
         return false;
     }
@@ -61,7 +61,7 @@ namespace april
                 return this->value._bval <= sym.value._bval;
             
             else if (this->type == Type::STRING)
-                return true;
+                return *(this->value._sval) <= *(sym.value._sval);
         } 
         else if (this->type == Type::INTEGER && sym.type == Type::DOUBLE)
              return this->value._ival <= sym.value._dval;
@@ -86,7 +86,7 @@ namespace april
                 return this->value._bval >= sym.value._bval;
             
             else if (this->type == Type::STRING)
-                return true;
+                return *(this->value._sval) >= *(sym.value._sval);
         } 
         else if (this->type == Type::INTEGER && sym.type == Type::DOUBLE)
              return this->value._ival >= sym.value._dval;
@@ -111,7 +111,7 @@ namespace april
                 return this->value._bval < sym.value._bval;
             
             else if (this->type == Type::STRING)
-                return true;
+                return *(this->value._sval) < *(sym.value._sval);
         } 
         else if (this->type == Type::INTEGER && sym.type == Type::DOUBLE)
              return this->value._ival < sym.value._dval;
@@ -136,7 +136,7 @@ namespace april
                 return this->value._bval > sym.value._bval;
 
             else if (this->type == Type::STRING)
-                return true;
+                return *(this->value._sval) > *(sym.value._sval);
         } 
         else if (this->type == Type::INTEGER && sym.type == Type::DOUBLE)
              return this->value._ival > sym.value._dval;
@@ -149,10 +149,10 @@ namespace april
 
     Symbol* Symbol::operator+ (const Symbol& sym)
     {
-        Symbol* tmp =nullptr;
+        Symbol* tmp = new Symbol{};
         if ((this->type == Type::INTEGER || this->type == Type::DOUBLE) && (sym.type == Type::INTEGER || sym.type == Type::DOUBLE))
         {
-            tmp = new Symbol{};
+            
             bool is_double = is_double = (this->type == Type::DOUBLE)?(true):((sym.type == Type::DOUBLE)?(true):(false));
             tmp->type = (is_double)?(Type::DOUBLE):(Type::INTEGER);
             tmp->is_variable = false; 
@@ -162,8 +162,15 @@ namespace april
         }
         else if (this->type == Type::STRING)
         {
-            // AQUI
-            //return this->value._sval->c_str() >= sym.value._sval->c_str();
+            std::string str1 = *(this->value._sval);
+            std::string* str2 = sym.value._sval;
+            str1 = str1 + *str2;
+            *str2 = str1;
+            tmp->name = "";
+            tmp->type = Type::STRING;
+            tmp->value._sval = str2;
+            tmp->is_constant = true;
+            tmp->is_variable= false;
         }
                 
         return tmp;

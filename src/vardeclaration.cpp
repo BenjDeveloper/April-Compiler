@@ -57,7 +57,7 @@ namespace april
             Assignment* assig = new Assignment{ident, expr};
             symbol = assig->codeGen(context);            
         }
-        std::cout<< "VARDECLARATION -> "<< symbol->name <<" - "<< *symbol <<std::endl;
+        //std::cout<< "VARDECLARATION -> "<< symbol->name <<" - "<< *symbol <<std::endl;
         
         return symbol;
     }

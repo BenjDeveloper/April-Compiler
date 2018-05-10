@@ -29,7 +29,7 @@ namespace april
         else
             symbol->value = sym_expr->value;
         
-        std::cout <<*sym_expr<< " " << *symbol<< std::endl;
+        //std::cout <<*sym_expr<< " " << *symbol<< std::endl;
 
 
         return symbol;

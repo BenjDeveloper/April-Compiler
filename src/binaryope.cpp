@@ -10,6 +10,13 @@ namespace april
         Symbol* value_left = left->codeGen(context);
         Symbol* value_right = right->codeGen(context);
         Symbol* tmp = new Symbol{};
+
+        if ((Type::STRING == value_left->type) && (Type::STRING == value_right->type) && ( ope != OPE::PLUS ))
+        {
+            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: los datos tipo string no poseen un manejo logico con ese operador.\n");
+            context.addError();
+            return nullptr;
+        }
        
         switch (ope)
         {
