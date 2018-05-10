@@ -26,6 +26,8 @@
     #include "headers/vardeclarationdeduce.hpp"
     #include "headers/return.hpp"
     #include "headers/break.hpp"
+    #include "headers/list.hpp"
+    #include "headers/listaccess.hpp"
     
     using namespace april;
 
@@ -56,14 +58,14 @@
 %token <token> TLPAREN TRPAREN TSTR TLBRACE TRBRACE 
 %token <token> TVAR TEQUAL TCOLON TCOMMA TAND TOR TCOEQU
 %token <token> TCOMNE TCOMEQ TCOMLE TCOMGE TCOMLT TCOMGT
-%token <token> TIF TELSE TFOR TFN TRETURN TBREAK
+%token <token> TIF TELSE TFOR TFN TRETURN TBREAK TLBRACKET TRBRACKET
 %token <token> TASIGPLUS TASIGMINUS TASIGMULT TASIGDIV TNOT
 
 %type <ident> ident
-%type <expr> expr basic binary_ope method_call boolean_expr logic_ope
+%type <expr> expr basic binary_ope method_call boolean_expr logic_ope list_expr list_access
 %type <stmt> stmt  var_decl conditional for fn_decl var_decl_arg return break
 %type <block> program stmts block
-%type <exprvec> call_args
+%type <exprvec> call_args list_elements
 %type <token> comparasion;
 %type <vardecl> fn_args;
 
@@ -106,10 +108,10 @@ fn_args: %empty                             { $$ = new april::VarList(); }
     ;
 
 var_decl_arg: ident TCOLON ident            { $$ = new april::VarDeclaration{$1, $3};}
-;
+    ;
 
 for: TFOR expr block                        { $$ = new april::For{$2, $3}; }
-;
+    ;
 
 conditional: TIF expr block					{ $$ = new april::If{$2, $3}; }
 	| TIF expr block TELSE block			{ $$ = new april::If{$2, $3, $5}; }
@@ -135,10 +137,24 @@ expr: binary_ope                {  }
     | method_call               {  }
     | boolean_expr              {  }
     | logic_ope                 {  }
+    | list_expr                 {  }
+    | list_access               {  }
+    ;
+
+list_expr: TLBRACKET list_elements TRBRACKET		{ $$ = new april::List($2); }
+    ;
+
+list_elements: %empty					    { $$ = new april::ExpressionList(); }
+	| expr								    { $$ = new april::ExpressionList(); $$->push_back($1); }
+	| list_elements TCOMMA expr			    { $$->push_back($3); }
+    ;
+
+list_access: ident TLBRACKET expr TRBRACKET			{ $$ = new april::ListAccess{$1, $3}; }
+	| list_access TLBRACKET expr TRBRACKET			{ $$ = new april::ListAccess{$1, $3}; }
     ;
 
 logic_ope: TNOT expr 			            { $$ = new april::Not{ $2 }; }
-;
+    ;
 
 boolean_expr: expr comparasion expr		    { $$ = new april::BooleanCmp{$1, $2, $3};} 
 	;

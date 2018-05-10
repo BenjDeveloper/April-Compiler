@@ -13,7 +13,8 @@ namespace april
         INTEGER,
         DOUBLE,
         BOOLEAN,
-        STRING
+        STRING,
+        LIST
     };
 
     union Value
@@ -22,6 +23,7 @@ namespace april
         double _dval;
         bool _bval;
         std::string* _str;
+        std::vector<class Symbol*>* _list;
     };
 
     class Symbol
@@ -32,7 +34,9 @@ namespace april
             Value value;
             bool is_constant;
             bool is_variable;
-        
+            Symbol* prox;
+            Symbol* down;
+
         public:
             Symbol();
             bool operator!= (const Symbol&) const;
@@ -50,7 +54,6 @@ namespace april
             bool operator|| (const Symbol&);
 
             std::string getType();
-
             friend std::ostream& operator<< (std::ostream& out, const Symbol& sym);
     };
 }

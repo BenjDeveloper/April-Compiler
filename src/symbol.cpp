@@ -6,7 +6,8 @@ namespace april
 {
     Symbol::Symbol()
     {
-        
+        prox = nullptr;
+        down = nullptr;
     }
 
     bool Symbol::operator!= (const Symbol& sym) const
@@ -221,6 +222,8 @@ namespace april
         this->value = sym.value;
         this->is_constant = sym.is_constant;
         this->is_variable = sym.is_variable;
+        this->prox = sym.prox;
+        this->down = sym.down;
     }
 
     std::string Symbol::getType()

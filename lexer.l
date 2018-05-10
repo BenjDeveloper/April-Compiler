@@ -25,6 +25,8 @@
     #include "headers/vardeclarationdeduce.hpp"
     #include "headers/return.hpp"
     #include "headers/break.hpp"
+    #include "headers/list.hpp"
+    #include "headers/listaccess.hpp"
     
     #include "parser.h"
 
@@ -82,6 +84,8 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 ")"                 { return TOKEN(TRPAREN); }
 "{"                 { return TOKEN(TLBRACE); }
 "}"                 { return TOKEN(TRBRACE); }
+"["                 { return TOKEN(TLBRACKET); }
+"]"                 { return TOKEN(TRBRACKET); }
 ";"                 { return TOKEN(TSC); }
 ","                 { return TOKEN(TCOMMA); }
 "!="				{ return TOKEN(TCOMNE); }
