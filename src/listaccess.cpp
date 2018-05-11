@@ -27,15 +27,20 @@ namespace april
     }
 
     Symbol* ListAccess::codeGen(CodeGenContext& context)
-    {
-        std::cout << "List Access" << std::endl;
-        if (!context.existIdenLocals(ident->getName()))
+    {       
+        if (ident == nullptr && expr == nullptr)
+        {
+            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: ident y expr no definidos.\n");
+            context.addError();
+            return nullptr;
+        }
+
+        if (ident != nullptr && !context.existIdenLocals(ident->getName()))
         {
             printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la variable '"+ident->getName()+"' no existe.\n");
             context.addError();
             return nullptr;
         }
-
         Symbol* sym_index = expr_index->codeGen(context);
         if (sym_index == nullptr)
         {
@@ -50,9 +55,25 @@ namespace april
             return nullptr;
         }
 
-        Symbol*& sym_list = context.findIdentLocals(ident->getName());
+        Symbol* sym_list = nullptr;
+        
+        if (ident != nullptr)
+            sym_list = context.findIdentLocals(ident->getName());
+        else
+            sym_list = expr->codeGen(context);
+
+        if (sym_list == nullptr)
+        {
+            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: expresion nula.\n");
+            context.addError();
+            return nullptr;
+        }
+
+        if (sym_list->down != nullptr)
+            sym_list = sym_list->down;
+
         int index = sym_index->value._ival;
-        std::cout << "index: " << index << std::endl;
+        //std::cout << "index: " << index << std::endl;
         int cont = -1;
         Symbol* aux = sym_list;
         
@@ -60,8 +81,13 @@ namespace april
         {
             aux = aux->prox;
         }
-        std::cout << "cont: " << cont << std::endl;
-        std::cout << "aux->value._ival" << aux->value._ival << std::endl;
+        //std::cout << "cont: " << cont << std::endl;
+        if (aux == nullptr)
+        {
+            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: index fuera del rango de la lista.\n");
+            context.addError();
+            return nullptr;
+        }
 
         return aux;
     }
