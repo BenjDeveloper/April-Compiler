@@ -41,6 +41,7 @@ namespace april
             context.addError();
             return nullptr;
         }
+        
         Symbol* sym_index = expr_index->codeGen(context);
         if (sym_index == nullptr)
         {
@@ -73,15 +74,14 @@ namespace april
             sym_list = sym_list->down;
 
         int index = sym_index->value._ival;
-        //std::cout << "index: " << index << std::endl;
+        // std::cout << "index: " << index << std::endl;
         int cont = -1;
         Symbol* aux = sym_list;
         
         for ( ; cont < index && aux != nullptr ; cont++ )
-        {
             aux = aux->prox;
-        }
-        //std::cout << "cont: " << cont << std::endl;
+
+        // std::cout << "cont: " << cont << std::endl;
         if (aux == nullptr)
         {
             printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: index fuera del rango de la lista.\n");

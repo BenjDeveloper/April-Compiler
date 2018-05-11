@@ -28,6 +28,7 @@
     #include "headers/break.hpp"
     #include "headers/list.hpp"
     #include "headers/listaccess.hpp"
+    #include "headers/assignmentlist.hpp"
     
     using namespace april;
 
@@ -128,6 +129,7 @@ var_decl: TVAR ident TCOLON ident TSC								{ $$ = new april::VarDeclaration{$2
 
 expr: binary_ope                {  }
     | ident TEQUAL expr         { $$ = new april::Assignment{$<ident>1, $3}; }
+    | list_access TEQUAL expr   { $$ = new april::AssignmentList{$1, $3}; }
     | ident TASIGPLUS expr		{ $$ = new april::AssigBioperator{ $1, april::OPE::PLUS, $3 }; }
     | ident TASIGMINUS expr		{ $$ = new april::AssigBioperator{ $1, april::OPE::MIN, $3 }; }
     | ident TASIGMULT expr		{ $$ = new april::AssigBioperator{ $1, april::OPE::MUL, $3 }; }

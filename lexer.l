@@ -27,6 +27,7 @@
     #include "headers/break.hpp"
     #include "headers/list.hpp"
     #include "headers/listaccess.hpp"
+    #include "headers/assignmentlist.hpp"
     
     #include "parser.h"
 

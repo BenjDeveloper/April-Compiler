@@ -14,7 +14,8 @@ namespace april
 
         public:
             Assignment(Identifier* ident, Expression* expr):ident(ident), expr(expr)  {}
-            Symbol* codeGen(CodeGenContext&);
+            virtual ~Assignment();
+            virtual Symbol* codeGen(CodeGenContext&);
     };
 }
 

@@ -14,8 +14,8 @@ namespace april
             Expression* expr;
 
         public:
-            ListAccess(Identifier* ident, Expression* expr_index): ident(ident), expr_index(expr_index) {}
-            ListAccess(Expression* expr, Expression* expr_index): expr(expr), expr_index(expr_index) {}
+            ListAccess(Identifier* ident, Expression* expr_index): ident(ident), expr_index(expr_index), expr(nullptr) {}
+            ListAccess(Expression* expr, Expression* expr_index): expr(expr), expr_index(expr_index), ident(nullptr) {}
             ~ListAccess();
             virtual Symbol* codeGen(CodeGenContext&);
     };

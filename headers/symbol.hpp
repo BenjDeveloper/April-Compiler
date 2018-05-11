@@ -34,6 +34,7 @@ namespace april
             Value value;
             bool is_constant;
             bool is_variable;
+            bool in_list;
             Symbol* prox;
             Symbol* down;
 

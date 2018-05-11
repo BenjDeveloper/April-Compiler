@@ -15,6 +15,7 @@ namespace april
     Symbol* List::codeGen(CodeGenContext& context)
     {
         Symbol* sym = new Symbol{};
+        sym->in_list = true;
         sym->type = Type::LIST;
         Symbol* aux = sym;
 
@@ -27,15 +28,12 @@ namespace april
             _new->value = tmp->value;
             _new->is_constant = true;
             _new->is_variable = false;
+            _new->in_list = true;
 
             if (tmp->type == Type::LIST)
             {
                 _new->prox = tmp->prox;
                 _new->down = tmp->down;
-            }
-
-            if (tmp->type == Type::LIST)
-            {
                 aux->prox = new Symbol{};
                 aux = aux->prox;
                 aux->down = _new;

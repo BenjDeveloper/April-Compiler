@@ -27,6 +27,7 @@ OBJS = parser.o				\
 	break.o					\
 	list.o					\
 	listaccess.o			\
+	assignmentlist.o		\
 	main.o					\
 
 CPPFLAGS = -std=gnu++11

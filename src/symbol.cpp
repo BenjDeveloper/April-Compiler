@@ -6,6 +6,7 @@ namespace april
 {
     Symbol::Symbol()
     {
+        in_list = false;
         prox = nullptr;
         down = nullptr;
     }
