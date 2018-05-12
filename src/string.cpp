@@ -25,6 +25,6 @@ namespace april
 
     int String::len()
     {
-        return value.length();
+        return value.length()-1;
     }
 }

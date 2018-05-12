@@ -54,7 +54,7 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 
 [\n]                { april_errors->line++; col = 0; }
 [\t]                { col++; }
-\"(.*)\"            { return TOKEN(TSTR); }
+\"([^\\\"]|\\.)*\"  { return TOKEN(TSTR); }
 \/\*(.*\n*)*\*\/    { april_errors->line++; col=0; }
 \/\/.*?             { /*empty*/ }
 \/\/.*?\n           { april_errors->line++; }

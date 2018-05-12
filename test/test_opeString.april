@@ -1,0 +1,45 @@
+
+
+fn main()
+{
+	var x:string;
+    var y:string;
+
+    x = "x";
+    y = "x";
+
+    if (x == y)
+    {
+        println("x == y", " x=" + x, " y=" + y);
+    }
+
+    x = "x";
+    y = "y";
+    if (x != y)
+    {
+        println("","x != y", " x=" + x, " y=" + y);
+    }
+
+    if (x <= y)
+    {
+        println("","x <= y", " x=" + x, " y=" + y);
+    }
+    
+    if (x >= y)
+    {
+        println("","x >= y", " x=" + x, " y=" + y);
+    }
+    
+    if (x < y)
+    {
+        println("","x > y", " x=" + x, " y=" + y);
+    }
+
+    if (x > y)
+    {
+        println("","x > y", " x=" + x, " y=" + y);
+    }
+
+
+}
+main();

@@ -10,10 +10,10 @@ namespace april
     {
         private:
             Identifier* ident_var;
-            int num;
+            Expression* expr_indice;
 
         public: 
-            StringArray(Identifier* ident_var, int num): ident_var(ident_var), num(num){}
+            StringArray(Identifier* ident_var, Expression* expr_indice): ident_var(ident_var), expr_indice(expr_indice){}
             virtual Symbol* codeGen(CodeGenContext&);
     };
 }

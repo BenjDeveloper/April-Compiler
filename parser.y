@@ -141,7 +141,7 @@ boolean_expr: expr comparasion expr		    { $$ = new april::BooleanCmp{$1, $2, $3
 comparasion: TCOMNE | TCOMEQ | TCOMLE | TCOMGE | TCOMLT | TCOMGT
     ;
 
-array_string: ident TLBRACKET TDIGIT TLBRACKET     { $$ = new april::StringArray( $1, std::atol($3->c_str())); delete $3; }
+array_string: ident TLBRACKET expr TRBRACKET     { $$ = new april::StringArray( $1, $3); }
 
 method_call: ident TLPAREN call_args TRPAREN       { $$ = new april::MethodCall( $1, $3 ); }
     | ident TPOINT ident TLPAREN call_args TRPAREN { $$ = new april::MethodStruct( $1, $3, $5 ); }

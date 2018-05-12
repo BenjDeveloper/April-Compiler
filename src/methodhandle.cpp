@@ -21,13 +21,6 @@ namespace april
             {
                 sym_expr->type = Type::INTEGER;
                 sym_expr->value._ival = context.findIdentLocals(ident_var->getName())->value._sval->length();
-                
-                std::string a = " a ";
-                std::string b = " b ";
-                std::string* aa = &a;
-                std::string* bb = &b;
-            
-                if (aa->c_str() != bb->c_str()) std::cout<<"aa->c_str() != bb->c_str()"<< std::endl;
             }
         }
         else if (type==Type::INTEGER)

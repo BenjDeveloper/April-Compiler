@@ -22,6 +22,8 @@ namespace april
         {
             case OPE::PLUS:
                 tmp = *value_left + *value_right;
+                //std::cout<< *tmp << std::endl;
+                //std::cout <<"Binariope(+)-> "<< *tmp << std::endl;
                 break;
             
             case OPE::MIN:

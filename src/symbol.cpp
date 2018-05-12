@@ -163,14 +163,15 @@ namespace april
         else if (this->type == Type::STRING)
         {
             std::string str1 = *(this->value._sval);
-            std::string* str2 = sym.value._sval;
-            str1 = str1 + *str2;
-            *str2 = str1;
+            std::string str2 = sym.value._sval->c_str();
+            std::string str3 = str1 + str2;
+            std::string* str4 = new std::string(str3);
             tmp->name = "";
             tmp->type = Type::STRING;
-            tmp->value._sval = str2;
+            tmp->value._sval = str4;
             tmp->is_constant = true;
             tmp->is_variable= false;
+            //std::cout <<"Symbol - > "<< *tmp << std::endl;
         }
                 
         return tmp;
