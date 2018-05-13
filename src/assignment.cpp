@@ -7,17 +7,7 @@ namespace april
 {
     Assignment::~Assignment()
     {
-        // if (expr != nullptr)
-        // {
-        //     delete expr;
-        //     expr = nullptr;
-        // }
         
-        // if (ident != nullptr)
-        // {
-        //      delete ident;
-        //     ident = nullptr;
-        // }
     }
 
     Symbol* Assignment::codeGen(CodeGenContext& context)
@@ -50,6 +40,9 @@ namespace april
         else
             symbol->value = sym_expr->value;
 
-        return sym_expr; //devuelve la expresion OJO
+        symbol->prox = sym_expr->prox;
+        symbol->down = sym_expr->down;
+
+        return symbol; //devuelve la expresion OJO
     }
 }

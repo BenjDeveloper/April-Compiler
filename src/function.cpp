@@ -45,7 +45,8 @@ namespace april
             return nullptr;
         }
         
-        context.addFunction(ident->getName(), this);
+        if (!context.existFunction(ident->getName()))
+            context.addFunction(ident->getName(), this);
 
         last = new Symbol{};
         return last;
@@ -58,8 +59,19 @@ namespace april
         context.push_block(block);
         context.getCurrentBlock()->locals = locals;
         last = block->codeGen(context); //recorre las declaraciones
+
+        for (Symbol* s : context.getCurrentBlock()->locals)
+        {
+             delete s;
+        }
+
         context.pop_block();
         context.getCurrentBlock()->locals = tmp_locals;
+        
+        for (Symbol* s : locals)
+            delete s;
+            
+        context.getFunctions()[ident->getName()]->getLocals().clear();
         return last;
     }
 

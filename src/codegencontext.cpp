@@ -100,6 +100,9 @@ namespace april
 
         else if (type == "bool")
             return Type::BOOLEAN;
+        
+        else if (type == "list")
+            return Type::LIST;
 
         return Type::UNDEFINED;
     }

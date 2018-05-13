@@ -14,7 +14,8 @@ namespace april
         DOUBLE,
         BOOLEAN,
         STRING,
-        LIST
+        LIST,
+        LIST_DOWN
     };
 
     union Value

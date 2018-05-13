@@ -53,7 +53,15 @@ namespace april
                     return nullptr;
                 }
 
-                sym_1->value = sym_0->value; 
+                if (sym_0->type != Type::LIST)
+                    sym_1->value = sym_0->value; 
+                else
+                {
+                    sym_1->prox = sym_0->prox;
+                    sym_1->down = sym_0->down;
+                    sym_1->in_list = true;
+                }
+
                 ite_args++;
                 ite_para_fn++;
             }

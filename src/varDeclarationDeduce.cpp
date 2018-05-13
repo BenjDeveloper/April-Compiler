@@ -50,7 +50,7 @@ namespace april
         sym->value = sym_expr->value;
         sym->prox = sym_expr->prox;
         context.getCurrentBlock()->locals.push_back(sym);
-        
+
         return sym;
     }
 }

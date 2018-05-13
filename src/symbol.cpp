@@ -148,44 +148,6 @@ namespace april
             else { tmp->value._ival = this->value._ival + sym.value._ival; }
         }
         
-        else if (type == Type::LIST && sym.type == Type::LIST)
-        {
-            Symbol* base = new Symbol{};
-            base->type = Type::LIST;
-            base->in_list = true;
-            Symbol* result = base;
-            
-            Symbol* this_aux = this->prox;
-            Symbol* sym_aux = sym.prox;
-
-            while (this_aux != nullptr)
-            {
-                result->prox = new Symbol{};
-                result = result->prox;
-                result->name = "";
-                result->type = this_aux->type;
-                result->value = this_aux->value;
-                result->is_constant = true;
-                result->is_variable = false;
-                result->in_list = true;
-                this_aux = this_aux->prox;
-            }
-            
-            while (sym_aux != nullptr)
-            {
-                result->prox = new Symbol{};
-                result = result->prox;
-                result->name = "";
-                result->type = sym_aux->type;
-                result->value = sym_aux->value;
-                result->is_constant = true;
-                result->is_variable = false;
-                result->in_list = true;
-                sym_aux = sym_aux->prox;
-            }
-
-            return base;
-        }
         return tmp;
     }
 

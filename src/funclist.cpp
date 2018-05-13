@@ -43,10 +43,7 @@ namespace april
                 aux->in_list = true;
             }
             else
-            {
-                std::cout << "es tipo list" << std::endl;
                 aux->down = sym;
-            }
 
             return root;
         }
