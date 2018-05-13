@@ -57,9 +57,7 @@ namespace april
         block->type_scope = BlockScope::FUNCTION;
         context.push_block(block);
         context.getCurrentBlock()->locals = locals;
-        
-        last = block->codeGen(context);
-
+        last = block->codeGen(context); //recorre las declaraciones
         context.pop_block();
         context.getCurrentBlock()->locals = tmp_locals;
         return last;

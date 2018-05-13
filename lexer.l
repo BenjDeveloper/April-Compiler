@@ -28,6 +28,9 @@
     #include "headers/list.hpp"
     #include "headers/listaccess.hpp"
     #include "headers/assignmentlist.hpp"
+    #include "headers/methodstruct.hpp"
+    #include "headers/methodhandle.hpp"
+    #include "headers/methodhandlelist.hpp"
     
     #include "parser.h"
 
@@ -81,6 +84,7 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 "-"                 { return TOKEN(TMIN); }
 "*"                 { return TOKEN(TMUL); }
 "/"                 { return TOKEN(TDIV); }
+"."                 { return TOKEN(TPOINT); }
 "("                 { return TOKEN(TLPAREN); }
 ")"                 { return TOKEN(TRPAREN); }
 "{"                 { return TOKEN(TLBRACE); }

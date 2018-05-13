@@ -28,7 +28,7 @@ namespace april
 
     class Symbol
     {
-        public:
+        public: //why public? XD
             std::string name;
             Type type;
             Value value;
@@ -46,7 +46,7 @@ namespace april
             bool operator>= (const Symbol&) const;
             bool operator< (const Symbol&) const;
             bool operator> (const Symbol&) const;
-            Symbol* operator+ (const Symbol&);
+            Symbol* operator+ (Symbol&);
             Symbol* operator- (const Symbol&);
             Symbol* operator* (const Symbol&);
             Symbol* operator/ (const Symbol&);

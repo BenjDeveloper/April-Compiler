@@ -10,6 +10,10 @@ namespace april
         for (Statement*& stmt: statements)
             if (stmt != nullptr)
                 delete stmt;
+        
+        for (Symbol* sym : locals)
+            if (sym != nullptr)
+                delete sym;
     }
 
     Symbol* Block::codeGen(CodeGenContext& context)

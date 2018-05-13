@@ -38,6 +38,7 @@ namespace april
         
         sym_expr->type = sym_assig->type;
         sym_expr->value = sym_assig->value;
+        
         if (sym_expr->type == Type::LIST)
             sym_expr->down = sym_assig;
 

@@ -33,7 +33,6 @@ namespace april
             while (ite_args != args->end())
             {
                 sym_0 = (*ite_args)->codeGen(context);
-                
                 context.scope_type = Scope::FUNCTION;
                 context.setCurrentFunction(context.getFunctions()[ident->getName()]);
                 sym_1 = (*ite_para_fn)->codeGen(context);
@@ -46,7 +45,6 @@ namespace april
                     context.addError();
                     return nullptr;
                 }
-
 
                 if ((sym_0->type != sym_1->type) && !(sym_0->type == Type::INTEGER && sym_1->type == Type::DOUBLE)) //FALTA VALIDAR DOUBLE
                 {
@@ -72,7 +70,8 @@ namespace april
 
             if (ident->getName() == "println")
                 std::cout << ">> "<< *tmp << std::endl;
-        }        
+        }   
+             
         return nullptr;
     }
 }

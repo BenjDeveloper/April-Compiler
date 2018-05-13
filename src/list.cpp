@@ -5,6 +5,7 @@ namespace april
 {
     List::~List()
     {
+        std::cout << "destructor lista" << std::endl;
         for (Expression* expr : *expressions)
         {
             delete expr;
@@ -14,10 +15,10 @@ namespace april
 
     Symbol* List::codeGen(CodeGenContext& context)
     {
-        Symbol* sym = new Symbol{};
-        sym->in_list = true;
-        sym->type = Type::LIST;
-        Symbol* aux = sym;
+        Symbol* root = new Symbol{};
+        root->in_list = true;
+        root->type = Type::LIST;
+        Symbol* aux = root;
 
         for (Expression* expr : *expressions)
         {
@@ -45,16 +46,6 @@ namespace april
             }
         }
 
-        // aux = sym;
-        // int cont = 0;
-        // aux = aux->prox;    
-
-        // while (aux != nullptr)
-        // {
-        //     cont++;
-        //     aux = aux->prox;
-        // }
-        //std::cout << "size: " << cont << std::endl;
-        return sym;
+        return root;
     }
 }

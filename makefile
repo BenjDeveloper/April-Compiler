@@ -28,6 +28,10 @@ OBJS = parser.o				\
 	list.o					\
 	listaccess.o			\
 	assignmentlist.o		\
+	methodstruct.o			\
+	methodhandle.o			\
+	funclist.o				\
+	methodhandlelist.o		\
 	main.o					\
 
 CPPFLAGS = -std=gnu++11

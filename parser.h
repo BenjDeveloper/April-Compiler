@@ -60,32 +60,33 @@ extern int yydebug;
     TSTR = 270,
     TLBRACE = 271,
     TRBRACE = 272,
-    TVAR = 273,
-    TEQUAL = 274,
-    TCOLON = 275,
-    TCOMMA = 276,
-    TAND = 277,
-    TOR = 278,
-    TCOEQU = 279,
-    TCOMNE = 280,
-    TCOMEQ = 281,
-    TCOMLE = 282,
-    TCOMGE = 283,
-    TCOMLT = 284,
-    TCOMGT = 285,
-    TIF = 286,
-    TELSE = 287,
-    TFOR = 288,
-    TFN = 289,
-    TRETURN = 290,
-    TBREAK = 291,
-    TLBRACKET = 292,
-    TRBRACKET = 293,
-    TASIGPLUS = 294,
-    TASIGMINUS = 295,
-    TASIGMULT = 296,
-    TASIGDIV = 297,
-    TNOT = 298
+    TPOINT = 273,
+    TVAR = 274,
+    TEQUAL = 275,
+    TCOLON = 276,
+    TCOMMA = 277,
+    TAND = 278,
+    TOR = 279,
+    TCOEQU = 280,
+    TCOMNE = 281,
+    TCOMEQ = 282,
+    TCOMLE = 283,
+    TCOMGE = 284,
+    TCOMLT = 285,
+    TCOMGT = 286,
+    TIF = 287,
+    TELSE = 288,
+    TFOR = 289,
+    TFN = 290,
+    TRETURN = 291,
+    TBREAK = 292,
+    TLBRACKET = 293,
+    TRBRACKET = 294,
+    TASIGPLUS = 295,
+    TASIGMINUS = 296,
+    TASIGMULT = 297,
+    TASIGDIV = 298,
+    TNOT = 299
   };
 #endif
 
@@ -94,7 +95,7 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 45 "parser.y" /* yacc.c:1909  */
+#line 49 "parser.y" /* yacc.c:1909  */
 
     april::Expression* expr;
     april::Statement* stmt;
@@ -106,7 +107,7 @@ union YYSTYPE
     std::string* _string;
     int token;
 
-#line 110 "parser.h" /* yacc.c:1909  */
+#line 111 "parser.h" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

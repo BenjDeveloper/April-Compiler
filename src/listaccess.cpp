@@ -70,13 +70,16 @@ namespace april
             return nullptr;
         }
 
-        if (sym_list->down != nullptr)
-            sym_list = sym_list->down;
 
+        if (sym_list->down != nullptr)
+        {
+            sym_list = sym_list->down;
+            std::cout << "AQUI" << std::endl;
+        }
+
+        int cont = 0;
         int index = sym_index->value._ival;
-        // std::cout << "index: " << index << std::endl;
-        int cont = -1;
-        Symbol* aux = sym_list;
+        Symbol* aux = sym_list->prox;
         
         for ( ; cont < index && aux != nullptr ; cont++ )
             aux = aux->prox;
@@ -88,6 +91,9 @@ namespace april
             context.addError();
             return nullptr;
         }
+
+        if (aux->down != nullptr)
+            aux = aux->down;
 
         return aux;
     }

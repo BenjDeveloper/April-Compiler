@@ -9,6 +9,10 @@ namespace april
         scope_type = Scope::BLOCK;
     }
 
+    void CodeGenContext::loadFunction()
+    {
+    }
+
     void CodeGenContext::push_block(Block* block)
     {
         stack_block.push(block);

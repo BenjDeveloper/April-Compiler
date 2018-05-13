@@ -11,11 +11,12 @@ namespace april
         private:
             ExpressionList* expressions; 
             std::vector<Symbol*> elements;
-        
+
         public:
             List(ExpressionList* expressions): expressions(expressions) {}
             ~List();
             virtual Symbol* codeGen(CodeGenContext&);
+            Symbol* size();
             
     };
 }

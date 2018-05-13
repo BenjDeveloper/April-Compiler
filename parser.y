@@ -29,6 +29,10 @@
     #include "headers/list.hpp"
     #include "headers/listaccess.hpp"
     #include "headers/assignmentlist.hpp"
+    #include "headers/methodstruct.hpp"
+    #include "headers/methodhandle.hpp"
+    #include "headers/methodhandlelist.hpp"
+    
     
     using namespace april;
 
@@ -55,8 +59,8 @@
 }
 
 %token <_string> TDIGIT TDOUBLE TIDENTIFIER TBOOLEAN
-%token <token> TPLUS TMIN TMUL TDIV TJUMP TSC
-%token <token> TLPAREN TRPAREN TSTR TLBRACE TRBRACE 
+%token <token> TPLUS TMIN TMUL TDIV TJUMP TSC 
+%token <token> TLPAREN TRPAREN TSTR TLBRACE TRBRACE TPOINT
 %token <token> TVAR TEQUAL TCOLON TCOMMA TAND TOR TCOEQU
 %token <token> TCOMNE TCOMEQ TCOMLE TCOMGE TCOMLT TCOMGT
 %token <token> TIF TELSE TFOR TFN TRETURN TBREAK TLBRACKET TRBRACKET
@@ -165,6 +169,8 @@ comparasion: TCOMNE | TCOMEQ | TCOMLE | TCOMGE | TCOMLT | TCOMGT
     ;
 
 method_call: ident TLPAREN call_args TRPAREN       { $$ = new april::MethodCall{$1, $3}; }
+    | ident TPOINT ident TLPAREN call_args TRPAREN { $$ = new april::MethodStruct{ $1, $3, $5 }; }
+    | expr TPOINT ident TLPAREN call_args TRPAREN  { $$ = new april::MethodStruct{ $1, $3, $5 }; }
     ;
 
 call_args: %empty                           { $$ = new april::ExpressionList(); }

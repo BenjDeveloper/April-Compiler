@@ -5,11 +5,13 @@
 #include <map>
 #include "block.hpp"
 #include "function.hpp"
+#include "funclist.hpp"
 
 namespace april
 {
     using CallFunctionList = std::map<std::string, Function*>;
-    
+    using FunctionNameExternal = std::map<Type, std::vector<std::map<std::string, ExpressionList*>>>;
+
     enum class Scope
     {
         BLOCK,
@@ -27,6 +29,7 @@ namespace april
             int errors;
             CallFunctionList functions;
             Function* current_function;
+            FunctionNameExternal* function_external;
 
         public:
             CodeGenContext();
@@ -50,6 +53,11 @@ namespace april
             void stopRootBlock();
             void stopBreakBlock();
             void printLocals();
+            FunctionNameExternal*& getFunctionExternal() { return function_external; }
+
+        private:
+            void loadFunction();
+
     };
 }
 #endif //CODE_GEN_CONTEXT_HPP

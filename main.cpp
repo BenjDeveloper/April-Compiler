@@ -32,12 +32,15 @@ int main(int argc, char* argv[])
     if (programBlock != nullptr)
     {
         // std::cout << ">> inicio main <<" << std::endl; 
-        CodeGenContext contex;
-        contex.runCode(programBlock);
+        CodeGenContext* context = new CodeGenContext{};
+        context->runCode(programBlock);
         // std::cout << ">> final main <<" << std::endl; 
         
         if (programBlock != nullptr)
             delete programBlock;
+
+        if (context != nullptr)
+            delete context;
     }
     
     if (yyin != nullptr)
