@@ -1,15 +1,33 @@
 
 fn main()
 {
-
-    x := "PANDICORNIO";
+    X:="";
+    Y:="XY";
+    Z := "QWE";
+    V := "AEIO";
     i:= 0;
+    println("",X);
+    //println(X.len());
+    //println(X[i], X[i].len());
 
-    for (i<x.len())
-    {
-        println(x[i]);
-        i=i+1;
-    }
+    println("",Y);
+    println(Y.len());
+    println(Y[i], Y[i].len());
 
+    println("",Z);
+    println(Z.len());
+    println(Z[i], Z[i].len());
+
+    println("",V);
+    println(V.len());
+    println(V[i], V[i].len());
+
+    // for (i<=x.len())
+    // {
+    //     y=x[i] + y;
+    //     i=i+1;
+    // }
+    // println(y);
 }
+
 main();

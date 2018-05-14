@@ -145,6 +145,7 @@ array_string: ident TLBRACKET expr TRBRACKET     { $$ = new april::StringArray( 
 
 method_call: ident TLPAREN call_args TRPAREN       { $$ = new april::MethodCall( $1, $3 ); }
     | ident TPOINT ident TLPAREN call_args TRPAREN { $$ = new april::MethodStruct( $1, $3, $5 ); }
+    | expr TPOINT ident TLPAREN call_args TRPAREN { $$ = new april::MethodStruct( $1, $3, $5 ); }
     ;
 
 call_args: %empty                           { $$ = new april::ExpressionList(); }

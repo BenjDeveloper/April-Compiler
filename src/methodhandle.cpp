@@ -1,5 +1,6 @@
 #include "../headers/methodhandle.hpp"
 #include "../headers/codegencontext.hpp"
+#include "../headers/string.hpp"
 
 namespace april
 {
@@ -10,9 +11,12 @@ namespace april
         sym_expr->is_constant = true;
         sym_expr->is_variable = false;
 
-        if (!context.findMethods(ident_method->getName()))
+        if (sym_var==nullptr)
         {
-            // el metodo no ha sido declarado
+            if (!context.findMethods(ident_method->getName()))
+            {
+                // el metodo no ha sido declarado
+            }
         }
 
         if (type==Type::STRING)
@@ -20,7 +24,11 @@ namespace april
             if (ident_method->getName() == "len")
             {
                 sym_expr->type = Type::INTEGER;
-                sym_expr->value._ival = context.findIdentLocals(ident_var->getName())->value._sval->length();
+                if(sym_var==nullptr){
+                    //sym_expr->value._ival = String(*(context.findIdentLocals(ident_var->getName())->value._sval)).len();
+                    sym_expr->value._ival = context.findIdentLocals(ident_var->getName())->value._sval->length();
+                 }else
+                    sym_expr->value._ival =  sym_var->value._sval->length();
             }
         }
         else if (type==Type::INTEGER)

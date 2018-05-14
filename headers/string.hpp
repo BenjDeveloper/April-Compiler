@@ -17,6 +17,7 @@ namespace april{
             int len();
             std::string getValue(){return value;};
     };
+
 }
 
 #endif // STRING_HPP
