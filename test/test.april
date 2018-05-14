@@ -1,7 +1,10 @@
 import test/test_import
+import test/resta
 
 println(1);
 x := 5;
 y := 9;
 z := suma(x, y);
 println(z);
+g := resta(75, 9);
+println(g);

@@ -1,0 +1,4 @@
+fn resta(f:int, d:int)
+{
+    return f-d;
+}
