@@ -32,6 +32,7 @@ namespace april
             delete arg;
         
         args = nullptr;
+        
     }
 
     Symbol* Function::codeGen(CodeGenContext& context)
@@ -44,7 +45,8 @@ namespace april
             return nullptr;
         }
         
-        context.addFunction(ident->getName(), this);
+        if (!context.existFunction(ident->getName()))
+            context.addFunction(ident->getName(), this);
 
         last = new Symbol{};
         return last;
@@ -53,13 +55,22 @@ namespace april
     Symbol* Function::runCode(CodeGenContext& context)
     {
         std::vector<Symbol*> tmp_locals = context.getCurrentBlock()->locals;
+        block->type_scope = BlockScope::FUNCTION;
         context.push_block(block);
         context.getCurrentBlock()->locals = locals;
+        last = block->codeGen(context); //recorre las declaraciones
 
-        last = block->codeGen(context);
-
+        // for (Symbol* s : context.getCurrentBlock()->locals)
+        //      delete s;
+        
         context.pop_block();
         context.getCurrentBlock()->locals = tmp_locals;
+        
+        for (Symbol* s : locals)
+            delete s;
+        locals.clear();
+
+        block->stop = false;
         return last;
     }
 

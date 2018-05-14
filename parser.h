@@ -61,6 +61,7 @@ extern int yydebug;
     TLBRACE = 271,
     TRBRACE = 272,
     TPOINT = 273,
+<<<<<<< HEAD
     TLBRACKET = 274,
     TRBRACKET = 275,
     TVAR = 276,
@@ -85,6 +86,34 @@ extern int yydebug;
     TASIGMULT = 295,
     TASIGDIV = 296,
     TNOT = 297
+=======
+    TVAR = 274,
+    TEQUAL = 275,
+    TCOLON = 276,
+    TCOMMA = 277,
+    TAND = 278,
+    TOR = 279,
+    TCOEQU = 280,
+    TCOMNE = 281,
+    TCOMEQ = 282,
+    TCOMLE = 283,
+    TCOMGE = 284,
+    TCOMLT = 285,
+    TCOMGT = 286,
+    TIF = 287,
+    TELSE = 288,
+    TFOR = 289,
+    TFN = 290,
+    TRETURN = 291,
+    TBREAK = 292,
+    TLBRACKET = 293,
+    TRBRACKET = 294,
+    TASIGPLUS = 295,
+    TASIGMINUS = 296,
+    TASIGMULT = 297,
+    TASIGDIV = 298,
+    TNOT = 299
+>>>>>>> lorena
   };
 #endif
 
@@ -93,7 +122,11 @@ extern int yydebug;
 
 union YYSTYPE
 {
+<<<<<<< HEAD
 #line 44 "parser.y" /* yacc.c:1909  */
+=======
+#line 49 "parser.y" /* yacc.c:1909  */
+>>>>>>> lorena
 
     april::Expression* expr;
     april::Statement* stmt;
@@ -105,7 +138,11 @@ union YYSTYPE
     std::string* _string;
     int token;
 
+<<<<<<< HEAD
 #line 109 "parser.h" /* yacc.c:1909  */
+=======
+#line 111 "parser.h" /* yacc.c:1909  */
+>>>>>>> lorena
 };
 
 typedef union YYSTYPE YYSTYPE;

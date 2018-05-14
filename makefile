@@ -27,6 +27,13 @@ OBJS = parser.o				\
 	function.o				\
 	vardeclarationdeduce.o	\
 	stringarray.o			\
+	return.o				\
+	break.o					\
+	list.o					\
+	listaccess.o			\
+	assignmentlist.o		\
+	funclist.o				\
+	methodhandlelist.o		\
 	main.o					\
 
 CPPFLAGS = -std=gnu++11

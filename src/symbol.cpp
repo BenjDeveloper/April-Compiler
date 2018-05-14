@@ -6,7 +6,9 @@ namespace april
 {
     Symbol::Symbol()
     {
-        
+        in_list = false;
+        prox = nullptr;
+        down = nullptr;
     }
 
     bool Symbol::operator!= (const Symbol& sym) const
@@ -30,10 +32,14 @@ namespace april
 
     bool Symbol::operator== (const Symbol& sym) const
     {
+        std::cout << "igualdad" << std::endl;
         if (this->type == sym.type ) 
         {
             if (this->type == Type::INTEGER)
+            {
+                std::cout << "aqui: " << (this->value._ival == sym.value._ival) << std::endl;
                 return this->value._ival == sym.value._ival;
+            }
 
             else if (this->type == Type::DOUBLE)
                 return this->value._dval == sym.value._dval;
@@ -44,6 +50,7 @@ namespace april
             else if (this->type == Type::STRING)
                 return *(this->value._sval) == *(sym.value._sval);
         }  
+        
         return false;
     }
 
@@ -147,7 +154,7 @@ namespace april
         return false;
     }
 
-    Symbol* Symbol::operator+ (const Symbol& sym)
+    Symbol* Symbol::operator+ (Symbol& sym)
     {
         Symbol* tmp = new Symbol{};
         if ((this->type == Type::INTEGER || this->type == Type::DOUBLE) && (sym.type == Type::INTEGER || sym.type == Type::DOUBLE))
@@ -215,12 +222,9 @@ namespace april
         if ((this->type == Type::INTEGER || this->type == Type::DOUBLE) && (sym.type == Type::INTEGER || sym.type == Type::DOUBLE))
         {
             tmp = new Symbol{};
-            bool is_double = is_double = (this->type == Type::DOUBLE)?(true):((sym.type == Type::DOUBLE)?(true):(false));
-            tmp->type = (is_double)?(Type::DOUBLE):(Type::INTEGER);
+            tmp->type = Type::DOUBLE;
             tmp->is_variable = false; 
-
-            if (is_double) { tmp->value._dval = ((this->type == Type::DOUBLE)?(this->value._dval):(this->value._ival)) / ((sym.type == Type::DOUBLE)?(sym.value._dval):(sym.value._ival)); }
-            else { tmp->value._ival = this->value._ival / sym.value._ival; }
+            tmp->value._dval = ((this->type == Type::DOUBLE)?(this->value._dval):(this->value._ival)) / ((sym.type == Type::DOUBLE)?(sym.value._dval):(sym.value._ival));
         }
         return tmp;
     }
@@ -247,12 +251,13 @@ namespace april
 
     void Symbol::operator= (const Symbol& sym)
     {
-        std::cout << "new symbol" << std::endl;
         this->name = sym.name;
         this->type = sym.type;
         this->value = sym.value;
         this->is_constant = sym.is_constant;
         this->is_variable = sym.is_variable;
+        this->prox = sym.prox;
+        this->down = sym.down;
     }
 
     std::string Symbol::getType()

@@ -10,6 +10,10 @@ namespace april
         scope_type = Scope::BLOCK;
     }
 
+    void CodeGenContext::loadFunction()
+    {
+    }
+
     void CodeGenContext::push_block(Block* block)
     {
         stack_block.push(block);
@@ -24,35 +28,65 @@ namespace april
         else
             current_block = nullptr;
     }
-
+    
     void CodeGenContext::setCurrentBlock(Block* block)
     {
         current_block = block;
     }
 
+    void CodeGenContext::popCurrentBlock()
+    {
+        Block* aux = current_block;
+        if (aux != nullptr)
+        {
+            current_block = aux->prev;
+            aux->prev = nullptr;
+        }
+    }
+
     void CodeGenContext::runCode(Block* block)
     {
         current_block = block;
+        current_block->type_scope = BlockScope::FUNCTION;
         push_block(current_block);
         
         current_block->codeGen(*this);
+        
         pop_block();
     }
 
     Symbol*& CodeGenContext::findIdentLocals(std::string name)
     {
-        for (Symbol*& symbol : this->current_block->locals)
-            if (symbol->name == name)
+        Block* aux = current_block;
+
+        while (aux != nullptr)
+        {
+            for (Symbol*& symbol : aux->locals)
             {
-                return symbol;
+                if (symbol->name == name)
+                {
+                    return symbol;
+                }
             }
+            aux = aux->prev;
+        }
     }
     Symbol* CodeGenContext::existIdenLocals(std::string name)
     {
-        for (Symbol*& symbol : current_block->locals)
-            if (symbol->name == name)
-                return symbol;
-        
+        Block* aux = current_block;
+
+        while (aux != nullptr)
+        {
+            for (Symbol*& symbol : aux->locals)
+            {
+                if (symbol->name == name)
+                {
+                    return symbol;
+                }
+            }
+            aux = aux->prev;
+        }
+
         return nullptr;
     }
 
@@ -66,6 +100,9 @@ namespace april
 
         else if (type == "bool")
             return Type::BOOLEAN;
+        
+        else if (type == "list")
+            return Type::LIST;
 
         else if (type == "string")
             return Type::STRING;
@@ -94,6 +131,53 @@ namespace april
         }
         
         return false;
+    }
+
+    void CodeGenContext::stopRootBlock()
+    {
+        Block* aux = current_block;
+        Block* tmp = nullptr;
+        while (aux != nullptr && aux->prev != nullptr)
+        {
+            aux->stop = true;
+            tmp = aux;
+            aux = aux->prev;
+            delete tmp;
+        }
+        
+        if (aux != nullptr)
+            aux->stop = true;
+    }
+
+    void CodeGenContext::stopBreakBlock()
+    {
+        Block* aux = current_block;
+        Block* tmp = nullptr;
+        while (aux != nullptr && aux->prev != nullptr && aux->type_scope != BlockScope::FOR)
+        {
+            aux->stop = true;
+            tmp = aux;
+            aux = aux->prev;
+            delete tmp;
+        }
+        
+        if (aux != nullptr)
+            aux->stop = true;
+    }
+
+    void CodeGenContext::printLocals()
+    {
+        Block* aux = current_block;
+
+        while (aux != nullptr)
+        {
+            for (Symbol* s : aux->locals)
+            {
+                std::cout << "name: " << s->name << std::endl;
+            }
+
+            aux = aux->prev;
+        }
     }
 
     bool CodeGenContext::findMethods(std::string name)

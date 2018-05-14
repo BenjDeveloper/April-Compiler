@@ -15,8 +15,8 @@ namespace april
             Expression* expr_var;
 
         public:
-            MethodStruct(Identifier* ident_var,Identifier* ident_method, ExpressionList* args): ident_var(ident_var), ident_method(ident_method), args(args){ expr_var = nullptr; }
-            MethodStruct(Expression* expr_var, Identifier* ident_method, ExpressionList* args): expr_var(expr_var), ident_method(ident_method), args(args){ ident_var = nullptr; }
+            MethodStruct(Identifier* ident_var,Identifier* ident_method, ExpressionList* args): ident_var(ident_var), ident_method(ident_method), args(args), expr_var(nullptr) {}
+            MethodStruct(Expression* expr_var, Identifier* ident_method, ExpressionList* args): expr_var(expr_var), ident_method(ident_method), args(args), ident_var(nullptr) {}
             virtual Symbol* codeGen(CodeGenContext&);
     };
 }

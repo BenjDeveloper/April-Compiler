@@ -5,15 +5,27 @@ extern april::STRUCINFO* april_errors;
 
 namespace april
 {
+    Assignment::~Assignment()
+    {
+        
+    }
+
     Symbol* Assignment::codeGen(CodeGenContext& context)
     {
-        if (!(context.existIdenLocals(ident->getName())))
+        if (ident == nullptr)
+        {
+            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: identificador nulo en la operacion de asignacion.\n");
+            context.addError();
+            return nullptr;
+        }
+       
+        if (ident != nullptr && !context.existIdenLocals(ident->getName()))
         {
             printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la variable '"+ident->getName()+"' no definida.\n");
             context.addError();
             return nullptr;
         }
-
+        
         Symbol* symbol = context.findIdentLocals(ident->getName());
         Symbol* sym_expr = expr->codeGen(context);
 
@@ -31,7 +43,9 @@ namespace april
         
         //std::cout <<*sym_expr<< " " << *symbol<< std::endl;
 
+        symbol->prox = sym_expr->prox;
+        symbol->down = sym_expr->down;
 
-        return symbol;
+        return symbol; //devuelve la expresion OJO
     }
 }

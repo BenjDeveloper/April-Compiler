@@ -6,17 +6,26 @@ namespace april
     Symbol* For::codeGen(CodeGenContext& context)
     {
         Symbol* sym_expr = expr->codeGen(context);
-        std::vector<Symbol*> tmp_locals = context.getCurrentBlock()->locals;
+        Symbol* result = nullptr;
         
+        block->type_scope = BlockScope::FOR;
+        block->prev = context.getCurrentBlock();
         context.setCurrentBlock(block);
        
-        while (sym_expr->value._bval)
+        while (sym_expr->value._bval && !block->stop)
         {
-            context.getCurrentBlock()->locals = tmp_locals;
-            block->codeGen(context);
-            sym_expr = expr->codeGen(context);
+
+            result = block->codeGen(context);
+            if (!block->stop)
+                sym_expr = expr->codeGen(context);
         }
 
-        return nullptr;     
+        context.popCurrentBlock();
+        // if (result == nullptr)
+        //     std::cout << "result es NULO (FOR)" << std::endl;
+        // else
+        //     std::cout << "result (FOR): " << *result << std::endl;
+
+        return result;     
     }
 }

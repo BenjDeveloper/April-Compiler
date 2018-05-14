@@ -16,7 +16,9 @@ namespace april
         public:
             If(Expression* expr, Block* _then):expr(expr), _then(_then), _else(nullptr) {}
             If(Expression* expr, Block* _then, Block* _else):expr(expr), _then(_then), _else(_else) {}
+            ~If();
             Symbol* codeGen(CodeGenContext&);
+        
     };
 }
 

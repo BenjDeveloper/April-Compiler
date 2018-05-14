@@ -5,6 +5,7 @@
 extern int yyparse();
 extern int yylex_destroy();
 extern FILE* yyin;
+extern std::stack<std::string> file_names;
 
 extern april::Block* programBlock;
 
@@ -28,21 +29,31 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
     }
 
-    yyparse();
+    file_names.push("");
+    file_names.push(name_file);
+    if (yyparse())
+    {
+        yylex_destroy();
+        return 1;
+    }
+
     if (programBlock != nullptr)
     {
-        CodeGenContext contex;
-        contex.runCode(programBlock);
+        // std::cout << ">> inicio main <<" << std::endl; 
+        CodeGenContext* context = new CodeGenContext{};
+        context->runCode(programBlock);
+        // std::cout << ">> final main <<" << std::endl; 
         
         if (programBlock != nullptr)
             delete programBlock;
-        
-    }
 
+        if (context != nullptr)
+            delete context;
+    }
+    
     if (yyin != nullptr)
         fclose(yyin);
 
     yylex_destroy();
-
     return 0;
 }

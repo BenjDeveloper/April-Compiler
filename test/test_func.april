@@ -1,0 +1,21 @@
+fn foo(x:int, y:int)
+{
+    for (x < 10)
+    {
+        if x == 5 
+        {
+            if x == 5
+            {
+                if x == 5
+                {
+                    return 9;
+                }
+            }
+        }
+        x += 1;
+    }
+}
+
+
+x := foo(0, 9);
+println(x);

@@ -28,6 +28,15 @@
     #include "headers/not.hpp"
     #include "headers/function.hpp"
     #include "headers/vardeclarationdeduce.hpp"
+    #include "headers/return.hpp"
+    #include "headers/break.hpp"
+    #include "headers/list.hpp"
+    #include "headers/listaccess.hpp"
+    #include "headers/assignmentlist.hpp"
+    #include "headers/methodstruct.hpp"
+    #include "headers/methodhandle.hpp"
+    #include "headers/methodhandlelist.hpp"
+    
     
     using namespace april;
 
@@ -58,14 +67,16 @@
 %token <token> TLPAREN TRPAREN TSTR TLBRACE TRBRACE TPOINT TLBRACKET TRBRACKET
 %token <token> TVAR TEQUAL TCOLON TCOMMA TAND TOR TCOEQU
 %token <token> TCOMNE TCOMEQ TCOMLE TCOMGE TCOMLT TCOMGT
-%token <token> TIF TELSE TFOR TFN
+%token <token> TIF TELSE TFOR TFN TRETURN TBREAK TLBRACKET TRBRACKET
 %token <token> TASIGPLUS TASIGMINUS TASIGMULT TASIGDIV TNOT
 
 %type <ident> ident
+%type <expr> expr basic binary_ope method_call boolean_expr logic_ope list_expr list_access
+%type <stmt> stmt  var_decl conditional for fn_decl var_decl_arg return break
 %type <expr> expr basic binary_ope method_call boolean_expr logic_ope array_string
 %type <stmt> stmt  var_decl conditional for fn_decl var_decl_arg 
 %type <block> program stmts block
-%type <exprvec> call_args
+%type <exprvec> call_args list_elements
 %type <token> comparasion;
 %type <vardecl> fn_args;
 
@@ -88,7 +99,15 @@ stmt: expr TSC                  { $$ = new april::ExprStatement{$1}; }
     | var_decl                  { }
     | conditional   
     | for      
-    | fn_decl      
+    | fn_decl  
+    | return    
+    | break
+    ;
+
+break: TBREAK TSC   { $$ = new april::Break{}; }
+    ;
+
+return: TRETURN expr TSC                    { $$ = new april::Return{$2}; }    
     ;
 
 fn_decl: TFN ident TLPAREN fn_args TRPAREN block       { $$ = new april::Function{$2, $4, $6}; }
@@ -100,10 +119,10 @@ fn_args: %empty                             { $$ = new april::VarList(); }
     ;
 
 var_decl_arg: ident TCOLON ident            { $$ = new april::VarDeclaration{$1, $3};}
-;
+    ;
 
 for: TFOR expr block                        { $$ = new april::For{$2, $3}; }
-;
+    ;
 
 conditional: TIF expr block					{ $$ = new april::If{$2, $3}; }
 	| TIF expr block TELSE block			{ $$ = new april::If{$2, $3, $5}; }
@@ -120,6 +139,7 @@ var_decl: TVAR ident TCOLON ident TSC								{ $$ = new april::VarDeclaration{$2
 
 expr: binary_ope                {  }
     | ident TEQUAL expr         { $$ = new april::Assignment{$<ident>1, $3}; }
+    | list_access TEQUAL expr   { $$ = new april::AssignmentList{$1, $3}; }
     | ident TASIGPLUS expr		{ $$ = new april::AssigBioperator{ $1, april::OPE::PLUS, $3 }; }
     | ident TASIGMINUS expr		{ $$ = new april::AssigBioperator{ $1, april::OPE::MIN, $3 }; }
     | ident TASIGMULT expr		{ $$ = new april::AssigBioperator{ $1, april::OPE::MUL, $3 }; }
@@ -130,10 +150,24 @@ expr: binary_ope                {  }
     | array_string              {  }
     | boolean_expr              {  }
     | logic_ope                 {  }
+    | list_expr                 {  }
+    | list_access               {  }
+    ;
+
+list_expr: TLBRACKET list_elements TRBRACKET		{ $$ = new april::List($2); }
+    ;
+
+list_elements: %empty					    { $$ = new april::ExpressionList(); }
+	| expr								    { $$ = new april::ExpressionList(); $$->push_back($1); }
+	| list_elements TCOMMA expr			    { $$->push_back($3); }
+    ;
+
+list_access: ident TLBRACKET expr TRBRACKET			{ $$ = new april::ListAccess{$1, $3}; }
+	| list_access TLBRACKET expr TRBRACKET			{ $$ = new april::ListAccess{$1, $3}; }
     ;
 
 logic_ope: TNOT expr 			            { $$ = new april::Not{ $2 }; }
-;
+    ;
 
 boolean_expr: expr comparasion expr		    { $$ = new april::BooleanCmp{$1, $2, $3};} 
 	;

@@ -1,6 +1,7 @@
 %{
     #include <iostream>
     #include <algorithm>
+    #include <stack>
     #include "headers/symbol.hpp"
     #include "headers/node.hpp"
     #include "headers/statement.hpp"
@@ -27,6 +28,15 @@
     #include "headers/not.hpp"  
     #include "headers/function.hpp"
     #include "headers/vardeclarationdeduce.hpp"
+    #include "headers/return.hpp"
+    #include "headers/break.hpp"
+    #include "headers/list.hpp"
+    #include "headers/listaccess.hpp"
+    #include "headers/assignmentlist.hpp"
+    #include "headers/methodstruct.hpp"
+    #include "headers/methodhandle.hpp"
+    #include "headers/methodhandlelist.hpp"
+    
     #include "parser.h"
 
     #define SAVE_TOKEN yylval._string = new std::string(yytext, yyleng)
@@ -39,6 +49,8 @@
     int line = 1;
     int col = 0;
 
+    std::stack<std::string> file_names;
+
     int yyerror(const char* msg)
     {
         std::cout << april_errors->file_name <<":" << april_errors->line  <<" error: " << msg << std::endl;
@@ -46,11 +58,39 @@
     }
 %}
 
+%x import
+%s normal
+
 DIGIT       [0-9]+
 DOUBLE      [0-9]*\.[0-9]+
 IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 
 %%
+
+"import"            { BEGIN(import); }
+<import>[\t]*       {  }
+<import>[^ \t\n\r]+ {
+                        std::string new_file_name = yytext;
+                        std::size_t pos = new_file_name.find(".april");
+                        if (pos == std::string::npos)
+                            new_file_name += ".april";
+
+                        yyin = fopen(new_file_name.c_str(), "r");
+                        if (!yyin)
+                        {
+                            std::cout << "Error: no se puede abrir el fichero '"+new_file_name+"'. " << std::endl;     
+                            yyterminate();
+                        }
+                        file_names.push(yytext);
+                        yypush_buffer_state(yy_create_buffer( yyin, YY_BUF_SIZE ));
+                        BEGIN(normal);
+                    }
+<<EOF>>             {
+                        yypop_buffer_state();
+                        file_names.pop();
+                        if (!YY_CURRENT_BUFFER )
+                            yyterminate();
+                    }
 
 [\n]                { april_errors->line++; col = 0; }
 [\t]                { col++; }
@@ -70,6 +110,8 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 "or"                { return TOKEN(TOR); }
 "not"               { return TOKEN(TNOT); }
 "fn"                { return TOKEN(TFN); }
+"return"            { return TOKEN(TRETURN); }
+"break"             { return TOKEN(TBREAK); }
 ":="                { return TOKEN(TCOEQU); }
 ":"                 { return TOKEN(TCOLON); }
 "="                 { return TOKEN(TEQUAL); }
@@ -84,6 +126,8 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 "]"                 { return TOKEN(TRBRACKET); }
 "{"                 { return TOKEN(TLBRACE); }
 "}"                 { return TOKEN(TRBRACE); }
+"["                 { return TOKEN(TLBRACKET); }
+"]"                 { return TOKEN(TRBRACKET); }
 ";"                 { return TOKEN(TSC); }
 ","                 { return TOKEN(TCOMMA); }
 "!="				{ return TOKEN(TCOMNE); }

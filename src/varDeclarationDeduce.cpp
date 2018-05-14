@@ -28,8 +28,13 @@ namespace april
             context.addError();
             return nullptr;
         }
-
         Symbol* sym_expr = expr->codeGen(context);
+        if (sym_expr == nullptr)
+        {
+            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: expresion nula.\n");
+            context.addError();
+            return nullptr; 
+        }
         if (sym_expr->type == Type::UNDEFINED)
         {
             printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el tipo de dato no esta definido.\n");
@@ -43,7 +48,9 @@ namespace april
         sym->is_variable = true;
         sym->is_constant = false;
         sym->value = sym_expr->value;
+        sym->prox = sym_expr->prox;
         context.getCurrentBlock()->locals.push_back(sym);
+
         return sym;
     }
 }

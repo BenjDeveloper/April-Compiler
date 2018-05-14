@@ -1,0 +1,16 @@
+fn resta(a:int, b:int)
+{
+    return a-b;
+}
+
+fn div (a:int, b:int)
+{
+    println(101);
+    if (b == 0)
+    {
+        return -1;
+        println(201);
+    }
+    println(301);
+    return a/b;
+}

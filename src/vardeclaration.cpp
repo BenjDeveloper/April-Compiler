@@ -38,19 +38,12 @@ namespace april
 
         if (context.typeOf(type->getName()) == Type::UNDEFINED)
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: typo de dato indefinido.\n");
+            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: tipo de dato indefinido.\n");
             context.addError();
             return nullptr;
         }
         
         symbol->type = context.typeOf(type->getName());
-        if (symbol->type == Type::UNDEFINED)
-        {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el tipo de dato '"+type->getName()+"' no esta definido\n");
-            context.addError();
-            return nullptr;
-        }
-
         symbol->is_variable = true;
         if (expr)
         {

@@ -30,12 +30,9 @@ namespace april
             Symbol* sym_0 = nullptr;
             Symbol* sym_1 = nullptr;
 
-            //std::vector<Symbol*>& tmp_locals = context.getCurrentBlock()->locals;
-
             while (ite_args != args->end())
             {
                 sym_0 = (*ite_args)->codeGen(context);
-                
                 context.scope_type = Scope::FUNCTION;
                 context.setCurrentFunction(context.getFunctions()[ident->getName()]);
                 sym_1 = (*ite_para_fn)->codeGen(context);
@@ -49,7 +46,6 @@ namespace april
                     return nullptr;
                 }
 
-
                 if ((sym_0->type != sym_1->type) && !(sym_0->type == Type::INTEGER && sym_1->type == Type::DOUBLE)) //FALTA VALIDAR DOUBLE
                 {
                     printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el tipo de parametros no coinciden con la llamada a la funcion '"+ident->getName()+"'.\n");
@@ -57,20 +53,21 @@ namespace april
                     return nullptr;
                 }
 
-                sym_1->value = sym_0->value; 
-                //Symbol* sym_new = new Symbol{};
-                //*sym_new = *sym_1;
-                
-                //context.getFunctions()[ident->getName()]->getLocals().push_back(sym_new);
-                //context.getFunctions()[ident->getName()]->existIdenLocals(sym_1->name);
-                //delete sym_0;
-                //delete sym_1;
+                if (sym_0->type != Type::LIST)
+                    sym_1->value = sym_0->value; 
+                else
+                {
+                    sym_1->prox = sym_0->prox;
+                    sym_1->down = sym_0->down;
+                    sym_1->in_list = true;
+                }
 
                 ite_args++;
                 ite_para_fn++;
             }
             
             Symbol* sym = context.getFunctions()[ident->getName()]->runCode(context);
+            //std::cout << "fin methodcall" << std::endl;
             return sym;
         }
         
@@ -88,12 +85,8 @@ namespace april
             if ((ident->getName() == "toDouble") && (tmp != nullptr))
             { 
                 std::cout << ">> "<< *tmp << std::endl;
-
-
-            }
-
-
-        }
+        }   
+             
         return nullptr;
     }
 }
