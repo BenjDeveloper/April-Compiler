@@ -6,7 +6,7 @@ namespace april
 {
     Block::~Block()
     {
-        //std::cout << "destructor block" << std::endl;
+        std::cout << "destructor block" << std::endl;
         for (Statement*& stmt: statements)
             if (stmt != nullptr)
                 delete stmt;
@@ -18,6 +18,7 @@ namespace april
 
     Symbol* Block::codeGen(CodeGenContext& context)
     {
+        std::cout << ">> ini block <<" << std::endl;
         Symbol* last = nullptr;
         for (Statement*& stmt: statements)
         {
@@ -28,11 +29,12 @@ namespace april
             else
                 break;
         }
-        
-        // if (last == nullptr)
-        //     std::cout << "result es NULO (BLOCK)" << std::endl;
-        // else
-        //     std::cout << "result (BLOCK): " << *last << std::endl;
+
+        stop = false;
+        if (last == nullptr)
+            std::cout << "result es NULO (BLOCK)" << std::endl;
+        else
+            std::cout << "result (BLOCK): " << *last << std::endl;
 
         return last;
     }

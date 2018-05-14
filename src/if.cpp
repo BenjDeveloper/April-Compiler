@@ -8,6 +8,7 @@ namespace april
 {
     If::~If()
     {
+        std::cout << "destructo IF" << std::endl;
         if (_then != nullptr)
         {
             delete _then;
@@ -32,14 +33,17 @@ namespace april
             context.addError();
             return nullptr;
         }
-    
+        std::cout << "ini if" << std::endl;
         if (sym_expr->value._bval == true)
         {
+             std::cout << "_then..." << std::endl;
             _then->type_scope = BlockScope::IF;
             _then->prev = context.getCurrentBlock();
             context.setCurrentBlock(_then);
-
-            result = _then->codeGen(context);
+        
+            std::cout << "ANTES" << std::endl;
+            result = _then->codeGen(context); //AQUI ES EL PEDO WEYYY!!!!
+            std::cout << "DESPUES" << std::endl;
             context.popCurrentBlock();
         }
         else if (_else != nullptr) 
@@ -56,7 +60,8 @@ namespace april
         //     std::cout << "result es NULO (IF)" << std::endl;
         // else
         //     std::cout << "result (IF): " << *result << std::endl;
-
+        std::cout << "fin if" << std::endl;
+        
         return result;
     }
 }

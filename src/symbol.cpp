@@ -29,10 +29,14 @@ namespace april
 
     bool Symbol::operator== (const Symbol& sym) const
     {
+        std::cout << "igualdad" << std::endl;
         if (this->type == sym.type ) 
         {
             if (this->type == Type::INTEGER)
+            {
+                std::cout << "aqui: " << (this->value._ival == sym.value._ival) << std::endl;
                 return this->value._ival == sym.value._ival;
+            }
 
             else if (this->type == Type::DOUBLE)
                 return this->value._dval == sym.value._dval;
@@ -43,6 +47,7 @@ namespace april
             else if (this->type == Type::STRING)
                 return this->value._str == sym.value._str;
         }  
+        
         return false;
     }
 
@@ -189,12 +194,9 @@ namespace april
         if ((this->type == Type::INTEGER || this->type == Type::DOUBLE) && (sym.type == Type::INTEGER || sym.type == Type::DOUBLE))
         {
             tmp = new Symbol{};
-            bool is_double = is_double = (this->type == Type::DOUBLE)?(true):((sym.type == Type::DOUBLE)?(true):(false));
-            tmp->type = (is_double)?(Type::DOUBLE):(Type::INTEGER);
+            tmp->type = Type::DOUBLE;
             tmp->is_variable = false; 
-
-            if (is_double) { tmp->value._dval = ((this->type == Type::DOUBLE)?(this->value._dval):(this->value._ival)) / ((sym.type == Type::DOUBLE)?(sym.value._dval):(sym.value._ival)); }
-            else { tmp->value._ival = this->value._ival / sym.value._ival; }
+            tmp->value._dval = ((this->type == Type::DOUBLE)?(this->value._dval):(this->value._ival)) / ((sym.type == Type::DOUBLE)?(sym.value._dval):(sym.value._ival));
         }
         return tmp;
     }

@@ -69,8 +69,8 @@ namespace april
         for (Symbol* s : locals)
             delete s;
         locals.clear();
-            
-       
+
+        block->stop = false;
         return last;
     }
 
