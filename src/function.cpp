@@ -60,18 +60,17 @@ namespace april
         context.getCurrentBlock()->locals = locals;
         last = block->codeGen(context); //recorre las declaraciones
 
-        for (Symbol* s : context.getCurrentBlock()->locals)
-        {
-             delete s;
-        }
-
+        // for (Symbol* s : context.getCurrentBlock()->locals)
+        //      delete s;
+        
         context.pop_block();
         context.getCurrentBlock()->locals = tmp_locals;
         
         for (Symbol* s : locals)
             delete s;
+        locals.clear();
             
-        context.getFunctions()[ident->getName()]->getLocals().clear();
+       
         return last;
     }
 

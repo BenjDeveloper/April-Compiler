@@ -67,7 +67,6 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 <import>[\t]*       {  }
 <import>[^ \t\n\r]+ {
                         std::string new_file_name = yytext;
-                        std::cout << "name: " << new_file_name << std::endl; 
                         std::size_t pos = new_file_name.find(".april");
                         if (pos == std::string::npos)
                             new_file_name += ".april";

@@ -1,4 +1,4 @@
-fn resta(f:int, d:int)
+fn resta(a:int, b:int)
 {
-    return f-d;
+    a-b;
 }
