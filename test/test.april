@@ -1,37 +1,7 @@
-// **********************************************************
-// **                                                     ***
-// **    Programado por Pandicorn & Kenshin Urashima      ***
-// **    Test: listas en April                           ***
-// **                                                     ***
-// **********************************************************
+import test/test_import
 
-fn foo(l:list)
-{
-    i := 0;
-    for i < l.size()
-    {
-        println(l[i]);
-        i += 1;
-    }
-}
-
-var x:list = [0, 2, 3, [5, 6]];
-var z:list = [9, 8, 7];
-
-// println(foo(x));
-foo(z);
-foo(x);
-
-i := 0;
-for i < x.size()
-{
-    println(x[i]);
-    i += 1;
-}
-i = 0;
-for i < z.size()
-{
-    println(z[i]);
-    i += 1;
-}
-//foo(x);
+println(1);
+x := 5;
+y := 9;
+z := suma(x, y);
+println(z);

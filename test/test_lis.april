@@ -32,3 +32,34 @@ for (i < 2)
     }
     i += 1;
 }
+
+fn foo(l:list)
+{
+    i := 0;
+    for i < l.size()
+    {
+        println(l[i]);
+        i += 1;
+    }
+}
+
+var x:list = [0, 2, 3, [5, 6]];
+var z:list = [9, 8, 7];
+
+// println(foo(x));
+foo(z);
+foo(x);
+
+i := 0;
+for i < x.size()
+{
+    println(x[i]);
+    i += 1;
+}
+i = 0;
+for i < z.size()
+{
+    println(z[i]);
+    i += 1;
+}
+//foo(x);

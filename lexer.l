@@ -1,6 +1,7 @@
 %{
     #include <iostream>
     #include <algorithm>
+    #include <stack>
     #include "headers/symbol.hpp"
     #include "headers/node.hpp"
     #include "headers/statement.hpp"
@@ -44,6 +45,8 @@
     int line = 1;
     int col = 0;
 
+    std::stack<std::string> file_names;
+
     int yyerror(const char* msg)
     {
         std::cout << april_errors->file_name <<":" << april_errors->line  <<" error: " << msg << std::endl;
@@ -51,11 +54,40 @@
     }
 %}
 
+%x import
+%s normal
+
 DIGIT       [0-9]+
 DOUBLE      [0-9]*\.[0-9]+
 IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 
 %%
+
+"import"            { BEGIN(import); }
+<import>[\t]*       {  }
+<import>[^ \t\n\r]+ {
+                        std::string new_file_name = yytext;
+                        std::cout << "name: " << new_file_name << std::endl; 
+                        std::size_t pos = new_file_name.find(".april");
+                        if (pos == std::string::npos)
+                            new_file_name += ".april";
+
+                        yyin = fopen(new_file_name.c_str(), "r");
+                        if (!yyin)
+                        {
+                            std::cout << "Error: no se puede abrir el fichero '"+new_file_name+"'. " << std::endl;     
+                            yyterminate();
+                        }
+                        file_names.push(yytext);
+                        yypush_buffer_state(yy_create_buffer( yyin, YY_BUF_SIZE ));
+                        BEGIN(normal);
+                    }
+<<EOF>>             {
+                        yypop_buffer_state();
+                        file_names.pop();
+                        if (!YY_CURRENT_BUFFER )
+                            yyterminate();
+                    }
 
 [\n]                { april_errors->line++; col = 0; }
 [\t]                { col++; }

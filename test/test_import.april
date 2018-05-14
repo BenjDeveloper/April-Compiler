@@ -1,0 +1,4 @@
+fn suma(a:int, b:int)
+{
+    return a+b;
+}
