@@ -6,3 +6,5 @@
 /build
 /~m4_in_temp_file_urPhMq
 /~m4_out_temp_file_OIupoH
+.vscode/c_cpp_properties.json
+*.json
