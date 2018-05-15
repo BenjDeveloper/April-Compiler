@@ -16,6 +16,11 @@ namespace april
         Symbol* index(Symbol*, Symbol*);
         Symbol* remove(Symbol*, Symbol*);
     }
+
+    namespace string
+    {
+        Symbol* size(Symbol*);
+    }
 }
 
 #endif //FUNC_LIST_HPP

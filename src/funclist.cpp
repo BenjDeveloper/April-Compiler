@@ -92,4 +92,19 @@ namespace april
             return root;
         } 
     }
+
+    
+    namespace string
+    {
+        Symbol* size(Symbol* root)
+        {
+            Symbol* tmp = new Symbol{};
+            tmp->name = "";
+            tmp->type = Type::INTEGER;
+            tmp->value._ival = root->value._str->length();
+            tmp->is_constant = true;
+            tmp->is_variable = false;
+            return tmp;
+        }  
+    } 
 }

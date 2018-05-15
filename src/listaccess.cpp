@@ -1,5 +1,6 @@
 #include "../headers/listaccess.hpp"
 #include "../headers/codegencontext.hpp"
+#include "../headers/stringarray.hpp"
 
 extern april::STRUCINFO* april_errors;
 
@@ -42,8 +43,14 @@ namespace april
             return nullptr;
         }
 
-           
         Symbol* sym_expr = nullptr;
+        if (ident != nullptr && context.findIdentLocals(ident->getName())->type == Type::STRING)
+        {
+            StringArray* tmp = new StringArray(ident, expr_index);
+            sym_expr = tmp->codeGen(context);
+            return sym_expr;
+        }
+ 
         Symbol* sym_index = expr_index->codeGen(context);
         if (sym_index->type != Type::INTEGER)
         {

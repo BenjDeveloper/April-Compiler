@@ -1,15 +1,18 @@
 
-fn main()
+fn foo()
 {
 
     x := "PANDICORNIO";
     i:= 0;
+    y := "";
+    x[0].size();
+    println(x.size());
+    println(y.size());
 
-    for (i<x.len())
+    for i < x.size()
     {
         println(x[i]);
         i=i+1;
     }
 
 }
-main();

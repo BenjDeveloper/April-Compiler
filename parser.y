@@ -18,7 +18,6 @@
     #include "headers/vardeclaration.hpp"
     #include "headers/methodcall.hpp"
     #include "headers/methodstruct.hpp"
-    #include "headers/methodhandle.hpp"
     #include "headers/booleancmp.hpp"
     #include "headers/if.hpp"
     #include "headers/boolean.hpp"
@@ -34,8 +33,8 @@
     #include "headers/listaccess.hpp"
     #include "headers/assignmentlist.hpp"
     #include "headers/methodstruct.hpp"
-    #include "headers/methodhandle.hpp"
     #include "headers/methodhandlelist.hpp"
+    #include "headers/methodhandlestring.hpp"
     
     
     using namespace april;
@@ -67,14 +66,12 @@
 %token <token> TLPAREN TRPAREN TSTR TLBRACE TRBRACE TPOINT TLBRACKET TRBRACKET
 %token <token> TVAR TEQUAL TCOLON TCOMMA TAND TOR TCOEQU
 %token <token> TCOMNE TCOMEQ TCOMLE TCOMGE TCOMLT TCOMGT
-%token <token> TIF TELSE TFOR TFN TRETURN TBREAK TLBRACKET TRBRACKET
+%token <token> TIF TELSE TFOR TFN TRETURN TBREAK
 %token <token> TASIGPLUS TASIGMINUS TASIGMULT TASIGDIV TNOT
 
 %type <ident> ident
 %type <expr> expr basic binary_ope method_call boolean_expr logic_ope list_expr list_access
-%type <stmt> stmt  var_decl conditional for fn_decl var_decl_arg return break
-%type <expr> expr basic binary_ope method_call boolean_expr logic_ope array_string
-%type <stmt> stmt  var_decl conditional for fn_decl var_decl_arg 
+%type <stmt> stmt  var_decl conditional for fn_decl var_decl_arg  return break
 %type <block> program stmts block
 %type <exprvec> call_args list_elements
 %type <token> comparasion;
@@ -147,7 +144,6 @@ expr: binary_ope                {  }
     | basic                     { $$ = $1; }
     | ident                     { $<ident>$ = $1; }
     | method_call               {  }
-    | array_string              {  }
     | boolean_expr              {  }
     | logic_ope                 {  }
     | list_expr                 {  }
@@ -174,8 +170,6 @@ boolean_expr: expr comparasion expr		    { $$ = new april::BooleanCmp{$1, $2, $3
 
 comparasion: TCOMNE | TCOMEQ | TCOMLE | TCOMGE | TCOMLT | TCOMGT
     ;
-
-array_string: ident TLBRACKET expr TRBRACKET     { $$ = new april::StringArray( $1, $3); }
 
 method_call: ident TLPAREN call_args TRPAREN       { $$ = new april::MethodCall( $1, $3 ); }
     | ident TPOINT ident TLPAREN call_args TRPAREN { $$ = new april::MethodStruct( $1, $3, $5 ); }

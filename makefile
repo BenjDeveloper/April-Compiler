@@ -16,7 +16,6 @@ OBJS = parser.o				\
 	vardeclaration.o	 	\
 	methodcall.o		 	\
 	methodstruct.o		 	\
-	methodhandle.o		 	\
 	booleancmp.o		 	\
 	if.o				 	\
 	boolean.o				\
@@ -34,6 +33,7 @@ OBJS = parser.o				\
 	assignmentlist.o		\
 	funclist.o				\
 	methodhandlelist.o		\
+	methodhandlestring.o	\
 	main.o					\
 
 CPPFLAGS = -std=gnu++11

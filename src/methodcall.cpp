@@ -85,6 +85,7 @@ namespace april
             if ((ident->getName() == "toDouble") && (tmp != nullptr))
             { 
                 std::cout << ">> "<< *tmp << std::endl;
+            }
         }   
              
         return nullptr;

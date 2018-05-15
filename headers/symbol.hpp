@@ -9,7 +9,6 @@ namespace april
 {
     enum class Type
     {
-        STRING,
         UNDEFINED,
         INTEGER,
         DOUBLE,

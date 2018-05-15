@@ -27,7 +27,7 @@ namespace april
         }
 
         Symbol* sym_indice =  expr_indice->codeGen(context);
-        //std::cout <<"stringArray (sym_indice)- > "<< *sym_indice << (sym_ident->value._sval)->length() << std::endl;
+        // std::cout <<"stringArray (sym_indice)- > "<< *sym_indice << (sym_ident->value._sval)->length() << std::endl;
         if (sym_indice->type != Type::INTEGER)
         {
             // error de argumento en el array
@@ -53,7 +53,7 @@ namespace april
         tmp->value._sval = new std::string(arr);
         tmp->is_constant = true;
         tmp->is_variable = false;
-        //std::cout <<"stringArray - > "<< *tmp << std::endl;
+        // std::cout <<"stringArray - > "<< *tmp << std::endl;
         return tmp;
     };
 }

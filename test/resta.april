@@ -1,6 +1,6 @@
 fn resta(a:int, b:int)
 {
-    return a-b;
+    a-b;
 }
 
 fn div (a:int, b:int)
@@ -13,4 +13,16 @@ fn div (a:int, b:int)
     }
     println(301);
     return a/b;
+}
+
+fn foo(l:list)
+{
+    i := 0;
+    for i < l.size()
+    {
+        println(l[i]);
+        l[i] = 45;
+        i += 1;
+    }
+    println(l.size());
 }

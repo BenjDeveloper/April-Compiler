@@ -69,7 +69,7 @@ namespace april
         }
         else
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el nombre '"+ident_method->getName()+"' no esta definida como metodo.\n");
+            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el nombre '"+ident_method->getName()+"' no esta definida como metodo en tipo list.\n");
             context.addError();
             return nullptr;
         }

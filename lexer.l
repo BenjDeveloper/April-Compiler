@@ -18,7 +18,6 @@
     #include "headers/vardeclaration.hpp"
     #include "headers/methodcall.hpp"
     #include "headers/methodstruct.hpp"
-    #include "headers/methodhandle.hpp"
     #include "headers/booleancmp.hpp"
     #include "headers/if.hpp"
     #include "headers/boolean.hpp"
@@ -34,8 +33,8 @@
     #include "headers/listaccess.hpp"
     #include "headers/assignmentlist.hpp"
     #include "headers/methodstruct.hpp"
-    #include "headers/methodhandle.hpp"
     #include "headers/methodhandlelist.hpp"
+    #include "headers/methodhandlestring.hpp"
     
     #include "parser.h"
 
@@ -122,8 +121,6 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 "."                 { return TOKEN(TPOINT); }
 "("                 { return TOKEN(TLPAREN); }
 ")"                 { return TOKEN(TRPAREN); }
-"["                 { return TOKEN(TLBRACKET); }
-"]"                 { return TOKEN(TRBRACKET); }
 "{"                 { return TOKEN(TLBRACE); }
 "}"                 { return TOKEN(TRBRACE); }
 "["                 { return TOKEN(TLBRACKET); }

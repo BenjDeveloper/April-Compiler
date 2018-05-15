@@ -1,6 +1,6 @@
 #include "../headers/methodstruct.hpp"
-#include "../headers/methodhandle.hpp"
 #include "../headers/methodhandlelist.hpp"
+#include "../headers/methodhandlestring.hpp"
 #include "../headers/codegencontext.hpp"
 
 extern april::STRUCINFO* april_errors;
@@ -35,13 +35,18 @@ namespace april
             MethodHandleList* methodhandlelist = new MethodHandleList(sym_expr, ident_method, args);
             tmp = methodhandlelist->codeGen(context);
         }
+        else if (sym_expr->type == Type::STRING)
+        {
+            MethodHandleString* methodhandlestring = new MethodHandleString(sym_expr, ident_method, args);
+            tmp = methodhandlestring->codeGen(context);
+        }
         else
         {
             printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: no existe el metodo dentro del tipo de dato.\n");
             context.addError();
             return nullptr;
         }
-        
+
         return tmp;
     }
 }
