@@ -6,6 +6,17 @@ fn marie()
     var y:double= 1.1;
     var z:double= toDouble(x);
     println(z+y);
-    
+
+    var ix:string= "l";
+    var iy:double= 1.1;
+    //var iz:int= toInt(ix);
+    //var iz:int= toInt(iy);
+    //println(iz+iy);
+    // error en operaciones binarias !!!! suma de string + numeros
+
+    var sx:int= 1;
+    var sy:double= 2.2;
+    var sz:string= toString(sx);
+    println("string "+ sz);
 }
 marie();

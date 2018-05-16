@@ -50,14 +50,21 @@ namespace april
         {
             tmp = cast::toDouble(sym_arg);
         } 
-        else if (ident_method->getName() == "toInt")
-        {
-            tmp = cast::toInt(sym_arg);
-        } 
         else if (ident_method->getName() == "toString")
         {
             tmp = cast::toString(sym_arg);
         }
+        else if (ident_method->getName() == "toInt")
+        {
+            if (sym_arg->type != Type::DOUBLE)
+                tmp = cast::toInt(sym_arg);
+            else    
+            {
+                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: toInt(arg); no castea un 'arg' de tipo Double a int.\n");
+                context.addError();
+                return nullptr;    
+            }
+        } 
         else
         {
             printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el nombre '"+ident_method->getName()+"' no esta definida como metodo en el tipo string.\n");

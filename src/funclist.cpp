@@ -141,8 +141,41 @@ namespace april
             return tmp;
         }
 
-        Symbol* toInt(Symbol* element){} //CHIAVE
+        Symbol* toInt(Symbol* element)
+        {
+            Symbol* tmp = new Symbol{};
+            tmp->name = "";
+            tmp->type = Type::INTEGER;
+            tmp->is_constant = true;
+            tmp->is_variable = false;
+             
+            if (element->type == Type::INTEGER)
+                tmp->value._ival = element->value._ival;
+            
+            else if (element->type == Type::STRING)
+                tmp->value._ival = int(std::atoi(element->value._sval->c_str()));
+            
+            return tmp;
+        }
 
-        Symbol* toString(Symbol* element){} //CHIAVE
+        Symbol* toString(Symbol* element)
+        {
+            Symbol* tmp = new Symbol{};
+            tmp->name = "";
+            tmp->type = Type::STRING;
+            tmp->is_constant = true;
+            tmp->is_variable = false;
+
+            if (element->type == Type::DOUBLE)
+                tmp->value._sval = new std::string(std::to_string(element->value._dval));
+
+            else if (element->type == Type::INTEGER)
+                tmp->value._sval = new std::string(std::to_string(element->value._ival));   
+            
+            else if (element->type == Type::STRING)
+                tmp->value._sval = new std::string(element->value._sval->c_str());
+            
+            return tmp;
+        }
     }
 }
