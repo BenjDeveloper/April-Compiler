@@ -44,10 +44,46 @@ namespace april
                 aux->in_list = true;
             }
             else
-                aux->down = sym;
+            {
+                aux->type = Type::LIST_DOWN;
+                aux->in_list = true;
+                Symbol* node = sym;
+                aux->down = clone(node);
+            }
 
             return root;
         }
+
+        Symbol* clone (Symbol* node)
+        {
+            Symbol* result = new Symbol{};
+            Symbol* itera = result;
+            
+            while (node != nullptr)
+            {
+                itera->name = "";
+                itera->type = node->type;
+                itera->value = node->value;
+                itera->is_constant = true;
+                itera->is_variable = false;
+                itera->in_list = true;
+               
+                if (node->type == Type::LIST_DOWN)
+                    itera->down = clone(node->down);
+                else
+                    itera->value = node->value;
+                
+                node = node->prox;
+                if (node != nullptr)
+                {
+                    itera->prox = new Symbol{};
+                    itera = itera->prox;
+                }
+            }
+
+            return result;
+        }
+
 
         Symbol* index(Symbol* root, Symbol* sym)
         {
