@@ -20,6 +20,19 @@ namespace april
     namespace string
     {
         Symbol* size(Symbol*);
+        bool isNumber(Symbol*);
+    }
+
+    namespace cast
+    {
+        Symbol* toDouble(Symbol*);
+        Symbol* toInt(Symbol*);
+        Symbol* toString(Symbol*);
+    }
+
+    namespace io
+    {
+        void println(Symbol*);
     }
 }
 

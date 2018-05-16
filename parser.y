@@ -35,6 +35,7 @@
     #include "headers/methodstruct.hpp"
     #include "headers/methodhandlelist.hpp"
     #include "headers/methodhandlestring.hpp"
+    #include "headers/methodhandlecast.hpp"
     
     
     using namespace april;

@@ -1,5 +1,6 @@
 #include "../headers/methodcall.hpp"
 #include "../headers/codegencontext.hpp"
+#include "../headers/methodhandlecast.hpp"
 #include <iostream>
 
 extern april::STRUCINFO* april_errors;
@@ -8,7 +9,7 @@ namespace april
 {
     Symbol* MethodCall::codeGen(CodeGenContext& context)
     {
-        if (ident->getName() != "println")
+        if (ident->getName() != "println" && ident->getName() != "toDouble" && ident->getName() != "toInt" && ident->getName() != "toString") 
         {
             if (!context.existFunction(ident->getName()))
             {
@@ -71,22 +72,24 @@ namespace april
             return sym;
         }
         
-        for(Expression* expr: *args)
-        {
-            Symbol* tmp = expr->codeGen(context);
-            if (tmp->is_variable)
-                tmp = context.findIdentLocals(tmp->name);
-                
-            if ((ident->getName() == "println") && (tmp != nullptr))
-            { 
-                std::cout << ">> "<< *tmp << std::endl;
-            }
 
-            if ((ident->getName() == "toDouble") && (tmp != nullptr))
-            { 
-                std::cout << ">> "<< *tmp << std::endl;
+        if (ident->getName() == "println")
+        {
+            for(Expression* expr: *args)
+            {
+                Symbol* tmp = expr->codeGen(context);
+                if (tmp->is_variable)
+                    tmp = context.findIdentLocals(tmp->name);
+                    
+                if (tmp != nullptr)
+                    std::cout << ">> "<< *tmp << std::endl;
             }
-        }   
+        }else if (ident->getName() == "toDouble" || ident->getName() == "toInt" || ident->getName() == "toString")
+        {
+            MethodHandleCast* tmp = new MethodHandleCast(ident,args);
+            Symbol* symbol = tmp->codeGen(context);
+            return symbol;
+        }
              
         return nullptr;
     }

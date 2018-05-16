@@ -24,7 +24,6 @@ namespace april
         long long _ival;
         double _dval;
         bool _bval;
-        std::string* _str;
         std::vector<class Symbol*>* _list;
     };
 

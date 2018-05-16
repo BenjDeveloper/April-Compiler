@@ -1,4 +1,5 @@
 #include "../headers/funclist.hpp"
+#include <regex>
 
 namespace april
 {
@@ -101,10 +102,47 @@ namespace april
             Symbol* tmp = new Symbol{};
             tmp->name = "";
             tmp->type = Type::INTEGER;
-            tmp->value._ival = root->value._str->length();
+            tmp->value._ival = root->value._sval->length();
             tmp->is_constant = true;
             tmp->is_variable = false;
             return tmp;
+        }
+
+        bool isNumber(Symbol* element)
+        {
+            std::regex re("[0-9]+(\\.[0-9]+)?");
+
+            if (regex_match(*(element->value._sval), re))
+                return true;
+
+            return false;
         }  
     } 
+
+    namespace cast 
+    {
+        Symbol* toDouble(Symbol* element)
+        {
+            Symbol* tmp = new Symbol{};
+            tmp->name = "";
+            tmp->type = Type::DOUBLE;
+            tmp->is_constant = true;
+            tmp->is_variable = false;
+
+            if (element->type == Type::DOUBLE)
+                tmp->value._dval = element->value._dval;
+             
+            else if (element->type == Type::INTEGER)
+                tmp->value._dval = double(element->value._ival);    
+            
+            else if (element->type == Type::STRING)
+                tmp->value._dval = double(std::atof(element->value._sval->c_str()));
+            
+            return tmp;
+        }
+
+        Symbol* toInt(Symbol* element){} //CHIAVE
+
+        Symbol* toString(Symbol* element){} //CHIAVE
+    }
 }
