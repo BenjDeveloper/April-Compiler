@@ -9,7 +9,7 @@ namespace april
 {
     VarDeclaration::~VarDeclaration()
     {
-        std::cout << "des varde" << std::endl;
+        // std::cout << "des varde" << std::endl;
         if (type != nullptr)
             delete type;
         

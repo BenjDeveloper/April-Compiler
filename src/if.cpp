@@ -8,7 +8,7 @@ namespace april
 {
     If::~If()
     {
-        std::cout << "destructo IF" << std::endl;
+        // std::cout << "destructo IF" << std::endl;
         if (_then != nullptr)
         {
             delete _then;
