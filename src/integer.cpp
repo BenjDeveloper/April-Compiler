@@ -5,6 +5,8 @@ namespace april
 {
     Symbol* Integer::codeGen(CodeGenContext& context)
     {
+        // std::cout << ">>> ini INTEGER: " << value << std::endl;
+
         Symbol* tmp = new Symbol{};
         tmp->name = "";
         tmp->type = Type::INTEGER;

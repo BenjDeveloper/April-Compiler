@@ -20,6 +20,8 @@ namespace april
     class Node
     {
         public:
+            Node() {}
+            virtual ~Node() {}
             virtual Symbol* codeGen(CodeGenContext&) = 0;
             static void printError(std::string msg)
             {

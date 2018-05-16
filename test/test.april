@@ -1,20 +1,23 @@
+//import test/resta
+
 fn div (a:int, b:int)
 {
-    println(101);
-    if (b == 0)
-    {
+    if (b == 0) 
+    { 
         return -1;
-        println(201);
     }
-    println(301);
-    return a/b;
+    return (a/b);
 }
 
-div(5, 0);
-div(5, 0);
-div(5, 0);
-div(5, 0);
-div(5, 0);
+
+println(div(1, 0));
+println(div(1, 2));
+println(div(1, 0));
+println(div(1, 2));
+println(div(5, 0));
+println(div(5, 0));
+println(div(5, 0));
+println(div(5, 0));
 
 fn suma(a:int, b:int) { return (a+b); }
 
