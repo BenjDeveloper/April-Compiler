@@ -38,12 +38,23 @@ namespace april
         {
             //  std::cout << "_then..." << std::endl;
             _then->type_scope = BlockScope::IF;
+
+
+            if (_then->prev == nullptr)
+                std::cout << "--------------ES NULO" << std::endl;
+            else
+                std::cout << "--------------NO ES NULO" << std::endl;
+
+
             _then->prev = context.getCurrentBlock();
             context.setCurrentBlock(_then);
         
-            // std::cout << "ANTES" << std::endl;
-            result = _then->codeGen(context); //AQUI ES EL PEDO WEYYY!!!!
-            // std::cout << "DESPUES" << std::endl;
+            std::cout << "ANTES: " << _then->stop << std::endl;
+            
+            _then->codeGen(context);
+            // result = _then->codeGen(context); //AQUI ES EL PEDO WEYYY!!!!
+            
+            std::cout << "DESPUES" << std::endl;
             context.popCurrentBlock();
         }
         else if (_else != nullptr) 
@@ -56,11 +67,11 @@ namespace april
             context.popCurrentBlock();
         }
 
-        // if (result == nullptr)
-        //     std::cout << "result es NULO (IF)" << std::endl;
-        // else
-        //     std::cout << "result (IF): " << *result << std::endl;
-        // std::cout << "fin if" << std::endl;
+        if (result == nullptr)
+            std::cout << "result es NULO (IF)" << std::endl;
+        else
+            std::cout << "result (IF): " << *result << std::endl;
+        std::cout << "fin if" << std::endl;
         
         return result;
     }

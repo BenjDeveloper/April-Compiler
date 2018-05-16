@@ -40,7 +40,7 @@ namespace april
         if (aux != nullptr)
         {
             current_block = aux->prev;
-            aux->prev = nullptr; //OJO NO SE ESTA ELIMINANDO EL BLOQUE ANTERIOR OJO <------
+            aux->prev = nullptr;
         }
     }
 
@@ -136,19 +136,14 @@ namespace april
     void CodeGenContext::stopRootBlock()
     {
         Block* aux = current_block;
-        Block* tmp = nullptr;
-        while (aux != nullptr && aux->prev != nullptr)
+        while (aux != nullptr)
         {
             aux->stop = true;
-            tmp = aux;
             aux = aux->prev;
-            delete tmp;
         }
-        
-        if (aux != nullptr)
-            aux->stop = true;
     }
 
+    //OJO CON BREAK -- SE ELIMINA BLOQUES -- U.U
     void CodeGenContext::stopBreakBlock()
     {
         Block* aux = current_block;

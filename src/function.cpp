@@ -54,6 +54,7 @@ namespace april
 
     Symbol* Function::runCode(CodeGenContext& context)
     {
+        std::cout << ">> ini fn: " << ident->getName() << " <<" << std::endl;
         Block* tmp_block = context.getCurrentBlock();
         std::vector<Symbol*> tmp_locals = context.getCurrentBlock()->locals;
         block->type_scope = BlockScope::FUNCTION;
@@ -73,6 +74,7 @@ namespace april
         locals.clear();
 
         block->stop = false;
+        std::cout << ">> fin fn: " << ident->getName() << " <<" << std::endl;
         return last;
     }
 

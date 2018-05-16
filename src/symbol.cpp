@@ -32,14 +32,10 @@ namespace april
 
     bool Symbol::operator== (const Symbol& sym) const
     {
-        std::cout << "igualdad" << std::endl;
         if (this->type == sym.type ) 
         {
             if (this->type == Type::INTEGER)
-            {
-                std::cout << "aqui: " << (this->value._ival == sym.value._ival) << std::endl;
                 return this->value._ival == sym.value._ival;
-            }
 
             else if (this->type == Type::DOUBLE)
                 return this->value._dval == sym.value._dval;
