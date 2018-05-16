@@ -40,7 +40,7 @@ namespace april
         if (aux != nullptr)
         {
             current_block = aux->prev;
-            aux->prev = nullptr;
+            aux->prev = nullptr; //OJO NO SE ESTA ELIMINANDO EL BLOQUE ANTERIOR OJO <------
         }
     }
 

@@ -54,6 +54,7 @@ namespace april
 
     Symbol* Function::runCode(CodeGenContext& context)
     {
+        Block* tmp_block = context.getCurrentBlock();
         std::vector<Symbol*> tmp_locals = context.getCurrentBlock()->locals;
         block->type_scope = BlockScope::FUNCTION;
         context.push_block(block);
@@ -64,6 +65,7 @@ namespace april
         //      delete s;
         
         context.pop_block();
+        context.setCurrentBlock(tmp_block);
         context.getCurrentBlock()->locals = tmp_locals;
         
         for (Symbol* s : locals)
