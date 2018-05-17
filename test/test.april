@@ -17,6 +17,8 @@ fn marie()
     var sx:int= 1;
     var sy:double= 2.2;
     var sz:string= toString(sx);
-    println("string "+ sz);
+    print("string "+ sz, " ENTRO POR DIOS" , " NO SE QUE HAGO");
+    var a:string = input();
+    print(a);
 }
 marie();

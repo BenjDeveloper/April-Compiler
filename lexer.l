@@ -36,6 +36,7 @@
     #include "headers/methodhandlelist.hpp"
     #include "headers/methodhandlestring.hpp"
     #include "headers/methodhandlecast.hpp"
+    #include "headers/methodhandleio.hpp"
     
     #include "parser.h"
 

@@ -33,6 +33,9 @@ namespace april
     namespace io
     {
         void println(Symbol*);
+        void _print();
+        void print(Symbol*);
+        Symbol* input();
     }
 }
 

@@ -1,6 +1,7 @@
 #include "../headers/methodcall.hpp"
 #include "../headers/codegencontext.hpp"
 #include "../headers/methodhandlecast.hpp"
+#include "../headers/methodhandleio.hpp"
 #include <iostream>
 
 extern april::STRUCINFO* april_errors;
@@ -9,15 +10,22 @@ namespace april
 {
     Symbol* MethodCall::codeGen(CodeGenContext& context)
     {
-        if (ident->getName() != "println" && ident->getName() != "toDouble" && ident->getName() != "toInt" && ident->getName() != "toString") 
-        {
-            if (!context.existFunction(ident->getName()))
-            {
-                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la funcion '"+ident->getName()+"'no existe.\n");
-                context.addError();
-                return nullptr;
-            }
 
+        if (ident->getName() == "println" || ident->getName() == "print" || ident->getName() == "input")
+        {
+            MethodHandleIo* tmp = new MethodHandleIo(ident,args);
+            Symbol* symbol = tmp->codeGen(context);
+            return symbol;
+        }
+        else if (ident->getName() == "toDouble" || ident->getName() == "toInt" || ident->getName() == "toString")
+        {
+            MethodHandleCast* tmp = new MethodHandleCast(ident,args);
+            Symbol* symbol = tmp->codeGen(context);
+            return symbol;
+        }
+
+        if (context.existFunction(ident->getName()))
+        {
             if (args->size() != context.getFunctions()[ident->getName()]->getArgs()->size())
             {
                 printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el numero de parametros no coinciden con la llamada a la funcion '"+ident->getName()+"'.\n");
@@ -70,25 +78,13 @@ namespace april
             Symbol* sym = context.getFunctions()[ident->getName()]->runCode(context);
             //std::cout << "fin methodcall" << std::endl;
             return sym;
-        }
-        
 
-        if (ident->getName() == "println")
+        }
+        else
         {
-            for(Expression* expr: *args)
-            {
-                Symbol* tmp = expr->codeGen(context);
-                if (tmp->is_variable)
-                    tmp = context.findIdentLocals(tmp->name);
-                    
-                if (tmp != nullptr)
-                    std::cout << ">> "<< *tmp << std::endl;
-            }
-        }else if (ident->getName() == "toDouble" || ident->getName() == "toInt" || ident->getName() == "toString")
-        {
-            MethodHandleCast* tmp = new MethodHandleCast(ident,args);
-            Symbol* symbol = tmp->codeGen(context);
-            return symbol;
+            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la funcion '"+ident->getName()+"'no existe.\n");
+            context.addError();
+            return nullptr;
         }
              
         return nullptr;

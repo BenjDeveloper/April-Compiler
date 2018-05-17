@@ -35,6 +35,7 @@ OBJS = parser.o				\
 	methodhandlelist.o		\
 	methodhandlestring.o	\
 	methodhandlecast.o		\
+	methodhandleio.o		\
 	main.o					\
 
 CPPFLAGS = -std=gnu++11
