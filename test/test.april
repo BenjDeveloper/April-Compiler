@@ -1,82 +1,43 @@
-fn imprimir(l:list)
+// **********************************************************
+// **                                                     ***
+// **    Programado por Pandicorn & Kenshin Urashima      ***
+// **    Test: ficheros en April                          ***
+// **                                                     ***
+// **********************************************************
+
+fn foo()
 {
-    i := 0;
-    for i < l.size()
+    file_name := "test.txt";
+
+    var file_out:stream = open(file_name, "w");
+    if file_out.is_open()
     {
-        println(l[i]);
-        i += 1;
+        file_out.write("uno.\n");
+        file_out.write("Ada Lovelace.\n");
+        file_out.write("Alan Turing.\n");
+        file_out.write("Nikola Tesla.\n");
+
+        file_out.close();
+
+        file_input := open(file_name, "r");
+        if (file_input.is_open())
+        {
+            for not file_input.is_eof()
+            {
+                println(file_input.readline());
+            }
+
+            file_input.close();
+        }
+        else
+        {
+            println("NO se pudo abrir el ficheo interno :(");
+        }
+    }
+    else
+    {
+        println("no se pudo abrir el fichero :(");
     }
 }
 
-x := [5, 6, 8, 9];
-// imprimir(x);
-
-println("--------");
-// x.append(45);
-x.remove(x.size());
-// println(x.size());
-
-imprimir(x);
-println("--------");
-// println(x.index(9));
-// println(x.size());
-
-// import test/resta
-
-// x := [5, 6, 8, 9];
-// y := [96, 8, [100, 154, 85]];
-
-// x.append(y);
-// println("----------------");
-// println(x[4][2][1]);
-// x[4][2][1] = 17;
-// println(x[4][2][1]);
-// println(y[2][1]);
-// println("index: ", x[4][2].index(17));
-// println("----------------");
-// println(x.size());
-// println(x[4].size());
-
-// i := 0;
-// for i < x.size()
-// {
-//     if (i == (x.size() - 1))
-//     {
-//         k := 0;
-//         for k < x[i].size()
-//         {
-//             println(x[i][k]);
-//             k += 1;
-            
-//         }
-//     }
-//     else
-//     {
-//         println(x[i]);
-//     }
-//     i += 1;
-// }
-
-
-// println(div(1, 0));
-// println(div(1, 2));
-// println(div(1, 0));
-// println(div(1, 2));
-// println(div(5, 0));
-// println(div(5, 0));
-// println(div(5, 0));
-// println(div(5, 0));
-
-// fn suma(a:int, b:int) { return (a+b); }
-
-// j := 0;
-
-// for j < 10
-// {
-//     println(suma(1, j));
-//     println(suma(1, j));
-//     println(suma(1, j));
-//     j += 1;
-// }
-
-// println("ADIOS!");
+foo();

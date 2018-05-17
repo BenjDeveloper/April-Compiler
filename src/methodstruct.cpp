@@ -1,6 +1,7 @@
 #include "../headers/methodstruct.hpp"
 #include "../headers/methodhandlelist.hpp"
 #include "../headers/methodhandlestring.hpp"
+#include "../headers/methodhandlefile.hpp"
 #include "../headers/codegencontext.hpp"
 
 extern april::STRUCINFO* april_errors;
@@ -39,6 +40,11 @@ namespace april
         {
             MethodHandleString* methodhandlestring = new MethodHandleString(sym_expr, ident_method, args);
             tmp = methodhandlestring->codeGen(context);
+        }
+        else if (sym_expr->type == Type::FILE)
+        {
+            MethodHandleFile* methodhandlefile = new MethodHandleFile(sym_expr, ident_method, args);
+            tmp = methodhandlefile->codeGen(context);
         }
         else
         {

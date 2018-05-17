@@ -35,6 +35,16 @@ namespace april
     {
         void println(Symbol*);
     }
+
+    namespace file
+    {
+        Symbol* open(std::string, std::string);
+        Symbol* is_open(Symbol*);
+        Symbol* write(Symbol*, std::string);
+        Symbol* readline(Symbol*);
+        Symbol* is_eof(Symbol*);
+        Symbol* close(Symbol*);
+    }
 }
 
 #endif //FUNC_LIST_HPP

@@ -1,5 +1,6 @@
-#include "../headers/funclist.hpp"
 #include <regex>
+#include <fstream>
+#include "../headers/funclist.hpp"
 
 namespace april
 {
@@ -84,7 +85,6 @@ namespace april
             return result;
         }
 
-
         Symbol* index(Symbol* root, Symbol* sym)
         {
             Symbol* aux = root->prox;
@@ -125,7 +125,6 @@ namespace april
         } 
     }
 
-    
     namespace string
     {
         Symbol* size(Symbol* root)
@@ -175,5 +174,83 @@ namespace april
         Symbol* toInt(Symbol* element){} //CHIAVE
 
         Symbol* toString(Symbol* element){} //CHIAVE
+    }
+
+    namespace file
+    {
+        Symbol* open(std::string name, std::string type)
+        {
+            // std::cout << "fichero: " << name << ", " << type << std::endl;
+            
+            Symbol* root = new Symbol{};
+            root->name = "";
+            root->type = Type::FILE;
+
+            if (type == "r")
+                root->value._file = new std::fstream{name.c_str(), std::ios::in };
+            else if (type == "w")
+                root->value._file = new std::fstream{name.c_str(), std::ios::out };
+            
+            return root;
+        }
+
+        Symbol* is_open(Symbol* root)
+        {
+            Symbol* tmp = new Symbol{};
+            tmp->type = Type::BOOLEAN;
+            tmp->value._bval = root->value._file->is_open();
+            tmp->is_constant = true;
+            tmp->is_variable = false;
+
+            return tmp;
+        }
+
+        Symbol* write(Symbol* root, std::string text)
+        {
+            *root->value._file << text.c_str();
+            return nullptr;
+        }
+
+        Symbol* readline(Symbol* root)
+        {
+            std::string text;
+            
+            if (!root->value._file->eof())
+                std::getline(*root->value._file, text);
+            else
+                text = "";
+
+            Symbol* tmp = new Symbol{};
+            tmp->name = "";
+            tmp->type = Type::STRING;
+            tmp->value._sval = &text;
+            tmp->is_constant = true;
+            tmp->is_variable = false;
+            // std::cout << "text: " << tmp->value._sval->c_str() << std::endl;
+            return tmp;
+        }
+
+        Symbol* is_eof(Symbol* root)
+        {
+            Symbol* tmp = new Symbol{};
+            tmp->type = Type::BOOLEAN;
+            tmp->value._bval = root->value._file->eof();
+            tmp->is_constant = true;
+            tmp->is_variable = false;
+
+            return tmp;
+        }
+
+        Symbol* close(Symbol* root)
+        {
+            if (root->value._file != nullptr)
+            {
+                root->value._file->close();
+                root->value._file = nullptr;
+                // std::cout << "fichero cerrado" << std::endl;
+            }
+
+            return root;
+        }
     }
 }

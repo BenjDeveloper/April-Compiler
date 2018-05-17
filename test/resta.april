@@ -23,3 +23,13 @@ fn foo(l:list)
     }
     println(l.size());
 }
+
+fn imprimir(l:list)
+{
+    i := 0;
+    for i < l.size()
+    {
+        println(l[i]);
+        i += 1;
+    }
+}

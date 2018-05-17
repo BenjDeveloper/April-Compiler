@@ -106,6 +106,9 @@ namespace april
 
         else if (type == "string")
             return Type::STRING;
+        
+        else if (type == "stream")
+            return Type::FILE;
 
         return Type::UNDEFINED;
     }
