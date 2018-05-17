@@ -113,18 +113,13 @@ namespace april
         Symbol* remove(Symbol* root, Symbol* sym)
         {
             Symbol* aux = root;
-            
-            while ( aux != nullptr && aux->prox != nullptr)
-            {
-                if ((*aux->prox == *sym) == true)
-                {
-                    Symbol* tmp = aux->prox;
-                    aux->prox = tmp->prox;
-                    delete tmp;
-                    break;
-                }
-                aux = aux->prox;
-            }
+
+            for (int cont = 0; cont < sym->value._ival; cont += 1)
+                    aux = aux->prox;
+
+            Symbol* tmp = aux->prox;
+            aux->prox = aux->prox->prox;
+            delete tmp;
 
             return root;
         } 
