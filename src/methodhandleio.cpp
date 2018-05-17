@@ -36,10 +36,6 @@ namespace april
             return nullptr;
         }
 
-
-        if (ident_method->getName() == "print")
-            io::_print();
-
         for(Expression* expr_arg: *args)
         {
             sym_arg = expr_arg->codeGen(context);
@@ -75,6 +71,7 @@ namespace april
                 return nullptr;
             }
         }
+
         return nullptr;
     }
 }

@@ -183,16 +183,9 @@ namespace april
     {
         void println(Symbol* sym)
         {
-            std::cout << ">> "<< "ENTRO - println" << std::endl;
             std::cout << ">> "<< *sym << std::endl;
         }
-
-        void _print()
-        {
-            std::cout << ">> "<< "ENTRO - print" << std::endl;
-            std::cout << ">> ";
-        }
-
+        
         void print(Symbol* sym)
         {
             std::cout << *sym ;
@@ -200,7 +193,6 @@ namespace april
 
         Symbol* input()
         {
-            std::cout << ">> "<< "ENTRO - input" << std::endl;
             std::string _input;
             std::cout << "<< ";
             std::getline(std::cin, _input);

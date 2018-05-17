@@ -20,5 +20,7 @@ fn marie()
     print("string "+ sz, " ENTRO POR DIOS" , " NO SE QUE HAGO");
     var a:string = input();
     print(a);
+    print(a);
+    print(a);
 }
 marie();
