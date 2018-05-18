@@ -5,39 +5,3 @@
 // **                                                     ***
 // **********************************************************
 
-fn foo()
-{
-    file_name := "test.txt";
-
-    var file_out:stream = open(file_name, "w");
-    if file_out.is_open()
-    {
-        file_out.write("uno.\n");
-        file_out.write("Ada Lovelace.\n");
-        file_out.write("Alan Turing.\n");
-        file_out.write("Nikola Tesla.\n");
-
-        file_out.close();
-
-        file_input := open(file_name, "r");
-        if (file_input.is_open())
-        {
-            for not file_input.is_eof()
-            {
-                println(file_input.readline());
-            }
-
-            file_input.close();
-        }
-        else
-        {
-            println("NO se pudo abrir el ficheo interno :(");
-        }
-    }
-    else
-    {
-        println("no se pudo abrir el fichero :(");
-    }
-}
-
-foo();

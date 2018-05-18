@@ -107,7 +107,7 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
                         return TSTR;
                     }
 <str>\\n            { text_str += "\n"; }
-<str>\\t            { text_str += "\n"; }
+<str>\\t            { text_str += "\t"; }
 <str>\\r            { text_str += "\r"; }
 <str>\\a            { text_str += "\a"; }
 <str>\\\"           { text_str += "\""; }
