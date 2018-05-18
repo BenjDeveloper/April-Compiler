@@ -1,5 +1,7 @@
-#include "../headers/funclist.hpp"
 #include <regex>
+#include <fstream>
+#include <string.h>
+#include "../headers/funclist.hpp"
 
 namespace april
 {
@@ -44,9 +46,44 @@ namespace april
                 aux->in_list = true;
             }
             else
-                aux->down = sym;
+            {
+                aux->type = Type::LIST_DOWN;
+                aux->in_list = true;
+                Symbol* node = sym;
+                aux->down = clone(node);
+            }
 
             return root;
+        }
+
+        Symbol* clone (Symbol* node)
+        {
+            Symbol* result = new Symbol{};
+            Symbol* itera = result;
+            
+            while (node != nullptr)
+            {
+                itera->name = "";
+                itera->type = node->type;
+                itera->value = node->value;
+                itera->is_constant = true;
+                itera->is_variable = false;
+                itera->in_list = true;
+               
+                if (node->type == Type::LIST_DOWN)
+                    itera->down = clone(node->down);
+                else
+                    itera->value = node->value;
+                
+                node = node->prox;
+                if (node != nullptr)
+                {
+                    itera->prox = new Symbol{};
+                    itera = itera->prox;
+                }
+            }
+
+            return result;
         }
 
         Symbol* index(Symbol* root, Symbol* sym)
@@ -77,24 +114,18 @@ namespace april
         Symbol* remove(Symbol* root, Symbol* sym)
         {
             Symbol* aux = root;
-            
-            while ( aux != nullptr && aux->prox != nullptr)
-            {
-                if ((*aux->prox == *sym) == true)
-                {
-                    Symbol* tmp = aux->prox;
-                    aux->prox = tmp->prox;
-                    delete tmp;
-                    break;
-                }
-                aux = aux->prox;
-            }
+
+            for (int cont = 0; cont < sym->value._ival; cont += 1)
+                    aux = aux->prox;
+
+            Symbol* tmp = aux->prox;
+            aux->prox = aux->prox->prox;
+            delete tmp;
 
             return root;
         } 
     }
 
-    
     namespace string
     {
         Symbol* size(Symbol* root)
@@ -204,6 +235,90 @@ namespace april
             tmp->is_variable = false;
 
             return tmp;
+        }
+    }
+
+    namespace file
+    {
+        Symbol* open(std::string name, std::string type)
+        {
+            Symbol* root = new Symbol{};
+            root->name = "";
+            root->type = Type::FILE;
+
+            if (type == "r")
+                root->value._file = new std::fstream{name.c_str(), std::ios::in };
+
+            else if (type == "w")
+                root->value._file = new std::fstream{name.c_str(), std::ios::out };
+
+            return root;
+        }
+
+        Symbol* is_open(Symbol* root)
+        {
+            Symbol* tmp = new Symbol{};
+            tmp->type = Type::BOOLEAN;
+            tmp->is_constant = true;
+            tmp->is_variable = false;
+
+            if (root->value._file != nullptr)
+                tmp->value._bval = root->value._file->is_open();
+            else
+                tmp->value._bval = false;
+
+            return tmp;
+        }
+
+        Symbol* write(Symbol* root, std::string text)
+        {
+            if (root->value._file != nullptr)
+                *root->value._file << text;
+            
+            return root;
+        }
+
+        Symbol* readline(Symbol* root)
+        {
+            std::string text;
+            
+            if (root->value._file != nullptr && !root->value._file->eof())
+                std::getline(*root->value._file, text);
+            else
+                text = "";
+
+            Symbol* tmp = new Symbol{};
+            tmp->name = "";
+            tmp->type = Type::STRING;
+            tmp->value._sval = &text;
+            tmp->is_constant = true;
+            tmp->is_variable = false;
+            return tmp;
+        }
+
+        Symbol* is_eof(Symbol* root)
+        {
+            Symbol* tmp = new Symbol{};
+            tmp->type = Type::BOOLEAN;
+            tmp->is_constant = true;
+            tmp->is_variable = false;
+            if (root->value._file != nullptr)
+                tmp->value._bval = root->value._file->eof();
+            else
+                tmp->value._bval = true;
+                
+            return tmp;
+        }
+
+        Symbol* close(Symbol* root)
+        {
+            if (root->value._file != nullptr)
+            {
+                root->value._file->close();
+                root->value._file = nullptr;
+            }
+
+            return root;
         }
     }
 }

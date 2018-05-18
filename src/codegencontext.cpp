@@ -106,6 +106,9 @@ namespace april
 
         else if (type == "string")
             return Type::STRING;
+        
+        else if (type == "stream")
+            return Type::FILE;
 
         return Type::UNDEFINED;
     }
@@ -136,19 +139,14 @@ namespace april
     void CodeGenContext::stopRootBlock()
     {
         Block* aux = current_block;
-        Block* tmp = nullptr;
-        while (aux != nullptr && aux->prev != nullptr)
+        while (aux != nullptr)
         {
             aux->stop = true;
-            tmp = aux;
             aux = aux->prev;
-            delete tmp;
         }
-        
-        if (aux != nullptr)
-            aux->stop = true;
     }
 
+    //OJO CON BREAK -- SE ELIMINA BLOQUES -- U.U
     void CodeGenContext::stopBreakBlock()
     {
         Block* aux = current_block;

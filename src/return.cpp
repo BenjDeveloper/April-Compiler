@@ -16,7 +16,7 @@ namespace april
 
     Symbol* Return::codeGen(CodeGenContext& context)
     {
-        std::cout << ">> ini return <<" << std::endl;
+        // std::cout << ">> ini return <<" << std::endl;
         Symbol* sym_expr = expr->codeGen(context);
         
         if (sym_expr == nullptr)

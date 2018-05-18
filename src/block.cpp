@@ -6,7 +6,7 @@ namespace april
 {
     Block::~Block()
     {
-        // std::cout << "destructor block" << std::endl;
+        // std::cout << "---->> destructor block" << std::endl;
         for (Statement*& stmt: statements)
             if (stmt != nullptr)
                 delete stmt;
@@ -32,9 +32,9 @@ namespace april
 
         stop = false;
         // if (last == nullptr)
-        //     std::cout << "result es NULO (BLOCK)" << std::endl;
+        //     std::cout << ">> fin block(NULLPTR)<<" << std::endl;
         // else
-        //     std::cout << "result (BLOCK): " << *last << std::endl;
+        // std::cout << ">> fin block(" << *last <<  " )<< " << std::endl;
 
         return last;
     }

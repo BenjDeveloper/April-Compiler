@@ -37,6 +37,7 @@
     #include "headers/methodhandlestring.hpp"
     #include "headers/methodhandlecast.hpp"
     #include "headers/methodhandleio.hpp"
+    #include "headers/methodhandlefile.hpp"
     
     
     using namespace april;
@@ -63,9 +64,9 @@
     int token;
 }
 
-%token <_string> TDIGIT TDOUBLE TIDENTIFIER TBOOLEAN
+%token <_string> TDIGIT TDOUBLE TIDENTIFIER TBOOLEAN TSTR
 %token <token> TPLUS TMIN TMUL TDIV TJUMP TSC
-%token <token> TLPAREN TRPAREN TSTR TLBRACE TRBRACE TPOINT TLBRACKET TRBRACKET
+%token <token> TLPAREN TRPAREN TLBRACE TRBRACE TPOINT TLBRACKET TRBRACKET
 %token <token> TVAR TEQUAL TCOLON TCOMMA TAND TOR TCOEQU
 %token <token> TCOMNE TCOMEQ TCOMLE TCOMGE TCOMLT TCOMGT
 %token <token> TIF TELSE TFOR TFN TRETURN TBREAK
@@ -196,7 +197,10 @@ basic: TDIGIT                       { $$ = new april::Integer{ std::atol($1->c_s
     |   TDOUBLE                     { $$ = new april::Double{ std::atof($1->c_str()) }; delete $1; }
     |   TMIN TDIGIT  %prec TDIV     { $$ = new april::Integer{ -std::atol($2->c_str()) }; delete $2; }
     |   TMIN TDOUBLE  %prec TDIV    { $$ = new april::Double{ -std::atof($2->c_str()) }; delete $2; }
-    |   TSTR                        { $$ = new april::String(yytext); }
+    |   TSTR                        { 
+                                        $$ = new april::String(*$1);
+                                        delete $1; 
+                                    }
     ;   
     |   TBOOLEAN                    { $$ = new april::Boolean{ *$1 }; delete $1; }
     ;

@@ -15,7 +15,8 @@ namespace april
         BOOLEAN,
         STRING,
         LIST,
-        LIST_DOWN
+        LIST_DOWN,
+        FILE
     };
 
     union Value
@@ -24,7 +25,7 @@ namespace april
         long long _ival;
         double _dval;
         bool _bval;
-        std::vector<class Symbol*>* _list;
+        std::fstream* _file;
     };
 
     class Symbol

@@ -35,6 +35,7 @@ OBJS = parser.o				\
 	methodhandlelist.o		\
 	methodhandlestring.o	\
 	methodhandlecast.o		\
+	methodhandlefile.o		\
 	methodhandleio.o		\
 	main.o					\
 

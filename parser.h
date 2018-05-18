@@ -2,7 +2,7 @@
 
 /* Bison interface for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2013 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -49,15 +49,15 @@ extern int yydebug;
     TDOUBLE = 259,
     TIDENTIFIER = 260,
     TBOOLEAN = 261,
-    TPLUS = 262,
-    TMIN = 263,
-    TMUL = 264,
-    TDIV = 265,
-    TJUMP = 266,
-    TSC = 267,
-    TLPAREN = 268,
-    TRPAREN = 269,
-    TSTR = 270,
+    TSTR = 262,
+    TPLUS = 263,
+    TMIN = 264,
+    TMUL = 265,
+    TDIV = 266,
+    TJUMP = 267,
+    TSC = 268,
+    TLPAREN = 269,
+    TRPAREN = 270,
     TLBRACE = 271,
     TRBRACE = 272,
     TPOINT = 273,
@@ -92,7 +92,7 @@ extern int yydebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-
+typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
 #line 54 "parser.y" /* yacc.c:1909  */
@@ -109,8 +109,6 @@ union YYSTYPE
 
 #line 111 "parser.h" /* yacc.c:1909  */
 };
-
-typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif

@@ -5,13 +5,10 @@ fn resta(a:int, b:int)
 
 fn div (a:int, b:int)
 {
-    println(101);
-    if (b == 0)
-    {
-        return -1;
-        println(201);
+    if (b == 0) 
+    { 
+        return -1; 
     }
-    println(301);
     return a/b;
 }
 
@@ -25,4 +22,14 @@ fn foo(l:list)
         i += 1;
     }
     println(l.size());
+}
+
+fn imprimir(l:list)
+{
+    i := 0;
+    for i < l.size()
+    {
+        println(l[i]);
+        i += 1;
+    }
 }

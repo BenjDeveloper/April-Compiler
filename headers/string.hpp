@@ -12,9 +12,9 @@ namespace april{
             std::string value;
 
         public:
-            String(std::string);
+            String(std::string value): value(value) {}
             virtual Symbol* codeGen(CodeGenContext&);
-            int len();
+            int len() { return value.length(); } 
             std::string getValue(){return value;};
     };
 

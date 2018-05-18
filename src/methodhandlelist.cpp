@@ -58,6 +58,23 @@ namespace april
             if (args->size() == 1)
             {
                 Symbol* sym = (*args)[0]->codeGen(context);
+                if (sym->type != Type::INTEGER)
+                {
+                    printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el parametro debe ser tipo entero en el metodo '"+ident_method->getName()+"'.\n");
+                    context.addError();
+                    return nullptr;
+                }
+
+                Symbol* size = list::size(sym_expr);
+                if (sym->value._ival >= size->value._ival || sym->value._ival < 0)
+                {
+                    delete size;
+                    printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: indice fuera del rango.\n");
+                    context.addError();
+                    return nullptr;
+                }
+
+                delete size;
                 tmp = list::remove(sym_expr, sym);
             }
             else

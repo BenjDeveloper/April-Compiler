@@ -13,6 +13,7 @@ namespace april
     {
         Symbol* size(Symbol*);
         Symbol* append(Symbol*, Symbol*);
+        Symbol* clone(Symbol*);
         Symbol* index(Symbol*, Symbol*);
         Symbol* remove(Symbol*, Symbol*);
     }
@@ -35,6 +36,16 @@ namespace april
         void println(Symbol*);
         void print(Symbol*);
         Symbol* input();
+    }
+
+    namespace file
+    {
+        Symbol* open(std::string, std::string);
+        Symbol* is_open(Symbol*);
+        Symbol* write(Symbol*, std::string);
+        Symbol* readline(Symbol*);
+        Symbol* is_eof(Symbol*);
+        Symbol* close(Symbol*);
     }
 }
 

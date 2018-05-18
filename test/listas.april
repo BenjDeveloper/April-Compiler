@@ -1,0 +1,64 @@
+import test/resta
+
+
+x := [5, 6, 8, 9];
+y := [96, 8, [100, 154, 85]];
+
+println("--------");
+imprimir(x);
+println("--------");
+
+x.append(y);
+println("----------------");
+println(x[4][2][1]);
+x[4][2][1] = 17;
+println(x[4][2][1]);
+println(y[2][1]);
+println("index: ", x[4][2].index(17));
+println("----------------");
+println(x.size());
+println(x[4].size());
+
+i := 0;
+for i < x.size()
+{
+    if (i == (x.size() - 1))
+    {
+        k := 0;
+        for k < x[i].size()
+        {
+            println(x[i][k]);
+            k += 1;
+            
+        }
+    }
+    else
+    {
+        println(x[i]);
+    }
+    i += 1;
+}
+
+
+println(div(1, 0));
+println(div(1, 2));
+println(div(1, 0));
+println(div(1, 2));
+println(div(5, 0));
+println(div(5, 0));
+println(div(5, 0));
+println(div(5, 0));
+
+fn suma(a:int, b:int) { return (a+b); }
+
+j := 0;
+
+for j < 10
+{
+    println(suma(1, j));
+    println(suma(1, j));
+    println(suma(1, j));
+    j += 1;
+}
+
+println("ADIOS!");
