@@ -1,1 +1,4 @@
-uno.\nAda Lovelace.\nAlan Turing.\nNikola Tesla.\n
+uno.
+Ada Lovelace.
+Alan Turing.
+Nikola Tesla.

@@ -20,6 +20,7 @@ namespace april
                 sym_expr = expr->codeGen(context);
         }
 
+        block->stop = false;
         context.popCurrentBlock();
         // if (result == nullptr)
         //     std::cout << "result es NULO (FOR)" << std::endl;

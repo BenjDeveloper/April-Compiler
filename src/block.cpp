@@ -20,6 +20,7 @@ namespace april
     {
         // std::cout << ">> ini block <<" << std::endl;
         Symbol* last = nullptr;
+        
         for (Statement*& stmt: statements)
         {
             if (!stop)
@@ -30,7 +31,8 @@ namespace april
                 break;
         }
 
-        stop = false;
+        if (type_scope != BlockScope::FOR)
+            stop = false;
         // if (last == nullptr)
         //     std::cout << ">> fin block(NULLPTR)<<" << std::endl;
         // else

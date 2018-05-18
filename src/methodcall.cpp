@@ -24,8 +24,9 @@ namespace april
             Symbol* symbol = tmp->codeGen(context);
             return symbol;
         }
-
-            if (args->size() != context.getFunctions()[ident->getName()]->getArgs()->size())
+        else if (ident->getName() == "open")
+        {
+            if (args->size() == 2)
             {
                 Symbol* name = (*args)[0]->codeGen(context);
                 Symbol* type = (*args)[1]->codeGen(context);
