@@ -1,5 +1,6 @@
 #include <regex>
 #include <fstream>
+#include <string.h>
 #include "../headers/funclist.hpp"
 
 namespace april
@@ -180,17 +181,16 @@ namespace april
     {
         Symbol* open(std::string name, std::string type)
         {
-            // std::cout << "fichero: " << name << ", " << type << std::endl;
-            
             Symbol* root = new Symbol{};
             root->name = "";
             root->type = Type::FILE;
 
             if (type == "r")
                 root->value._file = new std::fstream{name.c_str(), std::ios::in };
+
             else if (type == "w")
                 root->value._file = new std::fstream{name.c_str(), std::ios::out };
-            
+
             return root;
         }
 
@@ -198,24 +198,30 @@ namespace april
         {
             Symbol* tmp = new Symbol{};
             tmp->type = Type::BOOLEAN;
-            tmp->value._bval = root->value._file->is_open();
             tmp->is_constant = true;
             tmp->is_variable = false;
+
+            if (root->value._file != nullptr)
+                tmp->value._bval = root->value._file->is_open();
+            else
+                tmp->value._bval = false;
 
             return tmp;
         }
 
         Symbol* write(Symbol* root, std::string text)
         {
-            *root->value._file << text.c_str();
-            return nullptr;
+            if (root->value._file != nullptr)
+                *root->value._file << text;
+            
+            return root;
         }
 
         Symbol* readline(Symbol* root)
         {
             std::string text;
             
-            if (!root->value._file->eof())
+            if (root->value._file != nullptr && !root->value._file->eof())
                 std::getline(*root->value._file, text);
             else
                 text = "";
@@ -226,7 +232,6 @@ namespace april
             tmp->value._sval = &text;
             tmp->is_constant = true;
             tmp->is_variable = false;
-            // std::cout << "text: " << tmp->value._sval->c_str() << std::endl;
             return tmp;
         }
 
@@ -234,10 +239,13 @@ namespace april
         {
             Symbol* tmp = new Symbol{};
             tmp->type = Type::BOOLEAN;
-            tmp->value._bval = root->value._file->eof();
             tmp->is_constant = true;
             tmp->is_variable = false;
-
+            if (root->value._file != nullptr)
+                tmp->value._bval = root->value._file->eof();
+            else
+                tmp->value._bval = true;
+                
             return tmp;
         }
 
@@ -247,7 +255,6 @@ namespace april
             {
                 root->value._file->close();
                 root->value._file = nullptr;
-                // std::cout << "fichero cerrado" << std::endl;
             }
 
             return root;

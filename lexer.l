@@ -51,6 +51,7 @@
     int col = 0;
 
     std::stack<std::string> file_names;
+    std::string text_str;
 
     int yyerror(const char* msg)
     {
@@ -61,6 +62,7 @@
 
 %x import
 %s normal
+%x str
 
 DIGIT       [0-9]+
 DOUBLE      [0-9]*\.[0-9]+
@@ -95,7 +97,23 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 
 [\n]                { april_errors->line++; col = 0; }
 [\t]                { col++; }
-\"([^\\\"]|\\.)*\"  { return TOKEN(TSTR); }
+\"                  { 
+                        text_str = "";  
+                        BEGIN(str);
+                    }
+<str>\"             {
+                        BEGIN(normal);
+                        yylval._string = new std::string(text_str);
+                        return TSTR;
+                    }
+<str>\\n            { text_str += "\n"; }
+<str>\\t            { text_str += "\n"; }
+<str>\\r            { text_str += "\r"; }
+<str>\\a            { text_str += "\a"; }
+<str>\\\"           { text_str += "\""; }
+<str>\\(.|\n)       { text_str += yytext[1]; }
+<str>[^\\\"]+       { text_str += std::string(yytext); }
+
 \/\*(.*\n*)*\*\/    { april_errors->line++; col=0; }
 \/\/.*?             { /*empty*/ }
 \/\/.*?\n           { april_errors->line++; }

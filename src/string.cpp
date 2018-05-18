@@ -13,18 +13,8 @@ namespace april
         tmp->type = Type::STRING;
         tmp->value._sval = &value;
         tmp->is_constant = false;
-
         context.getCurrentBlock()->locals.push_back(tmp);
         return tmp;
     }
 
-    String::String(std::string tmp)
-    {
-         value = tmp.substr(1,tmp.length()-2);
-    }
-
-    int String::len()
-    {
-        return value.length();
-    }
 }

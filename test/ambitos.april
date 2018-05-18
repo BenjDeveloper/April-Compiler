@@ -1,0 +1,67 @@
+// **********************************************************
+// **                                                     ***
+// **    Programado por Pandicorn & Kenshin Urashima      ***
+// **    Test: ambitos en April                           ***
+// **                                                     ***
+// **********************************************************
+
+fn main()
+{
+    x := 5;
+
+    if true
+    {
+        k := 1;
+        println("then x: %d", x);
+        println("then k: %d", k);
+        if false 
+        {
+            j := 6;
+            println("then then j: %d", j);
+        }
+        else 
+        {
+            j := 9;
+            println("then else j: %d", j);
+
+            if false 
+            {
+                h := 6;
+                println("then else then j: %d", j);
+            }
+            else 
+            {
+                q := 0;
+
+                w := 0;
+                for (q < 3)
+                {
+                    w = 0;
+                    println("q -->: %d", q);
+                    for (w < 3) 
+                    {
+                        println("w: %d", w);
+                        w += 1;
+                    }
+                    // println("z: %d", z); variable no definida
+                    q += 1;
+                }
+                println("q: %d", q);
+                // println("w: %d", w); variable no definida
+            }
+            //println("h: %d", h); error
+        }
+    }
+    else 
+    {
+        j := 0;
+        println("else x: %d", x);
+        println("else j: %d", j);
+    }
+    // manejo de ambitos
+    k := 0;
+    println("k: %d", k);
+    // println("j: %d", j); error: variable no definida
+}
+
+main();
