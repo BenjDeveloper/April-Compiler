@@ -212,14 +212,16 @@ namespace april
 
     namespace io
     {
-        void println(Symbol* sym)
+        Symbol* println(Symbol* sym)
         {
             std::cout << ">> "<< *sym << std::endl;
+            return sym;
         }
         
-        void print(Symbol* sym)
+        Symbol* print(Symbol* sym)
         {
             std::cout << *sym ;
+            return sym;
         }
 
         Symbol* input()

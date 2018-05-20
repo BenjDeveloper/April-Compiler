@@ -44,15 +44,19 @@ namespace april
         }
     }
 
-    void CodeGenContext::runCode(Block* block)
+    bool CodeGenContext::runCode(Block* block)
     {
         current_block = block;
         current_block->type_scope = BlockScope::FUNCTION;
         push_block(current_block);
         
-        current_block->codeGen(*this);
-        
+        Symbol* sym = current_block->codeGen(*this);
+        if (sym == nullptr)
+            return true;
+            
         pop_block();
+
+        return false;
     }
 
     Symbol*& CodeGenContext::findIdentLocals(std::string name)

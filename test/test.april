@@ -1,35 +1,25 @@
 import test/resta
 
-
 x := [5, 6, 8, 9];
 y := [96, 8, [100, 154, 85]];
 
-println("-------");
+println("--------");
 imprimir(x);
-println("-------");
-
+println("--------");
 x.append(y);
-println("----------------");
-println(x[4][2][1]);
-x[4][2][1] = 17;
-println(x[4][2][1]);
-println(y[2][1]);
-println("index: ", x[4][2].index(17));
-println("----------------");
-println(x.size());
-println(x[4].size());
+println("size: "+toString(x.size()));
 
 i := 0;
 for i < x.size()
 {
-    if (i == (x.size() - 1))
+    if i == (x.size() - 1)
     {
+        println("hola");
         k := 0;
         for k < x[i].size()
         {
-            println(x[i][k]);
+            // println(x[i][k]);
             k += 1;
-            
         }
     }
     else

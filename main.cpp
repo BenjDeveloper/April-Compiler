@@ -39,11 +39,11 @@ int main(int argc, char* argv[])
 
     if (programBlock != nullptr)
     {
-        // std::cout << ">> inicio main <<" << std::endl; 
         CodeGenContext* context = new CodeGenContext{};
-        context->runCode(programBlock);
-        // std::cout << ">> final main <<" << std::endl; 
-        
+        bool result = context->runCode(programBlock);
+        if (result)
+            std::cout << "Compilacion detenida. Existen errores." << std::endl;
+
         if (programBlock != nullptr)
             delete programBlock;
 

@@ -19,18 +19,21 @@ namespace april
     Symbol* Block::codeGen(CodeGenContext& context)
     {
         // std::cout << ">> ini block <<" << std::endl;
-        Symbol* last = nullptr;
+        Symbol* last = new Symbol{};
         
         for (Statement*& stmt: statements)
         {
             if (!stop)
             {
                 last = stmt->codeGen(context);
+                if (last == nullptr)
+                    return nullptr;
             }
             else
                 break;
         }
 
+        
         if (type_scope != BlockScope::FOR)
             stop = false;
         // if (last == nullptr)

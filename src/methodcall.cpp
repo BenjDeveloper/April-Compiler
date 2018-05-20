@@ -109,7 +109,7 @@ namespace april
         }
         
         Symbol* sym = context.getFunctions()[ident->getName()]->runCode(context);
-        //std::cout << "fin methodcall" << std::endl;
+        // std::cout << "fin methodcall" << std::endl;
         return sym;
     }
 }

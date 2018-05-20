@@ -36,7 +36,7 @@ namespace april
 
         public:
             CodeGenContext();
-            void runCode(Block*);
+            bool runCode(Block*);
             Block*& getCurrentBlock() { return current_block; }
             Symbol*& findIdentLocals(std::string);
             Symbol* existIdenLocals(std::string);

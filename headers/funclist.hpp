@@ -33,8 +33,8 @@ namespace april
 
     namespace io
     {
-        void println(Symbol*);
-        void print(Symbol*);
+        Symbol* println(Symbol*);
+        Symbol* print(Symbol*);
         Symbol* input();
     }
 
