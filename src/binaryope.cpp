@@ -62,6 +62,7 @@ namespace april
                 tmp->type = Type::BOOLEAN;
                 break;
         }
+        context.getCurrentBlock()->vars_tmp.push_back(tmp);
         return tmp;
     }
 }

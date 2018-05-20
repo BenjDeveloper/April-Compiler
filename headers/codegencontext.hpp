@@ -12,7 +12,6 @@
 namespace april
 {
     using CallFunctionList = std::map<std::string, Function*>;
-    using FunctionNameExternal = std::map<Type, std::vector<std::map<std::string, ExpressionList*>>>;
 
     enum class Scope
     {
@@ -26,13 +25,11 @@ namespace april
             Scope scope_type;
 
         private:
-            std::vector<std::string> listMethods;
             Block* current_block;
             std::stack<Block*> stack_block;
             int errors;
             CallFunctionList functions;
             Function* current_function;
-            FunctionNameExternal* function_external;
 
         public:
             CodeGenContext();
@@ -42,9 +39,6 @@ namespace april
             Symbol* existIdenLocals(std::string);
             Type typeOf(std::string);
             void addError() { ++errors; }
-            std::vector<std::string> getMethods(){return listMethods;}
-            bool findMethods(std::string);
-            std::vector<std::string> loadMethod(std::string);
             void push_block(Block*);
             void pop_block();
             void setCurrentBlock(Block*);
@@ -59,11 +53,6 @@ namespace april
             void stopRootBlock();
             void stopBreakBlock();
             void printLocals();
-            FunctionNameExternal*& getFunctionExternal() { return function_external; }
-
-        private:
-            void loadFunction();
-
     };
 }
 #endif //CODE_GEN_CONTEXT_HPP

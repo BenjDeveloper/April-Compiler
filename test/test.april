@@ -1,16 +1,10 @@
-fn main() {
-    i := 0;
+fn foo(a:int) {
 
-    for i < (100+1) {
-        if (i % 2) == 0 {
-            println("i: "+toString(i)+", es par");
-        } 
-        else {
-            println("i: "+toString(i)+", NO es par");
-        }
+    if a == 10 {
+        return 90;
+    }
 
-        i += 1;
-    }   
+    foo(a+1);
 }
 
-main();
+foo(0);

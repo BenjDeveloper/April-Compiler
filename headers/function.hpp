@@ -25,6 +25,7 @@ namespace april
             VarList*& getArgs() { return args; }
             std::vector<Symbol*>& getLocals() { return locals; }
             Symbol* existIdenLocals(std::string);
+            Block* getBlock() { return block; }
     };
 }
 

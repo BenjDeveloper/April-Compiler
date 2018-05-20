@@ -6,12 +6,7 @@ namespace april
     {
         current_block = nullptr;
         errors = 0;
-        listMethods = loadMethod("len");
         scope_type = Scope::BLOCK;
-    }
-
-    void CodeGenContext::loadFunction()
-    {
     }
 
     void CodeGenContext::push_block(Block* block)
@@ -181,20 +176,4 @@ namespace april
             aux = aux->prev;
         }
     }
-
-    bool CodeGenContext::findMethods(std::string name)
-    {
-        for (std::string method : this->listMethods)
-            if (method == name)
-                return true;
-
-        return false;
-    }
-    
-    std::vector<std::string> CodeGenContext::loadMethod(std::string name)
-    {
-        this->listMethods.push_back(name);
-        return listMethods;
-    }
-
 }

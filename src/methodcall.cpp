@@ -75,6 +75,23 @@ namespace april
             return nullptr;
         }
 
+
+        //----------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------
+
+        if (context.getFunctions()[ident->getName()]->getBlock() == context.getCurrentBlock())
+        {
+            std::cout << "Es recursivo bitches!!" << std::endl;
+        }
+        else
+        {
+            std::cout << "NO es una llamada recursiva" << std::endl;
+        }
+
+        //----------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------
+
+
         VarList*& var_list = context.getFunctions()[ident->getName()]->getArgs();
         ExpressionList::iterator ite_args = args->begin();
         VarList::iterator ite_para_fn = var_list->begin();
