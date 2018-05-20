@@ -25,6 +25,7 @@ namespace april
             Block* prev;
             bool stop;
             BlockScope type_scope;
+            std::vector<Symbol*> vars_tmp;
 
         public:
             Block():prev(nullptr), stop(false), type_scope(BlockScope::UNDEFINED) {}

@@ -3,6 +3,21 @@
 
 namespace april
 {
+    For::~For()
+    {
+        if (block != nullptr)
+        {
+            delete block;
+            block = nullptr;
+        }
+
+        if (expr != nullptr)
+        {
+            delete expr;
+            expr = nullptr;
+        }
+    }
+
     Symbol* For::codeGen(CodeGenContext& context)
     {
         Symbol* sym_expr = expr->codeGen(context);
@@ -16,8 +31,12 @@ namespace april
         {
 
             result = block->codeGen(context);
+            if (result == nullptr)
+                return nullptr;
+                
             if (!block->stop)
                 sym_expr = expr->codeGen(context);
+                
         }
 
         block->stop = false;

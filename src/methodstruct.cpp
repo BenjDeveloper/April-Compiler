@@ -35,16 +35,25 @@ namespace april
         {
             MethodHandleList* methodhandlelist = new MethodHandleList(sym_expr, ident_method, args);
             tmp = methodhandlelist->codeGen(context);
+            context.getCurrentBlock()->vars_tmp.push_back(tmp); //arreglo de almacenamiento de vars sueltas
+            delete methodhandlelist;
+            methodhandlelist = nullptr;
         }
         else if (sym_expr->type == Type::STRING)
         {
             MethodHandleString* methodhandlestring = new MethodHandleString(sym_expr, ident_method, args);
             tmp = methodhandlestring->codeGen(context);
+            context.getCurrentBlock()->vars_tmp.push_back(tmp);
+            delete methodhandlestring;
+            methodhandlestring = nullptr;
         }
         else if (sym_expr->type == Type::FILE)
         {
             MethodHandleFile* methodhandlefile = new MethodHandleFile(sym_expr, ident_method, args);
             tmp = methodhandlefile->codeGen(context);
+            context.getCurrentBlock()->vars_tmp.push_back(tmp);
+            delete methodhandlefile;
+            methodhandlefile = nullptr;
         }
         else
         {

@@ -16,12 +16,20 @@ namespace april
         {
             MethodHandleIo* tmp = new MethodHandleIo(ident,args);
             Symbol* symbol = tmp->codeGen(context);
+            delete tmp;
+            tmp = nullptr;
+            context.getCurrentBlock()->vars_tmp.push_back(symbol);
+            
             return symbol;
         }
         else if (ident->getName() == "toDouble" || ident->getName() == "toInt" || ident->getName() == "toString")
         {
             MethodHandleCast* tmp = new MethodHandleCast(ident,args);
             Symbol* symbol = tmp->codeGen(context);
+            delete tmp;
+            tmp = nullptr;
+            context.getCurrentBlock()->vars_tmp.push_back(symbol);
+            
             return symbol;
         }
         else if (ident->getName() == "open")
@@ -38,6 +46,7 @@ namespace april
                 }
 
                 Symbol* tmp = file::open(*name->value._sval, *type->value._sval);
+                context.getCurrentBlock()->vars_tmp.push_back(tmp);
                 return tmp;
             }
             else

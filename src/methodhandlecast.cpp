@@ -35,7 +35,7 @@ namespace april
         
         if (sym_arg->type == Type::BOOLEAN || sym_arg->type == Type::LIST || sym_arg->type == Type::LIST_DOWN || sym_arg->type == Type::UNDEFINED)
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: no se puede convertir el tipo de dato del parametro.\n");
+            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: .\n");
             context.addError();
             return nullptr;
         }
