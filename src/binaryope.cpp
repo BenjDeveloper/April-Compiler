@@ -22,8 +22,6 @@ namespace april
         {
             case OPE::PLUS:
                 tmp = *value_left + *value_right;
-                //std::cout<< *tmp << std::endl;
-                //std::cout <<"Binariope(+)-> "<< *tmp << std::endl;
                 break;
             
             case OPE::MIN:
@@ -35,7 +33,23 @@ namespace april
                 break;
             
             case OPE::DIV:
+                if ((value_right->type == Type::INTEGER && value_right->value._ival == 0) || (value_right->type == Type::DOUBLE && value_right->value._dval == 0))
+                {
+                    printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: no se puede dividir por cero.\n");
+                    context.addError();
+                    return nullptr;
+                }
                 tmp = *value_left / *value_right;
+                break;
+            
+            case OPE::MOD:
+                if (value_left->type != Type::INTEGER || value_right->type != Type::INTEGER || value_right->value._ival == 0)
+                {
+                    printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el operador '%'  los operandos deben ser tipo 'int' y != 0 .\n");
+                    context.addError();
+                    return nullptr;
+                }
+                tmp = *value_left % *value_right;
                 break;
             
             case OPE::AND:

@@ -56,37 +56,38 @@ extern int yydebug;
     TDIV = 266,
     TJUMP = 267,
     TSC = 268,
-    TLPAREN = 269,
-    TRPAREN = 270,
-    TLBRACE = 271,
-    TRBRACE = 272,
-    TPOINT = 273,
-    TLBRACKET = 274,
-    TRBRACKET = 275,
-    TVAR = 276,
-    TEQUAL = 277,
-    TCOLON = 278,
-    TCOMMA = 279,
-    TAND = 280,
-    TOR = 281,
-    TCOEQU = 282,
-    TCOMNE = 283,
-    TCOMEQ = 284,
-    TCOMLE = 285,
-    TCOMGE = 286,
-    TCOMLT = 287,
-    TCOMGT = 288,
-    TIF = 289,
-    TELSE = 290,
-    TFOR = 291,
-    TFN = 292,
-    TRETURN = 293,
-    TBREAK = 294,
-    TASIGPLUS = 295,
-    TASIGMINUS = 296,
-    TASIGMULT = 297,
-    TASIGDIV = 298,
-    TNOT = 299
+    TMOD = 269,
+    TLPAREN = 270,
+    TRPAREN = 271,
+    TLBRACE = 272,
+    TRBRACE = 273,
+    TPOINT = 274,
+    TLBRACKET = 275,
+    TRBRACKET = 276,
+    TVAR = 277,
+    TEQUAL = 278,
+    TCOLON = 279,
+    TCOMMA = 280,
+    TAND = 281,
+    TOR = 282,
+    TCOEQU = 283,
+    TCOMNE = 284,
+    TCOMEQ = 285,
+    TCOMLE = 286,
+    TCOMGE = 287,
+    TCOMLT = 288,
+    TCOMGT = 289,
+    TIF = 290,
+    TELSE = 291,
+    TFOR = 292,
+    TFN = 293,
+    TRETURN = 294,
+    TBREAK = 295,
+    TASIGPLUS = 296,
+    TASIGMINUS = 297,
+    TASIGMULT = 298,
+    TASIGDIV = 299,
+    TNOT = 300
   };
 #endif
 
@@ -107,7 +108,7 @@ union YYSTYPE
     std::string* _string;
     int token;
 
-#line 111 "parser.h" /* yacc.c:1909  */
+#line 112 "parser.h" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

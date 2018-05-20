@@ -12,7 +12,8 @@ namespace april
         MUL,
         DIV,
         AND,
-        OR
+        OR,
+        MOD
     };
 
     class BinaryOpe: public Expression

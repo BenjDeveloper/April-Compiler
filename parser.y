@@ -65,7 +65,7 @@
 }
 
 %token <_string> TDIGIT TDOUBLE TIDENTIFIER TBOOLEAN TSTR
-%token <token> TPLUS TMIN TMUL TDIV TJUMP TSC
+%token <token> TPLUS TMIN TMUL TDIV TJUMP TSC TMOD
 %token <token> TLPAREN TRPAREN TLBRACE TRBRACE TPOINT TLBRACKET TRBRACKET
 %token <token> TVAR TEQUAL TCOLON TCOMMA TAND TOR TCOEQU
 %token <token> TCOMNE TCOMEQ TCOMLE TCOMGE TCOMLT TCOMGT
@@ -188,6 +188,7 @@ binary_ope: expr TPLUS expr       { $$ = new april::BinaryOpe{ $1, april::OPE::P
     |   expr TMIN  expr           { $$ = new april::BinaryOpe{ $1, april::OPE::MIN, $3 }; }
     |   expr TMUL  expr           { $$ = new april::BinaryOpe{ $1, april::OPE::MUL, $3 }; }
     |   expr TDIV  expr           { $$ = new april::BinaryOpe{ $1, april::OPE::DIV, $3 }; }
+    |   expr TMOD  expr           { $$ = new april::BinaryOpe{ $1, april::OPE::MOD, $3 }; }
     |   expr TAND  expr           { $$ = new april::BinaryOpe{ $1, april::OPE::AND, $3 }; }
     |   expr TOR  expr            { $$ = new april::BinaryOpe{ $1, april::OPE::OR, $3 }; }
     |   TLPAREN expr TRPAREN      { $$ = $2; }

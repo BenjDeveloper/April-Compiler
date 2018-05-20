@@ -6,7 +6,7 @@ namespace april
 {
     Block::~Block()
     {
-        std::cout << "---->> destructor block" << std::endl;
+        // std::cout << "---->> destructor block" << std::endl;
         for (Statement*& stmt: statements)
             if (stmt != nullptr)
                 delete stmt;
@@ -15,7 +15,7 @@ namespace april
         {
             if (sym != nullptr)
             {
-                std::cout << "Eliminando locales..." << std::endl;
+                // std::cout << "Eliminando locales..." << std::endl;
                 Symbol* aux = sym;
                 while (aux != nullptr)
                 {
@@ -32,7 +32,7 @@ namespace april
         {
             if (sym != nullptr)
             {
-                std::cout << "Eliminando temporales" << std::endl;
+                // std::cout << "Eliminando temporales" << std::endl;
                 Symbol* aux = sym;
                 while (aux != nullptr)
                 {

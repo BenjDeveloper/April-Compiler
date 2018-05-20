@@ -139,6 +139,7 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 "-"                 { return TOKEN(TMIN); }
 "*"                 { return TOKEN(TMUL); }
 "/"                 { return TOKEN(TDIV); }
+"%"                 { return TOKEN(TMOD); }
 "."                 { return TOKEN(TPOINT); }
 "("                 { return TOKEN(TLPAREN); }
 ")"                 { return TOKEN(TRPAREN); }
