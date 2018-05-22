@@ -16,16 +16,20 @@ namespace april
             Block* block;
             Symbol* last;
             std::vector<Symbol*> locals;
+            bool is_tmp;
 
         public:
-            Function(Identifier* ident, VarList* args, Block* block): ident(ident), args(args), block(block) {}
+            Function(Identifier* ident, VarList* args, Block* block): ident(ident), args(args), block(block), is_tmp(false) {}
+            Function(Identifier* ident, VarList* args, Block* block, bool is_tmp): ident(ident), args(args), block(block), is_tmp(is_tmp) {}
             ~Function();
             virtual Symbol* codeGen(CodeGenContext&);
             Symbol* runCode(CodeGenContext&);
-            VarList*& getArgs() { return args; }
+            VarList* getArgs() const { return args; }
+            Identifier* getIdent() const { return ident; }
+            Block* getBlock() const { return block; }
             std::vector<Symbol*>& getLocals() { return locals; }
             Symbol* existIdenLocals(std::string);
-            Block* getBlock() { return block; }
+            std::string getName() const { return ident->getName(); }
     };
 }
 

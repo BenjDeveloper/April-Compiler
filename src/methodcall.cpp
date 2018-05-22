@@ -11,7 +11,6 @@ namespace april
 {
     Symbol* MethodCall::codeGen(CodeGenContext& context)
     {
-
         if (ident->getName() == "println" || ident->getName() == "print" || ident->getName() == "input")
         {
             MethodHandleIo* tmp = new MethodHandleIo(ident,args);
@@ -79,20 +78,22 @@ namespace april
         //----------------------------------------------------------------------------------
         //----------------------------------------------------------------------------------
 
-        if (context.getFunctions()[ident->getName()]->getBlock() == context.getCurrentBlock())
+        if (context.getStackFunc() != nullptr && context.getStackFunc()->top()->getName() == ident->getName())
         {
-            std::cout << "Es recursivo bitches!!" << std::endl;
+            Identifier* tmp_ident = context.getStackFunc()->top()->getIdent();
+            VarList* tmp_var_list = context.getStackFunc()->top()->getArgs();
+            Block* tmp_block =  context.getStackFunc()->top()->getBlock();
+            context.getStackFunc()->push(new Function{tmp_ident, tmp_var_list, tmp_block, true});
         }
         else
         {
-            std::cout << "NO es una llamada recursiva" << std::endl;
+            context.getStackFunc() = new std::stack<Function*>();
+            context.getStackFunc()->push(context.getFunctions()[ident->getName()]);
         }
 
         //----------------------------------------------------------------------------------
         //----------------------------------------------------------------------------------
-
-
-        VarList*& var_list = context.getFunctions()[ident->getName()]->getArgs();
+        VarList* var_list = context.getFunctions()[ident->getName()]->getArgs();
         ExpressionList::iterator ite_args = args->begin();
         VarList::iterator ite_para_fn = var_list->begin();
         Symbol* sym_0 = nullptr;
@@ -101,8 +102,14 @@ namespace april
         while (ite_args != args->end())
         {
             sym_0 = (*ite_args)->codeGen(context);
+            
             context.scope_type = Scope::FUNCTION;
-            context.setCurrentFunction(context.getFunctions()[ident->getName()]);
+            
+            if (context.getStackFunc() != nullptr && context.getStackFunc()->top()->getName() == ident->getName())
+                context.setCurrentFunction(context.getStackFunc()->top());        
+            else
+                context.setCurrentFunction(context.getFunctions()[ident->getName()]);
+            
             sym_1 = (*ite_para_fn)->codeGen(context);
             context.scope_type = Scope::BLOCK;
             context.setCurrentFunction(nullptr);
@@ -134,8 +141,38 @@ namespace april
             ite_para_fn++;
         }
         
-        Symbol* sym = context.getFunctions()[ident->getName()]->runCode(context);
-        // std::cout << "fin methodcall" << std::endl;
+        Symbol* sym = nullptr;
+        if (context.getStackFunc() != nullptr && context.getStackFunc()->top()->getName() == ident->getName())
+            sym = context.getStackFunc()->top()->runCode(context);
+        else
+            sym = context.getFunctions()[ident->getName()]->runCode(context);
+
+        
+        if (sym == nullptr)
+        {
+            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el sym es igual a nulo en la llamada de la funcion '"+ident->getName()+"'.\n");
+            context.addError();
+            return nullptr;
+        }
+        
+        if (context.getStackFunc() != nullptr && !context.getStackFunc()->empty())
+        {
+            if (context.getStackFunc()->top()->getName() == ident->getName() && context.getStackFunc()->size() > 1)
+            {
+                Function* tmp_func = context.getStackFunc()->top();
+                delete tmp_func;
+                tmp_func = nullptr;
+                context.getStackFunc()->pop();
+            }
+            
+            if (context.getStackFunc()->size() == 1)
+            {
+                context.getStackFunc()->pop();
+                delete context.getStackFunc();                
+                context.getStackFunc() = nullptr;
+            }
+        }
+
         return sym;
     }
 }

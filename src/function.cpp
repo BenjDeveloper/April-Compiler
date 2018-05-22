@@ -7,31 +7,40 @@ namespace april
 {
     Function::~Function()
     {
-        if (last != nullptr)
+        if (is_tmp && last != nullptr)
+        {
             delete last;
+        }
 
-        if (ident != nullptr)
+        if (is_tmp)
+        {
+            for (Symbol* s : locals)
+            {
+                delete s;
+                s = nullptr;
+            }
+        }
+
+        if (!is_tmp && ident != nullptr)
         {
             delete ident;
             ident = nullptr;
         }
 
-        if (block != nullptr)
+        if (!is_tmp && block != nullptr)
         {
             delete block;
             block = nullptr;
         }
 
-        for (Symbol* s : locals)
+        if (!is_tmp)
         {
-            delete s;
-            s = nullptr;
-        }
-
-        for (VarDeclaration* arg : *args)
-            delete arg;
-        
-        args = nullptr;
+            for (VarDeclaration* arg : *args)
+            {
+                delete arg;
+                args = nullptr;
+            }
+        }        
         
     }
 

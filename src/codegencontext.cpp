@@ -7,6 +7,7 @@ namespace april
         current_block = nullptr;
         errors = 0;
         scope_type = Scope::BLOCK;
+        func_stack = nullptr;
     }
 
     void CodeGenContext::push_block(Block* block)

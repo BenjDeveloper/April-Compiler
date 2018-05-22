@@ -30,10 +30,12 @@ namespace april
             int errors;
             CallFunctionList functions;
             Function* current_function;
+            std::stack<Function*>* func_stack;
 
         public:
             CodeGenContext();
             bool runCode(Block*);
+            std::stack<Function*>*& getStackFunc() { return func_stack; }
             Block*& getCurrentBlock() { return current_block; }
             Symbol*& findIdentLocals(std::string);
             Symbol* existIdenLocals(std::string);
