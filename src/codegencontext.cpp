@@ -10,6 +10,15 @@ namespace april
         func_stack = nullptr;
     }
 
+    CodeGenContext::~CodeGenContext()
+    {
+        for (Symbol* global : globals)
+        {
+            delete global;
+            global = nullptr;
+        }
+    }
+
     void CodeGenContext::push_block(Block* block)
     {
         stack_block.push(block);
@@ -89,6 +98,27 @@ namespace april
 
         return nullptr;
     }
+
+    Symbol*& CodeGenContext::findIdentGlobals(std::string name)
+    {
+       for (Symbol*& symbol : globals)
+        {
+            if (symbol->name == name)
+                return symbol;
+        }
+    }
+
+    Symbol* CodeGenContext::existIdenGlobals(std::string name)
+    {
+        for (Symbol*& symbol : globals)
+        {
+            if (symbol->name == name)
+                return symbol;
+        }
+
+        return nullptr;
+    }
+
 
     Type CodeGenContext::typeOf(std::string type)
     {

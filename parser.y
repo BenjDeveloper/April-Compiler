@@ -38,7 +38,7 @@
     #include "headers/methodhandlecast.hpp"
     #include "headers/methodhandleio.hpp"
     #include "headers/methodhandlefile.hpp"
-    
+    #include "headers/vardeclarationglobal.hpp"
     
     using namespace april;
 
@@ -65,7 +65,7 @@
 }
 
 %token <_string> TDIGIT TDOUBLE TIDENTIFIER TBOOLEAN TSTR
-%token <token> TPLUS TMIN TMUL TDIV TJUMP TSC TMOD
+%token <token> TPLUS TMIN TMUL TDIV TJUMP TSC TMOD TGLOBAL
 %token <token> TLPAREN TRPAREN TLBRACE TRBRACE TPOINT TLBRACKET TRBRACKET
 %token <token> TVAR TEQUAL TCOLON TCOMMA TAND TOR TCOEQU
 %token <token> TCOMNE TCOMEQ TCOMLE TCOMGE TCOMLT TCOMGT
@@ -134,6 +134,7 @@ block: TLBRACE stmts TRBRACE				{ $$ = $2; }
 
 var_decl: TVAR ident TCOLON ident TSC								{ $$ = new april::VarDeclaration{$2, $4};}
     | TVAR ident TCOLON ident TEQUAL expr TSC                       { $$ = new april::VarDeclaration{$2, $4, $6};}
+    | TGLOBAL ident TCOLON ident TEQUAL expr TSC                    { $$ = new april::VarDeclarationGlobal{$2, $4, $6};}
     | ident TCOEQU expr TSC                                         { $$ = new april::VarDeclarationDeduce{$1, $3}; }
     ;
 

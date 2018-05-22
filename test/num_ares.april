@@ -10,10 +10,10 @@ fn main() {
 
     for i < (100+1) {
         if (i % 2) == 0 {
-            println("i: "+toString(i)+", es par");
+            println("i: "+str(i)+", es par");
         } 
         else {
-            println("i: "+toString(i)+", NO es par");
+            println("i: "+str(i)+", NO es par");
         }
 
         i += 1;

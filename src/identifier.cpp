@@ -5,6 +5,12 @@ namespace april
 {
     Symbol* Identifier::codeGen(CodeGenContext& context)
     {
+        //----------------------------------
+
+        if (context.existIdenGlobals(name) != nullptr)
+            return context.existIdenGlobals(name);
+
+        //----------------------------------
         if (context.scope_type == Scope::BLOCK)
         {
             if (context.existIdenLocals(name) == nullptr)

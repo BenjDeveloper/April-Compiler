@@ -22,7 +22,7 @@ namespace april
 
     Symbol* VarDeclarationDeduce::codeGen(CodeGenContext& context)
     {
-        if (context.existIdenLocals(ident->getName()))
+        if (context.existIdenGlobals(ident->getName()) || context.existIdenLocals(ident->getName()))
         {
             printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la variable '"+ident->getName()+"' ya existe.\n");
             context.addError();
