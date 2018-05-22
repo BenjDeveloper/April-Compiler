@@ -39,6 +39,7 @@
     #include "headers/methodhandleio.hpp"
     #include "headers/methodhandlefile.hpp"
     #include "headers/vardeclarationglobal.hpp"
+    #include "headers/foriteration.hpp"
     
     using namespace april;
 
@@ -67,9 +68,9 @@
 %token <_string> TDIGIT TDOUBLE TIDENTIFIER TBOOLEAN TSTR
 %token <token> TPLUS TMIN TMUL TDIV TJUMP TSC TMOD TGLOBAL
 %token <token> TLPAREN TRPAREN TLBRACE TRBRACE TPOINT TLBRACKET TRBRACKET
-%token <token> TVAR TEQUAL TCOLON TCOMMA TAND TOR TCOEQU
+%token <token> TVAR TEQUAL TCOLON TCOMMA TAND TOR TCOEQU 
 %token <token> TCOMNE TCOMEQ TCOMLE TCOMGE TCOMLT TCOMGT
-%token <token> TIF TELSE TFOR TFN TRETURN TBREAK
+%token <token> TIF TELSE TFOR TFN TRETURN TBREAK TIN
 %token <token> TASIGPLUS TASIGMINUS TASIGMULT TASIGDIV TNOT
 
 %type <ident> ident
@@ -122,6 +123,7 @@ var_decl_arg: ident TCOLON ident            { $$ = new april::VarDeclaration{$1,
     ;
 
 for: TFOR expr block                        { $$ = new april::For{$2, $3}; }
+    | TFOR ident TIN expr block             { $$ = new april::ForIteration{$2, $4, $5}; } 
     ;
 
 conditional: TIF expr block					{ $$ = new april::If{$2, $3}; }

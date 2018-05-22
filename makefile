@@ -38,6 +38,7 @@ OBJS = parser.o				\
 	methodhandlefile.o		\
 	methodhandleio.o		\
 	vardeclarationglobal.o	\
+	foriteration.o			\
 	main.o					\
 
 CPPFLAGS = -std=gnu++11

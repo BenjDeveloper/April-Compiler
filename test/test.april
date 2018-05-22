@@ -1,18 +1,17 @@
-global num:int = 5;
-global X:int = 5;
+global array:list = [8, 6, 8, 7, 78, 60];
 
-
-fn foo() 
+fn foo(value:int)
 {
-    println("(I) num: "+str(num));
-    println("(I) X: "+str(X));
+    println("value: "+str(value));
 }
 
 fn main()
 {
-    foo();
-    println("num: "+str(num));
-    println("X: "+str(X*20));
+    for i in array
+    {
+        println("i: "+str(i+6));
+        foo(i);
+    }
 }
 
 main();

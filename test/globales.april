@@ -10,6 +10,8 @@ fn foo()
 
 fn main()
 {
+    for x in expr
+    
     foo();
     println("num: "+str(num));
     println("X: "+str(X*20));
