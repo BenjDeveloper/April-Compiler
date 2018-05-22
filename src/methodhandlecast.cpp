@@ -40,7 +40,7 @@ namespace april
             return nullptr;
         }
 
-        if (ident_method->getName() != "toString" && (sym_arg->type == Type::STRING  &&  !(string::isNumber(sym_arg))))
+        if (ident_method->getName() != "str" && (sym_arg->type == Type::STRING  &&  !(string::isNumber(sym_arg))))
         {
             printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: no se puede castear letras a numeros.\n");
             context.addError();
@@ -48,15 +48,15 @@ namespace april
         }
 
         Symbol* tmp = nullptr;
-        if (ident_method->getName() == "toDouble")
+        if (ident_method->getName() == "double")
         {
             tmp = cast::toDouble(sym_arg);
         } 
-        else if (ident_method->getName() == "toString")
+        else if (ident_method->getName() == "str")
         {
             tmp = cast::toString(sym_arg);
         }
-        else if (ident_method->getName() == "toInt")
+        else if (ident_method->getName() == "int")
         {
             if (sym_arg->type != Type::DOUBLE)
                 tmp = cast::toInt(sym_arg);

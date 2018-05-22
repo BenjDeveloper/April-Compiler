@@ -21,7 +21,7 @@ namespace april
             
             return symbol;
         }
-        else if (ident->getName() == "toDouble" || ident->getName() == "toInt" || ident->getName() == "toString")
+        else if (ident->getName() == "double" || ident->getName() == "int" || ident->getName() == "str")
         {
             MethodHandleCast* tmp = new MethodHandleCast(ident,args);
             Symbol* symbol = tmp->codeGen(context);
@@ -104,12 +104,7 @@ namespace april
             sym_0 = (*ite_args)->codeGen(context);
             
             context.scope_type = Scope::FUNCTION;
-            
-            if (context.getStackFunc() != nullptr && context.getStackFunc()->top()->getName() == ident->getName())
-                context.setCurrentFunction(context.getStackFunc()->top());        
-            else
-                context.setCurrentFunction(context.getFunctions()[ident->getName()]);
-            
+            context.setCurrentFunction(context.getStackFunc()->top());
             sym_1 = (*ite_para_fn)->codeGen(context);
             context.scope_type = Scope::BLOCK;
             context.setCurrentFunction(nullptr);
@@ -141,12 +136,7 @@ namespace april
             ite_para_fn++;
         }
         
-        Symbol* sym = nullptr;
-        if (context.getStackFunc() != nullptr && context.getStackFunc()->top()->getName() == ident->getName())
-            sym = context.getStackFunc()->top()->runCode(context);
-        else
-            sym = context.getFunctions()[ident->getName()]->runCode(context);
-
+        Symbol* sym = sym = context.getStackFunc()->top()->runCode(context);
         
         if (sym == nullptr)
         {
@@ -167,12 +157,13 @@ namespace april
             
             if (context.getStackFunc()->size() == 1)
             {
+                // std::cout << "eliminando..." << std::endl;
                 context.getStackFunc()->pop();
                 delete context.getStackFunc();                
                 context.getStackFunc() = nullptr;
             }
         }
-
+        // std::cout << "sym: " << sym->value._ival << std::endl;
         return sym;
     }
 }

@@ -1,15 +1,23 @@
 fn foo(a:int) {
 
-    if a == 10 {
-        return a%3;
+    if a >= 10 
+    {
+        return 5;
     }
-
-    foo(a+2);
+    return foo(a+1);
 }
 
-x := foo(0);
+x := 0;
+i := 0;
+y := 0;
+for i < 30
+{
+    x = foo(0);
+    y = x + 2;
+    println("x: "+str(y));
+    i += 1;
+}
 
-println("x: "+toString(x));
 
 // fn fibonacci(valor:int)
 // {

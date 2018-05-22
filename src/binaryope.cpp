@@ -9,6 +9,9 @@ namespace april
     {
         Symbol* value_left = left->codeGen(context);
         Symbol* value_right = right->codeGen(context);
+
+        // std::cout << "left: " << value_left->value._ival << std::endl;
+
         Symbol* tmp = new Symbol{};
 
         if ((Type::STRING == value_left->type) && (Type::STRING == value_right->type) && ( ope != OPE::PLUS ))
@@ -21,6 +24,7 @@ namespace april
         switch (ope)
         {
             case OPE::PLUS:
+                // std::cout << "sumando... " << value_left->value._ival << " - " << value_right->value._ival << std::endl;
                 tmp = *value_left + *value_right;
                 break;
             
