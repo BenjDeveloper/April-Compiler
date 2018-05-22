@@ -55,6 +55,42 @@ namespace april
                 return nullptr;
             }
         }
+        else if (ident->getName() == "range")
+        {
+            if (args->size() == 1)
+            {
+                Symbol* last = (*args)[0]->codeGen(context);
+                if (last->type != Type::INTEGER)
+                {
+                    printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: tipos de parametros incorrectos en la llamada del metodo '"+ident->getName()+"'.\n");
+                    context.addError();
+                    return nullptr;
+                }
+                Symbol* tmp = lib::range(last);
+                context.getCurrentBlock()->vars_tmp.push_back(tmp);
+                return tmp;
+            }
+            else if (args->size() == 2)
+            {
+                Symbol* first = (*args)[0]->codeGen(context);
+                Symbol* last = (*args)[1]->codeGen(context);
+                if (first->type != Type::INTEGER || last->type != Type::INTEGER)
+                {
+                    printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: tipos de parametros incorrectos en la llamada del metodo '"+ident->getName()+"'.\n");
+                    context.addError();
+                    return nullptr;
+                }
+                Symbol* tmp = lib::range(first, last);
+                context.getCurrentBlock()->vars_tmp.push_back(tmp);
+                return tmp;
+            }
+            else
+            {
+                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: numero de parametros incorrectos en la llamada del metodo '"+ident->getName()+"'.\n");
+                context.addError();
+                return nullptr;   
+            }
+        }     
 
         //----------------------------------------------------------------------------------
         //----------------------------------------------------------------------------------

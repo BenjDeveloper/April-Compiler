@@ -7,6 +7,14 @@ fn foo(value:int)
 
 fn main()
 {
+    casa := range(0, 5);
+    // println(l0[0]);
+    // l1 := range(0, 5);
+
+    for i in casa {
+        println("hola: "+str(i));
+    }
+
     for i in array
     {
         println("i: "+str(i+6));

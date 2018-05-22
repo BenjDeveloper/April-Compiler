@@ -323,4 +323,51 @@ namespace april
             return root;
         }
     }
+
+    namespace lib 
+    {
+        Symbol* range(Symbol* last)
+        {
+            Symbol* tmp = new Symbol{};
+            tmp->type = Type::LIST;
+            tmp->in_list = true;
+            Symbol* aux = tmp;
+            
+            for (int i = 0; i < last->value._ival; i += 1)
+            {
+                aux->prox = new Symbol{};
+                aux = aux->prox;
+
+                aux->type = Type::INTEGER;
+                aux->value._ival = i;
+                aux->in_list = true;
+                aux->is_variable = false;
+                aux->is_constant = true;
+            }
+
+            return tmp;
+        }
+
+        Symbol* range(Symbol* first, Symbol* last)
+        {
+            Symbol* tmp = new Symbol{};
+            tmp->type = Type::LIST;
+            tmp->in_list = true;
+            Symbol* aux = tmp;
+
+            for (int i = first->value._ival; i < last->value._ival; i += 1)
+            {
+                aux->prox = new Symbol{};
+                aux = aux->prox;
+
+                aux->type = Type::INTEGER;
+                aux->value._ival = i;
+                aux->in_list = true;
+                aux->is_variable = false;
+                aux->is_constant = true;
+            }
+
+            return tmp;
+        }
+    }
 }

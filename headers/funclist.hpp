@@ -47,6 +47,12 @@ namespace april
         Symbol* is_eof(Symbol*);
         Symbol* close(Symbol*);
     }
+
+    namespace lib 
+    {
+        Symbol* range(Symbol*);
+        Symbol* range(Symbol*, Symbol*);
+    }
 }
 
 #endif //FUNC_LIST_HPP
