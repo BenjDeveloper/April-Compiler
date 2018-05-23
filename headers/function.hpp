@@ -30,6 +30,7 @@ namespace april
             std::vector<Symbol*>& getLocals() { return locals; }
             Symbol* existIdenLocals(std::string);
             std::string getName() const { return ident->getName(); }
+            bool isTmp() const { return is_tmp; }
     };
 }
 

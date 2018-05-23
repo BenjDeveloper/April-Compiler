@@ -46,7 +46,7 @@ int main(int argc, char* argv[])
 
         if (programBlock != nullptr)
             delete programBlock;
-
+        
         if (context != nullptr)
             delete context;
     }

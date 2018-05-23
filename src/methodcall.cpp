@@ -9,6 +9,10 @@ extern april::STRUCINFO* april_errors;
 
 namespace april 
 {
+    MethodCall::~MethodCall()
+    {
+    }
+
     Symbol* MethodCall::codeGen(CodeGenContext& context)
     {
         if (ident->getName() == "println" || ident->getName() == "print" || ident->getName() == "input")
@@ -123,7 +127,9 @@ namespace april
         }
         else
         {
-            context.getStackFunc() = new std::stack<Function*>();
+            if (context.getStackFunc() == nullptr) 
+                context.getStackFunc() = new std::stack<Function*>();
+
             context.getStackFunc()->push(context.getFunctions()[ident->getName()]);
         }
 
@@ -172,8 +178,8 @@ namespace april
             ite_para_fn++;
         }
         
-        Symbol* sym = sym = context.getStackFunc()->top()->runCode(context);
-        
+        Symbol* sym = context.getStackFunc()->top()->runCode(context);
+
         if (sym == nullptr)
         {
             printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el sym es igual a nulo en la llamada de la funcion '"+ident->getName()+"'.\n");
@@ -185,15 +191,18 @@ namespace april
         {
             if (context.getStackFunc()->top()->getName() == ident->getName() && context.getStackFunc()->size() > 1)
             {
-                Function* tmp_func = context.getStackFunc()->top();
-                delete tmp_func;
-                tmp_func = nullptr;
+                // std::cout << "antes eliminando... " << context.getStackFunc()->top()->getName() << std::endl;
+                if (context.getStackFunc()->top()->isTmp())
+                {
+                    Function* tmp_func = context.getStackFunc()->top();
+                    delete tmp_func;
+                    tmp_func = nullptr;
+                } 
                 context.getStackFunc()->pop();
             }
-            
-            if (context.getStackFunc()->size() == 1)
+            else if (context.getStackFunc()->size() == 1)
             {
-                // std::cout << "eliminando..." << std::endl;
+                // std::cout << "eliminando... " << ident->getName() << std::endl;
                 context.getStackFunc()->pop();
                 delete context.getStackFunc();                
                 context.getStackFunc() = nullptr;

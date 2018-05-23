@@ -6,11 +6,15 @@ namespace april
 {
     Block::~Block()
     {
-        // std::cout << "---->> destructor block" << std::endl;
-        for (Statement*& stmt: statements)
+        for (Statement* stmt: statements)
+        {
             if (stmt != nullptr)
+            {
                 delete stmt;
-        
+                stmt = nullptr;
+            }
+        }
+
         for (Symbol* sym : locals)
         {
             if (sym != nullptr)
@@ -22,6 +26,7 @@ namespace april
                     Symbol* tmp = aux;
                     aux = aux->prox;
                     delete tmp;
+                    tmp = nullptr;
                 }
             }
         }
@@ -39,6 +44,7 @@ namespace april
                     Symbol* tmp = aux;
                     aux = aux->prox;
                     delete tmp;
+                    tmp = nullptr;
                 }
             }
         }
@@ -64,10 +70,11 @@ namespace april
         
         if (type_scope != BlockScope::FOR)
             stop = false;
+            
         // if (last == nullptr)
         //     std::cout << ">> fin block(NULLPTR)<<" << std::endl;
         // else
-        // std::cout << ">> fin block(" << *last <<  " )<< " << std::endl;
+        // std::cout << ">> fin block << " << std::endl;
 
         return last;
     }

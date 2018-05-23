@@ -13,6 +13,7 @@ namespace april
         
         public:
             ExprStatement(Expression* expr): expr(expr) {}
+            virtual ~ExprStatement();
             virtual Symbol* codeGen(CodeGenContext&);
     };
 }

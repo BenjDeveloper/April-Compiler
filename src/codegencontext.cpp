@@ -14,9 +14,13 @@ namespace april
     {
         for (Symbol* global : globals)
         {
-            delete global;
-            global = nullptr;
+            if (global != nullptr)
+            {
+                delete global;
+                global = nullptr;
+            }
         }
+        globals.clear();
     }
 
     void CodeGenContext::push_block(Block* block)
@@ -56,9 +60,10 @@ namespace april
         push_block(current_block);
         
         Symbol* sym = current_block->codeGen(*this);
+
         if (sym == nullptr)
             return true;
-            
+        
         pop_block();
 
         return false;

@@ -1,25 +1,54 @@
 global array:list = [8, 6, 8, 7, 78, 60];
 
-fn foo(value:int)
-{
-    println("value: "+str(value));
+fn foo1() {
+    x := 0;
+    for i in array {
+        x += 1;
+    }
+
+    return 45;
 }
 
-fn main()
-{
-    casa := range(0, 5);
-    // println(l0[0]);
-    // l1 := range(0, 5);
-
-    for i in casa {
-        println("hola: "+str(i));
+fn foo(a:int) {
+    
+    for i in range(10) {
+        if i == 5 {
+            result := foo1();
+            return result;
+        } 
     }
+}
 
-    for i in array
-    {
-        println("i: "+str(i+6));
-        foo(i);
-    }
+fn main() {
+    result := foo(0);
+    println("result: "+str(result));
+    println("hola");
+    5;
 }
 
 main();
+println("que daria");
+
+// fn foo(value:int)
+// {
+//     println("value: "+str(value));
+// }
+
+// fn main()
+// {
+//     casa := range(0, 5);
+//     // println(l0[0]);
+//     // l1 := range(0, 5);
+
+//     for i in casa {
+//         println("hola: "+str(i));
+//     }
+
+//     for i in array
+//     {
+//         println("i: "+str(i+6));
+//         foo(i);
+//     }
+// }
+
+// main();
