@@ -19,8 +19,17 @@ fn foo(a:int) {
     }
 }
 
+fn foo2(a:int) {
+
+    println("noche...");
+    if a >= 10 {
+        return foo(a);
+    }
+    return foo2(a+1);
+}
+
 fn main() {
-    result := foo(0);
+    result := foo2(0);
     println("result: "+str(result));
     println("hola");
     5;
