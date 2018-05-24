@@ -44,11 +44,13 @@ int main(int argc, char* argv[])
         if (result)
             std::cout << "Compilacion detenida. Existen errores." << std::endl;
 
+        // std::cout << "memoria..." << std::endl;
         if (programBlock != nullptr)
             delete programBlock;
-        
+
         if (context != nullptr)
             delete context;
+            
     }
     
     if (yyin != nullptr)

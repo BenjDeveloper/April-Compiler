@@ -66,7 +66,11 @@ namespace april
                 tmp->type = Type::BOOLEAN;
                 break;
         }
-        context.getCurrentBlock()->vars_tmp.push_back(tmp);
+        
+        tmp->name = "_"+std::to_string(context.getCurrentBlock()->cont_tmp);
+        context.getCurrentBlock()->cont_tmp += 1;
+        context.getCurrentBlock()->locals.push_back(tmp);
+
         return tmp;
     }
 }

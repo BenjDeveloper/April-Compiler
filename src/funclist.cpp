@@ -215,13 +215,25 @@ namespace april
         Symbol* println(Symbol* sym)
         {
             std::cout << ">> "<< *sym << std::endl;
-            return sym;
+
+            Symbol* tmp = new Symbol{};
+            tmp->type = Type::BOOLEAN;
+            tmp->is_constant = true;
+            tmp->is_variable = false;
+            tmp->value._bval = true;
+            return tmp; //por ahora debe retornar un valor...
         }
         
         Symbol* print(Symbol* sym)
         {
             std::cout << *sym ;
-            return sym;
+
+            Symbol* tmp = new Symbol{};
+            tmp->type = Type::BOOLEAN;
+            tmp->is_constant = true;
+            tmp->is_variable = false;
+            tmp->value._bval = true;
+            return tmp; //por ahora debe retornar un valor...
         }
 
         Symbol* input()

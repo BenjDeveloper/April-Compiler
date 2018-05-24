@@ -7,7 +7,7 @@ println("--------");
 imprimir(x);
 println("--------");
 x.append(y);
-println("size: "+toString(x.size()));
+println("size: "+str(x.size()));
 
 i := 0;
 for i < x.size()

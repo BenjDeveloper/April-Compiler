@@ -10,6 +10,7 @@ fn foo()
     file_name := "test.txt";
 
     var file_out:stream = open(file_name, "w");
+    
     if file_out.is_open()
     {
         file_out.write("uno.\n");

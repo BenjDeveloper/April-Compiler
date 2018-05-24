@@ -17,23 +17,23 @@ namespace april
     {
         if (ident->getName() == "println" || ident->getName() == "print" || ident->getName() == "input")
         {
-            MethodHandleIo* tmp = new MethodHandleIo(ident,args);
-            Symbol* symbol = tmp->codeGen(context);
-            delete tmp;
-            tmp = nullptr;
-            context.getCurrentBlock()->vars_tmp.push_back(symbol);
-            
-            return symbol;
+            MethodHandleIo* method_handle_io = new MethodHandleIo(ident,args);
+            Symbol* tmp = method_handle_io->codeGen(context);
+            delete method_handle_io;
+            method_handle_io = nullptr;
+            // context.getCurrentBlock()->locals.push_back(tmp);
+
+            return tmp;
         }
         else if (ident->getName() == "double" || ident->getName() == "int" || ident->getName() == "str")
         {
-            MethodHandleCast* tmp = new MethodHandleCast(ident,args);
-            Symbol* symbol = tmp->codeGen(context);
-            delete tmp;
-            tmp = nullptr;
-            context.getCurrentBlock()->vars_tmp.push_back(symbol);
+            MethodHandleCast* mothod_handle_cast = new MethodHandleCast(ident,args);
+            Symbol* tmp = mothod_handle_cast->codeGen(context);
+            delete mothod_handle_cast;
+            mothod_handle_cast = nullptr;
+            // context.getCurrentBlock()->locals.push_back(tmp);
             
-            return symbol;
+            return tmp;
         }
         else if (ident->getName() == "open")
         {
@@ -49,7 +49,8 @@ namespace april
                 }
 
                 Symbol* tmp = file::open(*name->value._sval, *type->value._sval);
-                context.getCurrentBlock()->vars_tmp.push_back(tmp);
+                // context.getCurrentBlock()->locals.push_back(tmp);
+                
                 return tmp;
             }
             else
@@ -71,7 +72,8 @@ namespace april
                     return nullptr;
                 }
                 Symbol* tmp = lib::range(last);
-                context.getCurrentBlock()->vars_tmp.push_back(tmp);
+                // context.getCurrentBlock()->locals.push_back(tmp); //OJO--> la lista si no se le asigna a una variable queda colgando en RAM
+                
                 return tmp;
             }
             else if (args->size() == 2)
@@ -85,7 +87,8 @@ namespace april
                     return nullptr;
                 }
                 Symbol* tmp = lib::range(first, last);
-                context.getCurrentBlock()->vars_tmp.push_back(tmp);
+                // context.getCurrentBlock()->locals.push_back(tmp);//OJO-->la lista si no se le asigna a una variable queda colgando en RAM
+
                 return tmp;
             }
             else

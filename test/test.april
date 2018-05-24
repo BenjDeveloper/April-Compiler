@@ -1,42 +1,6 @@
-global array:list = [8, 6, 8, 7, 78, 60];
 
-fn foo1() {
-    x := 0;
-    for i in array {
-        x += 1;
-    }
+//foo(x);
 
-    return 45;
-}
-
-fn foo(a:int) {
-    
-    for i in range(10) {
-        if i == 5 {
-            result := foo1();
-            return result;
-        } 
-    }
-}
-
-fn foo2(a:int) {
-
-    println("noche...");
-    if a >= 10 {
-        return foo(a);
-    }
-    return foo2(a+1);
-}
-
-fn main() {
-    result := foo2(0);
-    println("result: "+str(result));
-    println("hola");
-    5;
-}
-
-main();
-println("que daria");
 
 // fn foo(value:int)
 // {
@@ -45,11 +9,10 @@ println("que daria");
 
 // fn main()
 // {
-//     casa := range(0, 5);
-//     // println(l0[0]);
-//     // l1 := range(0, 5);
-
-//     for i in casa {
+//     // var x:int = 5;
+//     array := range(9, 101);
+    
+//     for i in array {
 //         println("hola: "+str(i));
 //     }
 

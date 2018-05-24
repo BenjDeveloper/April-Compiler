@@ -1,5 +1,3 @@
-
-
 fn main()
 {
 	var x:string;
@@ -10,34 +8,34 @@ fn main()
 
     if (x == y)
     {
-        println("x == y", " x=" + x, " y=" + y);
+        println("x == y"+" x=" + x+ " y=" + y);
     }
 
     x = "x";
     y = "y";
     if (x != y)
     {
-        println("","x != y", " x=" + x, " y=" + y);
+        println(""+"x != y"+" x="+ x +" y="+y);
     }
 
     if (x <= y)
     {
-        println("","x <= y", " x=" + x, " y=" + y);
+        println(""+"x <= y"+" x=" + x+" y=" + y);
     }
     
     if (x >= y)
     {
-        println("","x >= y", " x=" + x, " y=" + y);
+        println(""+"x >= y"+" x=" + x+" y=" + y);
     }
     
     if (x < y)
     {
-        println("","x > y", " x=" + x, " y=" + y);
+        println(""+"x > y"+ " x=" + x+ " y=" + y);
     }
 
     if (x > y)
     {
-        println("","x > y", " x=" + x, " y=" + y);
+        println(""+"x > y"+ " x=" + x+ " y=" + y);
     }
 
 

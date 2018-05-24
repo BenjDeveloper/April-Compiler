@@ -12,6 +12,7 @@ namespace april
 
     CodeGenContext::~CodeGenContext()
     {
+        // std::cout << ">> destructor CodeGenContext <<" << std::endl;
         for (Symbol* global : globals)
         {
             if (global != nullptr)
@@ -123,7 +124,6 @@ namespace april
 
         return nullptr;
     }
-
 
     Type CodeGenContext::typeOf(std::string type)
     {
