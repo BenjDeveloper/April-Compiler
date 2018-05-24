@@ -1,0 +1,33 @@
+// **********************************************************
+// **                                                     ***
+// **    Programado por Pandicorn & Kenshin Urashima      ***
+// **    Test: for range april                            ***
+// **                                                     ***
+// **********************************************************
+
+global itera:list = range(11);
+
+fn foo(value:int)
+{
+    println("value: "+str(value));
+}
+
+fn main()
+{
+    // var x:int = 5;
+    array := range(9, 101);
+    
+    for i in array {
+        println("hola: "+str(i));
+    }
+
+    for j in itera {
+        for i in array
+        {
+            println("i: "+str(i+6));
+            foo(i);
+        }
+    }
+}
+
+main();

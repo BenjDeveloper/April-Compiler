@@ -19,9 +19,15 @@ namespace april
         {
             MethodHandleIo* method_handle_io = new MethodHandleIo(ident,args);
             Symbol* tmp = method_handle_io->codeGen(context);
+            if (tmp == nullptr)
+            {
+                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: expresion nula en la llamada del metodo '"+ident->getName()+"'.\n");
+                context.addError();
+                return nullptr;
+            }
             delete method_handle_io;
             method_handle_io = nullptr;
-            // context.getCurrentBlock()->locals.push_back(tmp);
+            context.getCurrentBlock()->locals.push_back(tmp);
 
             return tmp;
         }
@@ -29,6 +35,12 @@ namespace april
         {
             MethodHandleCast* mothod_handle_cast = new MethodHandleCast(ident,args);
             Symbol* tmp = mothod_handle_cast->codeGen(context);
+            if (tmp == nullptr)
+            {
+                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: expresion nula en la llamada del metodo '"+ident->getName()+"'.\n");
+                context.addError();
+                return nullptr;
+            }
             delete mothod_handle_cast;
             mothod_handle_cast = nullptr;
             // context.getCurrentBlock()->locals.push_back(tmp);
