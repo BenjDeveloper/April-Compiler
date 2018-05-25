@@ -7,6 +7,7 @@
 *    string
 *    bool
 *    stream
+*    list
 
 ### Declarations in April Programming
 Declarations use is intrinsic. The intrinsic types are
@@ -19,7 +20,8 @@ Declarations use is intrinsic. The intrinsic types are
 | var x:double = 1.2;                      | x:=1.2;                       |
 | var x:string = "Hi, April";              | x:="Hi, April";               |
 | var x:bool = true;                       | x:=true;                      |
-| var x:stream = open("file.april", "w");  | x:= open("file.april", "w") ; |
+| var x:stream = open("file.april", "w");  | x:= open("file.april", "w");  |
+| var x:list = [0, 5, 8, ["a", 1.3], 5];   | x:= [0, 5, 8, ["a", 1.3], 5]; |
 
 #### Global Variables
 | *Explicit statement*                     |
@@ -29,6 +31,7 @@ Declarations use is intrinsic. The intrinsic types are
 | global x:double = 1.2;                   |
 | global x:string = "Hi, April";           |
 | global x:bool = true;                    |
+| global x:list = ["a", 1.3];              |
 
 #### Functions
 ```c++
@@ -44,9 +47,7 @@ fn suma(x:int, y:int)
     c:= x + y;
     return c;
 }
-
 ```
-
 ### Operators in April Programming
 All operators in C++ perform some defined function. This table shows the operator, precedence (which determines who goes first), cardinality, and associativity in the C++ program.
 
@@ -66,6 +67,7 @@ All operators in C++ perform some defined function. This table shows the operato
 | =         | binary	     | left to right |
 | <<        | binary	     | left to right |
 | &         | binary	     | left to right |
+| in        | binary	     | left to right |
 
 ### Flow Control in April Programming
 The following April structures direct the flow of control through the program. If you’re an experienced programmer, the function of these structures will be familiar from other languages.
@@ -74,7 +76,6 @@ The following April structures direct the flow of control through the program. I
 The following command evaluates booleanExpression. If it evaluates to true, then control passes to expressions1. If not, then control passes to the optional expressions2.
 
 ```c++
-
 if (booleanExpression)
 {
     expressions1;
@@ -85,6 +86,18 @@ else
 }
 ```
 
+```c++
+a := true;
+if a == true
+{
+    println("true");
+}
+else
+{
+    println("false");
+}
+```
+
 #### FOR
 The following command evaluates booleanExpression. If this evaluates to true, then control passes to expressions. At the end of the block, control passes back to booleanExpression and repeats the process.
 
@@ -92,6 +105,36 @@ The following command evaluates booleanExpression. If this evaluates to true, th
 for booleanExpression
 {
     expressions;
+}
+```
+
+```c++
+cont := 0;
+for cont < 10
+{
+    cont += 1;
+}
+```
+
+The following command evaluates list expression, like Python languge
+
+```c++
+for token in expression
+{
+    expressions;
+}
+```
+
+```c++
+array := [5, 9, 8];
+for i in array
+{
+    println("i: "+str(i));
+}
+
+for i in range(0, 10)
+{
+    println("i: "+str(i));
 }
 ```
 
@@ -156,7 +199,6 @@ fn foo(a:int) {
 
 fn foo2(a:int) {
 
-    println("noche...");
     if a >= 10 {
         return foo(a);
     }
@@ -254,3 +296,44 @@ fn main()
 
 main();
 ```
+#### Manejo de Ficheros
+```c++
+fn foo()
+{
+    file_name := "test.txt";
+
+    var file_out:stream = open(file_name, "w");
+    
+    if file_out.is_open()
+    {
+        file_out.write("uno.\n");
+        file_out.write("Ada Lovelace.\n");
+        file_out.write("Alan Turing.\n");
+        file_out.write("Nikola Tesla.\n");
+
+        file_out.close();
+
+        file_input := open(file_name, "r");
+        if (file_input.is_open())
+        {
+            for not file_input.is_eof()
+            {
+                println(file_input.readline());
+            }
+
+            file_input.close();
+        }
+        else
+        {
+            println("NO se pudo abrir el ficheo interno :(");
+        }
+    }
+    else
+    {
+        println("no se pudo abrir el fichero :(");
+    }
+}
+
+foo();
+```
+
