@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
 		
 		if (command == "run")
 		{
-			if (argc == 3 || argc == 4)
+			if (argc == 3)
 			{
 				april_errors->file_name = argv[2];	
 				std::regex re("[_a-zA-Z0-9\\./]*\\.april");
@@ -42,25 +42,6 @@ int main(int argc, char* argv[])
 				if (std::regex_match(april_errors->file_name, re))
 				{
 					RUN_MODE = true;
-					if (argc == 4)
-					{
-						std::string arguments = argv[3];
-						std::regex r("-[dv]+");
-						if (std::regex_match(arguments, r))
-						{
-							if (arguments[1] == 'v')
-								VERBOSE_MODE = true;
-							else if (arguments[1] == 'd')
-								DEBUG_MODE = true;
-
-							if (arguments.size() == 3 && arguments[2] == 'v')
-								VERBOSE_MODE = true;
-							else if (arguments.size() == 3 && arguments[2] == 'd')
-								DEBUG_MODE = true;
-						}
-						else
-							ERROR_MODE = true;
-					}
 				}	
 				else
 					ERROR_MODE = true;
@@ -137,9 +118,9 @@ void usage()
 	std::cout << "\t run\t\t compile and run April program" << std::endl;
 	std::cout << "\t version\t print April version" << std::endl;
 
-	std::cout << "\nThe arguments are:\n" << std::endl;
-	std::cout << "\t -d \t\t active mode debug" << std::endl;
-	std::cout << "\t -v \t\t view code generated" << std::endl;
+	// std::cout << "\nThe arguments are:\n" << std::endl;
+	// std::cout << "\t -d \t\t active mode debug" << std::endl;
+	// std::cout << "\t -v \t\t view code generated" << std::endl;
 
 	std::cout << "\n" << std::endl;
 }

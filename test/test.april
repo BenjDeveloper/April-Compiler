@@ -5,19 +5,29 @@
 // **                                                     ***
 // **********************************************************
 
-fn main() {
-    i := 0;
-
-    for i < (100+1) {
-        if (i % 2) == 0 {
-            println("i: "+str(i)+", es par");
-        } 
-        else {
-            println("i: "+str(i)+", NO es par");
-        }
-
-        i += 1;
-    }   
+fn imprimir(x:list) {
+    for i in x {
+        println("i: "+str(i));
+    }
 }
 
-main();
+x := [15, 80, 9];
+
+//agregar valor en la lista
+for i in range(15, 30) {
+    x.append(i);
+}
+
+imprimir(x);
+
+println("index: "+str(x.index(80)));
+size := x.size();
+println("size: "+str(size));
+
+cont := 0;
+for cont < size {
+    if (cont < x.size()) {
+        x.remove(cont);
+    }
+    cont += 1;
+}
