@@ -294,7 +294,7 @@ main();
 
 #### Números pares e impares
 ```c++
-fn main() {
+fn foo() {
     i := 0;
 
     for i < (100+1) {
@@ -309,70 +309,29 @@ fn main() {
     }   
 }
 
-main();
+foo();
 ```
-#### Ámbitos
+#### Arreglo de string
 ```c++
-fn main()
+fn foo()
 {
-    x := 5;
 
-    if true
+    x := "PANDICORNIO";
+    i:= 0;
+    y := "";
+    x[0].size();
+    println(x.size());
+    println(y.size());
+
+    for i < x.size()
     {
-        k := 1;
-        println("then x: "+str(x));
-        println("then k: "+str(k));
-        if false 
-        {
-            j := 6;
-            println("then then j: "+str(j));
-        }
-        else 
-        {
-            j := 9;
-            println("then else j: "+str(j));
-
-            if false 
-            {
-                h := 6;
-                println("then else then j: "+str(j));
-            }
-            else 
-            {
-                q := 0;
-
-                w := 0;
-                for (q < 3)
-                {
-                    w = 0;
-                    println("q -->: "+str(q));
-                    for (w < 3) 
-                    {
-                        println("w: "+str(w));
-                        w += 1;
-                    }
-                    // println("z: "+str(z)); variable no definida
-                    q += 1;
-                }
-                println("q: "+str(q));
-                // println("w: %d", w); variable no definida
-            }
-            //println("h: %d", h); error
-        }
+        println(x[i]);
+        i=i+1;
     }
-    else 
-    {
-        j := 0;
-        println("else x: "+str(x));
-        println("else j: "+str(j));
-    }
-    // manejo de ambitos
-    k := 0;
-    println("k: "+str(k));
-    // println("j: %d", j); error: variable no definida
+
 }
 
-main();
+foo();
 ```
 #### Manejo de Ficheros
 ```c++
