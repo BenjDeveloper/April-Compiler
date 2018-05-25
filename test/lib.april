@@ -12,18 +12,6 @@ fn div (a:int, b:int)
     return a/b;
 }
 
-fn foo(l:list)
-{
-    i := 0;
-    for i < l.size()
-    {
-        println(l[i]);
-        l[i] = 45;
-        i += 1;
-    }
-    println(l.size());
-}
-
 fn imprimir(l:list)
 {
     i := 0;

@@ -14,9 +14,15 @@ namespace april
 
         Symbol* tmp = new Symbol{};
 
-        if ((Type::STRING == value_left->type) && (Type::STRING == value_right->type) && ( ope != OPE::PLUS ))
+        if ((Type::STRING == value_left->type) && (Type::STRING == value_right->type) && (ope != OPE::PLUS))
         {
             printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: los datos tipo string no poseen un manejo logico con ese operador.\n");
+            context.addError();
+            return nullptr;
+        }
+        else if((Type::STRING != value_left->type && Type::STRING == value_right->type) || (Type::STRING == value_left->type && Type::STRING != value_right->type) )
+        {
+            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: tipos de datos inoperables.\n");
             context.addError();
             return nullptr;
         }
@@ -24,7 +30,6 @@ namespace april
         switch (ope)
         {
             case OPE::PLUS:
-                // std::cout << "sumando... " << value_left->value._ival << " - " << value_right->value._ival << std::endl;
                 tmp = *value_left + *value_right;
                 break;
             
