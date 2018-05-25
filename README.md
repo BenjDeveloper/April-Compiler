@@ -24,6 +24,7 @@ Declarations use is intrinsic. The intrinsic types are
 | var x:list = [0, 5, 8, ["a", 1.3], 5];   | x:= [0, 5, 8, ["a", 1.3], 5]; |
 
 #### Global Variables
+
 | *Explicit statement*                     |
 |------------------------------------------|
 | **global [name]:[type] = [Assignment];** |
@@ -40,7 +41,9 @@ fn [name]([arguments])
     [statements]
     return [expression]
 }
-example:
+```
+```c++
+//example:
 
 fn suma(x:int, y:int)
 {
@@ -137,6 +140,82 @@ for i in range(0, 10)
     println("i: "+str(i));
 }
 ```
+### List
+```c++
+var _array:list = [5, 6, 7, 8]; //declaracion explicita.
+// _array := [5, 6, 7, 8];
+
+_array.size(); //tamaño del arreglo.
+
+_array.append(16); //agregar un elemento al final de la lista.
+
+_array.index(8); //indice del elemento 8, si no existe devuelve -1.
+
+_array.remove(0); //elimina el elemento en la posicion 0 de la lista. 
+```
+### String
+
+```c++
+var texto:string = "hola ";
+
+texto = texto + ", mundo!";
+
+texto.size() // tamaño del string
+```
+
+### Stream
+```c++
+var file:stream = open("texto.txt", "w"); //declaracion explicita
+if file.is_open() {
+    
+    file.write("helo, word!");
+   
+    file.close();
+}
+
+file_out := open("texto.txt", "a"); //declaracion implicita
+if file.is_open() {
+    for not file.is_eof() {
+        println(file.readline());
+    }
+    file.close();
+}
+```
+### Methods Cast
+
+```c++
+x := 58; //declaracion implicita de variable (int).
+
+var _str:string = str(x); 
+
+var _double:double = double(x);
+
+var _int:int = int(_double);
+```
+### Range
+
+```c++
+
+var _array:list = range(80); //crea una lista de 0 a 79.
+//_array := range(80); declaracion implicita.
+
+
+var _array0:list = range(10, 50); //crea una lista 10 a 49.
+//_array := range(5, 8); declaracion implicita.
+
+for i in range(10, 15) {
+    //declaraciones
+}
+
+for j in range(15) {
+    //declaraciones
+}
+
+for j in [80, 9, 7, 6] {
+    //declaraciones
+}
+
+```
 
 ### Algorithms
 Examples: 
@@ -208,7 +287,6 @@ fn foo2(a:int) {
 fn main() {
     result := foo2(0);
     println("result: "+str(result));
-    println("hola");
 }
 
 main();
