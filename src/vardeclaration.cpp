@@ -23,7 +23,7 @@ namespace april
     Symbol* VarDeclaration::codeGen(CodeGenContext& context)
     {
         Symbol* symbol = nullptr;
-        if ((context.scope_type == Scope::BLOCK)?(context.existIdenLocals(ident->getName())):(context.getCurrentFunction()->existIdenLocals(ident->getName()))  )
+        if ((context.existIdenGlobals(ident->getName()) != nullptr) || (context.scope_type == Scope::BLOCK)?(context.existIdenLocals(ident->getName())):(context.getCurrentFunction()->existIdenLocals(ident->getName())))
         {
             printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la variable '"+ident->getName()+"' ya existe\n");
             context.addError();

@@ -7,32 +7,47 @@ namespace april
 {
     Function::~Function()
     {
-        if (last != nullptr)
+        if (is_tmp && last != nullptr)
+        {
             delete last;
+            last = nullptr;
+        }
 
-        if (ident != nullptr)
+        if (is_tmp)
+        {
+            for (Symbol* s : locals)
+            {
+                if (s != nullptr)
+                {
+                    delete s;
+                    s = nullptr;
+                }
+            }
+        }
+
+        if (!is_tmp && ident != nullptr)
         {
             delete ident;
             ident = nullptr;
         }
-
-        if (block != nullptr)
+        
+        if (!is_tmp && block != nullptr)
         {
             delete block;
             block = nullptr;
         }
 
-        for (Symbol* s : locals)
+        if (!is_tmp)
         {
-            delete s;
-            s = nullptr;
-        }
-
-        for (VarDeclaration* arg : *args)
-            delete arg;
-        
-        args = nullptr;
-        
+            for (VarDeclaration* arg : *args)
+            {
+                if (arg != nullptr)
+                {
+                    delete arg;
+                    args = nullptr;
+                }
+            }
+        }        
     }
 
     Symbol* Function::codeGen(CodeGenContext& context)
@@ -61,7 +76,7 @@ namespace april
         context.push_block(block);
         context.getCurrentBlock()->locals = locals;
         last = block->codeGen(context); //recorre las declaraciones
-
+        
         // for (Symbol* s : context.getCurrentBlock()->locals)
         //      delete s;
         
@@ -70,7 +85,13 @@ namespace april
         context.getCurrentBlock()->locals = tmp_locals;
         
         for (Symbol* s : locals)
-            delete s;
+        {
+            if (s != nullptr)
+            {
+                delete s;
+                s = nullptr;
+            } 
+        }
         locals.clear();
 
         block->stop = false;

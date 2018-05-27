@@ -1,0 +1,18 @@
+global num:int = 5;
+global X:int = 5;
+
+
+fn foo() 
+{
+    println("(I) num: "+str(num));
+    println("(I) X: "+str(X));
+}
+
+fn main()
+{
+    foo();
+    println("num: "+str(num));
+    println("X: "+str(X*20));
+}
+
+main();

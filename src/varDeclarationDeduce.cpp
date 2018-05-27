@@ -22,13 +22,14 @@ namespace april
 
     Symbol* VarDeclarationDeduce::codeGen(CodeGenContext& context)
     {
-        if (context.existIdenLocals(ident->getName()))
+        if (context.existIdenGlobals(ident->getName()) || context.existIdenLocals(ident->getName()))
         {
             printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la variable '"+ident->getName()+"' ya existe.\n");
             context.addError();
             return nullptr;
         }
         Symbol* sym_expr = expr->codeGen(context);
+
         if (sym_expr == nullptr)
         {
             printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: expresion nula.\n");
@@ -49,8 +50,9 @@ namespace april
         sym->is_constant = false;
         sym->value = sym_expr->value;
         sym->prox = sym_expr->prox;
+        sym->down = sym_expr->down;
         context.getCurrentBlock()->locals.push_back(sym);
-
+        
         return sym;
     }
 }

@@ -15,7 +15,7 @@ namespace april
         
         public:
             VarDeclarationDeduce(Identifier* ident, Expression* expr): ident(ident), expr(expr) {}
-            ~VarDeclarationDeduce();
+            virtual ~VarDeclarationDeduce();
             virtual Symbol* codeGen(CodeGenContext&);
     };
 }

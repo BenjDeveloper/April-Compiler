@@ -14,6 +14,7 @@ namespace april
 
         public:
             MethodCall(Identifier* ident, ExpressionList* args): ident(ident), args(args){}
+            ~MethodCall();
             Symbol* codeGen(CodeGenContext&);
     };
 }

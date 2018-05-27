@@ -38,7 +38,8 @@
     #include "headers/methodhandlecast.hpp"
     #include "headers/methodhandleio.hpp"
     #include "headers/methodhandlefile.hpp"
-    
+    #include "headers/vardeclarationglobal.hpp"
+    #include "headers/foriteration.hpp"
     
     using namespace april;
 
@@ -65,11 +66,11 @@
 }
 
 %token <_string> TDIGIT TDOUBLE TIDENTIFIER TBOOLEAN TSTR
-%token <token> TPLUS TMIN TMUL TDIV TJUMP TSC
+%token <token> TPLUS TMIN TMUL TDIV TJUMP TSC TMOD TGLOBAL
 %token <token> TLPAREN TRPAREN TLBRACE TRBRACE TPOINT TLBRACKET TRBRACKET
-%token <token> TVAR TEQUAL TCOLON TCOMMA TAND TOR TCOEQU
+%token <token> TVAR TEQUAL TCOLON TCOMMA TAND TOR TCOEQU 
 %token <token> TCOMNE TCOMEQ TCOMLE TCOMGE TCOMLT TCOMGT
-%token <token> TIF TELSE TFOR TFN TRETURN TBREAK
+%token <token> TIF TELSE TFOR TFN TRETURN TBREAK TIN
 %token <token> TASIGPLUS TASIGMINUS TASIGMULT TASIGDIV TNOT
 
 %type <ident> ident
@@ -122,6 +123,7 @@ var_decl_arg: ident TCOLON ident            { $$ = new april::VarDeclaration{$1,
     ;
 
 for: TFOR expr block                        { $$ = new april::For{$2, $3}; }
+    | TFOR ident TIN expr block             { $$ = new april::ForIteration{$2, $4, $5}; } 
     ;
 
 conditional: TIF expr block					{ $$ = new april::If{$2, $3}; }
@@ -134,6 +136,7 @@ block: TLBRACE stmts TRBRACE				{ $$ = $2; }
 
 var_decl: TVAR ident TCOLON ident TSC								{ $$ = new april::VarDeclaration{$2, $4};}
     | TVAR ident TCOLON ident TEQUAL expr TSC                       { $$ = new april::VarDeclaration{$2, $4, $6};}
+    | TGLOBAL ident TCOLON ident TEQUAL expr TSC                    { $$ = new april::VarDeclarationGlobal{$2, $4, $6};}
     | ident TCOEQU expr TSC                                         { $$ = new april::VarDeclarationDeduce{$1, $3}; }
     ;
 
@@ -188,6 +191,7 @@ binary_ope: expr TPLUS expr       { $$ = new april::BinaryOpe{ $1, april::OPE::P
     |   expr TMIN  expr           { $$ = new april::BinaryOpe{ $1, april::OPE::MIN, $3 }; }
     |   expr TMUL  expr           { $$ = new april::BinaryOpe{ $1, april::OPE::MUL, $3 }; }
     |   expr TDIV  expr           { $$ = new april::BinaryOpe{ $1, april::OPE::DIV, $3 }; }
+    |   expr TMOD  expr           { $$ = new april::BinaryOpe{ $1, april::OPE::MOD, $3 }; }
     |   expr TAND  expr           { $$ = new april::BinaryOpe{ $1, april::OPE::AND, $3 }; }
     |   expr TOR  expr            { $$ = new april::BinaryOpe{ $1, april::OPE::OR, $3 }; }
     |   TLPAREN expr TRPAREN      { $$ = $2; }

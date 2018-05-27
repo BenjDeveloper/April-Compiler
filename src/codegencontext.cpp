@@ -6,12 +6,22 @@ namespace april
     {
         current_block = nullptr;
         errors = 0;
-        listMethods = loadMethod("len");
         scope_type = Scope::BLOCK;
+        func_stack = nullptr;
     }
 
-    void CodeGenContext::loadFunction()
+    CodeGenContext::~CodeGenContext()
     {
+        // std::cout << ">> destructor CodeGenContext <<" << std::endl;
+        for (Symbol* global : globals)
+        {
+            if (global != nullptr)
+            {
+                delete global;
+                global = nullptr;
+            }
+        }
+        globals.clear();
     }
 
     void CodeGenContext::push_block(Block* block)
@@ -44,15 +54,20 @@ namespace april
         }
     }
 
-    void CodeGenContext::runCode(Block* block)
+    bool CodeGenContext::runCode(Block* block)
     {
         current_block = block;
         current_block->type_scope = BlockScope::FUNCTION;
         push_block(current_block);
         
-        current_block->codeGen(*this);
+        Symbol* sym = current_block->codeGen(*this);
+
+        if (sym == nullptr)
+            return true;
         
         pop_block();
+
+        return false;
     }
 
     Symbol*& CodeGenContext::findIdentLocals(std::string name)
@@ -85,6 +100,26 @@ namespace april
                 }
             }
             aux = aux->prev;
+        }
+
+        return nullptr;
+    }
+
+    Symbol*& CodeGenContext::findIdentGlobals(std::string name)
+    {
+       for (Symbol*& symbol : globals)
+        {
+            if (symbol->name == name)
+                return symbol;
+        }
+    }
+
+    Symbol* CodeGenContext::existIdenGlobals(std::string name)
+    {
+        for (Symbol*& symbol : globals)
+        {
+            if (symbol->name == name)
+                return symbol;
         }
 
         return nullptr;
@@ -177,20 +212,4 @@ namespace april
             aux = aux->prev;
         }
     }
-
-    bool CodeGenContext::findMethods(std::string name)
-    {
-        for (std::string method : this->listMethods)
-            if (method == name)
-                return true;
-
-        return false;
-    }
-    
-    std::vector<std::string> CodeGenContext::loadMethod(std::string name)
-    {
-        this->listMethods.push_back(name);
-        return listMethods;
-    }
-
 }

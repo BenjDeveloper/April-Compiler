@@ -1,6 +1,6 @@
 fn foo(x:int, y:int)
 {
-    for (x < 10)
+    for x < 10
     {
         if x == 5 
         {
@@ -18,4 +18,4 @@ fn foo(x:int, y:int)
 
 
 x := foo(0, 9);
-println(x);
+println("x: "+str(x));

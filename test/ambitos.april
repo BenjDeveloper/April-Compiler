@@ -12,22 +12,22 @@ fn main()
     if true
     {
         k := 1;
-        println("then x: %d", x);
-        println("then k: %d", k);
+        println("then x: "+str(x));
+        println("then k: "+str(k));
         if false 
         {
             j := 6;
-            println("then then j: %d", j);
+            println("then then j: "+str(j));
         }
         else 
         {
             j := 9;
-            println("then else j: %d", j);
+            println("then else j: "+str(j));
 
             if false 
             {
                 h := 6;
-                println("then else then j: %d", j);
+                println("then else then j: "+str(j));
             }
             else 
             {
@@ -37,16 +37,16 @@ fn main()
                 for (q < 3)
                 {
                     w = 0;
-                    println("q -->: %d", q);
+                    println("q -->: "+str(q));
                     for (w < 3) 
                     {
-                        println("w: %d", w);
+                        println("w: "+str(w));
                         w += 1;
                     }
-                    // println("z: %d", z); variable no definida
+                    // println("z: "+str(z)); variable no definida
                     q += 1;
                 }
-                println("q: %d", q);
+                println("q: "+str(q));
                 // println("w: %d", w); variable no definida
             }
             //println("h: %d", h); error
@@ -55,12 +55,12 @@ fn main()
     else 
     {
         j := 0;
-        println("else x: %d", x);
-        println("else j: %d", j);
+        println("else x: "+str(x));
+        println("else j: "+str(j));
     }
     // manejo de ambitos
     k := 0;
-    println("k: %d", k);
+    println("k: "+str(k));
     // println("j: %d", j); error: variable no definida
 }
 

@@ -2,7 +2,7 @@
 
 /* Bison interface for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2013 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -56,46 +56,49 @@ extern int yydebug;
     TDIV = 266,
     TJUMP = 267,
     TSC = 268,
-    TLPAREN = 269,
-    TRPAREN = 270,
-    TLBRACE = 271,
-    TRBRACE = 272,
-    TPOINT = 273,
-    TLBRACKET = 274,
-    TRBRACKET = 275,
-    TVAR = 276,
-    TEQUAL = 277,
-    TCOLON = 278,
-    TCOMMA = 279,
-    TAND = 280,
-    TOR = 281,
-    TCOEQU = 282,
-    TCOMNE = 283,
-    TCOMEQ = 284,
-    TCOMLE = 285,
-    TCOMGE = 286,
-    TCOMLT = 287,
-    TCOMGT = 288,
-    TIF = 289,
-    TELSE = 290,
-    TFOR = 291,
-    TFN = 292,
-    TRETURN = 293,
-    TBREAK = 294,
-    TASIGPLUS = 295,
-    TASIGMINUS = 296,
-    TASIGMULT = 297,
-    TASIGDIV = 298,
-    TNOT = 299
+    TMOD = 269,
+    TGLOBAL = 270,
+    TLPAREN = 271,
+    TRPAREN = 272,
+    TLBRACE = 273,
+    TRBRACE = 274,
+    TPOINT = 275,
+    TLBRACKET = 276,
+    TRBRACKET = 277,
+    TVAR = 278,
+    TEQUAL = 279,
+    TCOLON = 280,
+    TCOMMA = 281,
+    TAND = 282,
+    TOR = 283,
+    TCOEQU = 284,
+    TCOMNE = 285,
+    TCOMEQ = 286,
+    TCOMLE = 287,
+    TCOMGE = 288,
+    TCOMLT = 289,
+    TCOMGT = 290,
+    TIF = 291,
+    TELSE = 292,
+    TFOR = 293,
+    TFN = 294,
+    TRETURN = 295,
+    TBREAK = 296,
+    TIN = 297,
+    TASIGPLUS = 298,
+    TASIGMINUS = 299,
+    TASIGMULT = 300,
+    TASIGDIV = 301,
+    TNOT = 302
   };
 #endif
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-
+typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 55 "parser.y" /* yacc.c:1909  */
+#line 56 "parser.y" /* yacc.c:1909  */
 
     april::Expression* expr;
     april::Statement* stmt;
@@ -107,10 +110,8 @@ union YYSTYPE
     std::string* _string;
     int token;
 
-#line 111 "parser.h" /* yacc.c:1909  */
+#line 114 "parser.h" /* yacc.c:1909  */
 };
-
-typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif

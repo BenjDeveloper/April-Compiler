@@ -225,6 +225,19 @@ namespace april
         return tmp;
     }
 
+    Symbol* Symbol::operator% (const Symbol& sym)
+    {
+        Symbol* tmp = nullptr;
+        if (type == Type::INTEGER && sym.type == Type::INTEGER && sym.value._ival != 0)
+        {
+            tmp = new Symbol{};
+            tmp->type = Type::INTEGER;
+            tmp->is_variable = false; 
+            tmp->value._ival = value._ival % sym.value._ival;
+        }
+        return tmp;
+    }
+
     bool Symbol::operator&& (const Symbol& sym)
     {
         if (this->type == sym.type && this->type == Type::BOOLEAN)

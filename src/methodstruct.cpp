@@ -19,7 +19,7 @@ namespace april
 
         if (ident_var != nullptr && !context.existIdenLocals(ident_var->getName()))
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la variable '"+ident_var->getName()+"' no esta definida.\n");
+            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: (I) la variable '"+ident_var->getName()+"' no esta definida.\n");
             context.addError();
             return nullptr;
         }
@@ -35,16 +35,28 @@ namespace april
         {
             MethodHandleList* methodhandlelist = new MethodHandleList(sym_expr, ident_method, args);
             tmp = methodhandlelist->codeGen(context);
+            // context.getCurrentBlock()->cont_tmp += 1;
+            // context.getCurrentBlock()->locals.push_back(tmp);
+            delete methodhandlelist;
+            methodhandlelist = nullptr;
         }
         else if (sym_expr->type == Type::STRING)
         {
             MethodHandleString* methodhandlestring = new MethodHandleString(sym_expr, ident_method, args);
             tmp = methodhandlestring->codeGen(context);
+            // context.getCurrentBlock()->cont_tmp += 1;
+            // context.getCurrentBlock()->locals.push_back(tmp);
+            delete methodhandlestring;
+            methodhandlestring = nullptr;
         }
         else if (sym_expr->type == Type::FILE)
         {
             MethodHandleFile* methodhandlefile = new MethodHandleFile(sym_expr, ident_method, args);
             tmp = methodhandlefile->codeGen(context);
+            // context.getCurrentBlock()->cont_tmp += 1;
+            // context.getCurrentBlock()->locals.push_back(tmp);
+            delete methodhandlefile;
+            methodhandlefile = nullptr;
         }
         else
         {

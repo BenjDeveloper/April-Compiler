@@ -10,8 +10,8 @@ namespace april
     class VarDeclaration: public Statement
     {
         private:
-            Identifier* type;
             Identifier* ident;
+            Identifier* type;
             Expression* expr;
 
         public:

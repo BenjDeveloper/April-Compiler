@@ -38,6 +38,8 @@
     #include "headers/methodhandlecast.hpp"
     #include "headers/methodhandlefile.hpp"
     #include "headers/methodhandleio.hpp"
+    #include "headers/vardeclarationglobal.hpp"
+    #include "headers/foriteration.hpp"
     
     #include "parser.h"
 
@@ -132,6 +134,8 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 "fn"                { return TOKEN(TFN); }
 "return"            { return TOKEN(TRETURN); }
 "break"             { return TOKEN(TBREAK); }
+"global"            { return TOKEN(TGLOBAL); }
+"in"                { return TOKEN(TIN); }
 ":="                { return TOKEN(TCOEQU); }
 ":"                 { return TOKEN(TCOLON); }
 "="                 { return TOKEN(TEQUAL); }
@@ -139,6 +143,7 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 "-"                 { return TOKEN(TMIN); }
 "*"                 { return TOKEN(TMUL); }
 "/"                 { return TOKEN(TDIV); }
+"%"                 { return TOKEN(TMOD); }
 "."                 { return TOKEN(TPOINT); }
 "("                 { return TOKEN(TLPAREN); }
 ")"                 { return TOKEN(TRPAREN); }

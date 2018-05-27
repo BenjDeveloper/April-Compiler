@@ -52,6 +52,7 @@ namespace april
             Symbol* operator- (const Symbol&);
             Symbol* operator* (const Symbol&);
             Symbol* operator/ (const Symbol&);
+            Symbol* operator% (const Symbol&);
             void operator= (const Symbol&);
             bool operator&& (const Symbol&);
             bool operator|| (const Symbol&);

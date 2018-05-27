@@ -14,6 +14,7 @@ namespace april
 
         public:
             For(Expression* expr, Block* block):expr(expr), block(block){}
+            ~For();
             virtual Symbol* codeGen(CodeGenContext&);
     };
 }

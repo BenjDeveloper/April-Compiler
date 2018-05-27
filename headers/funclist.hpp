@@ -33,8 +33,8 @@ namespace april
 
     namespace io
     {
-        void println(Symbol*);
-        void print(Symbol*);
+        Symbol* println(Symbol*);
+        Symbol* print(Symbol*);
         Symbol* input();
     }
 
@@ -46,6 +46,12 @@ namespace april
         Symbol* readline(Symbol*);
         Symbol* is_eof(Symbol*);
         Symbol* close(Symbol*);
+    }
+
+    namespace lib 
+    {
+        Symbol* range(Symbol*);
+        Symbol* range(Symbol*, Symbol*);
     }
 }
 
