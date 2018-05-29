@@ -5,59 +5,49 @@
 // **                                                     ***
 // **********************************************************
 
-fn fibonacci(valor:int)
-{
-    if valor < 3 { if valor == 0 {return 0;} else {return 1;} }
-    else { return fibonacci(valor-1)+fibonacci(valor-2); }
+
+fn foo (a:int) {
+
+    if a > 10 {
+        return 50;
+    }
+    else
+    {
+        foo(a+1);
+        println("itera...: "+str(a));
+    }
 }
 
-fn main()
-{
-    x := 12;
-    result := fibonacci(x);
-    println("result: %d", result);
-}
-
-main();
-
-// fn foo(a:int) {
-
-//     if a >= 10 
-//     {
-//         return 5;
-//     }
-//     return foo(a+1);
-// }
-
-// x := 0;
-// i := 0;
-// y := 0;
-
-// for i < 30
-// {
-//     x = foo(0);
-//     y = x + 2;
-//     println("x: "+str(y));
-//     i += 1;
-// }
-
+result := foo(0);
+println(result);
 
 // fn fibonacci(valor:int)
-// {
+// {   
+//     println("before...");
+//     println("valor: "+str(valor));
+//     println("after...");
 //     if valor < 3 
 //     { 
-//         if valor == 0 {return 0;} else {return 1;} 
+
+//         return 1;
 //     }
 //     else { 
-//         return fibonacci(valor-1)+fibonacci(valor-2); 
+//         println("AQUIIII");
+//         println("value: "+str(valor));
+//         a := fibonacci(valor-1);
+//         // b := fibonacci(valor-2);
+//         println("JOJO");
+//         return a;
+//         // return fibonacci(valor-1)+fibonacci(valor-2); 
 //     }
 // }
 
 // fn main()
 // {
 //     x := 12;
-//     fibonacci(x);
-//     // println("result: %d", result);
+//     // fibonacci(12);
+//     result := fibonacci(x);
+//     println("result: "+str(result));
 // }
 
 // main();
